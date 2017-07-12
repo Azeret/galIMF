@@ -6,6 +6,7 @@ GalIMF stands for the Galaxy-wide Initial Mass Function. It is a Python 3 module
 together with the support PDF file (supplementary-document-galimf.pdf), where all equations are derived in detail and labeled in a consistent way with the source code.
 
 
+
 ### Scientific motivation
 
 The initial stellar mass function (IMF) can be defined as a mass distribution of stars formed during one star formation event in a region of approximately the size of 1 pc. The stellar IMF, therefore, dictates the number of supernova explosions, the chemical enrichment, how bright the stellar population and unresolved objects are and many other issues which affect directly or indirectly a vast majority of astrophysical fields. 
@@ -20,23 +21,21 @@ GalIMF represents a Python 3 module which allows computing galaxy-wide IMFs unde
 
 For the computational details, please, look at Yan, Jerabkova & Kroupa (2017) and Schulz, Pflamm-Altenburg & Kroupa (2015).
 
-+++
+
 
 ### Main features of the module
 
 * IGIMF in its integrated form
 
-Based on a local IMF (can be the fixed universal Kroupa IMF or variable IMF based on Marks et al. 2012) GalIMF will produce galaxy-wide IMF in a data file with contents stellar masses [Msun] vs. IGIMF values [Msun^(-1)] normalized with the total mass of a stellar population (see Yan et al. 2017 for details).
+Based on a local IMF (can be the fixed universal Kroupa IMF or the systematically varying IMF based on Marks et al. 2012), GalIMF will produce the galaxy-wide IMF in a data file with contents: stellar mass [Msun] vs. IGIMF values [number of stars Msun^(-1)] normalized to the total mass of a stellar population (see Yan et al. 2017 for details).
 
 * OSGIMF 
 
-The optimally sampled galaxy-wide IMF is based on the same local assumptions as the IGIMF above, however, it represents a discrete formulation of the IMF - that its output is in the form of the number of stars in mass bins. The optimal sampling methodology implemented here is from Schulz et al (2015) which generates stars from the IMF without Poison noise. 
-This method presents a probe which is capable of testing the nature of star formation as an alternative to random stochastic 
-sampling from the IMF.
+The optimally sampled galaxy-wide IMF is based on the same local assumptions as the IGIMF above, however, it represents a discrete formulation of the IMF. That is, its output is in the form of the number of stars in mass bins. The optimal sampling methodology implemented here is from Schulz et al. (2015) which generates stars from the IMF without Poison noise (therefore "optimal sampling"). This method presents a probe which is capable of testing the nature of star formation as an alternative to random / stochastic sampling of the IMF.
 
 * Additional functions
 
-To compute the IGIMF or the OSGIMF, the GalIMF module contains all local IMF properties (e.g. the dependence of the stellar IMF on the metallicity, on the density), and this software module can, therefore, be also used to obtain only the stellar IMF with various prescriptions or to investigate other features of the stellar population such as the most massive star can be formed in a star cluster.
+To compute the IGIMF or the OSGIMF, the GalIMF module contains all local IMF properties (e.g. the dependence of the stellar IMF on the metallicity, on the density of the star-cluster forming molecular cloud cores), and this software module can, therefore, be also used to obtain only the stellar IMF with various prescriptions, or to investigate other features of the stellar population such as what is the most massive star that can be formed in a star cluster.
 
 * Features of the code: IGIMF and OSGIMF
 
@@ -48,9 +47,9 @@ This script needs two input values: SFR (the star formation rate, in Msun/yr) an
 
 For users without any experience with Python, we recommend using [Anaconda](https://www.continuum.io/) to install Python 3 and all required packages. 
 
-For users have installed Python 3, we recommend using [pip](https://pip.pypa.io/en/stable/) to install all required packages. An instruction can be found [here](https://www.scipy.org/install.html).
+For users who already have installed Python 3, we recommend using [pip](https://pip.pypa.io/en/stable/) to install all required packages. An instruction can be found [here](https://www.scipy.org/install.html).
 
-For users have both Python 2 and Python 3 installed, you have two "Python" interpreter coexisted in your computer. See [this page](https://stackoverflow.com/questions/341184/can-i-install-python-3-x-and-2-x-on-the-same-computer).
+For users already having both Python 2 and Python 3 installed, you have two "Python" interpreter coexisting in your computer. See [this page](https://stackoverflow.com/questions/341184/can-i-install-python-3-x-and-2-x-on-the-same-computer).
 
 
 
@@ -62,7 +61,8 @@ In the following subsections, we describe how to install and set up the module. 
 
 The GalIMF module is written in Python 3, therefore you need to install Python 3 and the following packages: 
 
-For analyzing and visualize the results as our example script test_gimf.py does, one need [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
+For analyzing and visualize the results as our example script test_gimf.py does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
+
 
 
 ### Running the test
@@ -75,18 +75,17 @@ python directory_of_test_gimf\test_gimf.py
 ...
 into a terminal to run our example program. Further instructions will show up in the terminal.
 
-The test_gimf.py will generate TXT file and a PDF file in the same directory as the basic output of GalIMF.
+The test_gimf.py will generate a TXT file and a PDF file in the same directory as the basic output of GalIMF.
 
 
 
 ## Employ GalIMF for your own program
 
-### For Python program
+### For the Python program
 
-You can download GalIMF repository and call the galIMF module based on the placement in your computer.
+You can download the GalIMF repository and call the galIMF module based on the placement in your computer.
 
-If Module directory is in the same directory as your own Python script (this is the case of presented examples) you will 
-import galIMF as: 
+If the Module directory is in the same directory as your own Python script (this is the case of the presented examples) you will import galIMF as: 
 ...
 import galIMF
 ...
@@ -101,13 +100,13 @@ To do that open Python interpreter and run:
 import sys
 sys.path
 ...
-This will locate Python libraries on a computer (usually there is something similar to "...\lib\site-packages"). If GalIMF is placed in this directory the galIMF module can be called from the Python script located anywhere simply as:
+This will locate Python libraries on your computer (usually there is something similar to "...\lib\site-packages"). If GalIMF is placed in this directory the galIMF module can be called from the Python script located anywhere simply as:
 ...
 import galIMF
 ...
 Then you can treat GalIMF as the same as any other packages.
 
-### For non-Python program
+### For a non-Python program
 
 Use a pipeline to first run, e.g., the test_gimf.py. Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt for your own program.
 
@@ -117,7 +116,7 @@ Use a pipeline to first run, e.g., the test_gimf.py. Then read in the output fil
 
 ### Basic inputs
 
-To apply IGIMF theory on different galaxies, the following parameters should be changed. They are also the required input of our example code test_gimf.py:
+To apply the IGIMF theory on different galaxies, the following parameters should be changed. They are also the required input of our example code test_gimf.py:
 
 * galaxy-wide star formation rate: SFR
 
@@ -138,19 +137,19 @@ will automatically change the resolution of histograms for optimal sampling
 * IMF model parameters
 
 M_str_L=0.08
-star mass lower limit [solar mass]
+stellar lower mass limit [Solar mass]
 
 M_str_U=150
-star mass upper limit [solar mass]
+stellar upper mass limit [Solar mass]
 
 M_turn=0.5
-IMF power-index breaking mass [solar mass] (i.e. in the canonical IMF, the IMF power-law index changes from alpha_1=1.3 to alpha_2=2.3 at a stellar mass of 0.5 Msun)
+first mass at which the power-law index of the stellar IMF changes [Solar mass] (i.e. in the canonical IMF, the IMF power-law index changes from alpha_1=1.3 to alpha_2=2.3 at a stellar mass of 0.5 Msun)
 
 M_turn2=1.
-IMF power-index breaking mass [solar mass] (i.e. in the canonical IMF, the IMF power-law index changes from alpha_2=2.3 to alpha_3=2.3 at a stellar mass of 1.0 Msun, i.e., the canonical IMF has a Salpeter index above 0.5 Msun)
+second mass at which the power-law index of the stellar IMF changes [Solar mass] (i.e. in the canonical IMF, the IMF power-law index changes from alpha_2=2.3 to alpha_3=2.3 at a stellar mass of 1.0 Msun, i.e., the canonical IMF has a Salpeter index above 0.5 Msun)
 
 alpha3_model=1
-IMF high-mass-end power-index model, see Function_alpha_3_change
+IMF high-mass-end power-law index model, see Function_alpha_3_change
 
 alpha2_model = 1 
 see Function_alpha_2_change
@@ -165,15 +164,15 @@ beta_model=1
 see Function_beta_change
 
 M_ecl_U=10^9 
-embedded cluster mass upper limit [solar mass] 
+upper limit of the embedded cluster mass in stars [Solar mass] 
 
 M_ecl_L=5.
-embedded cluster mass lower limit [solar mass] 
+lower limit of the embedded cluster mass in stars [Solar mass] 
 
 
 ### Internal parameters of the theory
 
-The following parameters should not be changed as they are part of the IGIMF theory, however, read Yan et al. (2017) carefully before doing so.
+The following parameters should not be changed as they are part of the IGIMF theory. Read Yan et al. (2017) carefully if you do intend to change them.
 
 * galaxy star formation assumption
 
@@ -207,11 +206,11 @@ beijingjuzikong(at)gmail.com
 The other members of this project are:
 
 * Tereza Jerabkova 
-Uni Bonn, Charles University
+University of Bonn, Charles University
 tereza (at) sirrah.troja.mff.cuni.cz
 
 * Prof. Dr. Pavel Kroupa
-Uni Bonn, Charles University
+Universty of Bonn, Charles University
 pavel (at) astro.uni-bonn.de
 
 
@@ -220,8 +219,8 @@ pavel (at) astro.uni-bonn.de
 
 This program is free software. You can redistribute it and/or modify it. However, you must state all modifications carefully and contain the License file when doing so.
 
-When publishing results based on this software or parts of it (executable and/ or source code) please cite: 
-Yan, Z., Jerabkova, T., Kroupa, P. 2017
+When publishing results based on this software or parts of it (the executable and / or the source code) please cite: 
+Yan, Z., Jerabkova, T., Kroupa, P. 2017, A&A
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
