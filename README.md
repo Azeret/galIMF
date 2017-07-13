@@ -3,23 +3,26 @@
 ## Contents
 
 [Overview](https://github.com/Azeret/galIMF#overview)
+
 * [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
+
 * [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
-[Deployment](https://github.com/Azeret/galIMF#deployment)
-[Getting Started](https://github.com/Azeret/galIMF#getting-started)
-* [Prerequisites](https://github.com/Azeret/galIMF#prerequisites)
-* [Running the test](https://github.com/Azeret/galIMF#running-the-test)
-[Employ GalIMF for your own program](https://github.com/Azeret/galIMF#employ-galimf-for-your-own-program)
-* [For Python programs](https://github.com/Azeret/galIMF#for-the-python-program)
-* [For non-Python programs](https://github.com/Azeret/galIMF#for-a-non-python-program)
-[Inputs/parameters](https://github.com/Azeret/galIMF#inputsparameters)
-* [Basic inputs](https://github.com/Azeret/galIMF#basic-inputs)
-* [Other adjustable parameters](https://github.com/Azeret/galIMF#other-adjustable-parameters)
-* [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
-[Versioning](https://github.com/Azeret/galIMF#versioning)
-[Authors](https://github.com/Azeret/galIMF#authors)
-[License](https://github.com/Azeret/galIMF#license)
-[Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
+
+ - [Deployment](https://github.com/Azeret/galIMF#deployment)
+ - [Getting Started](https://github.com/Azeret/galIMF#getting-started)
+  - [Prerequisites](https://github.com/Azeret/galIMF#prerequisites)
+  - [Running the test](https://github.com/Azeret/galIMF#running-the-test)
+ - [Employ GalIMF for your own program](https://github.com/Azeret/galIMF#employ-galimf-for-your-own-program)
+  - [For Python programs](https://github.com/Azeret/galIMF#for-the-python-program)
+  - [For non-Python programs](https://github.com/Azeret/galIMF#for-a-non-python-program)
+ - [Inputs/parameters](https://github.com/Azeret/galIMF#inputsparameters)
+  - [Basic inputs](https://github.com/Azeret/galIMF#basic-inputs)
+  - [Other adjustable parameters](https://github.com/Azeret/galIMF#other-adjustable-parameters)
+  - [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
+ - [Versioning](https://github.com/Azeret/galIMF#versioning)
+ - [Authors](https://github.com/Azeret/galIMF#authors)
+ - [License](https://github.com/Azeret/galIMF#license)
+ - [Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
 
 ## Overview
 
@@ -106,22 +109,22 @@ The test_gimf.py will generate a TXT file and a PDF file in the same directory a
 You can download the GalIMF repository and call the galIMF module based on the placement in your computer.
 
 If the Module directory is in the same directory as your own Python script (this is the case of the presented examples) you will import galIMF as: 
-```python3
+```python
 import galIMF
 ```
 If it is in a different directory, it is also possible to call it from its directory using:
-```python3
+```python
 import directory.galIMF
 ```
 The third option is to put galIMF into the Python directory structure so that you can easily deploy galIMF for your Python 3 project in any directory all as: import galIMF.
 
 To do that open Python interpreter and run: 
-```python3
+```python
 import sys
 sys.path
 ```
 This will locate Python libraries on your computer (usually there is something similar to "...\lib\site-packages"). If GalIMF is placed in this directory the galIMF module can be called from the Python script located anywhere simply as:
-```python3
+```python
 import galIMF
 ```
 Then you can treat GalIMF as the same as any other packages.
