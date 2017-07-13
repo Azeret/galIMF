@@ -1,10 +1,30 @@
 # GalIMF
 
+## Contents
+
+[Overview](https://github.com/Azeret/galIMF#overview)
+* [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
+* [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
+[Deployment](https://github.com/Azeret/galIMF#deployment)
+[Getting Started](https://github.com/Azeret/galIMF#getting-started)
+* [Prerequisites](https://github.com/Azeret/galIMF#prerequisites)
+* [Running the test](https://github.com/Azeret/galIMF#running-the-test)
+[Employ GalIMF for your own program](https://github.com/Azeret/galIMF#employ-galimf-for-your-own-program)
+* [For Python programs](https://github.com/Azeret/galIMF#for-the-python-program)
+* [For non-Python programs](https://github.com/Azeret/galIMF#for-a-non-python-program)
+[Inputs/parameters](https://github.com/Azeret/galIMF#inputsparameters)
+* [Basic inputs](https://github.com/Azeret/galIMF#basic-inputs)
+* [Other adjustable parameters](https://github.com/Azeret/galIMF#other-adjustable-parameters)
+* [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
+[Versioning](https://github.com/Azeret/galIMF#versioning)
+[Authors](https://github.com/Azeret/galIMF#authors)
+[License](https://github.com/Azeret/galIMF#license)
+[Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
+
 ## Overview
 
 GalIMF stands for the Galaxy-wide Initial Mass Function. It is a Python 3 module that allows users to compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory (see eg. Weidner et al. 2013; Kroupa et al. 2013). The module is described here, but more detailed comments can be found in the source code 
 together with the support PDF file (supplementary-document-galimf.pdf), where all equations are derived in detail and labeled in a consistent way with the source code.
-
 
 
 ### Scientific motivation
@@ -70,9 +90,9 @@ For analyzing and visualize the results as our example script test_gimf.py does,
 To learn how to use the code and to present its main features also to researchers not familiar with Python, we prepared an example implementation of the GalIMF module. This example implementation is called test_gimf.py and is included together with the module.
 
 First, make sure you are using Python 3, then write:
-...
+```
 python directory_of_test_gimf\test_gimf.py
-...
+```
 into a terminal to run our example program. Further instructions will show up in the terminal.
 
 The test_gimf.py will generate a TXT file and a PDF file in the same directory as the basic output of GalIMF.
@@ -81,32 +101,32 @@ The test_gimf.py will generate a TXT file and a PDF file in the same directory a
 
 ## Employ GalIMF for your own program
 
-### For the Python program
+### For Python programs
 
 You can download the GalIMF repository and call the galIMF module based on the placement in your computer.
 
 If the Module directory is in the same directory as your own Python script (this is the case of the presented examples) you will import galIMF as: 
-...
+```python3
 import galIMF
-...
+```
 If it is in a different directory, it is also possible to call it from its directory using:
-...
+```python3
 import directory.galIMF
-...
+```
 The third option is to put galIMF into the Python directory structure so that you can easily deploy galIMF for your Python 3 project in any directory all as: import galIMF.
 
 To do that open Python interpreter and run: 
-...
+```python3
 import sys
 sys.path
-...
+```
 This will locate Python libraries on your computer (usually there is something similar to "...\lib\site-packages"). If GalIMF is placed in this directory the galIMF module can be called from the Python script located anywhere simply as:
-...
+```python3
 import galIMF
-...
+```
 Then you can treat GalIMF as the same as any other packages.
 
-### For a non-Python program
+### For non-Python programs
 
 Use a pipeline to first run, e.g., the test_gimf.py. Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt for your own program.
 
@@ -224,7 +244,7 @@ Yan, Z., Jerabkova, T., Kroupa, P. 2017, A&A
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-See the LICENSE.md file for details.
+See the [LICENSE](https://github.com/Azeret/galIMF/blob/master/LICENSE) file for details.
 
 
 
