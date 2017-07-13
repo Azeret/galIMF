@@ -2,12 +2,9 @@
 
 ## Contents
 
-[Overview](https://github.com/Azeret/galIMF#overview)
-
-* [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
-
-* [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
-
+ - [Overview](https://github.com/Azeret/galIMF#overview)
+  - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
+  - [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
  - [Deployment](https://github.com/Azeret/galIMF#deployment)
  - [Getting Started](https://github.com/Azeret/galIMF#getting-started)
   - [Prerequisites](https://github.com/Azeret/galIMF#prerequisites)
