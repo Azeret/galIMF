@@ -55,7 +55,7 @@ Based on a local IMF (can be the fixed universal Kroupa IMF or the systematicall
 
 * OSGIMF 
 
-The optimally sampled galaxy-wide IMF is based on the same local assumptions as the IGIMF above, however, it represents a discrete formulation of the IMF. That is, its output is in the form of the number of stars in mass bins. The optimal sampling methodology implemented here is from Schulz et al. (2015) which generates stars from the IMF without Poison noise (therefore "optimal sampling"). This method presents a probe which is capable of testing the nature of star formation as an alternative to random / stochastic sampling of the IMF.
+The optimally sampled galaxy-wide IMF is based on the same local assumptions as the IGIMF above, however, it represents a discrete formulation of the IMF. That is, its output is in the form of the number of stars in mass bins. The optimal sampling methodology implemented here is from [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S) which generates stars from the IMF without Poison noise (therefore "optimal sampling"). This method presents a probe which is capable of testing the nature of star formation as an alternative to random / stochastic sampling of the IMF.
 
 * Additional functions
 
