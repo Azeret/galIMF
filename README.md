@@ -135,7 +135,7 @@ Then you can treat GalIMF as the same as any other packages.
 
 ### For non-Python programs
 
-Use a pipeline to first run, e.g., the [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py). Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt for your own program.
+Use a pipeline to first run, e.g., the [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py). Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt, for your own program.
 
 
 
