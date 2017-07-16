@@ -39,7 +39,7 @@ And now here comes the question: if we take the locally constrained empirical la
 
 GalIMF represents a Python 3 module which allows computing galaxy-wide IMFs under various assumptions. With the module, we distribute an example script where we use the invariant two-part power-law canonical IMF (Kroupa 2001) as a benchmark and the grid of Salpeter slopes (2.3) drawn into the figures is used for demonstration of IMF variations. 
 
-For the computational details, please, look at Yan, Jerabkova & Kroupa (2017) and Schulz, Pflamm-Altenburg & Kroupa (2015).
+For the computational details, please, look at Yan, Jerabkova & Kroupa (2017, in press) and [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S).
 
 
 
