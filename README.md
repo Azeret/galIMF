@@ -160,10 +160,10 @@ will automatically change the resolution of histograms for optimal sampling
 * IMF model parameters
 
 M_str_L=0.08
-stellar lower mass limit [Solar mass]
+stellar mass lower limit [Solar mass]
 
 M_str_U=150
-stellar upper mass limit [Solar mass]
+stellar mass upper limit [Solar mass]
 
 M_turn=0.5
 first mass at which the power-law index of the stellar IMF changes [Solar mass] (i.e. in the canonical IMF, the IMF power-law index changes from alpha_1=1.3 to alpha_2=2.3 at a stellar mass of 0.5 Msun)
