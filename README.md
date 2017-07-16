@@ -24,7 +24,7 @@
 ## Overview
 
 GalIMF stands for the Galaxy-wide Initial Mass Function. It is a Python 3 module that allows users to compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory (see, e.g., [Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)). The module is described here, but more detailed comments can be found in the source code 
-together with the support PDF file ([supplementary-document-galimf.pdf](https://github.com/Azeret/galIMF/blob/master/supplementary-document-galimf.pdf)), where all equations are derived in detail and labeled in a consistent way with the source code.
+together with the support PDF file ([supplementary-document-galimf.pdf](https://github.com/Azeret/galIMF/blob/master/supplementary-document-galimf.pdf)), where all equations are derived in detail and labeled in a consistent way with the source code [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
 
 ### Scientific motivation
