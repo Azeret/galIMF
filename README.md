@@ -158,42 +158,42 @@ The following inputs are not essential for the IGIMF theory and can be changed a
 
 * Resolution parameter
 
-bindw = defined in the module
-will automatically change the resolution of histograms for optimal sampling
+bindw: defined in [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py),
+will automatically change the resolution of histograms for optimal sampling.
 
 * IMF model parameters
 
-M_str_L=0.08
+M_str_L = 0.08:
 stellar mass lower limit [Solar mass]
 
-M_str_U=150
+M_str_U = 150:
 stellar mass upper limit [Solar mass]
 
-M_turn=0.5
+M_turn = 0.5:
 first mass at which the power-law index of the stellar IMF changes [Solar mass] (i.e. in the canonical IMF, the IMF power-law index changes from alpha_1=1.3 to alpha_2=2.3 at a stellar mass of 0.5 Msun)
 
-M_turn2=1.
+M_turn2 = 1:
 second mass at which the power-law index of the stellar IMF changes [Solar mass] (i.e. in the canonical IMF, the IMF power-law index changes from alpha_2=2.3 to alpha_3=2.3 at a stellar mass of 1.0 Msun, i.e., the canonical IMF has a Salpeter index above 0.5 Msun)
 
-alpha3_model=1
+alpha3_model = 1:
 IMF high-mass-end power-law index model, see Function_alpha_3_change
 
-alpha2_model = 1 
+alpha2_model = 1:
 see Function_alpha_2_change
 
-alpha1_model = 1 
+alpha1_model = 1:
 see Function_alpha_1_change
 
 
 * ECMF model parameters
 
-beta_model=1
+beta_model = 1:
 see Function_beta_change
 
-M_ecl_U=10^9 
+M_ecl_U = 10^9:
 upper limit of the embedded cluster mass in stars [Solar mass] 
 
-M_ecl_L=5.
+M_ecl_L = 5:
 lower limit of the embedded cluster mass in stars [Solar mass] 
 
 
@@ -203,15 +203,15 @@ The following parameters should not be changed as they are part of the IGIMF the
 
 * galaxy star formation assumption
 
-delta_t=10
+delta_t = 10:
 duration of star formation epoch [Myr] (the time-scale on which the ISM forms molecular clouds and from them a new stellar population in embedded clusters)
 
 * Optimal sampling rule
 
-I_ecl = 1.
+I_ecl = 1:
 normalization factor in the optimal sampling condition equation 
 
-I_str=1.
+I_str = 1:
 normalization factor in the optimal sampling condition equation 
 
 
