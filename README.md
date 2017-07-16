@@ -51,7 +51,7 @@ For the computational details, please, look at Yan, Jerabkova & Kroupa (2017, A&
 
 * IGIMF in its integrated form
 
-Based on a local IMF (can be the fixed universal Kroupa IMF or the systematically varying IMF based on Marks et al. 2012), GalIMF will produce the galaxy-wide IMF in a data file with contents: stellar mass [Msun] vs. IGIMF values [number of stars Msun^(-1)] normalized to the total mass of a stellar population (see Yan, Jerabkova, Kroupa 2017, A&A, in press, for details).
+Based on a local IMF (can be the fixed universal Kroupa IMF or the systematically varying IMF based on [Marks et al. 2012](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M)), GalIMF will produce the galaxy-wide IMF in a data file with contents: stellar mass [Msun] vs. IGIMF values [number of stars Msun^(-1)] normalized to the total mass of a stellar population (see Yan, Jerabkova, Kroupa 2017, A&A, in press, for details).
 
 * OSGIMF 
 
