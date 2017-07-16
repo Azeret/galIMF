@@ -245,7 +245,7 @@ pavel(at)astro.uni-bonn.de
 This program is free software. You can redistribute it and/or modify it. However, you must state all modifications carefully and contain the License file when doing so.
 
 When publishing results based on this software or parts of it (the executable and / or the source code) please cite: 
-Yan, Z., Jerabkova, T., Kroupa, P. 2017, A&A, in press
+Yan, Z., Jerabkova, T., Kroupa, P. (2017, A&A, in press)
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
