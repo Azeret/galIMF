@@ -83,7 +83,7 @@ In the following subsections, we describe how to install and set up the module. 
 
 ### Prerequisites
 
-The GalIMF module is written in Python 3, therefore you need to install Python 3 and the following packages: 
+The GalIMF module is written in Python 3, therefore you need to install [Python 3](https://www.python.org/download/releases/3.0/) and the following packages: 
 
 For analyzing and visualize the results as our example script [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
 
