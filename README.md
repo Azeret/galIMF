@@ -109,7 +109,7 @@ The [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) wi
 
 You can download the GalIMF repository and call the [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) module based on the placement in your computer.
 
-If the Module directory is in the same directory as your own Python script (this is the case of the presented examples) you will import [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) as: 
+If the Module directory is in the same directory as your own Python script (this is the case of the presented example [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py)) you will import [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) as: 
 ```python
 import galIMF
 ```
