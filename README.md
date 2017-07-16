@@ -91,7 +91,7 @@ To learn how to use the code and to present its main features also to researcher
 
 First, make sure you are using Python 3, then write:
 ```
-python directory_of_test_gimf\test_gimf.py
+python directory_of_test_gimf/test_gimf.py
 ```
 into a terminal to run our example program. Further instructions will show up in the terminal.
 
