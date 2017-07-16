@@ -81,13 +81,13 @@ In the following subsections, we describe how to install and set up the module. 
 
 The GalIMF module is written in Python 3, therefore you need to install Python 3 and the following packages: 
 
-For analyzing and visualize the results as our example script test_gimf.py does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
+For analyzing and visualize the results as our example script [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
 
 
 
 ### Running the test
 
-To learn how to use the code and to present its main features also to researchers not familiar with Python, we prepared an example implementation of the GalIMF module. This example implementation is called test_gimf.py and is included together with the module.
+To learn how to use the code and to present its main features also to researchers not familiar with Python, we prepared an example implementation of the GalIMF module. This example implementation is called [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) and is included together with the module.
 
 First, make sure you are using Python 3, then write:
 ```
@@ -95,7 +95,7 @@ python directory_of_test_gimf/test_gimf.py
 ```
 into a terminal to run our example program. Further instructions will show up in the terminal.
 
-The test_gimf.py will generate a TXT file and a PDF file in the same directory as the basic output of GalIMF.
+The [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) will generate a TXT file and a PDF file in the same directory as the basic output of GalIMF.
 
 
 
@@ -128,7 +128,7 @@ Then you can treat GalIMF as the same as any other packages.
 
 ### For non-Python programs
 
-Use a pipeline to first run, e.g., the test_gimf.py. Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt for your own program.
+Use a pipeline to first run, e.g., the [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py). Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt for your own program.
 
 
 
@@ -136,7 +136,7 @@ Use a pipeline to first run, e.g., the test_gimf.py. Then read in the output fil
 
 ### Basic inputs
 
-To apply the IGIMF theory on different galaxies, the following parameters should be changed. They are also the required input of our example code test_gimf.py:
+To apply the IGIMF theory on different galaxies, the following parameters should be changed. They are also the required input of our example code [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py):
 
 * galaxy-wide star formation rate: SFR
 
