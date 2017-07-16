@@ -103,9 +103,9 @@ The [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) wi
 
 ### For Python programs
 
-You can download the GalIMF repository and call the galIMF module based on the placement in your computer.
+You can download the GalIMF repository and call the [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) module based on the placement in your computer.
 
-If the Module directory is in the same directory as your own Python script (this is the case of the presented examples) you will import galIMF as: 
+If the Module directory is in the same directory as your own Python script (this is the case of the presented examples) you will import [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) as: 
 ```python
 import galIMF
 ```
@@ -113,14 +113,17 @@ If it is in a different directory, it is also possible to call it from its direc
 ```python
 import directory.galIMF
 ```
-The third option is to put galIMF into the Python directory structure so that you can easily deploy galIMF for your Python 3 project in any directory all as: import galIMF.
+The third option is to put [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) into the Python directory structure so that you can easily deploy [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) for your Python 3 project in any directory all as:
+```python
+import galIMF
+```
 
 To do that open Python interpreter and run: 
 ```python
 import sys
 sys.path
 ```
-This will locate Python libraries on your computer (usually there is something similar to "...\lib\site-packages"). If GalIMF is placed in this directory the galIMF module can be called from the Python script located anywhere simply as:
+This will locate Python libraries on your computer (usually there is something similar to "...\lib\site-packages"). If GalIMF is placed in this directory the [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) module can be called from the Python script located anywhere simply as:
 ```python
 import galIMF
 ```
