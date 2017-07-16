@@ -39,7 +39,7 @@ And now here comes the question: if we take the locally constrained empirical la
 
 GalIMF represents a Python 3 module which allows computing galaxy-wide IMFs under various assumptions. With the module, we distribute an example script where we use the invariant two-part power-law canonical IMF (Kroupa 2001) as a benchmark and the grid of Salpeter slopes (2.3) drawn into the figures is used for demonstration of IMF variations. 
 
-For the computational details, please, look at Yan, Jerabkova & Kroupa (2017, in press) and [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S).
+For the computational details, please, look at Yan, Jerabkova & Kroupa (2017, A&A, in press) and [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S).
 
 
 
@@ -219,21 +219,27 @@ For the versions available, see the [tags on this repository](https://sites.goog
 
 ## Authors
 
-The main author of this module is
+The main author of this module are:
 
 * Zhiqiang Yan 
+
 University of Bonn
+
 beijingjuzikong(at)gmail.com
 
 The other members of this project are:
 
 * Tereza Jerabkova 
+
 University of Bonn, Charles University
-tereza (at) sirrah.troja.mff.cuni.cz
+
+tereza(at)sirrah.troja.mff.cuni.cz
 
 * Prof. Dr. Pavel Kroupa
+
 Universty of Bonn, Charles University
-pavel (at) astro.uni-bonn.de
+
+pavel(at)astro.uni-bonn.de
 
 
 
@@ -242,7 +248,7 @@ pavel (at) astro.uni-bonn.de
 This program is free software. You can redistribute it and/or modify it. However, you must state all modifications carefully and contain the License file when doing so.
 
 When publishing results based on this software or parts of it (the executable and / or the source code) please cite: 
-Yan, Z., Jerabkova, T., Kroupa, P. 2017, A&A
+Yan, Z., Jerabkova, T., Kroupa, P. 2017, A&A, in press
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
