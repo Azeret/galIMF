@@ -211,7 +211,9 @@ normalization factor in the optimal sampling condition equation
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://bitbucket.org/igimf/igimf-code). 
+This is GalIMF version 1.0.0. We use [SemVer](http://semver.org/) for versioning.
+
+For the versions available, see the [tags on this repository](https://sites.google.com/view/galimf/home). 
 
 
 
