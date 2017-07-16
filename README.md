@@ -230,11 +230,11 @@ beijingjuzikong(at)gmail.com
 
 The other members of this project are:
 
-* Tereza Jerabkova,
+* [Tereza Jerabkova](http://sirrah.troja.mff.cuni.cz/~tereza/index.html),
 University of Bonn, Charles University,
 tereza(at)sirrah.troja.mff.cuni.cz
 
-* Prof. Dr. Pavel Kroupa,
+* Prof. Dr. [Pavel Kroupa](https://astro.uni-bonn.de/~pavel/),
 Universty of Bonn, Charles University,
 pavel(at)astro.uni-bonn.de
 
