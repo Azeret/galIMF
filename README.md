@@ -73,7 +73,7 @@ For users without any experience with Python, we recommend using [Anaconda](http
 
 For users who already have installed Python 3, we recommend using [pip](https://pip.pypa.io/en/stable/) to install all required packages. An instruction can be found [here](https://www.scipy.org/install.html).
 
-For users having both Python 2 and Python 3 installed, your two Python interpreter may coexisting with the same name. See [this page](https://stackoverflow.com/questions/341184/can-i-install-python-3-x-and-2-x-on-the-same-computer).
+For users having both Python 2 and Python 3 installed, your two Python interpreter may coexisting with the same name. See [this page](https://stackoverflow.com/questions/341184/can-i-install-python-3-x-and-2-x-on-the-same-computer) if it causes any problem.
 
 
 
