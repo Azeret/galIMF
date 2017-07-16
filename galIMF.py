@@ -2,7 +2,7 @@
 
 
 #python3 code, last update Sat 27 May
-# This is the main module, galIMF.py, controling and operating the other two modules IGIMF and OSGIMF
+# This, galIMF, is the main part controling and operating the other two part below, IGIMF and OSGIMF.
 #--------------------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------------------
 #importing modules and libraries
@@ -20,7 +20,7 @@ except ImportError: # will be python 3.x series
 
 # The star mass resolution is the lower resolution among
 # the resolution of histogram (resolution_histogram_relative)
-# and the resolution of star generation (resolution_star_... in the file IMF_schulz.py)
+# and the resolution of star generation (resolution_star_... in below)
 resolution_histogram_relative = 0.01 # The star mass resolution of histogram is: the star mass * resolution_histogram_relative
 #also re-defined in a test file, it scales automatically with the SFR
 
@@ -32,7 +32,7 @@ def function_galIMF(IorS, SFR, alpha3_model, delta_t, Fe_over_H, I_ecl, M_ecl_U,
         Function_draw_IGIMF(SFR, alpha3_model, beta_model, delta_t, Fe_over_H,
                                                I_ecl, M_ecl_U, M_ecl_L, I_str, M_str_L, alpha_1, alpha1_model,
                                                M_turn, alpha_2, alpha2_model, M_turn2, M_str_U)
-        # write data for GalIMF_Result/IGIMF_shape
+        # write data
         with open('GalIMF_IGIMF.txt', 'w') as f:
             writer = csv.writer(f, delimiter=' ')
             f.write("# IGIMF output file. It gives the IGIMF. The columns are:\n# mass xi\n\n")
@@ -46,7 +46,7 @@ def function_galIMF(IorS, SFR, alpha3_model, delta_t, Fe_over_H, I_ecl, M_ecl_U,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, Fe_over_H, M_str_U)
         Function_draw(SFR, M_str_L, M_str_U, M_ecl_L, resolution_histogram_relative)
         function_make_drop_line()
-        # write data for GalIMF_Result/histogram
+        # write data
         function_draw_histogram()
         with open('GalIMF_OSGIMF.txt', 'w') as f:
             writer = csv.writer(f, delimiter=' ')
@@ -71,10 +71,10 @@ def function_galIMF(IorS, SFR, alpha3_model, delta_t, Fe_over_H, I_ecl, M_ecl_U,
 
 
 
-######## IGIMF.py #########
+######## IGIMF #########
 
 #python3 code, last update Sat 27 May
-# IGIMF.py is module computing IGIMF as described in Yan et al 2017
+# IGIMF is part computing IGIMF as described in Yan et al 2017
 # all physical quantities which are input in some function are described in test_gimf.py scrip or in readme file
 #--------------------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------------------
@@ -87,9 +87,9 @@ List_M_str_for_xi_str = []
 List_xi_str = []
 List_xi = []
 #--------------------------------------------------------------------------------------------------------------------------------
-#Function_dar_IGIMF computes the IGIMF by combining  Function_ECMF (embedded cluster mass
+# Function_dar_IGIMF computes the IGIMF by combining  Function_ECMF (embedded cluster mass
 # function) and Function_IMF (stellar mass function in individual embedded clusters)
-# equation (1) from Yan et al. 2017
+# equation (1) from Yan, Jerabkova, Kroupa (2017, A&A)
 # function returns values of global lists:
 # List_M_ecl_for_xi_ecl - list of masses, M_ecl, of embedded clusters for ECMF
 # List_xi IGIMF (xi_IGIMF = dN/dm, dN number of star in a mass bin dm) values
@@ -122,10 +122,10 @@ def Function_draw_IGIMF(SFR, alpha3_model, beta_model, delta_t, Fe_over_H, I_ecl
     Function_xi_to_xiL(lenth-1, List_xi[0])
     return
 
-#Function_ECMF computes IMF of star clusters (ECMF - embedded cluster mass function)
-#The assumed shape of ECMF is single powerlaw with slope beta (function of SFR)
+# Function_ECMF computes IMF of star clusters (ECMF - embedded cluster mass function)
+# The assumed shape of ECMF is single powerlaw with slope beta (function of SFR)
 # the empyrical lower limit for star cluster mass if 50 Msun
-# the hypotetical upper mass limit is 10^9 Msun, but the M_ecl^max is computed, eq (12) in Yan et al. 2017
+# the hypotetical upper mass limit is 10^9 Msun, but the M_ecl^max is computed, eq (12) in Yan, Jerabkova, Kroupa (2017, A&A)
 def Function_ECMF(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L):
     global List_M_ecl_for_xi_ecl, List_xi_ecl, x_ECMF, y_ECMF
     x_ECMF = []
@@ -140,7 +140,7 @@ def Function_ECMF(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L):
     del List_xi_ecl[-1]
     return
 
-#Function_IMF computes stellar IMF in individual embedded star clusters
+# Function_IMF computes stellar IMF in individual embedded star clusters
 def Function_IMF(alpha3_model, Fe_over_H, I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2, M_str_U, number_of_ecl, i):
     while i < number_of_ecl:
         global List_M_str_for_xi_str, List_xi_str, List_M_ecl_for_xi_ecl, x_IMF, y_IMF
@@ -206,8 +206,8 @@ List_mass_grid = []
 List_star_number_in_mass_grid = []
 #-----------------------------------------------------------------------------------------
 
-#This function gives the stellar masses in entire galaxy in unsorted manner
-#i.e. the stars are grouped in parent clusters
+# This function gives the stellar masses in entire galaxy in unsorted manner
+# i.e. the stars are grouped in parent clusters
 def sample_for_one_epoch(SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, Fe_over_H, M_str_U):
     global List_M_str_all_i, List_n_str_all_i, list_M_ecl_i
@@ -220,7 +220,7 @@ def sample_for_one_epoch(SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, be
                                        M_turn2, Fe_over_H, M_str_U, len_of_M_ecl_list, 0)
     return
 
-#Masses of formed clusters
+# Masses of formed clusters
 def Function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
     global list_m_ecl_i, list_n_ecl_i, list_M_ecl_i, M_max_ecl
     list_m_ecl_i = []
@@ -229,7 +229,7 @@ def Function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
     M_max_ecl = 0
     function_sample_from_ECMF(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     return
-#Stellar masses in a given star cluster
+# Stellar masses in a given star cluster
 def Function_sample_star_from_clusters(alpha3_model, I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model,
                                        M_turn2, Fe_over_H, M_str_U, len_of_M_ecl_list, i):
     while i < len_of_M_ecl_list:
@@ -258,7 +258,7 @@ def Function_sample_star_from_clusters(alpha3_model, I_str, M_str_L, alpha_1, al
 # Sort out all star mass in a epoch into a mass grid
 
 # Main purporpose here is the sorting of the stellar masses and preparation for
-#plotting output
+# plotting output
 def Function_draw(SFR, M_str_low, M_str_up, M_ecl_low, resolution_histogram_relative):
     M_low = min(M_str_low, M_ecl_low)
     global List_mass_grid, List_star_number_in_mass_grid, List_mass_grid_x_axis, List_star_number_in_mass_grid_y_axis
@@ -323,7 +323,7 @@ def Function_mass_grid(SFR, mass, M_str_low, resolution_histogram_relative):
         #(mass) = (mass * (0.967 + math.log(SFR, 10) / 400) / (math.log(mass + 1) ** 2 / (2 ** (math.log(SFR, 10) + 6.85) - 1) + 1))
     return
 
-#count the number of star in each grid
+# Count the number of star in each grid
 def Function_sort_out_star_mass(i):
     while i < len(List_M_str_all_i):
         global l
@@ -387,7 +387,7 @@ def Function_find_k(i, j, k):
     return
 
 
-# prepare for the breaking line plot
+# Prepare for the breaking line plot
 def make_mass_grid_x_axis(i):
     global List_mass_grid_x_axis, List_mass_grid
     while i < len(List_mass_grid)-1:
@@ -503,11 +503,11 @@ def function_draw_histogram():
 
 ############## IMF #################
 
-# use equations in "supplementary-document-galimf.pdf"
+# This part use equations in "supplementary-document-galimf.pdf"
 
 # The star mass resolution is the lower resolution among "relative resolution" and "absolute resolution" where
-# the relative resolution = star mass * resolution_star_relative
-# the absolute resolution = resolution_star_absolute
+# The relative resolution = star mass * resolution_star_relative
+# The absolute resolution = resolution_star_absolute
 resolution_star_relative = 0.001
 resolution_star_absolute = 0.001
 
@@ -533,7 +533,7 @@ def function_sample_from_IMF(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn
     del list_n_str_i[0]
     return
 
-# M_max is computed by solving simultaneously equations (3) and (4) from Yan et al 2017
+# M_max is computed by solving simultaneously equations (3) and (4) from Yan, Jerabkova, Kroupa (2017, A&A)
 def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global M_max_function, M_max, M_max_function
     M_constant = M_ecl * M_U ** (1 - alpha_3) / I_str / (1 - alpha_3) - M_turn2 ** (alpha_2 - alpha_3) * M_turn ** (
@@ -925,7 +925,7 @@ def Function_alpha_3_change(alpha3_model, M_ecl, Fe_over_H):
 # The code is only valid when SFR > 3 * 10^(-10) solar / year.
 
 # Inputs:
-# SFR,delta_t, I, M_U, M_L, \beta
+# SFR, delta_t, I, M_U, M_L, \beta
 
 # step 1
 # use equation 13 or 17
