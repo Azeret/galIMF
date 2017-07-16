@@ -503,7 +503,7 @@ def function_draw_histogram():
 
 ############## IMF #################
 
-# use equations in "3-slope-imf.pdf"
+# use equations in "supplementary-document-galimf.pdf"
 
 # The star mass resolution is the lower resolution among "relative resolution" and "absolute resolution" where
 # the relative resolution = star mass * resolution_star_relative
@@ -920,7 +920,7 @@ def Function_alpha_3_change(alpha3_model, M_ecl, Fe_over_H):
 
 ########## ECMF #########
 
-# This part gives the cluster masses according to file "ECMF, Schulz optimal sampling" equation 19.
+# This part gives the cluster masses according to file "supplementary-document-galimf.pdf".
 
 # The code is only valid when SFR > 3 * 10^(-10) solar / year.
 
