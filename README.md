@@ -219,26 +219,20 @@ For the versions available, see the [tags on this repository](https://sites.goog
 
 ## Authors
 
-The main author of this module are:
+The main author of this module is:
 
 * Zhiqiang Yan 
-
 University of Bonn
-
 beijingjuzikong(at)gmail.com
 
 The other members of this project are:
 
-* Tereza Jerabkova 
-
+* Tereza Jerabkova
 University of Bonn, Charles University
-
 tereza(at)sirrah.troja.mff.cuni.cz
 
 * Prof. Dr. Pavel Kroupa
-
 Universty of Bonn, Charles University
-
 pavel(at)astro.uni-bonn.de
 
 
