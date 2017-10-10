@@ -29,30 +29,21 @@ print("[Fe/H] = {}.\n".format(Fe_over_H))
 # setup alpha_3 value:
 alpha3_change = galIMF.Function_alpha_3_change(1, StarClusterMass, 0)
 
-# run galIMF and sample stars from IMF:
+# apply galIMF to optimally sample stars from IMF:
 galIMF.function_sample_from_IMF(StarClusterMass, 1, 0.08, 1.3, 0.5, 2.3, 1, alpha3_change, 150)
 
-# sampled results:
+# followings are all sampled results:
+
+# most massive stellar mass in the cluster:
 print(" - The most massive stellar mass in solar mass unit in this star cluster is: -")
 print(galIMF.list_M_str_i[0])
 
-# The stellar masses in solar mass unit are (from massive to less massive):
+# All of the sampled stellar masses in solar mass unit are (from massive to less massive):
 list_stars = np.array(galIMF.list_M_str_i)
 
 # NOTE! Multiple stars can be represented by a same stellar mass if they have similar masses,
 # The number of stars represented by the stellar masses above are:
 n_stars = np.array(galIMF.list_n_str_i)
-
-# save the sampled stellar masses:
-file = open('stellar_masses_in_a_star_cluster.txt', 'w')
-file.write("# Optimally sampled stellar masses in a star cluster with:\n")
-file.write("# mass = {} solar mass\n".format(StarClusterMass))
-file.write("# alpha3_model = {}\n".format(alpha3_model))
-file.write("# [Fe/H] = {}\n".format(Fe_over_H))
-file.write("# The stellar masses are:\n")
-for item in galIMF.list_M_str_i:
-    file.write("%s\n" % item)
-file.close()
 
 
 # formating a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
@@ -104,5 +95,4 @@ plt.savefig('cluster_optimal_sample.pdf', dpi=300)
 
 # end of the example:
 print("\n - Sampling completed -")
-print(" - The results are saved in file: "
-      "'stellar_masses_in_a_star_cluster.txt' and 'cluster_optimal_sample.pdf' -")
+print(" - The results are saved in file: 'cluster_optimal_sample.pdf' -")
