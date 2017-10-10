@@ -2,6 +2,7 @@
 # An example Python 3 code which use galIMF.py to sample the stellar masses in one star cluster with optimal sampling.
 
 # Made by: Zhiqiang & Tereza
+# -----------------------------------------------------------------------
 
 import galIMF  # Main part of the GalIMF code for generating and sampling Galaxy-wide stellar Initial Mass Function.
 import numpy as np
@@ -9,15 +10,13 @@ from pylab import *
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 
-# -----------------------------------------------------------------------
+
 # figure output settings:
 fig0 = plt.figure(figsize=(4, 3))  # size for one column plot
 gs1 = GridSpec(1, 1)
 ax0 = plt.subplot(gs1[0])
 
-# -----------------------------------------------------------------------
-
-
+# input parameters:
 StarClusterMass = 1.e4
 alpha3_model = 1
 Fe_over_H = 0
@@ -27,13 +26,13 @@ print("mass = {} solar mass;".format(StarClusterMass))
 print("alpha3_model = {} (see Function_alpha_3_change in the file 'galIMF.py' for details);".format(alpha3_model))
 print("[Fe/H] = {}.\n".format(Fe_over_H))
 
+# setup alpha_3 value:
+alpha3_change = galIMF.Function_alpha_3_change(1, StarClusterMass, 0)
 
-alpha3_change = galIMF.Function_alpha_3_change(1, StarClusterMass, 0)  # read in alpha_3 value
-
-# Run galIMF and sample stars from IMF:
+# run galIMF and sample stars from IMF:
 galIMF.function_sample_from_IMF(StarClusterMass, 1, 0.08, 1.3, 0.5, 2.3, 1, alpha3_change, 150)
 
-# Sampling results:
+# sampled results:
 print(" - The most massive stellar mass in solar mass unit in this star cluster is: -")
 print(galIMF.list_M_str_i[0])
 
@@ -44,8 +43,20 @@ list_stars = np.array(galIMF.list_M_str_i)
 # The number of stars represented by the stellar masses above are:
 n_stars = np.array(galIMF.list_n_str_i)
 
-bins = np.logspace(np.log10(0.08), np.log10(150), 20, base=10)
+# save the sampled stellar masses:
+file = open('stellar_masses_in_a_star_cluster.txt', 'w')
+file.write("# Optimally sampled stellar masses in a star cluster with:\n")
+file.write("# mass = {} solar mass\n".format(StarClusterMass))
+file.write("# alpha3_model = {}\n".format(alpha3_model))
+file.write("# [Fe/H] = {}\n".format(Fe_over_H))
+file.write("# The stellar masses are:\n")
+for item in galIMF.list_M_str_i:
+    file.write("%s\n" % item)
+file.close()
 
+
+# formating a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
+bins = np.logspace(np.log10(0.08), np.log10(150), 20, base=10)
 vals0 = np.zeros(len(bins))
 
 for i, b in enumerate(bins):
@@ -84,18 +95,11 @@ ax0.set_xlabel(r'$\log_{\rm 10}(m, [M_\odot])$')
 
 plt.legend()
 plt.tight_layout()
+
+# save the plot:
 plt.savefig('cluster_optimal_sample.pdf', dpi=300)
 
-file = open('stellar_masses_in_a_star_cluster.txt', 'w')
-file.write("# Optimally sampled stellar masses in a star cluster with:\n")
-file.write("# mass = {} solar mass\n".format(StarClusterMass))
-file.write("# alpha3_model = {}\n".format(alpha3_model))
-file.write("# [Fe/H] = {}\n".format(Fe_over_H))
-file.write("# The stellar masses are:\n")
-for item in galIMF.list_M_str_i:
-    file.write("%s\n" % item)
-file.close()
-
+# end of the example:
 print("\n - Sampling completed -")
 print(" - The results are saved in file: "
       "'stellar_masses_in_a_star_cluster.txt' and 'cluster_optimal_sample.pdf' -")
