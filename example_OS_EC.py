@@ -56,6 +56,8 @@ file.close()
 
 
 # formating a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
+
+# bining the sampled star number:
 bins = np.logspace(np.log10(0.08), np.log10(150), 20, base=10)
 vals0 = np.zeros(len(bins))
 
@@ -72,6 +74,7 @@ for i, b in enumerate(bins):
 
 ax0.step(np.log10(bins), np.log10(vals0+1.e-3), color='blue', where='post', zorder=1, lw=1.5, label="OS")
 
+# constracting the canonical IMF:
 N = 100
 can_imf = np.zeros(N)
 masses = np.logspace(np.log10(0.08), np.log10(150), N, base=10)
@@ -90,9 +93,9 @@ Norm = quad(imf, 0.08, 0.5, args=(1, 1.3))[0] + quad(imf, 0.5, 120, args=(0.5, 2
 can_imf = np.array(can_imf)*StarClusterMass/Norm
 ax0.plot(np.log10(masses), np.log10(can_imf), color='black', lw=1.5, label='IMF', zorder=0)
 
+# plot settings:
 ax0.set_ylabel(r'$\log_{\rm 10}(\xi, [\#_{\star}/M_\odot])$')
 ax0.set_xlabel(r'$\log_{\rm 10}(m, [M_\odot])$')
-
 plt.legend()
 plt.tight_layout()
 
