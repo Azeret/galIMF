@@ -30,6 +30,7 @@ together with the support PDF file ([supplementary-document-galimf.pdf](https://
 
 An example file, [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py), is provided for a quick test and also serve as an easy entrance for the most basic usage of [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
+GalIMF is also able to optimally sample not an entire galaxy, but only one embedded star cluster. This is demonstrated in [example_OS_EC.py](https://github.com/Azeret/galIMF/blob/master/example_OS_EC.py).
 
 ### Scientific motivation
 
@@ -49,7 +50,7 @@ For the computational details, please, look at Yan, Jerabkova & Kroupa (2017, A&
 
 ### Main features of the module
 
-The generated stellar mass distribution depends on the galaxy-wide star formation rate (**SFR**, which is related to the total mass of a galalxy) and the galaxy-wide **metallicity** ([Fe/H], see alpha1_model, alpha2_model, and alpha3_model in the code file 'galIMF.py').
+The generated stellar mass distribution depends on the galaxy-wide star formation rate (**SFR**, which is related to the total mass of a galalxy) and the galaxy-wide **metallicity** ([Fe/H], see alpha1_model, alpha2_model, and alpha3_model in the code file [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py)).
 
 The code can generate a galaxy-wide IMF, i.e., IGIMF. It can also generate all the stellar masses within a galaxy with optimal sampling, i.e., OSGIMF:
 
