@@ -855,52 +855,56 @@ def function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)
 
 ########### alpha ###########
 
+# This part specify the IMF slope dependence on given property of the embedded star cluster (e.g, [Fe/H]).
+# The IMF is devided into three different slopes with power-index alpha_1, alpha_2, and alpha_3.
+# By defult, alpha_1 ranging from 0.08 to 0.5 solar mass,
+#            alpha_2 ranging from 0.5 to 1 solar mass,
+#            alpha_3 ranging from 1 to 150 solar mass.
+
 def Function_alpha_1_change(alpha_1, alpha1_model, Fe_over_H):
     if (alpha1_model == 0):
         return alpha_1
-    elif (alpha1_model == 1):
-        alpha_1_change = alpha_1 + 0.5 * Fe_over_H
+    elif (alpha1_model == 1):  # This model is based on Marks et al.(2012), MNRAS, 422, 2246
+        alpha_1_change = alpha_1 + 0.5 * Fe_over_H  # see 
         return alpha_1_change
     else:
-        print("alpha1_model: %s, do not exist.\nCheck file 'alpha1.py'" % (alpha1_model))
+        print("alpha1_model: %s, do not exist.\nCheck file 'galIMF.py'" % (alpha1_model))
         return
 
 
 def Function_alpha_2_change(alpha_2, alpha2_model, Fe_over_H):
     if (alpha2_model == 0):
         return alpha_2
-    elif (alpha2_model == 1):
+    elif (alpha2_model == 1):  # This model is based on Marks et al.(2012), MNRAS, 422, 2246
         alpha_2_change = alpha_2 + 0.5 * Fe_over_H
         return alpha_2_change
     else:
-        print("alpha2_model: %s, do not exist.\nCheck file 'alpha2.py'" % (alpha2_model))
+        print("alpha2_model: %s, do not exist.\nCheck file 'galIMF.py'" % (alpha2_model))
         return
 
 
 def Function_alpha_3_change(alpha3_model, M_ecl, Fe_over_H):
     if (alpha3_model == 0):
         default_alpha3 = 2.3
-        # print("alpha_3 is set to be a constant: %s, as this is the default alpha_3 value for alpha3_model 0.\nFor more options regarding alpha_3 variation, please check file 'alpha3.py'" % (default_alpha3))
+        # print("alpha_3 is set to be a constant: %s, as this is the default alpha_3 value for alpha3_model 0.\nFor more options regarding alpha_3 variation, please check file 'galIMF.py'" % (default_alpha3))
         return default_alpha3
-    elif (alpha3_model == 1):
+    elif (alpha3_model == 1):  # This model is based on Marks et al.(2012), MNRAS, 422, 2246
         rho = 10 ** (0.61 * math.log(M_ecl, 10) + 2.85)
         if rho < 9.5 * 10 ** 4:
             alpha_3_change = 2.3
         else:
             alpha_3_change = 1.86 - 0.43 * math.log(rho / 10 ** 6, 10)
-        # print("Notification in file 'alpha3_model' uncompleted")
         return alpha_3_change
-    elif (alpha3_model == 2):
+    elif (alpha3_model == 2):  # This model is based on Marks et al.(2012), MNRAS, 422, 2246
         rho = 10 ** (0.61 * math.log(M_ecl, 10) + 2.85)
         x = -0.1405 * Fe_over_H + 0.99 * math.log(rho / 10 ** 6, 10)
         if x < -0.87:
             alpha_3_change = 2.3
         else:
             alpha_3_change = -0.41 * x + 1.94
-        # print("Notification in file 'alpha3_model' uncompleted")
         return alpha_3_change
     else:
-        # print("alpha_3 is set to be a constant: %s, as this is the input value of parameter 'alpha3_model'.\nFor more options regarding alpha_3 variation, please check file 'alpha3.py'" % (alpha3_model))
+        # print("alpha_3 is set to be a constant: %s, as this is the input value of parameter 'alpha3_model'.\nFor more options regarding alpha_3 variation, please check file 'galIMF.py'" % (alpha3_model))
         return alpha3_model
 
 
