@@ -684,8 +684,10 @@ def loop_m_i_first_three(k, M_low, alpha, m_i, n_i, resolution_star_relative, re
         m_i_plus_n = (m_i ** (1 - alpha) - n_i * (1 - alpha) / k) ** (1 / (1 - alpha))
         if count < 3:
             m_i_plus_n = (m_i ** (1 - alpha) - (1 - alpha) / k) ** (1 / (1 - alpha))
+            n_turn = n_i
             (m_i, n_i, count) = (m_i_plus_n, 1, (count+1))
         elif m_i - m_i_plus_n > max(resolution_star_relative * m_i, resolution_star_absolute):
+            n_turn = n_i
             (m_i, n_i) = (m_i_plus_n, n_i)
         else:
             (m_i_plus_n_new, n_turn) = function_get_n_new_str(m_i, k, alpha, m_i_plus_n, n_i, resolution_star_relative, resolution_star_absolute)
