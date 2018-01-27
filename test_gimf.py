@@ -1,11 +1,13 @@
 # Python3 code, last update Wed 5 July 2017
 
-# This example code demonstrades how to construct IGIMF and OSGIMF for a given parameters (defined at the beginning of the code)
+# This example code demonstrades how to construct IGIMF and OSGIMF for a given parameters (defined at the beginning of the code).
 
 print("\nThis test code serves as an example, demonstrating how to construct and visualize IGIMF and OSGIMF with GalIMF open source code "
-      "for a given galaxy-wide SFR and metallicity.\n")
+      "for a given galaxy-wide SFR and metallicity.")
+print("Please check first that you are using the newest version of Python 3 instead of Python 2.")
+print("More information regards to the deployment can be found in the README file.\n")
 
-# Ouputs of the code are:
+# Outputs of the code are:
 
 #  - the comparison plot of IGIMF and OSGIMF (as an active window and also saved as GIMF.pdf)
 #  - the histogram file containing the number of stars in each mass bin from OSGIMF
