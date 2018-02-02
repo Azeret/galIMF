@@ -1,4 +1,4 @@
-# GalIMF version 1.0.1
+# GalIMF version 1.0.2
 
 ## Contents
 
