@@ -1,4 +1,5 @@
 # GalIMF version 1.0.2
+last update: 02.02.2018
 
 ## Contents
 
