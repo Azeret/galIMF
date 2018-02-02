@@ -1,7 +1,7 @@
 ######## galIMF ##########
 
 
-#python3 code, last update 02.02.2018
+#python3 code, last update Sat 27 May
 # This, galIMF, is the main part controling and operating the other two part below, IGIMF and OSGIMF.
 #--------------------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------------------
@@ -565,25 +565,25 @@ def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
         M_max_function = 3
     if M_max < M_L:
         M_max_function = 0
-        print("M_max < M_L")
+        print("Error in function_M_max: M_max < M_L")
     return
 
 def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global M_max_function, k3, k2, k1, M_max
     if M_max_function == 1:
         k3 = I_str*(1-alpha_3)/(M_U**(1-alpha_3)-M_max**(1-alpha_3))
-        # equation 12
+        # equation 14
     elif M_max_function == 2:
         k3 = I_str/(M_turn2**(alpha_2-alpha_3)*(M_turn2**(1-alpha_2)-M_max**(1-alpha_2))/(1-alpha_2) + (
             M_U**(1-alpha_3)-M_turn2**(1-alpha_3))/(1-alpha_3))
-        # equation 21
+        # equation 23
     elif M_max_function == 3:
         k3 = I_str/(M_turn2**(alpha_2-alpha_3) * M_turn**(alpha_1-alpha_2) * (M_turn**(1-alpha_1)-M_max**(1-alpha_1)) / (
             1-alpha_1) + M_turn2**(alpha_2-alpha_3)*(M_turn2**(1-alpha_2)-M_turn**(1-alpha_2))/(1-alpha_2) + (M_U**(
             1-alpha_3)-M_turn2**(1-alpha_3))/(1-alpha_3))
-        # equation 25
+        # equation 27
     else:
-        print("function_M_max went wrong")
+        print("Error in function_k321: function_M_max went wrong")
         return
     k2 = k3*M_turn2**(alpha_2-alpha_3)  # equation 2
     k1 = k2*M_turn**(alpha_1-alpha_2)  # equation 2
@@ -592,7 +592,8 @@ def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
 def function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step, pm):  # equation 14
     m_1 = round(m_1, 10)  # round
     M_x = m_1**(2-alpha_3)/(2-alpha_3) + M_ecl*m_1**(1-alpha_3)/I_str/(1-alpha_3)
-    if abs(M_x-M_constant) < abs(M_constant) * 10 ** (-7):
+    if abs(M_x - M_constant) < abs(M_constant) * 10 ** (-7) \
+            and abs(M_x - M_constant) < abs(M_constant) * abs(m_1 - M_U) / 100000:
         global M_max
         M_max = m_1
     elif m_1 - step <= M_L or m_1 + step >= M_U:
@@ -1002,7 +1003,7 @@ def function_sample_from_ECMF(SFR, delta_t, I_ecl, M_U, M_L, beta):
 def function_M_max_ecl_2(M_tot, I_ecl, M_U, M_L, m_1, step, pm):  # equation 44
     m_1 = round(m_1, 10)  # round makes the code only valid when SFR > 3 * 10^(-10) solar / year
     M_x = I_ecl * (math.log(m_1) - math.log(M_L)) / (1 / m_1 - 1 / M_U)
-    if M_tot * (1. + 10 ** (-5)) > M_x > M_tot * (1- 10 ** (-5)):
+    if abs(M_tot-M_x) < M_tot * 10**(-5):
         global M_max_ecl
         M_max_ecl = m_1
     elif m_1 - step < M_L or m_1 + step > M_U:
@@ -1021,7 +1022,7 @@ def function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, m_1, step, pm):  # eq
     m_1 = round(m_1, 10)  # round makes the code only valid when SFR > 3 * 10^(-10) solar / year
     M_x = I_ecl * (1 - beta) / (2 - beta) * (m_1 ** (2 - beta) - M_L ** (2 - beta)) / (
     M_U ** (1 - beta) - m_1 ** (1 - beta))
-    if M_tot * (1.+10**(-5)) > M_x > M_tot * (1-10**(-5)):
+    if abs(M_tot-M_x) < M_tot * 10**(-5):
         global M_max_ecl
         M_max_ecl = m_1
     elif m_1 - step <= M_L or m_1 + step >= M_U:
