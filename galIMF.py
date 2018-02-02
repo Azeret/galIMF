@@ -8,6 +8,9 @@
 #importing modules and libraries
 
 import math
+from scipy.interpolate import interp1d
+from scipy.integrate import simps
+import numpy as np
 import csv # csv and izip/zip are used to create output files
 try:
     from itertools import izip as zip
@@ -808,7 +811,7 @@ def cross_M_turn2(k_before, k_after, M_cross, alpha_before, alpha_after, i):
 
 ################# draw IMF without sampling #################
 
-def k_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
+def k_str(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global M_max, M_max_function, k3, k2, k1
     M_max = 0
     M_max_function = 0
@@ -824,8 +827,16 @@ y_IMF = []
 
 def function_draw_xi_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global x_IMF, y_IMF, k1, k2, k3, M_max
-    k_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U)
+    k_str(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U)
     function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)
+    # normalization corection
+    mass_int = np.logspace(np.log10(x_IMF[0] + x_IMF[0] / 1000),
+                           np.log10(x_IMF[-1] - x_IMF[-1] / 1000), 100)
+    i_int = interp1d(x_IMF, y_IMF)
+    y_IMF_int = i_int(mass_int)
+    m_tot = simps(y_IMF_int * mass_int, mass_int)
+    for i in range(len(y_IMF)):
+        y_IMF[i]=y_IMF[i]/m_tot*M_ecl
     return
 
 def function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3):
@@ -1075,7 +1086,7 @@ def function_M_i_not_2(k, beta, i, length_n):  # equation 49
 
 ################### draw ECMF without sampling #####################
 
-def k_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
+def k_ecl(SFR, delta_t, I_ecl, M_U, M_L, beta):
     global M_max_ecl
     M_tot = SFR * delta_t * 10 ** 6  # units in Myr
     if beta == 2:
@@ -1093,8 +1104,17 @@ y_ECMF = []
 
 def function_draw_xi_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global x_ECMF, y_ECMF
-    k = k_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta)
+    k = k_ecl(SFR, delta_t, I_ecl, M_U, M_L, beta)
     function_draw_xi_ecl_loop(M_ecl, k, M_U, beta)
+    # normalization corection
+    mass_int = np.logspace(np.log10(x_ECMF[0] + x_ECMF[0] / 1000),
+                           np.log10(x_ECMF[-1] - x_ECMF[-1] / 1000), 100)
+    i_int = interp1d(x_ECMF, y_ECMF)
+    y_ECMF_int = i_int(mass_int)
+    m_tot = simps(y_ECMF_int * mass_int, mass_int)
+    for i in range(len(y_ECMF)):
+        y_ECMF[i] = y_ECMF[i] / m_tot * SFR * 10**7
+    # add boundary
     x_ECMF = [x_ECMF[0]] + x_ECMF
     x_ECMF += [x_ECMF[-1]]
     y_ECMF = [0.000000001] + y_ECMF
