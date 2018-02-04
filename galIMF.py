@@ -529,29 +529,28 @@ def function_sample_from_IMF(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn
     function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U)
     list_m_str_i = []
     list_n_str_i = []
-    function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute)  # equation 16
+    function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute)  # equation 18
     list_M_str_i = []
-    length_n = len(list_n_str_i)
-    function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U, length_n)  # equation 18
+    function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)  # equation 20
     del list_n_str_i[0]
     return
 
 # M_max is computed by solving simultaneously equations (3) and (4) from Yan, Jerabkova, Kroupa (2017, A&A)
 def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
-    global M_max_function, M_max, M_max_function
+    global M_max_function
     M_constant = M_ecl * M_U ** (1 - alpha_3) / I_str / (1 - alpha_3) - M_turn2 ** (alpha_2 - alpha_3) * M_turn ** (
     alpha_1 - alpha_2) * (M_turn ** (2 - alpha_1) - M_L ** (2 - alpha_1)) / (2 - alpha_1) - M_turn2 ** (
     alpha_2 - alpha_3) * (M_turn2 ** (2 - alpha_2) - M_turn ** (
-        2 - alpha_2)) / (2 - alpha_2) + M_turn2 ** (2 - alpha_3) / (2 - alpha_3)  # equation 14
-    function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, 100, 10, -1)  # equation 14
+        2 - alpha_2)) / (2 - alpha_2) + M_turn2 ** (2 - alpha_3) / (2 - alpha_3)  # equation 16 left side
+    function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, 100, 10, -1)
     M_max_function = 1
     if M_max < M_turn2:
         M_constant2 = M_ecl * M_turn2 ** (1 - alpha_2) / I_str / (1 - alpha_2) + M_ecl * M_turn2 ** (
         alpha_3 - alpha_2) * (M_U ** (
             1 - alpha_3) - M_turn2 ** (1 - alpha_3)) / I_str / (1 - alpha_3) - M_turn ** (alpha_1 - alpha_2) * (
         M_turn ** (2 - alpha_1) - M_L ** (
-            2 - alpha_1)) / (2 - alpha_1) + M_turn ** (2 - alpha_2) / (2 - alpha_2)  # equation 23
-        function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, 0.75, 0.1, -1)  # equation 23
+            2 - alpha_1)) / (2 - alpha_1) + M_turn ** (2 - alpha_2) / (2 - alpha_2)  # equation 25 right side
+        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, 0.75, 0.1, -1)
         M_max_function = 2
     if M_max < M_turn:
         M_constant3 = M_ecl * M_turn ** (1 - alpha_1) / I_str / (1 - alpha_1) + M_ecl * M_turn ** (
@@ -560,12 +559,12 @@ def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
         alpha_3 - alpha_2) * M_turn ** (
             alpha_2 - alpha_1) * (M_U ** (1 - alpha_3) - M_turn2 ** (1 - alpha_3)) / I_str / (1 - alpha_3) + M_L ** (
         2 - alpha_1) / (2 - alpha_1)
-        # equation 27
-        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, 100, 10, -1)  # equation 27
+        # equation 29 right side
+        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, 100, 10, -1)
         M_max_function = 3
     if M_max < M_L:
         M_max_function = 0
-        print("Error in function_M_max: M_max < M_L")
+        print("M_max < M_L")
     return
 
 def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
@@ -589,62 +588,26 @@ def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     k1 = k2*M_turn**(alpha_1-alpha_2)  # equation 2
     return
 
-def function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step, pm):  # equation 14
+def function_M_max_1(M_constant, M_ecl, I_str, alpha, M_U, M_L, m_1, step, pm):
     m_1 = round(m_1, 10)  # round
-    M_x = m_1**(2-alpha_3)/(2-alpha_3) + M_ecl*m_1**(1-alpha_3)/I_str/(1-alpha_3)
-    if abs(M_x - M_constant) < abs(M_constant) * 10 ** (-7) \
-            and abs(M_x - M_constant) < abs(M_constant) * abs(m_1 - M_U) / 100000:
+    M_x = m_1**(2-alpha)/(2-alpha) + M_ecl*m_1**(1-alpha)/I_str/(1-alpha) # equation 16 right, equation 25, 29 left side
+    if abs(M_x-M_constant) < abs(M_constant) * 10 ** (-7) \
+           and abs(M_x-M_constant) < abs(M_constant) * abs(m_1-M_U)/100000:
         global M_max
         M_max = m_1
     elif m_1 - step <= M_L or m_1 + step >= M_U:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step / 2, pm)
+        function_M_max_1(M_constant, M_ecl, I_str, alpha, M_U, M_L, m_1, step / 2, pm)
     elif M_x > M_constant and pm == -1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 - step, step, -1)
+        function_M_max_1(M_constant, M_ecl, I_str, alpha, M_U, M_L, m_1 - step, step, -1)
     elif M_x > M_constant and pm == 1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 - step / 2, step / 2, -1)
+        function_M_max_1(M_constant, M_ecl, I_str, alpha, M_U, M_L, m_1 - step / 2, step / 2, -1)
     elif M_x < M_constant and pm == 1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 + step, step, 1)
+        function_M_max_1(M_constant, M_ecl, I_str, alpha, M_U, M_L, m_1 + step, step, 1)
     elif M_x < M_constant and pm == -1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 + step / 2, step / 2, 1)
+        function_M_max_1(M_constant, M_ecl, I_str, alpha, M_U, M_L, m_1 + step / 2, step / 2, 1)
     return
 
-def function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1, step, pm):  # equation 23
-    m_1 = round(m_1, 10)  # round
-    M_x = m_1 ** (2 - alpha_2) / (2 - alpha_2) + M_ecl * m_1 ** (1 - alpha_2) / I_str / (1 - alpha_2)
-    if abs(M_x - M_constant2) < abs(M_constant2) * 10 ** (-7):
-        global M_max
-        M_max = m_1
-    elif m_1 - step <= M_L or m_1 + step >= M_U:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1, step / 2, pm)
-    elif M_x > M_constant2 and pm == -1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 - step, step, -1)
-    elif M_x > M_constant2 and pm == 1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 - step / 2, step / 2, -1)
-    elif M_x < M_constant2 and pm == 1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 + step, step, 1)
-    elif M_x < M_constant2 and pm == -1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 + step / 2, step / 2, 1)
-    return
-
-def function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step, pm):  # equation 27
-    m_1 = round(m_1, 10)  # round
-    M_x = m_1 ** (2 - alpha_1) / (2 - alpha_1) + M_ecl * m_1 ** (1 - alpha_1) / I_str / (1 - alpha_1)
-    if abs(M_x-M_constant3) < abs(M_constant3) * 10 ** (-7):
-        global M_max
-        M_max = m_1
-    elif m_1 - step <= M_L or m_1 + step >= M_U:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step / 2, pm)
-    elif M_x > M_constant3 and pm == -1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 - step, step, -1)
-    elif M_x > M_constant3 and pm == 1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 - step / 2, step / 2, -1)
-    elif M_x < M_constant3 and pm == 1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 + step, step, 1)
-    elif M_x < M_constant3 and pm == -1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 + step / 2, step / 2, 1)
-    return
-
-def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute):  # equation 16
+def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute):  # equation 18
     global list_m_str_i
     if M_max > 100:
         loop_m_i_first_three(k3, M_turn2, alpha_3, M_max, 0, resolution_star_relative, resolution_star_absolute, 0)
@@ -743,7 +706,7 @@ def function_get_n_new_str_cross(m_i, m_after_cross, k, alpha, m_after_cross_plu
     return m_after_cross_plus_n, n_i
 
 
-def cross_M_L(k_1, M_L, alpha_1, m_i):  # equation 19
+def cross_M_L(k_1, M_L, alpha_1, m_i):  # equation 21
     global list_m_str_i, list_n_str_i
     n_i = int(k_1 / (1 - alpha_1) * (m_i ** (1 - alpha_1) - M_L ** (1 - alpha_1)))
     list_m_str_i += [M_L]
@@ -751,7 +714,7 @@ def cross_M_L(k_1, M_L, alpha_1, m_i):  # equation 19
     return
 
 
-def function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U, length_n):  # equation 18
+def function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3):  # equation 20
     global list_m_str_i, new_i, list_M_str_i, M_max, list_n_str_i
     new_i = 0
     if M_max > M_turn2:
