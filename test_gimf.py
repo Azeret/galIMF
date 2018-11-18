@@ -207,7 +207,9 @@ plt.xlim(math.log(0.06, 10), math.log(160, 10))
 plt.legend(loc='best',ncol=1,fancybox=True,prop={'size':7})
 plt.tight_layout()
 fig0.savefig('GIMF.pdf',dpi=200)
-print("\n### A plot is generate in the file GIMF.pdf for the above results ###\nIMFs in the plot are normalized by the same total mass." )
+
+print("\nPlease check the prompted window for the result.\nIMFs in the plot are normalized by the same total mass.\nThe generated plot is saved in the file GIMF.pdf.\n###The program will finish when you close it.")
 
 plt.show()
+
 print("\nExample complete.")
