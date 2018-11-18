@@ -45,7 +45,7 @@ SFR=float(input("Please input the galaxy-wide SFR in solar mass per year and end
                 "\nSFR [Msolar/yr] = "))
 # Star Formation Rate [solar mass / yr]
 Fe_over_H= float(input("\nPlease input the metallicity (A typical input should be smallar than 0, "
-                       "i.e., less iron abundance than the Sun):\n\n[Fe/H] = "))
+                       "i.e., less iron abundance than the Sun):\n\n[M/H] = "))
 bindw = galIMF.resolution_histogram_relative = 10**(max((0-math.log(SFR,10)), 0)**(0.2)-1.9)
 # will change the resolution of histogram for optimall sampling automatically addjusted with SFR value.
 
