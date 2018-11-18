@@ -199,7 +199,7 @@ if ylim_max < np.max(can_imf):
 #--------------------------------------------------------------------------------------------------------------------------------
 
 plt.xlabel('$\log{(m\,[M_{\odot}])}$')
-plt.ylabel('$\log{(\\xi_{\mathrm{gal}}\,[M_{\odot}^-1])}$')
+plt.ylabel('$\log{(\\xi_{\mathrm{gal}}\,[M_{\odot}^{-1}])}$')
 
 plt.ylim(np.log10(ylim_min),np.log10(ylim_max))
 plt.xlim(math.log(0.06, 10), math.log(160, 10))
