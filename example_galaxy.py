@@ -3,9 +3,9 @@
 # This example code demonstrades how to construct IGIMF and OSGIMF for a given parameters (defined at the beginning of the code).
 
 
-print("\n    =================\n"
-      "    === test_gimf ===\n"
-      "    =================\n\n")
+print("\n    ======================\n"
+      "    === example_galaxy ===\n"
+      "    ======================\n\n")
 print("    This test code serves as an example, demonstrating how to construct and visualize IGIMF and OSGIMF with GalIMF open source code "
       "for a given galaxy-wide SFR and metallicity.\n")
 
@@ -220,4 +220,4 @@ print("\n    Please check the prompted window for the result."
 plt.show()
 
 print("\n    Example complete."
-      "    =================\n")
+      "    ======================\n")
