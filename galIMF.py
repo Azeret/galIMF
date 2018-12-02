@@ -41,7 +41,7 @@ def function_galIMF(IorS, SFR, alpha3_model, delta_t, Fe_over_H, I_ecl, M_ecl_U,
             f.write("# IGIMF output file. It gives the IGIMF. The columns are:\n# mass xi\n\n")
             writer.writerows(
                 zip(List_M_str_for_xi_str, List_xi))
-        print("\n### IGIMF data generated in the file GalIMF_IGIMF.txt ###\n")
+        print("\n    ### IGIMF data generated in the file GalIMF_IGIMF.txt ###\n")
         return
     elif IorS =="OS":
         global mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number
@@ -56,7 +56,7 @@ def function_galIMF(IorS, SFR, alpha3_model, delta_t, Fe_over_H, I_ecl, M_ecl_U,
             f.write("# OSGIMF output file. It gives the star number in each mass range. The columns are:\n# mass_range_center mass_range mass_range_upper_limit mass_range_lower_limit star_number_in_the_mass_range\n\n")
             writer.writerows(
                 zip(mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number))
-        print("\n### OSGIMF data generated in the file GalIMF_OSGIMF.txt ###\n")
+        print("\n    ### OSGIMF data generated in the file GalIMF_OSGIMF.txt ###\n")
         return
     else:
         print("Input parameter 'IorS' wrong!")
