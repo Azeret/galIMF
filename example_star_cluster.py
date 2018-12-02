@@ -17,14 +17,16 @@ gs1 = GridSpec(1, 1)
 ax0 = plt.subplot(gs1[0])
 
 # input parameters:
-StarClusterMass = 1.e4
+StarClusterMass = float(input("\n    =====================\n"
+                              "    === example_OS_EC ===\n"
+                              "    =====================\n\n"
+                              "    This code generate the stellar masses of one star cluster with given mass"
+                              " applying optimal sampling.\n\n"
+                              "    Please type in the cluster mass in solar mass unit then hit return:"))
 alpha3_model = 1
-Fe_over_H = 0
+Fe_over_H = float(input("    Please type in the initial [Fe/H] then hit return:"))
 
-print("\n - Sampling One star cluster with: -")
-print("mass = {} solar mass;".format(StarClusterMass))
-print("alpha3_model = {} (see Function_alpha_3_change in the file 'galIMF.py' for details);".format(alpha3_model))
-print("[Fe/H] = {}.\n".format(Fe_over_H))
+print("\n    - Sampling the star cluster with {} solar mass and [Fe/H] = {} -".format(StarClusterMass, Fe_over_H))
 
 # setup alpha_3 value:
 alpha3_change = galIMF.Function_alpha_3_change(1, StarClusterMass, 0)
@@ -32,19 +34,21 @@ alpha3_change = galIMF.Function_alpha_3_change(1, StarClusterMass, 0)
 # apply galIMF to optimally sample stars from IMF:
 galIMF.function_sample_from_IMF(StarClusterMass, 1, 0.08, 1.3, 0.5, 2.3, 1, alpha3_change, 150)
 
+print("\n    - Sampling completed -")
 # followings are all sampled results:
 
 # most massive stellar mass in the cluster:
-print(" - The most massive stellar mass in solar mass unit in this star cluster is: -")
-print(galIMF.list_M_str_i[0])
+print("    The most massive stellar mass in this star cluster has {} solar mass".format(round(galIMF.list_M_str_i[0])))
 
 # All of the sampled stellar masses in solar mass unit are (from massive to less massive):
 list_stars = np.array(galIMF.list_M_str_i)
 
 # NOTE! Multiple stars can be represented by a same stellar mass if they have similar masses,
 # The number of stars represented by the stellar masses above are:
-n_stars = np.array(galIMF.list_n_str_i)
-
+list_orgen = galIMF.list_n_str_i
+if list_orgen[-1] == 0:
+    del list_orgen[-1]
+n_stars = np.array(list_orgen)
 
 # formating a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
 
@@ -94,5 +98,5 @@ plt.tight_layout()
 plt.savefig('cluster_optimal_sample.pdf', dpi=300)
 
 # end of the example:
-print("\n - Sampling completed -")
-print(" - The results are saved in file: 'cluster_optimal_sample.pdf' -")
+print("    The sampling results are plotted in file: 'cluster_optimal_sample.pdf'\n\n"
+      "    =====================\n")
