@@ -2,10 +2,12 @@
 
 # This example code demonstrades how to construct IGIMF and OSGIMF for a given parameters (defined at the beginning of the code).
 
-print("\nThis test code serves as an example, demonstrating how to construct and visualize IGIMF and OSGIMF with GalIMF open source code "
-      "for a given galaxy-wide SFR and metallicity.")
-print("Please check first that you are using the newest version of Python 3 instead of Python 2.")
-print("More information regards to the deployment can be found in the README file.\n")
+
+print("\n    =================\n"
+      "    === test_gimf ===\n"
+      "    =================\n\n")
+print("    This test code serves as an example, demonstrating how to construct and visualize IGIMF and OSGIMF with GalIMF open source code "
+      "for a given galaxy-wide SFR and metallicity.\n")
 
 # Outputs of the code are:
 
@@ -38,14 +40,14 @@ fig0 = plt.figure(figsize=(3.4, 2.5))
 
 # the most crucial ones, which you most likely might want to change
 
-SFR=float(input("Please input the galaxy-wide SFR in solar mass per year and ended the input with the return key. "
-                "(A typical input SFR is from 0.0001 to 10000. "
-                "We recommed a value smallar than 0.01 for the first run as high SFR calculations take more time.)\n"
-                "You can input 1e-4 as 0.0001\n"
-                "\nSFR [Msolar/yr] = "))
+SFR=float(input("    Please input the galaxy-wide SFR in solar mass per year and ended the input with the return key.\n"
+                "    A typical input SFR is from 0.0001 to 10000 (You can input 1e-4 as 0.0001).\n"
+                "    We recommed a value smallar than 1 for the first run as high SFR calculations take more time.\n"
+                "\n    SFR [Msolar/yr] = "))
 # Star Formation Rate [solar mass / yr]
-Fe_over_H= float(input("\nPlease input the metallicity (A typical input should be smallar than 0, "
-                       "i.e., less iron abundance than the Sun):\n\n[M/H] = "))
+Fe_over_H= float(input("\n    Please input the metallicity, [M/H]"
+                       "\n    A typical input should be smallar than 0, i.e., metal poor."
+                       "\n\n    [M/H] = "))
 bindw = galIMF.resolution_histogram_relative = 10**(max((0-math.log(SFR,10)), 0)**(0.2)-1.9)
 # will change the resolution of histogram for optimall sampling automatically addjusted with SFR value.
 
@@ -77,7 +79,7 @@ I_str=1. # normalization factor in the Optimal Sampling condition equation
 #--------------------------------------------------------------------------------------------------------------------------------
 # Construct IGIMF:
 #--------------------------------------------------------------------------------------------------------------------------------
-print("\nCalculating IGIMF......")
+print("\n    Calculating IGIMF......")
 start_time = time.time()
 galIMF.function_galIMF(
     "I", # IorS ### "I" for IGIMF; "OS" for OSGIMF
@@ -99,7 +101,7 @@ galIMF.function_galIMF(
     M_turn2, # IMF power-index change point [solar mass]
     M_str_U, # star mass upper limit [solar mass]
 )
-print(" - IGIMF run completed - Run time: %ss -" % round((time.time() - start_time), 2))
+print("    - IGIMF run completed - Run time: %ss -" % round((time.time() - start_time), 2))
 
 masses = np.array(galIMF.List_M_str_for_xi_str)
 igimf = np.array(galIMF.List_xi)
@@ -121,14 +123,16 @@ plt.ylim(np.log10(ylim_min),np.log10(ylim_max))
 # Construct OSGIMF if required by interactive input:
 #--------------------------------------------------------------------------------------------------------------------------------
 
-OSrequest = input("\nDo you wants to calculate OSGIMF (OSGIMF gives the stellar masses generated in a 10 Myr epoch with constant inputted SFR. This may take time for high SFR input)?\n"
-                  "You can input 1 as yes: ")
+OSrequest = input("\n    Do you wants to calculate OSGIMF? "
+                  "\n    OSGIMF gives the stellar masses generated in a 10 Myr epoch "
+                  "with constant inputted SFR. This may take time for high SFR input"
+                  "\n    Input 1 as yes: ")
 
 if OSrequest == "y" or OSrequest == "Y" or OSrequest == "yes" or OSrequest == "Yes" or OSrequest == "1":
     galIMF.resolution_histogram_relative = bindw / float(
-        input("\nPlease input the result resolution (Input 1 for the first run): \n\n"
+        input("\n    Please input the result resolution (Input 1 for the first run): \n\n"
               "Resolution = "))
-    print("\nCalculating OSGIMF......")
+    print("\n    Calculating OSGIMF......")
     start_time = time.time()
     galIMF.function_galIMF(
         "OS",  # IorS ### "I" for IGIMF; "OS" for OSGIMF
@@ -150,7 +154,7 @@ if OSrequest == "y" or OSrequest == "Y" or OSrequest == "yes" or OSrequest == "Y
         M_turn2,  # IMF power-index change point [solar mass]
         M_str_U,  # star mass upper limit [solar mass]
     )
-    print(" - OSGIMF run completed - Run time: %ss -" % round((time.time() - start_time), 2))
+    print("    - OSGIMF run completed - Run time: %ss -" % round((time.time() - start_time), 2))
     # One can easily import data considering number of stars in each mass bin assuming optimal sampling
     mass_range_center = galIMF.mass_range_center
     mass_range = galIMF.mass_range
@@ -208,8 +212,11 @@ plt.legend(loc='best',ncol=1,fancybox=True,prop={'size':7})
 plt.tight_layout()
 fig0.savefig('GIMF.pdf',dpi=200)
 
-print("\nPlease check the prompted window for the result.\nIMFs in the plot are normalized by the same total mass.\nThe generated plot is saved in the file GIMF.pdf.\n###The program will finish when you close it.")
+print("\n    Please check the prompted window for the result."
+      "\n    IMFs in the plot are normalized by the same total mass."
+      "\n    The generated plot is saved in the file GIMF.pdf."
+      "\n    The program will finish when you close it.")
 
 plt.show()
 
-print("\nExample complete.")
+print("\n    Example complete.")
