@@ -96,6 +96,7 @@ plt.tight_layout()
 
 # save the plot:
 plt.savefig('cluster_optimal_sample.pdf', dpi=300)
+plt.show()
 
 # end of the example:
 print("    The sampling results are plotted in file: 'cluster_optimal_sample.pdf'\n\n"
