@@ -17,9 +17,9 @@ gs1 = GridSpec(1, 1)
 ax0 = plt.subplot(gs1[0])
 
 # input parameters:
-StarClusterMass = float(input("\n    =====================\n"
-                              "    === example_OS_EC ===\n"
-                              "    =====================\n\n"
+StarClusterMass = float(input("\n    ============================\n"
+                              "    === example_star_cluster ===\n"
+                              "    ============================\n\n"
                               "    This code generate the stellar masses of one star cluster with given mass"
                               " applying optimal sampling.\n\n"
                               "    Please type in the cluster mass in solar mass unit then hit return:"))
@@ -99,4 +99,4 @@ plt.savefig('cluster_optimal_sample.pdf', dpi=300)
 
 # end of the example:
 print("    The sampling results are plotted in file: 'cluster_optimal_sample.pdf'\n\n"
-      "    =====================\n")
+      "    ============================\n")
