@@ -219,4 +219,5 @@ print("\n    Please check the prompted window for the result."
 
 plt.show()
 
-print("\n    Example complete.")
+print("\n    Example complete."
+      "    =================\n")
