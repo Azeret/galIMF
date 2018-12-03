@@ -38,7 +38,7 @@ print("\n    - Sampling completed -")
 # followings are all sampled results:
 
 # most massive stellar mass in the cluster:
-print("    The most massive stellar mass in this star cluster has {} solar mass".format(round(galIMF.list_M_str_i[0])))
+print("    The most massive star in this star cluster has {} solar mass".format(round(galIMF.list_M_str_i[0])))
 
 # All of the sampled stellar masses in solar mass unit are (from massive to less massive):
 list_stars = np.array(galIMF.list_M_str_i)
@@ -96,8 +96,10 @@ plt.tight_layout()
 
 # save the plot:
 plt.savefig('cluster_optimal_sample.pdf', dpi=300)
-plt.show()
 
 # end of the example:
 print("    The sampling results are plotted in file: 'cluster_optimal_sample.pdf'\n\n"
       "    ============================\n")
+
+# show the plot
+plt.show()
