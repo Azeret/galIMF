@@ -34,8 +34,8 @@ alpha3_model = 2
 alpha2_model = 1
 alpha1_model = 1
 alpha3_change = galIMF.Function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
-alpha2_change = Function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
-alpha1_change = Function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
+alpha2_change = galIMF.Function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
+alpha1_change = galIMF.Function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
 
 # apply galIMF to optimally sample stars from IMF:
 galIMF.function_sample_from_IMF(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
