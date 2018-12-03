@@ -23,16 +23,22 @@ StarClusterMass = float(input("\n    ============================\n"
                               "    This code generate the stellar masses of one star cluster with given mass"
                               " applying optimal sampling.\n\n"
                               "    Please type in the cluster mass in solar mass unit then hit return:"))
-alpha3_model = 1
-Fe_over_H = float(input("    Please type in the initial [Fe/H] then hit return:"))
+M_over_H = float(input("    Please type in the initial metallicity, [M/H], then hit return:"))
 
-print("\n    - Sampling the star cluster with {} solar mass and [Fe/H] = {} -".format(StarClusterMass, Fe_over_H))
+print("\n    - Sampling the star cluster with {} solar mass and [M/H] = {} -".format(StarClusterMass, M_over_H))
 
-# setup alpha_3 value:
-alpha3_change = galIMF.Function_alpha_3_change(1, StarClusterMass, 0)
+# setup alpha values:
+alpha_2 = 2.3
+alpha_1 = 1.3
+alpha3_model = 2
+alpha2_model = 1
+alpha1_model = 1
+alpha3_change = galIMF.Function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
+alpha2_change = Function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
+alpha1_change = Function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
 
 # apply galIMF to optimally sample stars from IMF:
-galIMF.function_sample_from_IMF(StarClusterMass, 1, 0.08, 1.3, 0.5, 2.3, 1, alpha3_change, 150)
+galIMF.function_sample_from_IMF(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
 
 print("\n    - Sampling completed -")
 # followings are all sampled results:
