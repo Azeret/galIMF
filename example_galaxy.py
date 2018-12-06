@@ -45,7 +45,7 @@ SFR=float(input("    Please input the galaxy-wide SFR in solar mass per year and
                 "    We recommed a value smallar than 1 for the first run as high SFR calculations take more time.\n"
                 "\n    SFR [Msolar/yr] = "))
 # Star Formation Rate [solar mass / yr]
-Fe_over_H= float(input("\n    Please input the metallicity, [M/H]"
+M_over_H= float(input("\n    Please input the metallicity, [M/H]"
                        "\n    A typical input should be smallar than 0, i.e., metal poor."
                        "\n\n    [M/H] = "))
 bindw = galIMF.resolution_histogram_relative = 10**(max((0-math.log(SFR,10)), 0)**(0.2)-1.9)
@@ -86,7 +86,7 @@ galIMF.function_galIMF(
     SFR, # Star Formation Rate [solar mass / yr]
     alpha3_model, # IMF high-mass-end power-index model, see file 'galIMF.py'
     delta_t, # star formation epoch [Myr]
-    Fe_over_H,
+    M_over_H,
     I_ecl, # normalization factor in the Optimal Sampling condition equation
     M_ecl_U, # embedded cluster mass upper limit [solar mass]
     M_ecl_L, # embedded cluster mass lower limit [solar mass]
@@ -139,7 +139,7 @@ if OSrequest == "y" or OSrequest == "Y" or OSrequest == "yes" or OSrequest == "Y
         SFR,  # Star Formation Rate [solar mass / yr]
         alpha3_model,  # IMF high-mass-end power-index model, see file 'galIMF.py'
         delta_t,  # star formation epoch [Myr]
-        Fe_over_H,
+        M_over_H,
         I_ecl,  # normalization factor in the Optimal Sampling condition equation
         M_ecl_U,  # embedded cluster mass upper limit [solar mass]
         M_ecl_L,  # embedded cluster mass lower limit [solar mass]
