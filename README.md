@@ -29,7 +29,7 @@ GalIMF stands for the Galaxy-wide Initial Mass Function. GalIMF version 1.0.0 is
 The module is described here, but more detailed comments can be found in the source code 
 together with the support PDF file ([supplementary-document-galimf.pdf](https://github.com/Azeret/galIMF/blob/master/supplementary-document-galimf.pdf)), where all equations are derived in detail and labeled in a consistent way with the source code [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
-An example file, [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py), is provided for a quick test and also serve as an easy entrance for the most basic usage of [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
+An example file, [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py), is provided for a quick test and also serve as an easy entrance for the most basic usage of [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
 GalIMF is also able to optimally sample not an entire galaxy, but only one embedded star cluster with given mass and metallicity. This is demonstrated in [example_OS_EC.py](https://github.com/Azeret/galIMF/blob/master/example_OS_EC.py).
 
@@ -91,21 +91,21 @@ In the following subsections, we describe how to install and set up the module. 
 
 The GalIMF module is written in Python 3, therefore you need to install [Python 3](https://www.python.org/download/releases/3.0/) and the following packages: 
 
-For analyzing and visualize the results as our example script [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
+For analyzing and visualize the results as our example script [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py) does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
 
 
 
 ### Running the test
 
-To learn how to use the code and to present its main features also to researchers not familiar with Python, we prepared an example implementation of the GalIMF module. This example implementation is called [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) and is included together with the module.
+To learn how to use the code and to present its main features also to researchers not familiar with Python, we prepared an example implementation of the GalIMF module. This example implementation is called [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py) and is included together with the module.
 
 First, make sure you are using Python 3, then write:
 ```
-python directory_of_test_gimf/test_gimf.py
+python directory_of_example_galaxy/example_galaxy.py
 ```
 into a terminal to run our example program. Further instructions will show up in the terminal.
 
-The [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) will generate a TXT file and a PDF file in the same directory as the basic output of GalIMF.
+The [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py) will generate a TXT file and a PDF file in the same directory as the basic output of GalIMF.
 
 
 
@@ -115,7 +115,7 @@ The [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py) wi
 
 You can download the GalIMF repository and call the [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) module based on the placement in your computer.
 
-If the Module directory is in the same directory as your own Python script (this is the case of the presented example [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py)) you will import [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) as: 
+If the Module directory is in the same directory as your own Python script (this is the case of the presented example [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py)) you will import [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) as: 
 ```python
 import galIMF
 ```
@@ -141,7 +141,7 @@ Then you can treat GalIMF as the same as any other packages.
 
 ### For non-Python programs
 
-Use a pipeline to first run, e.g., the [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py). Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt, for your own program.
+Use a pipeline to first run, e.g., the [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py). Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt, for your own program.
 
 
 
@@ -149,7 +149,7 @@ Use a pipeline to first run, e.g., the [test_gimf.py](https://github.com/Azeret/
 
 ### Basic inputs
 
-To apply the IGIMF theory on different galaxies, the following parameters should be changed. They are also the required input of our example code [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py):
+To apply the IGIMF theory on different galaxies, the following parameters should be changed. They are also the required input of our example code [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py):
 
 * galaxy-wide star formation rate: SFR
 
@@ -164,7 +164,7 @@ The following inputs are not essential for the IGIMF theory and can be changed a
 
 * Resolution parameter
 
-bindw: defined in [test_gimf.py](https://github.com/Azeret/galIMF/blob/master/test_gimf.py),
+bindw: defined in [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py),
 will automatically change the resolution of histograms for optimal sampling.
 
 * IMF model parameters
