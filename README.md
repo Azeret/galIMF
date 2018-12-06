@@ -153,7 +153,7 @@ To apply the IGIMF theory on different galaxies, the following parameters should
 
 * galaxy-wide star formation rate: SFR
 
-* galaxy-wide metallicity [Fe/H]: Fe_over_H
+* galaxy-wide metallicity [M/H]: M_over_H
 
 * OSGIMF stellar mass resolution: resolution
 
