@@ -5,7 +5,7 @@ last update: 20.12.2018
 The updates involving:
 1. Add example files that demonstrates how to construct star cluster and galaxy-wide IMF as well as getting each stellar mass in the star cluster or the galaxy applying the IGIMF theory with the galIMF.py model.
 2. Change the IMF metal dependence parameter from the iron abundance, [Fe/H], to the total metallicity, [M/H], indicating that the IMF variation depend on general or total metallicity instead of solely on the iron abundance. The old version applying [Fe/H] follows the formulation in Marks et al. 2012 (MNRAS.422.2246M) correctly but the author of this paper (through private communication) actually consider the [Fe/H] to be a representative of [M/H]. It makes more sense that all metal element should have a similar effect (if not an identical effect) to the IMF variation.
-3. Some function names is changed to lower cases.
+3. Some function names are changed to lower cases. This may cause incompatible issues. Please change the function names accordingly or use the galIMF_version_1.0.py instead of galIMF.py.
 
 ## Contents
 
