@@ -59,7 +59,7 @@ def function_galIMF(IorS, SFR, alpha3_model, delta_t, Fe_over_H, I_ecl, M_ecl_U,
         print("\n    ### OSGIMF data generated in the file GalIMF_OSGIMF.txt ###\n")
         return
     else:
-        print("Input parameter 'IorS' wrong!")
+        print("Input wrong parameter for 'IorS'!")
     return
 
 

@@ -101,10 +101,10 @@ plt.legend()
 plt.tight_layout()
 
 # save the plot:
-plt.savefig('cluster_optimal_sample.pdf', dpi=300)
+plt.savefig('star_cluster_IMF_plot.pdf', dpi=300)
 
 # end of the example:
-print("    The sampling results are plotted in file: 'cluster_optimal_sample.pdf'\n\n"
+print("    The sampling results are plotted in file: 'star_cluster_IMF_plot.pdf'\n\n"
       "    ============================\n")
 
 # show the plot

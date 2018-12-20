@@ -11,7 +11,7 @@ print("    This test code serves as an example, demonstrating how to construct a
 
 # Outputs of the code are:
 
-#  - the comparison plot of IGIMF and OSGIMF (as an active window and also saved as GIMF.pdf)
+#  - the comparison plot of IGIMF and OSGIMF (as an active window and also saved as galaxy_wide_IMF_plot.pdf)
 #  - the histogram file containing the number of stars in each mass bin from OSGIMF
 #  - the file containing the IGIMF data
 
@@ -210,11 +210,11 @@ plt.xlim(math.log(0.06, 10), math.log(160, 10))
 
 plt.legend(loc='best',ncol=1,fancybox=True,prop={'size':7})
 plt.tight_layout()
-fig0.savefig('GIMF.pdf',dpi=200)
+fig0.savefig('galaxy_wide_IMF_plot.pdf',dpi=250)
 
 print("\n    Please check the prompted window for the result."
       "\n    IMFs in the plot are normalized by the same total mass."
-      "\n    The generated plot is saved in the file GIMF.pdf."
+      "\n    The generated plot is saved in the file galaxy_wide_IMF_plot.pdf."
       "\n    The program will finish when you close it.")
 
 plt.show()
