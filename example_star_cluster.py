@@ -9,6 +9,11 @@ import galIMF  # Main part of the GalIMF code for generating and sampling Galaxy
 from pylab import *
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
+import csv  # csv and izip/zip are used to create output files
+try:
+    from itertools import izip as zip
+except ImportError:  # will be python 3.x series
+    pass
 
 
 # figure output settings:
@@ -40,21 +45,33 @@ alpha1_change = galIMF.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
 # apply galIMF to optimally sample stars from IMF:
 galIMF.function_sample_from_imf(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
 
-print("\n    - Sampling completed -")
+print("\n    - Sampling completed -\n")
 # followings are all sampled results:
 
 # most massive stellar mass in the cluster:
-print("    The most massive star in this star cluster has {} solar mass".format(round(galIMF.list_M_str_i[0])))
+print("    The most massive star in this star cluster has {} solar mass".format(round(galIMF.list_M_str_i[0], 2)))
 
 # All of the sampled stellar masses in solar mass unit are (from massive to less massive):
-list_stars = np.array(galIMF.list_M_str_i)
+list_stellar_masses = np.array(galIMF.list_M_str_i)
 
 # NOTE! Multiple stars can be represented by a same stellar mass if they have similar masses,
 # The number of stars represented by the stellar masses above are:
-list_orgen = galIMF.list_n_str_i
-if list_orgen[-1] == 0:
-    del list_orgen[-1]
-n_stars = np.array(list_orgen)
+list_stellar_numbers = galIMF.list_n_str_i
+if list_stellar_numbers[-1] == 0:
+    del list_stellar_numbers[-1]
+n_stars = np.array(list_stellar_numbers)
+
+# save the sampled stellar mass in a txt file:
+with open('Stellar_masses_for_a_star_cluster.txt', 'w') as file:
+    writer = csv.writer(file, delimiter=' ')
+    file.write(
+        "# Output file of the generated stellar masses for a star cluster with given mass and metallicity.\n"
+        "# The columns are:\n# Mass in solar mass unit; "
+        "Number of stars in this star cluster have mass close to this value\n\n")
+    writer.writerows(
+        zip(list_stellar_masses, list_stellar_numbers))
+print("\n    Stellar masses of every star in the star cluster is saved in the file: "
+      "Stellar_masses_for_a_star_cluster.txt\n")
 
 # formatting a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
 
@@ -66,8 +83,8 @@ for i, b in enumerate(bins):
     if i == len(bins)-1:
         break
     else:
-        star_array = (list_stars[np.logical_and(list_stars >= b, list_stars < bins[i+1])])
-        n_array = (n_stars[np.logical_and(list_stars >= b, list_stars < bins[i+1])])
+        star_array = (list_stellar_masses[np.logical_and(list_stellar_masses >= b, list_stellar_masses < bins[i+1])])
+        n_array = (n_stars[np.logical_and(list_stellar_masses >= b, list_stellar_masses < bins[i+1])])
         len_array = 0
         for j, n in enumerate(n_array):
             len_array = len_array+n
@@ -105,7 +122,7 @@ plt.tight_layout()
 plt.savefig('star_cluster_IMF_plot.pdf', dpi=300)
 
 # end of the example:
-print("    The sampling results are plotted in file: 'star_cluster_IMF_plot.pdf'\n\n"
+print("    The plot is saved in the file: star_cluster_IMF_plot.pdf\n\n"
       "    ============================\n")
 
 # show the plot

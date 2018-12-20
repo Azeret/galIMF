@@ -32,7 +32,7 @@ def function_galimf(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, 
             # write data for GalIMF_Result/IGIMF_shape
             with open('Galaxy_wide_IMF.txt', 'w') as f:
                 writer = csv.writer(f, delimiter=' ')
-                f.write("# Galaxy-wide IMF output file. The columns are:\n# mass xi\n# where xi=dN/dm ("
+                f.write("# Galaxy-wide IMF output file.\n# The columns are:\n# mass xi\n# where xi=dN/dm ("
                         "see Yan et.al 2017 A&A...607A.126Y)\n\n")
                 writer.writerows(
                     zip(List_M_str_for_xi_str, List_xi))
@@ -47,15 +47,15 @@ def function_galimf(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, 
         # write data for GalIMF_Result/histogram
         function_draw_histogram()
         if printout is True:
-            with open('Stellar_mass_histogram.txt', 'w') as f:
+            with open('Galaxy_stellar_mass_histogram.txt', 'w') as f:
                 writer = csv.writer(f, delimiter=' ')
                 f.write(
                     "# Stellar mass histogram output file. It gives the generated number of stars in different "
-                    "mass range.\nThe columns are:\n# mass_range_center mass_range mass_range_upper_limit mass_"
+                    "mass range.\n# The columns are:\n# mass_range_center mass_range mass_range_upper_limit mass_"
                     "range_lower_limit star_number_in_the_mass_range\n\n")
                 writer.writerows(
                     zip(mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number))
-            print("\n    ### Stellar mass histogram data saved in the file Stellar_mass_histogram.txt ###\n")
+            print("\n    ### Stellar mass histogram data saved in the file Galaxy_stellar_mass_histogram.txt ###\n")
         return
     else:
         print("Input wrong parameter for 'IorS'!")
