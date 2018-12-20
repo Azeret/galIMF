@@ -1,14 +1,15 @@
 # Python3 code, last update Wed 20 Dec 2018
 
-# An example demonstrates how to construct IGIMF and OSGIMF for given parameters (defined at the beginning of the code).
+# An example file that demonstrates how to construct galaxy-wide IMF
+# as well as getting each stellar mass in the galaxy applying the IGIMF theory with the galIMF model.
 
 # Made by: Yan Zhiqiang & Tereza Jerabkova
 
-# Outputs of the code are:
+# The outputs of this example are:
 
-#  - the comparison plot of IGIMF and OSGIMF (as an active window and also saved as galaxy_wide_IMF_plot.pdf)
-#  - the histogram file containing the number of stars in each mass bin from OSGIMF
-#  - the file containing the IGIMF data
+#  - the comparison plot of galaxy-wide IMF, canonical IMF, and the histogram of stellar masses;
+#  - the txt file containing the galaxy-wide IMF.
+#  - the txt file containing the number of stars in each mass bin;
 
 # --------------------------------------------------------------------------------------------------------------------------------
 # Import modules and libraries

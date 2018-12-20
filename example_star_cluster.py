@@ -1,9 +1,18 @@
 # Python3 code, last update Wed 20 Dec 2018
 
-# An example use galIMF.py to sample the stellar masses in one star cluster with optimal sampling.
+# An example file that demonstrates how to construct star cluster IMF
+# as well as getting each stellar mass in the star cluster applying the IGIMF theory with the galIMF model.
 
 # Made by: Yan Zhiqiang & Tereza Jerabkova
-# -----------------------------------------------------------------------
+
+# The outputs of this example are:
+
+#  - the comparison plot of generated variable IMF and canonical IMF;
+#  - the txt file containing the stellar masses.
+
+# --------------------------------------------------------------------------------------------------------------------------------
+# Import modules and libraries
+# --------------------------------------------------------------------------------------------------------------------------------
 
 import galIMF  # Main part of the GalIMF code for generating and sampling Galaxy-wide stellar Initial Mass Function.
 from pylab import *
@@ -15,6 +24,7 @@ try:
 except ImportError:  # will be python 3.x series
     pass
 
+# -----------------------------------------------------------------------
 
 # figure output settings:
 fig0 = plt.figure(figsize=(4, 3))  # size for one column plot
