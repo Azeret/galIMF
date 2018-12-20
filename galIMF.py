@@ -1,62 +1,61 @@
-######## galIMF ##########
+# A python3 code, last update 20 Dec 2018
+# This is the main module, galIMF.py, controlling and operating the other two modules IGIMF and OSGIMF
 
+# --------------------------------------------------------------------------------------------------------------------------------
 
-#python3 code, last update Sat 27 May
-# This is the main module, galIMF.py, controling and operating the other two modules IGIMF and OSGIMF
-#--------------------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------------------
-#importing modules and libraries
-
+# importing modules and libraries
 import math
-import csv # csv and izip/zip are used to create output files
+import csv  # csv and izip/zip are used to create output files
 try:
     from itertools import izip as zip
-except ImportError: # will be python 3.x series
+except ImportError:  # will be python 3.x series
     pass
 
-
-
-#--------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------
 
 # The star mass resolution is the lower resolution among
 # the resolution of histogram (resolution_histogram_relative)
 # and the resolution of star generation (resolution_star_... in the file IMF_schulz.py)
-resolution_histogram_relative = 0.01 # The star mass resolution of histogram is: the star mass * resolution_histogram_relative
-#also re-defined in a test file, it scales automatically with the SFR
+resolution_histogram_relative = 0.01  # The star mass resolution of histogram, star mass * resolution_histogram_relative
+# also re-defined in a test file, it scales automatically with the SFR
 
-# function_galIMF takes in I/OS-GMF parameters and create output files
-def function_galIMF(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L, beta_model,
+
+# function_galimf takes in I/OS-GMF parameters and create output files
+def function_galimf(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_str_U, printout=False):
     if IorS == "I":
         global List_xi, List_M_str_for_xi_str
-        Function_draw_IGIMF(SFR, alpha3_model, beta_model, delta_t, M_over_H,
+        function_draw_igimf(SFR, alpha3_model, beta_model, delta_t, M_over_H,
                                                I_ecl, M_ecl_U, M_ecl_L, I_str, M_str_L, alpha_1, alpha1_model,
                                                M_turn, alpha_2, alpha2_model, M_turn2, M_str_U)
-        if printout==True:
+        if printout is True:
             # write data for GalIMF_Result/IGIMF_shape
-            with open('GalIMF_IGIMF.txt', 'w') as f:
+            with open('Galaxy_wide_IMF.txt', 'w') as f:
                 writer = csv.writer(f, delimiter=' ')
-                f.write("# IGIMF output file. It gives the IGIMF. The columns are:\n# mass xi\n\n")
+                f.write("# Galaxy-wide IMF output file. The columns are:\n# mass xi\n# where xi=dN/dm ("
+                        "see Yan et.al 2017 A&A...607A.126Y)\n\n")
                 writer.writerows(
                     zip(List_M_str_for_xi_str, List_xi))
-            print("\n    ### IGIMF data generated in the file GalIMF_IGIMF.txt ###\n")
+            print("\n    ### Galaxy-wide IMF data saved in the file Galaxy_wide_IMF.txt ###\n")
         return
-    elif IorS =="OS":
+    elif IorS == "OS":
         global mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number
         sample_for_one_epoch(SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_over_H, M_str_U)
-        Function_draw(SFR, M_str_L, M_str_U, M_ecl_L, resolution_histogram_relative)
+        function_draw(SFR, M_str_L, M_str_U, M_ecl_L, resolution_histogram_relative)
         function_make_drop_line()
         # write data for GalIMF_Result/histogram
         function_draw_histogram()
-        if printout == True:
-            with open('GalIMF_OSGIMF.txt', 'w') as f:
+        if printout is True:
+            with open('Stellar_mass_histogram.txt', 'w') as f:
                 writer = csv.writer(f, delimiter=' ')
                 f.write(
-                    "# OSGIMF output file. It gives the star number in each mass range. The columns are:\n# mass_range_center mass_range mass_range_upper_limit mass_range_lower_limit star_number_in_the_mass_range\n\n")
+                    "# Stellar mass histogram output file. It gives the generated number of stars in different "
+                    "mass range.\nThe columns are:\n# mass_range_center mass_range mass_range_upper_limit mass_"
+                    "range_lower_limit star_number_in_the_mass_range\n\n")
                 writer.writerows(
                     zip(mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number))
-            print("\n    ### OSGIMF data generated in the file GalIMF_OSGIMF.txt ###\n")
+            print("\n    ### Stellar mass histogram data saved in the file Stellar_mass_histogram.txt ###\n")
         return
     else:
         print("Input wrong parameter for 'IorS'!")
@@ -74,23 +73,23 @@ def function_galIMF(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, 
 
 
 
-######## IGIMF.py #########
+######## IGIMF #########
 
-#python3 code, last update Sat 27 May
-# IGIMF.py is module computing IGIMF as described in Yan et al 2017
-#--------------------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------------------------------------------------------------------------
+# This module compute IGIMF as described in Yan et al 2017
+# --------------------------------------------------------------------------------------------------------------------------------
 
-#--------------------------------------------------------------------------------------------------------------------------------
-#initialization of floating length arrays
+# initialization of floating length arrays
 List_M_ecl_for_xi_ecl = []
 List_xi_ecl = []
 List_M_str_for_xi_str = []
 List_xi_str = []
 List_xi = []
-#--------------------------------------------------------------------------------------------------------------------------------
-#Function_dar_IGIMF computes the IGIMF by combining  Function_ECMF (embedded cluster mass
-# function) and Function_IMF (stellar mass function in individual embedded clusters)
+
+# --------------------------------------------------------------------------------------------------------------------------------
+
+
+# function_dar_IGIMF computes the IGIMF by combining  function_ecmf (embedded cluster mass
+# function) and function_IMF (stellar mass function in individual embedded clusters)
 # equation (1) from Yan et al. 2017
 # function returns values of global lists:
 # List_M_ecl_for_xi_ecl - list of masses, M_ecl, of embedded clusters for ECMF
@@ -99,21 +98,21 @@ List_xi = []
 # List_M_str_for_xi_str list of stellar masses for stellar IMF in Msun units
 # List_xi_L logarithmic IGIMF (xi_IGIMF_L = dN/d log_10 m)
 # List_Log_M_str - natural logarithm
-def Function_draw_IGIMF(SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L,
+def function_draw_igimf(SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L,
                         I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_str_U):
     if SFR != 0:
         global List_M_ecl_for_xi_ecl, List_xi, List_M_str_for_xi_str, List_xi_L, List_Log_M_str, x_IMF, y_IMF
-        Function_ECMF(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H)
+        function_ecmf(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H)
         x_IMF = []
         y_IMF = []
-        alpha_1_change = Function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
-        alpha_2_change = Function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
-        alpha_3_change = Function_alpha_3_change(alpha3_model, List_M_ecl_for_xi_ecl[-1], M_over_H)
+        alpha_1_change = function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
+        alpha_2_change = function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
+        alpha_3_change = function_alpha_3_change(alpha3_model, List_M_ecl_for_xi_ecl[-1], M_over_H)
         function_draw_xi_str(M_str_L, List_M_ecl_for_xi_ecl[-1], I_str, M_str_L, alpha_1_change,
                              M_turn, alpha_2_change, M_turn2, alpha_3_change, M_str_U)
         List_xi = [0] * len(x_IMF)
         number_of_ecl = len(List_M_ecl_for_xi_ecl) - 1
-        Function_IMF(alpha3_model, M_over_H, I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2, M_str_U,
+        function_IMF(alpha3_model, M_over_H, I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2, M_str_U,
                      number_of_ecl, 0)
         x_IMF = []
         y_IMF = []
@@ -123,21 +122,22 @@ def Function_draw_IGIMF(SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl,
         lenth = len(List_M_str_for_xi_str)
         List_xi_L = [0] * lenth
         List_Log_M_str = [0] * lenth
-        Function_xi_to_xiL(lenth - 1, List_xi[0])
+        function_xi_to_xiL(lenth - 1, List_xi[0])
     else:
         List_M_str_for_xi_str = [0, 1000]
         List_xi = [0, 0]
     return
 
-#Function_ECMF computes IMF of star clusters (ECMF - embedded cluster mass function)
-#The assumed shape of ECMF is single powerlaw with slope beta (function of SFR)
+
+# function_ecmf computes IMF of star clusters (ECMF - embedded cluster mass function)
+# The assumed shape of ECMF is single powerlaw with slope beta (function of SFR)
 # the empyrical lower limit for star cluster mass if 50 Msun
 # the hypotetical upper mass limit is 10^9 Msun, but the M_ecl^max is computed, eq (12) in Yan et al. 2017
-def Function_ECMF(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
+def function_ecmf(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
     global List_M_ecl_for_xi_ecl, List_xi_ecl, x_ECMF, y_ECMF
     x_ECMF = []
     y_ECMF = []
-    beta_change = Function_beta_change(beta_model, SFR, M_over_H)
+    beta_change = function_beta_change(beta_model, SFR, M_over_H)
     function_draw_xi_ecl(M_ecl_L, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     List_M_ecl_for_xi_ecl = x_ECMF
     del List_M_ecl_for_xi_ecl[0]
@@ -147,26 +147,28 @@ def Function_ECMF(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
     del List_xi_ecl[-1]
     return
 
-#Function_IMF computes stellar IMF in individual embedded star clusters
-def Function_IMF(alpha3_model, M_over_H, I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2, M_str_U, number_of_ecl, i):
+
+# function_IMF computes stellar IMF in individual embedded star clusters
+def function_IMF(alpha3_model, M_over_H, I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2, M_str_U, 
+                 number_of_ecl, i):
     while i < number_of_ecl:
         global List_M_str_for_xi_str, List_xi_str, List_M_ecl_for_xi_ecl, x_IMF, y_IMF
         x_IMF = []
         y_IMF = []
         M_ecl = List_M_ecl_for_xi_ecl[i]
-        alpha_3_change = Function_alpha_3_change(alpha3_model, M_ecl, M_over_H)
+        alpha_3_change = function_alpha_3_change(alpha3_model, M_ecl, M_over_H)
         # Here only alpha_3_change is recalculated as alpha1(2)_change do not depend on M_ecl thus do not change.
-        function_draw_xi_str(M_str_L, M_ecl, I_str, M_str_L, alpha_1_change, M_turn,
-                                                     alpha_2_change, M_turn2, alpha_3_change, M_str_U)
+        function_draw_xi_str(M_str_L, M_ecl, I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2, 
+                             alpha_3_change, M_str_U)
         List_M_str_for_xi_str = x_IMF
         List_xi_str = y_IMF
         number_of_str = len(List_M_str_for_xi_str)
-        Function_update_List_xi(i, number_of_str, 0)
+        function_update_list_xi(i, number_of_str, 0)
         (i) = (i+1)
     return
 
 
-def Function_update_List_xi(i, number_of_str, j):
+def function_update_list_xi(i, number_of_str, j):
     while j < number_of_str:
         global List_xi, List_xi_str, List_xi_ecl, List_M_ecl_for_xi_ecl
         List_xi[j] += List_xi_str[j] * List_xi_ecl[i] * (List_M_ecl_for_xi_ecl[i+1] - List_M_ecl_for_xi_ecl[i])
@@ -174,7 +176,7 @@ def Function_update_List_xi(i, number_of_str, j):
     return
 
 
-def Function_xi_to_xiL(i, unit):
+def function_xi_to_xiL(i, unit):
     global List_xi_L, List_xi, List_M_str_for_xi_str, List_Log_M_str
     while i > -1:
         if List_xi[i] == 0:
@@ -199,9 +201,9 @@ def Function_xi_to_xiL(i, unit):
 ############ OSGIMF #############
 
 
-#-----------------------------------------------------------------------------------------
-#initialization of open-length arrays
-#-----------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------
+# initialization of open-length arrays
+# -----------------------------------------------------------------------------------------
 List_M_str_all_i = []
 List_n_str_all_i = []
 List_mass_grid_x_axis = []
@@ -211,43 +213,47 @@ List_star_number_in_mass_grid_y_axis3 = []
 List_star_number_in_mass_grid_y_axis4 = []
 List_mass_grid = []
 List_star_number_in_mass_grid = []
-#-----------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------
 
-#This function gives the stellar masses in entire galaxy in unsorted manner
-#i.e. the stars are grouped in parent clusters
+
+# This function gives the stellar masses in entire galaxy in unsorted manner
+# i.e. the stars are grouped in parent clusters
 def sample_for_one_epoch(SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_over_H, M_str_U):
     global List_M_str_all_i, List_n_str_all_i, list_M_ecl_i
-    beta_change = Function_beta_change(beta_model, SFR, M_over_H)
-    Function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    beta_change = function_beta_change(beta_model, SFR, M_over_H)
+    function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     len_of_M_ecl_list = len(list_M_ecl_i)
     List_M_str_all_i = []
     List_n_str_all_i = []
-    Function_sample_star_from_clusters(alpha3_model, I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model,
+    function_sample_star_from_clusters(alpha3_model, I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model,
                                        M_turn2, M_over_H, M_str_U, len_of_M_ecl_list, 0)
     return
 
-#Masses of formed clusters
-def Function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
+
+# Masses of formed clusters
+def function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
     global list_m_ecl_i, list_n_ecl_i, list_M_ecl_i, M_max_ecl
     list_m_ecl_i = []
     list_n_ecl_i = []
     list_M_ecl_i = []
     M_max_ecl = 0
-    function_sample_from_ECMF(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    function_sample_from_ecmf(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     return
-#Stellar masses in a given star cluster
-def Function_sample_star_from_clusters(alpha3_model, I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model,
+
+
+# Stellar masses in a given star cluster
+def function_sample_star_from_clusters(alpha3_model, I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model,
                                        M_turn2, M_over_H, M_str_U, len_of_M_ecl_list, i):
     while i < len_of_M_ecl_list: # sample a total number of i clusters
         global List_M_str_all_i, List_n_str_all_i, list_m_str_i, list_n_str_i, list_M_str_i
         list_m_str_i = []
         list_n_str_i = []
         list_M_str_i = []
-        alpha_1_change = Function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
-        alpha_2_change = Function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
-        alpha_3_change = Function_alpha_3_change(alpha3_model, list_M_ecl_i[i], M_over_H)
-        function_sample_from_IMF(list_M_ecl_i[i],
+        alpha_1_change = function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
+        alpha_2_change = function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
+        alpha_3_change = function_alpha_3_change(alpha3_model, list_M_ecl_i[i], M_over_H)
+        function_sample_from_imf(list_M_ecl_i[i],
                                             I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2, alpha_3_change, M_str_U)
         List_M_str_all_i += [list_M_str_i] # save all i clusters in "all_i" list
         List_n_str_all_i += [list_n_str_i]
@@ -264,17 +270,16 @@ def Function_sample_star_from_clusters(alpha3_model, I_str, M_str_L, alpha_1, al
 #     and for     each cluster: star    mass, number of stars   with certain mass
 # Sort out all star mass in a epoch into a mass grid
 
-# Main purporpose here is the sorting of the stellar masses and preparation for
-#plotting output
-def Function_draw(SFR, M_str_low, M_str_up, M_ecl_low, resolution_histogram_relative):
+# THe main purpose here is to sort the stellar masses and preparation for plotting output
+def function_draw(SFR, M_str_low, M_str_up, M_ecl_low, resolution_histogram_relative):
     M_low = min(M_str_low, M_ecl_low)
     global List_mass_grid, List_star_number_in_mass_grid, List_mass_grid_x_axis, List_star_number_in_mass_grid_y_axis
     # for all stars
     List_mass_grid = []
-    Function_mass_grid(SFR, M_str_up, M_low, resolution_histogram_relative)
+    function_mass_grid(SFR, M_str_up, M_low, resolution_histogram_relative)
     List_mass_grid += [M_low]
     List_star_number_in_mass_grid = [0] * (len(List_mass_grid) - 1)
-    Function_sort_out_star_mass(0)
+    function_sort_out_star_mass(0)
     ##########
     List_mass_grid_x_axis = [M_str_up]
     make_mass_grid_x_axis(1)
@@ -289,7 +294,7 @@ def Function_draw(SFR, M_str_low, M_str_up, M_ecl_low, resolution_histogram_rela
     global List_mass_grid2, List_star_number_in_mass_grid2, List_mass_grid_x_axis2, List_star_number_in_mass_grid_y_axis2
     List_mass_grid2 = List_mass_grid
     List_star_number_in_mass_grid2 = [0] * (len(List_mass_grid2) - 1)
-    Function_sort_out_star_mass2(0)
+    function_sort_out_star_mass2(0)
     ##########
     List_star_number_in_mass_grid_y_axis2 = []
     make_star_number_in_mass_grid_y_axis2(0)
@@ -299,7 +304,7 @@ def Function_draw(SFR, M_str_low, M_str_up, M_ecl_low, resolution_histogram_rela
     global List_mass_grid3, List_star_number_in_mass_grid3, List_mass_grid_x_axis3, List_star_number_in_mass_grid_y_axis3
     List_mass_grid3 = List_mass_grid
     List_star_number_in_mass_grid3 = [0] * (len(List_mass_grid3) - 1)
-    Function_sort_out_star_mass3(0)
+    function_sort_out_star_mass3(0)
     ##########
     List_star_number_in_mass_grid_y_axis3 = []
     make_star_number_in_mass_grid_y_axis3(0)
@@ -309,7 +314,7 @@ def Function_draw(SFR, M_str_low, M_str_up, M_ecl_low, resolution_histogram_rela
     global List_mass_grid4, List_star_number_in_mass_grid4, List_mass_grid_x_axis4, List_star_number_in_mass_grid_y_axis4
     List_mass_grid4 = List_mass_grid
     List_star_number_in_mass_grid4 = [0] * (len(List_mass_grid4) - 1)
-    Function_sort_out_star_mass4(0)
+    function_sort_out_star_mass4(0)
     ##########
     List_star_number_in_mass_grid_y_axis4 = []
     make_star_number_in_mass_grid_y_axis4(0)
@@ -320,76 +325,96 @@ def Function_draw(SFR, M_str_low, M_str_up, M_ecl_low, resolution_histogram_rela
 
 ### make a mass grid ###
 
-def Function_mass_grid(SFR, mass, M_str_low, resolution_histogram_relative):
+def function_mass_grid(SFR, mass, M_str_low, resolution_histogram_relative):
     while mass > M_str_low:
         global List_mass_grid
         List_mass_grid += [mass]
         (mass) = (mass * (1-resolution_histogram_relative))
         # we find it is useful to use the following form of mass grid sometimes.
-        # One can apply this alternative form by quote the above line (add a # in front of the line) and unquote the below.
-        #(mass) = (mass * (0.967 + math.log(SFR, 10) / 400) / (math.log(mass + 1) ** 2 / (2 ** (math.log(SFR, 10) + 6.85) - 1) + 1))
+        # One can apply this alternative form by quote the above line 
+        # (add a # in front of the line) and unquote the below two lines:
+        # (mass) = (mass * (0.967 + math.log(SFR, 10) / 400) / (math.log(mass + 1) ** 2 / 
+        #                                                       (2 ** (math.log(SFR, 10) + 6.85) - 1) + 1))
     return
 
-#count the number of star in each grid
-def Function_sort_out_star_mass(i):
+
+# count the number of star in each grid
+ls = 0
+
+
+def function_sort_out_star_mass(i):
     while i < len(List_M_str_all_i):
-        global l
-        l = 0
-        SubFunction_sort_out(i, 0)
-        (i)=(i+1)
-    return
-def Function_sort_out_star_mass2(i):
-    while i < len(List_M_str_all_i):
-        global l
-        l = 0
-        SubFunction_sort_out2(i, 0)
-        (i)=(i+1)
-    return
-def Function_sort_out_star_mass3(i):
-    while i < len(List_M_str_all_i):
-        global l
-        l = 0
-        SubFunction_sort_out3(i, 1)
-        (i)=(i+1)
-    return
-def Function_sort_out_star_mass4(i):
-    while i < len(List_M_str_all_i):
-        global l
-        l = 0
-        SubFunction_sort_out4(i, 2)
-        (i)=(i+1)
+        global ls
+        ls = 0
+        subfunction_sort_out(i, 0)
+        (i) = (i+1)
     return
 
-def SubFunction_sort_out(i, j):
+
+def function_sort_out_star_mass2(i):
+    while i < len(List_M_str_all_i):
+        global ls
+        ls = 0
+        subfunction_sort_out2(i, 0)
+        (i) = (i+1)
+    return
+
+
+def function_sort_out_star_mass3(i):
+    while i < len(List_M_str_all_i):
+        global ls
+        ls = 0
+        subfunction_sort_out3(i, 1)
+        (i) = (i+1)
+    return
+
+
+def function_sort_out_star_mass4(i):
+    while i < len(List_M_str_all_i):
+        global ls
+        ls = 0
+        subfunction_sort_out4(i, 2)
+        (i) = (i+1)
+    return
+
+
+def subfunction_sort_out(i, j):
     while j < len(List_M_str_all_i[i]):
-        global l, List_n_str_all_i
-        Function_find_k(i, j, l)
-        List_star_number_in_mass_grid[l] += List_n_str_all_i[i][j] * list_n_ecl_i[i]
-        (j)=(j+1)
-    return
-def SubFunction_sort_out2(i, j):
-    if j < len(List_M_str_all_i[i]):
-        global l
-        Function_find_k(i, j, l)
-        List_star_number_in_mass_grid2[l] += list_n_ecl_i[i]
-    return
-def SubFunction_sort_out3(i, j):
-    if j < len(List_M_str_all_i[i]):
-        global l
-        Function_find_k(i, j, l)
-        List_star_number_in_mass_grid3[l] += list_n_ecl_i[i]
-    return
-def SubFunction_sort_out4(i, j):
-    if j < len(List_M_str_all_i[i]):
-        global l
-        Function_find_k(i, j, l)
-        List_star_number_in_mass_grid4[l] += list_n_ecl_i[i]
+        global ls, List_n_str_all_i
+        function_find_k(i, j, ls)
+        List_star_number_in_mass_grid[ls] += List_n_str_all_i[i][j] * list_n_ecl_i[i]
+        (j) = (j+1)
     return
 
-def Function_find_k(i, j, k):
+
+def subfunction_sort_out2(i, j):
+    if j < len(List_M_str_all_i[i]):
+        global ls
+        function_find_k(i, j, ls)
+        List_star_number_in_mass_grid2[ls] += list_n_ecl_i[i]
+    return
+
+
+def subfunction_sort_out3(i, j):
+    if j < len(List_M_str_all_i[i]):
+        global ls
+        function_find_k(i, j, ls)
+        List_star_number_in_mass_grid3[ls] += list_n_ecl_i[i]
+    return
+
+
+def subfunction_sort_out4(i, j):
+    if j < len(List_M_str_all_i[i]):
+        global ls
+        function_find_k(i, j, ls)
+        List_star_number_in_mass_grid4[ls] += list_n_ecl_i[i]
+    return
+
+
+def function_find_k(i, j, k):
     while List_mass_grid[k+1] > List_M_str_all_i[i][j]:
-        global l
-        l = k+1
+        global ls
+        ls = k+1
         (k) = (k+1)
     return
 
@@ -399,37 +424,43 @@ def make_mass_grid_x_axis(i):
     global List_mass_grid_x_axis, List_mass_grid
     while i < len(List_mass_grid)-1:
         List_mass_grid_x_axis += [List_mass_grid[i]]*2
-        (i)=(i+1)
+        (i) = (i+1)
     return
 
 
 def make_star_number_in_mass_grid_y_axis(i):
     global List_star_number_in_mass_grid_y_axis, List_star_number_in_mass_grid, List_mass_grid
     while i < len(List_star_number_in_mass_grid):
-        List_star_number_in_mass_grid_y_axis += [
-        List_star_number_in_mass_grid[i]/(List_mass_grid[i] - List_mass_grid[i+1])]*2
-        (i)=(i+1)
+        List_star_number_in_mass_grid_y_axis += [List_star_number_in_mass_grid[i]/(List_mass_grid[i] - 
+                                                                                   List_mass_grid[i+1])]*2
+        (i) = (i+1)
     return
+
+
 def make_star_number_in_mass_grid_y_axis2(i):
     global List_star_number_in_mass_grid_y_axis2, List_star_number_in_mass_grid2, List_mass_grid2
     while i < len(List_star_number_in_mass_grid2):
-        List_star_number_in_mass_grid_y_axis2 += [
-        List_star_number_in_mass_grid2[i]/(List_mass_grid2[i] - List_mass_grid2[i+1])]*2
-        (i)=(i+1)
+        List_star_number_in_mass_grid_y_axis2 += [List_star_number_in_mass_grid2[i]/(List_mass_grid2[i] - 
+                                                                                     List_mass_grid2[i+1])]*2
+        (i) = (i+1)
     return
+
+
 def make_star_number_in_mass_grid_y_axis3(i):
     global List_star_number_in_mass_grid_y_axis3, List_star_number_in_mass_grid3, List_mass_grid3
     while i < len(List_star_number_in_mass_grid3):
-        List_star_number_in_mass_grid_y_axis3 += [
-        List_star_number_in_mass_grid3[i]/(List_mass_grid3[i] - List_mass_grid3[i+1])]*2
-        (i)=(i+1)
+        List_star_number_in_mass_grid_y_axis3 += [List_star_number_in_mass_grid3[i]/(List_mass_grid3[i] - 
+                                                                                     List_mass_grid3[i+1])]*2
+        (i) = (i+1)
     return
+
+
 def make_star_number_in_mass_grid_y_axis4(i):
     global List_star_number_in_mass_grid_y_axis4, List_star_number_in_mass_grid4, List_mass_grid4
     while i < len(List_star_number_in_mass_grid4):
-        List_star_number_in_mass_grid_y_axis4 += [
-        List_star_number_in_mass_grid4[i]/(List_mass_grid4[i] - List_mass_grid4[i+1])]*2
-        (i)=(i+1)
+        List_star_number_in_mass_grid_y_axis4 += [List_star_number_in_mass_grid4[i]/(List_mass_grid4[i] - 
+                                                                                     List_mass_grid4[i+1])]*2
+        (i) = (i+1)
     return
 
 
@@ -439,11 +470,13 @@ def function_make_drop_line1(i):
             List_star_number_in_mass_grid_y_axis[i] = 0.0000001
         (i) = (i+1)
 
+
 def function_make_drop_line2(i):
     while i < len(List_star_number_in_mass_grid_y_axis2)-1:
         if List_star_number_in_mass_grid_y_axis2[i] == 0:
             List_star_number_in_mass_grid_y_axis2[i] = 0.0000001
         (i) = (i+1)
+
 
 def function_make_drop_line3(i):
     while i < len(List_star_number_in_mass_grid_y_axis3)-1:
@@ -451,11 +484,13 @@ def function_make_drop_line3(i):
             List_star_number_in_mass_grid_y_axis3[i] = 0.0000001
         (i) = (i+1)
 
+
 def function_make_drop_line4(i):
     while i < len(List_star_number_in_mass_grid_y_axis4)-1:
         if List_star_number_in_mass_grid_y_axis4[i] == 0:
             List_star_number_in_mass_grid_y_axis4[i] = 0.0000001
         (i) = (i+1)
+
 
 def function_make_drop_line():
     function_make_drop_line1(0)
@@ -472,6 +507,7 @@ mass_range = []
 mass_range_upper_limit = []
 mass_range_lower_limit = []
 star_number = []
+
 
 def function_draw_histogram():
     global mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number
@@ -522,7 +558,8 @@ list_m_str_i = []
 list_n_str_i = []
 list_M_str_i = []
 
-def function_sample_from_IMF(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
+
+def function_sample_from_imf(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global list_m_str_i, list_n_str_i, list_M_str_i, M_max, M_max_function, k3, k2, k1, resolution_star_relative, resolution_star_absolute
     M_max = 0
     M_max_function = 0
@@ -539,6 +576,7 @@ def function_sample_from_IMF(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn
     function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U, length_n)  # equation 18
     del list_n_str_i[0]
     return
+
 
 # M_max is computed by solving simultaneously equations (3) and (4) from Yan et al 2017
 def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
@@ -572,6 +610,7 @@ def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
         print("M_max < M_L")
     return
 
+
 def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global M_max_function, k3, k2, k1, M_max
     if M_max_function == 1:
@@ -593,6 +632,7 @@ def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     k1 = k2*M_turn**(alpha_1-alpha_2)  # equation 2
     return
 
+
 def function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step, pm):  # equation 14
     m_1 = round(m_1, 10)  # round
     M_x = m_1**(2-alpha_3)/(2-alpha_3) + M_ecl*m_1**(1-alpha_3)/I_str/(1-alpha_3)
@@ -610,6 +650,7 @@ def function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step, pm)
     elif M_x < M_constant and pm == -1:
         function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 + step / 2, step / 2, 1)
     return
+
 
 def function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1, step, pm):  # equation 23
     m_1 = round(m_1, 10)  # round
@@ -629,6 +670,7 @@ def function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1, step, pm
         function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 + step / 2, step / 2, 1)
     return
 
+
 def function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step, pm):  # equation 27
     m_1 = round(m_1, 10)  # round
     M_x = m_1 ** (2 - alpha_1) / (2 - alpha_1) + M_ecl * m_1 ** (1 - alpha_1) / I_str / (1 - alpha_1)
@@ -646,6 +688,7 @@ def function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step, pm
     elif M_x < M_constant3 and pm == -1:
         function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 + step / 2, step / 2, 1)
     return
+
 
 def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute):  # equation 16
     global list_m_str_i
@@ -676,12 +719,14 @@ def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
         cross_M_L(k1, M_L, alpha_1, list_m_str_i[-1])
         return
 
+
 def function_get_n_new_str(m_i, k, alpha, m_i_plus_n, n_i, resolution_star_relative, resolution_star_absolute):
     while m_i - m_i_plus_n < max(resolution_star_relative * m_i, resolution_star_absolute):
         n_new = round(n_i * 1.05 + 1)
         m_i_plus_n_new = (m_i ** (1 - alpha) - n_new * (1 - alpha) / k) ** (1 / (1 - alpha))
         (m_i_plus_n, n_i) = (m_i_plus_n_new, n_new)
     return m_i_plus_n, n_i
+
 
 def loop_m_i_first_three(k, M_low, alpha, m_i, n_i, resolution_star_relative, resolution_star_absolute, count):
     while m_i > M_low:
@@ -699,6 +744,7 @@ def loop_m_i_first_three(k, M_low, alpha, m_i, n_i, resolution_star_relative, re
         else:
             (m_i_plus_n_new, n_turn) = function_get_n_new_str(m_i, k, alpha, m_i_plus_n, n_i, resolution_star_relative, resolution_star_absolute)
             (m_i, n_i) = (m_i_plus_n_new, n_turn)
+
 
 def loop_m_i(k, M_low, alpha, m_i, n_i, resolution_star_relative, resolution_star_absolute):
     while m_i > M_low:
@@ -803,6 +849,7 @@ def loop_M_i(k, M_low, alpha, i):
         new_i = i + 1
         (i)=(new_i)
 
+
 def cross_M_turn2(k_before, k_after, M_cross, alpha_before, alpha_after, i):
     global list_m_str_i, list_n_str_i, list_M_str_i, new_i
     M_i = k_before / (2 - alpha_before) * (list_m_str_i[i] ** (2 - alpha_before) - M_cross ** (2 - alpha_before)
@@ -829,11 +876,13 @@ def k_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, 
 x_IMF = []
 y_IMF = []
 
+
 def function_draw_xi_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global x_IMF, y_IMF, k1, k2, k3, M_max
     k_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U)
     function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)
     return
+
 
 def function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3):
     global x_IMF, y_IMF, k1, k2, k3, M_max
@@ -864,7 +913,7 @@ def function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)
 
 ########### alpha ###########
 
-def Function_alpha_1_change(alpha_1, alpha1_model, M_over_H):
+def function_alpha_1_change(alpha_1, alpha1_model, M_over_H):
     if (alpha1_model == 0):
         return alpha_1
     elif (alpha1_model == 1):
@@ -875,7 +924,7 @@ def Function_alpha_1_change(alpha_1, alpha1_model, M_over_H):
         return
 
 
-def Function_alpha_2_change(alpha_2, alpha2_model, M_over_H):
+def function_alpha_2_change(alpha_2, alpha2_model, M_over_H):
     if (alpha2_model == 0):
         return alpha_2
     elif (alpha2_model == 1):
@@ -886,7 +935,7 @@ def Function_alpha_2_change(alpha_2, alpha2_model, M_over_H):
         return
 
 
-def Function_alpha_3_change(alpha3_model, M_ecl, M_over_H):
+def function_alpha_3_change(alpha3_model, M_ecl, M_over_H):
     if (alpha3_model == 0):
         default_alpha3 = 2.3
         # print("alpha_3 is set to be a constant: %s, as this is the default alpha_3 value for alpha3_model 0.\nFor more options regarding alpha_3 variation, please check file 'alpha3.py'" % (default_alpha3))
@@ -967,7 +1016,8 @@ list_n_ecl_i = []
 list_M_ecl_i = []
 M_max_ecl = 0
 
-def function_sample_from_ECMF(SFR, delta_t, I_ecl, M_U, M_L, beta):
+
+def function_sample_from_ecmf(SFR, delta_t, I_ecl, M_U, M_L, beta):
     global list_m_ecl_i, list_n_ecl_i, list_M_ecl_i, M_max_ecl, resolution_cluster_relative
     M_tot = SFR * delta_t * 10**6  # units in Myr
     if beta == 2:
@@ -1029,6 +1079,7 @@ def function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, m_1, step, pm):  # eq
     elif M_x < M_tot and pm == -1:
         function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, m_1 + step/2, step/2, 1)
 
+
 def function_m_i_ecl(m_i, M_L, k, beta, n_i):  # equation 48
     while m_i > M_L:
         global list_m_ecl_i, list_n_ecl_i, resolution_cluster_relative
@@ -1078,6 +1129,7 @@ def function_M_i_not_2(k, beta, i, length_n):  # equation 49
         (i) = (i+1)
     return
 
+
 ################### draw ECMF without sampling #####################
 
 def k_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
@@ -1093,8 +1145,10 @@ def k_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
         k = I_ecl * (1 - beta) / (M_U ** (1 - beta) - M_max_ecl ** (1 - beta))  # equation 37
     return k
 
+
 x_ECMF = []
 y_ECMF = []
+
 
 def function_draw_xi_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global x_ECMF, y_ECMF
@@ -1105,6 +1159,7 @@ def function_draw_xi_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     y_ECMF = [0.000000001] + y_ECMF
     y_ECMF += [0.000000001]
     return
+
 
 def function_draw_xi_ecl_loop(M_ecl, k, M_U, beta):
         while M_ecl < M_max_ecl:
@@ -1125,9 +1180,7 @@ def function_draw_xi_ecl_loop(M_ecl, k, M_U, beta):
 
 ########## beta ###########
 
-
-
-def Function_beta_change(beta_model, SFR, M_over_H):
+def function_beta_change(beta_model, SFR, M_over_H):
     if (beta_model == 0):
         default_beta = 2.00000001
         return default_beta

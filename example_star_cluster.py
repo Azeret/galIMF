@@ -1,11 +1,11 @@
-# Example -- Optimally Sample an Embedded star Cluster.
-# An example Python 3 code which use galIMF.py to sample the stellar masses in one star cluster with optimal sampling.
+# Python3 code, last update Wed 20 Dec 2018
 
-# Made by: Zhiqiang & Tereza
+# An example use galIMF.py to sample the stellar masses in one star cluster with optimal sampling.
+
+# Made by: Yan Zhiqiang & Tereza Jerabkova
 # -----------------------------------------------------------------------
 
 import galIMF  # Main part of the GalIMF code for generating and sampling Galaxy-wide stellar Initial Mass Function.
-import numpy as np
 from pylab import *
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
@@ -33,12 +33,12 @@ alpha_1 = 1.3
 alpha3_model = 2
 alpha2_model = 1
 alpha1_model = 1
-alpha3_change = galIMF.Function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
-alpha2_change = galIMF.Function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
-alpha1_change = galIMF.Function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
+alpha3_change = galIMF.function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
+alpha2_change = galIMF.function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
+alpha1_change = galIMF.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
 
 # apply galIMF to optimally sample stars from IMF:
-galIMF.function_sample_from_IMF(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
+galIMF.function_sample_from_imf(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
 
 print("\n    - Sampling completed -")
 # followings are all sampled results:
@@ -56,9 +56,9 @@ if list_orgen[-1] == 0:
     del list_orgen[-1]
 n_stars = np.array(list_orgen)
 
-# formating a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
+# formatting a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
 
-# bining the sampled star number:
+# binning the sampled star number:
 bins = np.logspace(np.log10(0.08), np.log10(150), 20, base=10)
 vals0 = np.zeros(len(bins))
 
@@ -75,7 +75,7 @@ for i, b in enumerate(bins):
 
 ax0.step(np.log10(bins), np.log10(vals0+1.e-3), color='blue', where='post', zorder=1, lw=1.5, label="OS")
 
-# constracting the canonical IMF:
+# constructing the canonical IMF:
 N = 100
 can_imf = np.zeros(N)
 masses = np.logspace(np.log10(0.08), np.log10(150), N, base=10)
@@ -89,6 +89,7 @@ for i, m in enumerate(masses):
 
 def imf(mass, k, alpha):
     return k*mass*mass**(-alpha)
+
 
 Norm = quad(imf, 0.08, 0.5, args=(1, 1.3))[0] + quad(imf, 0.5, 120, args=(0.5, 2.3))[0]
 can_imf = np.array(can_imf)*StarClusterMass/Norm

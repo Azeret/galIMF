@@ -1,5 +1,10 @@
-# GalIMF version 1.0.4
-last update: 03.12.2018
+# GalIMF version 1.0.5
+
+last update: 20.12.2018
+
+The updates involving:
+1. Add example files.
+2. Change the IMF metal dependence parameter from the iron abundance, [Fe/H], to the total metallicity, [M/H], indicating that the IMF variation depend on general or total metallicity instead of solely on the iron abundance. The old version applying [Fe/H] follows the formulation in Marks et al. 2012 (MNRAS.422.2246M) correctly but the author of this paper (through private communication) actually consider the [Fe/H] to be a representative of [M/H]. It makes more sense that all metal element should have a similar effect (if not an identical effect) to the IMF variation.
 
 ## Contents
 
@@ -51,7 +56,7 @@ For the computational details, please, look at Yan, Jerabkova & Kroupa (2017, A&
 
 ### Main features of the module
 
-The generated stellar mass distribution depends on the galaxy-wide star formation rate (**SFR**, which is related to the total mass of a galalxy) and the galaxy-wide **metallicity** ([Fe/H], see alpha1_model, alpha2_model, and alpha3_model in the code file [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py)).
+The generated stellar mass distribution depends on the galaxy-wide star formation rate (**SFR**, which is related to the total mass of a galalxy) and the galaxy-wide **metallicity** ([M/H], see alpha1_model, alpha2_model, and alpha3_model in the code file [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py)).
 
 The code can generate a galaxy-wide IMF, i.e., IGIMF. It can also generate all the stellar masses within a galaxy with optimal sampling, i.e., OSGIMF:
 
@@ -69,7 +74,7 @@ To compute the IGIMF or the OSGIMF, the GalIMF module contains all local IMF pro
 
 * Features of the code: IGIMF and OSGIMF
 
-This script needs two input values: SFR (the star formation rate, in Msun/yr) and the [Fe/H] value. The output is the IGIMF and OSGIMF as a function of stellar mass, normalized to the total stellar mass. The IGIMF and OSGIMF values are also written into the output file.  To demonstrate the shape of the generated IMF, we include a grid of Salpeter power-law indices into the figures.
+This script needs two input values: SFR (the star formation rate, in Msun/yr) and the [M/H] value. The output is the IGIMF and OSGIMF as a function of stellar mass, normalized to the total stellar mass. The IGIMF and OSGIMF values are also written into the output file.  To demonstrate the shape of the generated IMF, we include a grid of Salpeter power-law indices into the figures.
 
 
 
@@ -237,13 +242,13 @@ For the versions available, see the [GalIMF homepage](https://sites.google.com/v
 The main author of this module is:
 
 * Zhiqiang Yan,
-University of Bonn,
-beijingjuzikong(at)gmail.com
+University of Bonn, Charles University,
+yan(at)astro.uni-bonn.de
 
 The other members of this project are:
 
 * [Tereza Jerabkova](http://sirrah.troja.mff.cuni.cz/~tereza/index.html),
-University of Bonn, Charles University,
+Charles University, European Southern Observatory
 tereza(at)sirrah.troja.mff.cuni.cz
 
 * Prof. Dr. [Pavel Kroupa](https://astro.uni-bonn.de/~pavel/),
