@@ -787,7 +787,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
         log_total_gas_kinetic_energy = log_total_number_of_molecule + log_energy_per_molecule  # log [erg]
         total_gas_kinetic_energy = 10 ** log_total_gas_kinetic_energy
 
-        # if outflow == None:
+        # if outflow is None:
         #     if total_energy_release == 0:
         #         outflow = None
         #     elif math.log(total_energy_release, 10) + 51 > log_binding_energy:
@@ -833,7 +833,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
                                          - math.log(Z_solar / 0.7381, 10)
 
         # the so called [Z/H] as determined by observation with equation: [Z/H] = [Fe/H] + A[Mg/Fe] where A=0.94 (Thomas 2003)
-        if mass_weighted_stellar_Fe_over_H == None or mass_weighted_stellar_Mg_over_Fe == None:
+        if mass_weighted_stellar_Fe_over_H is None or mass_weighted_stellar_Mg_over_Fe is None:
             mass_weighted_stellar_Z_over_H = None
         else:
             mass_weighted_stellar_Z_over_H = mass_weighted_stellar_Fe_over_H + 0.94 * mass_weighted_stellar_Mg_over_Fe
@@ -1596,7 +1596,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
 
         # the most crutial ones, which you most likely might want to change
 
-        if SFR == None:
+        if SFR is None:
             SFR = float(
                 input(
                     "Please input the galaxy-wide SFR in solar mass per year and ended the input with the return key. "
@@ -1614,7 +1614,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         alpha2_model = 1  # see file 'galIMF.py'
         alpha1_model = 1  # see file 'galIMF.py'
         beta_model = 1
-        if Z_over_X == None:
+        if Z_over_X is None:
             Z_over_X = float(input("\nPlease input the metallicity, [Z/X] = log(M_{metal}/M_{H})-log(M_{metal,sun}/M_{H,sun})"
                                     "\n\n[Z/X] = ..."))
         # ----------------------------------------------------------------
@@ -2283,7 +2283,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
     # plt.ylim(-5, 1)
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_SFH_{}.pdf'.format(imf), dpi=250)
 
     length_of_SFH_list = len(SFR_list)
@@ -2407,15 +2407,15 @@ def plot_output(plot_show, plot_save, imf, igimf):
         (i) = (i + 1)
 
     for i in range(len(mass_list)):
-        mass_list[i]=math.log(mass_list[i], 10)
+        mass_list[i] = math.log(mass_list[i], 10)
         if xi_last_time[i] == 0:
             xi_last_time[i] = -10
         else:
-            xi_last_time[i]=math.log(xi_last_time[i], 10)
+            xi_last_time[i] = math.log(xi_last_time[i], 10)
         if xi_observe[i] == 0:
             xi_observe[i] = -10
         else:
-            xi_observe[i]=math.log(xi_observe[i], 10)
+            xi_observe[i] = math.log(xi_observe[i], 10)
         # if xi_Kroupa[i] == 0:
         #     xi_Kroupa[i] = -10
         # else:
@@ -2439,15 +2439,11 @@ def plot_output(plot_show, plot_save, imf, igimf):
     plt.legend(prop={'size': 6})
     plt.tight_layout()
 
-
     #
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
-        fig = plt.figure(2, figsize=(4, 3.5))
-    else:
-        fig = plt.figure(2, figsize=(4, 3.5))
+    fig = plt.figure(2, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot(mass_list, xi_Kroupa, linestyle='dashed', color='r', label='Kroupa IMF')
     i = 0
@@ -2478,10 +2474,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
-        fig = plt.figure(3, figsize=(4, 3.5))
-    else:
-        fig = plt.figure(3, figsize=(4, 3.5))
+    fig = plt.figure(3, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot(log_time_axis, Fe_over_H_list, label='gas')
     plt.plot(log_time_axis, stellar_Fe_over_H_list, label='stellar')
@@ -2496,7 +2489,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
     # plt.ylim(-5, 1)
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_FeH_{}.pdf'.format(imf), dpi=250)
 
     file = open('simulation_results_from_galaxy_evol/plots/Fe_over_H_time.txt', 'w')
@@ -2513,7 +2506,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n# stellar_Fe_over_H_list\n")
     i = 0
     while i < length_of_time_axis:
-        if stellar_Fe_over_H_list[i] == None:
+        if stellar_Fe_over_H_list[i] is None:
             file.write("{} ".format(-4))
         else:
             file.write("{} ".format(stellar_Fe_over_H_list[i]))
@@ -2534,10 +2527,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
-        fig = plt.figure(4, figsize=(4, 3.5))
-    else:
-        fig = plt.figure(4, figsize=(4, 3.5))
+    fig = plt.figure(4, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot(log_time_axis, O_over_H_list, label='gas')
     plt.plot(log_time_axis, stellar_O_over_H_list, label='stellar')
@@ -2547,14 +2537,14 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
     # plt.ylim(-5, 1)
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_OH_{}.pdf'.format(imf), dpi=250)
     #
     global Mg_over_H_list, stellar_Mg_over_H_list
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
+    if plot_save is True:
         fig = plt.figure(5, figsize=(4, 3.5))
     else:
         fig = plt.figure(5, figsize=(4, 3.5))
@@ -2567,14 +2557,14 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
     # plt.ylim(-5, 1)
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_MgH_{}.pdf'.format(imf), dpi=250)
     #
     global Mg_over_Fe_list, stellar_Mg_over_Fe_list
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
+    if plot_save is True:
         fig = plt.figure(7, figsize=(4, 3.5))
     else:
         fig = plt.figure(7, figsize=(4, 3.5))
@@ -2587,7 +2577,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
     # plt.ylim(-1, 3.5)
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
 
 
@@ -2605,7 +2595,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n# stellar_Mg_over_Fe_list\n")
     i = 0
     while i < length_of_time_axis:
-        if stellar_Mg_over_Fe_list[i] == None:
+        if stellar_Mg_over_Fe_list[i] is None:
             file.write("{} ".format(-4))
         else:
             file.write("{} ".format(stellar_Mg_over_Fe_list[i]))
@@ -2621,13 +2611,12 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-
     #
     global O_over_Fe_list, stellar_O_over_Fe_list
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
+    if plot_save is True:
         fig = plt.figure(8, figsize=(4, 3.5))
     else:
         fig = plt.figure(8, figsize=(4, 3.5))
@@ -2640,13 +2629,13 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
     # plt.ylim(-1, 3.5)
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
     #
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
+    if plot_save is True:
         fig = plt.figure(9, figsize=(4, 3.5))
     else:
         fig = plt.figure(9, figsize=(4, 3.5))
@@ -2660,7 +2649,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(-5, 1)
     # plt.ylim(-1, 3.5)
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_MgFe-FeH_{}.pdf'.format(imf), dpi=250)
     #
     global SNIa_number_per_century, SNII_number_per_century
@@ -2678,7 +2667,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.ylim(8.5, 11.6)
     plt.legend()
     plt.tight_layout()
-    if plot_save == True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_SN_number.pdf'.format(imf), dpi=250)
 
     file = open('simulation_results_from_galaxy_evol/plots/SN_number_evolution.txt', 'w')
@@ -2705,9 +2694,13 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-    # calculate the gravitational binding engergy:
+    # calculate the gravitational binding energy:
     global expansion_factor_list, original_gas_mass
-    # galaxy_mass_without_gas_at_this_time, original_gas_mass, total_gas_mass_at_this_time, ejected_gas_mass_at_this_time
+    # consider the following to calculate the energy:
+    # galaxy_mass_without_gas_at_this_time,
+    # original_gas_mass,
+    # total_gas_mass_at_this_time,
+    # ejected_gas_mass_at_this_time,
     # gas_mass = max(ejected_gas_mass_at_this_time, 1)
 
     # galaxy mass--radii relation adopted from Dabringhausen 2008 eq.4
@@ -2793,15 +2786,12 @@ def plot_output(plot_show, plot_save, imf, igimf):
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    if plot_save == True:
-        fig = plt.figure(12, figsize=(4, 3.5))
-    else:
-        fig = plt.figure(12, figsize=(4, 3.5))
+    fig = plt.figure(12, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     time_axis[0] = 1
     time_axis_G = [0]*length_of_time_axis
     for i in range(length_of_time_axis):
-        time_axis_G[i]=time_axis[i]/10**9
+        time_axis_G[i] = time_axis[i]/10**9
         # gas_Z_over_X_list[i]=math.log(gas_Z_over_X_list[i], 10)
     plt.plot(log_time_axis, gas_Z_over_X_list, label='gas')
     plt.plot(log_time_axis, stellar_Z_over_X_list, label='stellar')
@@ -2821,12 +2811,11 @@ def plot_output(plot_show, plot_save, imf, igimf):
     # plt.xlim(6.4, 1.01*time_axis[-1])
     # plt.ylim(-0.4, 0.2)
     plt.tight_layout()
-    if plot_save==True:
+    if plot_save is True:
         plt.savefig('galaxy_evolution_fig_Z_{}.pdf'.format(imf), dpi=250)
 
     for i in range(length_of_time_axis):
-        time_axis[i]=math.log(time_axis[i], 10)
-
+        time_axis[i] = math.log(time_axis[i], 10)
 
     file = open('simulation_results_from_galaxy_evol/plots/Z_over_X_time.txt', 'w')
     file.write("# log_time_axis\n")
@@ -2855,19 +2844,18 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-
     #
     global BH_mass_list, NS_mass_list, WD_mass_list, remnant_mass_list, total_gas_mass_list, stellar_mass_list, ejected_gas_mass_list
     fig = plt.figure(13, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     for i in range(length_of_time_axis):
-        remnant_mass_list[i]=math.log(remnant_mass_list[i], 10)
-        total_gas_mass_list[i]=math.log(total_gas_mass_list[i], 10)
-        stellar_mass_list[i]=math.log(stellar_mass_list[i], 10)
-        ejected_gas_mass_list[i]=math.log(ejected_gas_mass_list[i], 10)
-        WD_mass_list[i]=math.log(WD_mass_list[i], 10)
-        NS_mass_list[i]=math.log(NS_mass_list[i], 10)
-        BH_mass_list[i]=math.log(BH_mass_list[i], 10)
+        remnant_mass_list[i] = math.log(remnant_mass_list[i], 10)
+        total_gas_mass_list[i] = math.log(total_gas_mass_list[i], 10)
+        stellar_mass_list[i] = math.log(stellar_mass_list[i], 10)
+        ejected_gas_mass_list[i] = math.log(ejected_gas_mass_list[i], 10)
+        WD_mass_list[i] = math.log(WD_mass_list[i], 10)
+        NS_mass_list[i] = math.log(NS_mass_list[i], 10)
+        BH_mass_list[i] = math.log(BH_mass_list[i], 10)
     # time_axis[0] = time_axis[1]
     plt.plot(time_axis, total_gas_mass_list, lw=2, label='all gas')
     plt.plot(time_axis, ejected_gas_mass_list, lw=2, label='ejected gas')
@@ -2955,10 +2943,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     plt.tight_layout()
 
     global expansion_factor_instantaneous_list, expansion_factor_adiabat_list
-    if plot_save == True:
-        fig = plt.figure(14, figsize=(4, 3.5))
-    else:
-        fig = plt.figure(14, figsize=(4, 3.5))
+    fig = plt.figure(14, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot(time_axis, expansion_factor_instantaneous_list, label='instantaneous')
     plt.plot(time_axis, expansion_factor_adiabat_list, label='slow')
@@ -2996,10 +2981,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.close()
 
     global ejected_gas_Mg_over_Fe_list, instant_ejected_gas_Mg_over_Fe_list
-    if plot_save == True:
-        fig = plt.figure(15, figsize=(4, 3.5))
-    else:
-        fig = plt.figure(15, figsize=(4, 3.5))
+    fig = plt.figure(15, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot(time_axis, ejected_gas_Mg_over_Fe_list, label='total')
     plt.plot(time_axis, instant_ejected_gas_Mg_over_Fe_list, label='instant')
@@ -3011,12 +2993,8 @@ def plot_output(plot_show, plot_save, imf, igimf):
     plt.legend(prop={'size': 7.5}, loc='best')
     plt.tight_layout()
 
-
     global ejected_metal_mass_list
-    if plot_save == True:
-        fig = plt.figure(16, figsize=(4, 3.5))
-    else:
-        fig = plt.figure(16, figsize=(4, 3.5))
+    fig = plt.figure(16, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot(time_axis, ejected_metal_mass_list, label='total')
     plt.xlabel(r'log$_{10}$(age) [yr]')
@@ -3027,8 +3005,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     plt.legend(prop={'size': 7.5}, loc='best')
     plt.tight_layout()
 
-
-    if plot_show==True:
+    if plot_show is True:
         plt.show()
     return
 
@@ -3117,6 +3094,7 @@ def generate_sfh_skewnorm(Log_SFR, SFEN):
     file.close()
     return
 
+
 def cal_tot_sf(SFR, SFEN):
     # Skew normal distribution for star formation history
     # took input: maximum star formation rate, star formation event number
@@ -3142,13 +3120,14 @@ if __name__ == '__main__':
     Log_SFR = 4
     SFEN = 1
     location = 0
-    skewness = 0
+    skewness = 10
     sfr_tail = 0
-    generate_SFH("skewnorm", Log_SFR, SFEN)  # "skewnorm" or "flat"
+    generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
     # galaxy_evol(unit_SFR=1e5, Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
     #                  mass_boundary_observe_low=0.5, mass_boundary_observe_up=8)
     # stellar evolution table being "WW95" or "portinari98"
     # imf='igimf' or 'diet_Salpeter'
-    galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.5, SFEN="?", Z_0=0.00001886, Z_solar=0.01886, str_evo_table='portinari98',
-                IMF_name='Kroupa', steller_mass_upper_bound=150, time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SNIa_ON=True, high_time_resolution=None, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
+    galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.5, SFEN="?", Z_0=0.00001886, Z_solar=0.01886,
+                str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
+                time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
+                SNIa_ON=True, high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
