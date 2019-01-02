@@ -3118,7 +3118,7 @@ def cal_tot_sf(SFR, SFEN):
 
 if __name__ == '__main__':
     Log_SFR = 4
-    SFEN = 1
+    SFEN = 5
     location = 0
     skewness = 10
     sfr_tail = 0
