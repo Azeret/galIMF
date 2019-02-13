@@ -2951,6 +2951,16 @@ def plot_output(plot_show, plot_save, imf, igimf):
     while i < length_of_time_axis:
         file.write("{} ".format(SNII_energy_release_list[i]))
         (i) = (i + 1)
+    file.write("\n# SN_energy_per_current_crossing_time_list\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("{} ".format(SN_energy_per_current_crossing_time_list[i]))
+        (i) = (i + 1)
+    file.write("\n# SN_energy_per_final_crossing_time_list\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("{} ".format(SN_energy_per_final_crossing_time_list[i]))
+        (i) = (i + 1)
     file.write("\n# total_energy_release_list\n")
     i = 0
     while i < length_of_time_axis:
@@ -3321,11 +3331,11 @@ def cal_tot_sf(SFR, SFEN):
 
 if __name__ == '__main__':
     Log_SFR = 3
-    SFEN = 10
+    SFEN = 100
     location = 0
     skewness = 10
     sfr_tail = 0
-    # generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
+    generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
     # galaxy_evol(unit_SFR=1e5, Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
     #                  mass_boundary_observe_low=0.5, mass_boundary_observe_up=8)
     # stellar evolution table being "WW95" or "portinari98"
