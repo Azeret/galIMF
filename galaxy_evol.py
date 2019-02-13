@@ -3370,7 +3370,7 @@ if __name__ == '__main__':
     location = 0
     skewness = 10
     sfr_tail = 0
-    generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
+    # generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
     # galaxy_evol(unit_SFR=1e5, Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
     #                  mass_boundary_observe_low=0.5, mass_boundary_observe_up=8)
     # stellar evolution table being "WW95" or "portinari98"
