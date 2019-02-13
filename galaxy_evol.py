@@ -2637,6 +2637,14 @@ def plot_output(plot_show, plot_save, imf, igimf):
         else:
             file.write("{} ".format(stellar_Fe_over_H_list[i]))
         (i) = (i + 1)
+    file.write("\n# stellar_Fe_over_H_list_luminosity_weighted\n")
+    i = 0
+    while i < length_of_time_axis:
+        if stellar_Fe_over_H_list_luminosity_weighted[i] is None:
+            file.write("{} ".format(-4))
+        else:
+            file.write("{} ".format(stellar_Fe_over_H_list_luminosity_weighted[i]))
+        (i) = (i + 1)
     file.write("\n")
     file.close()
 
@@ -2645,6 +2653,8 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("{} ".format(Fe_over_H_list[-1]))
     file.write("\n# stellar_Fe_over_H\n")
     file.write("{} ".format(stellar_Fe_over_H_list[-1]))
+    file.write("\n# stellar_Fe_over_H_list_luminosity_weighted\n")
+    file.write("{} ".format(stellar_Fe_over_H_list_luminosity_weighted[-1]))
     file.write("\n")
     file.close()
 
@@ -2727,6 +2737,14 @@ def plot_output(plot_show, plot_save, imf, igimf):
         else:
             file.write("{} ".format(stellar_Y_list[i]))
         (i) = (i + 1)
+    file.write("\n# stellar_Y_list_luminosity_weighted\n")
+    i = 0
+    while i < length_of_time_axis:
+        if stellar_Y_list_luminosity_weighted[i] is None:
+            file.write("0.001")
+        else:
+            file.write("{} ".format(stellar_Y_list_luminosity_weighted[i]))
+        (i) = (i + 1)
     file.write("\n")
     file.close()
 
@@ -2773,6 +2791,14 @@ def plot_output(plot_show, plot_save, imf, igimf):
         else:
             file.write("{} ".format(stellar_Mg_over_Fe_list[i]))
         (i) = (i + 1)
+    file.write("\n# stellar_Mg_over_Fe_list_luminosity_weighted\n")
+    i = 0
+    while i < length_of_time_axis:
+        if stellar_Mg_over_Fe_list_luminosity_weighted[i] is None:
+            file.write("-4 ")
+        else:
+            file.write("{} ".format(stellar_Mg_over_Fe_list_luminosity_weighted[i]))
+        (i) = (i + 1)
     file.write("\n")
     file.close()
 
@@ -2781,6 +2807,8 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("{} ".format(Mg_over_Fe_list[-1]))
     file.write("\n# stellar_Mg_over_Fe\n")
     file.write("{} ".format(stellar_Mg_over_Fe_list[-1]))
+    file.write("\n# stellar_Mg_over_Fe_list_luminosity_weighted\n")
+    file.write("{} ".format(stellar_Mg_over_Fe_list_luminosity_weighted[-1]))
     file.write("\n")
     file.close()
 
@@ -3042,14 +3070,21 @@ def plot_output(plot_show, plot_save, imf, igimf):
     while i < length_of_time_axis:
         file.write("{} ".format(stellar_Z_over_X_list[i]))
         (i) = (i + 1)
+    file.write("\n# stellar_Z_over_X_list_luminosity_weighted\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("{} ".format(stellar_Z_over_X_list_luminosity_weighted[i]))
+        (i) = (i + 1)
     file.write("\n")
     file.close()
 
     file = open('simulation_results_from_galaxy_evol/plots/Z_over_X_mass.txt', 'w')
     file.write("# gas_Z_over_X\n")
     file.write("{} ".format(gas_Z_over_X_list[-1]))
-    file.write("\n# stellar_Z_over_X\n")
+    file.write("\n# stellar_Z_over_X_list\n")
     file.write("{} ".format(stellar_Z_over_X_list[-1]))
+    file.write("\n# stellar_Z_over_X_list_luminosity_weighted\n")
+    file.write("{} ".format(stellar_Z_over_X_list_luminosity_weighted[-1]))
     file.write("\n")
     file.close()
 
@@ -3331,7 +3366,7 @@ def cal_tot_sf(SFR, SFEN):
 
 if __name__ == '__main__':
     Log_SFR = 3
-    SFEN = 100
+    SFEN = 3
     location = 0
     skewness = 10
     sfr_tail = 0
