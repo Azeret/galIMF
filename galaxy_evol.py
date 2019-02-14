@@ -816,7 +816,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
             (math.log(expansion_factor_instantaneous, 10) + math.log(expansion_factor_adiabat, 10)) / 2)
 
         ### Element abundances in the gas phase (in solar unit):
-        locked_up_and_outflow_mass = M_tot_at_this_time * 1.5 # # ~37% mass locked in brown dwarf. Maybe add outflow with 3 * ejected_gas_mass_at_this_time
+        locked_up_and_outflow_mass = M_tot_at_this_time #* 1.5 # # ~37% mass locked in brown dwarf. Maybe add outflow with 3 * ejected_gas_mass_at_this_time
         total_gas_mass_at_this_time = total_gas_mass_at_last_time - locked_up_and_outflow_mass + ejected_gas_mass_at_this_time
         if total_gas_mass_at_this_time < 0.0001:
             total_gas_mass_at_this_time = 0.0001

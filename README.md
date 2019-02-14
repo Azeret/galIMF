@@ -8,7 +8,6 @@ The updates record:
 3. Some function names in the file galIMF.py are changed to lower case letters. This may cause incompatible issues. Please change the function names accordingly or use the galIMF_version_1.0.py instead of galIMF.py.
 4. Add the galaxy evolution model, galaxy_evol.py, and corresponding supporting data files. The new model adopt the galaxy-wide IMF for a single 10 Myr star formation epoch calculated by galIMF.py to the galaxy formation and evolution in a 10 Gyr timescale. (01.01.2019)
 5. The approximated stellar luminosity weighted results is now available. The "stellar luminosity" adopted are the luminosity of the star during its main-sequence stage and do not consider any stellar evolution, i.e., the luminosity is only a function the stellar initial mass but not its age or metallicity. (10.02.2019)
-6. Add the consideration of lockup gas in brown dwarfs and planets. The lockup mass is set to be 50% of the stellar mass regardless of the stellar IMF. This modification has a minor effect on the resulting gas mass (~0.1 dex) and negligible effect on the metal abundances (~0.05 dex) and metal abundance ratios (~0.01 dex).
 
 ## Contents
 
