@@ -816,29 +816,46 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
             (math.log(expansion_factor_instantaneous, 10) + math.log(expansion_factor_adiabat, 10)) / 2)
 
         ### Element abundances in the gas phase (in solar unit):
-        total_gas_mass_at_this_time = total_gas_mass_at_last_time - M_tot_at_this_time + ejected_gas_mass_at_this_time
-        # total_gas_mass_at_this_time = total_gas_mass_at_last_time - M_tot_at_this_time*1.37 - ejected_gas_mass_at_this_time
-        # if total_gas_mass_at_this_time < 1:
-        #     total_gas_mass_at_this_time = 1
-        # # 0.37 for ~37% mass locked in brown dwarf, and lost 3 * ejected_gas
-        total_metal_mass_at_this_time = total_metal_mass_in_gas_at_last_time - M_tot_at_this_time * \
+        locked_up_and_outflow_mass = M_tot_at_this_time * 1.5 # # ~37% mass locked in brown dwarf. Maybe add outflow with 3 * ejected_gas_mass_at_this_time
+        total_gas_mass_at_this_time = total_gas_mass_at_last_time - locked_up_and_outflow_mass + ejected_gas_mass_at_this_time
+        if total_gas_mass_at_this_time < 0.0001:
+            total_gas_mass_at_this_time = 0.0001
+        total_metal_mass_at_this_time = total_metal_mass_in_gas_at_last_time - locked_up_and_outflow_mass * \
             Z_gas_this_time_step + ejected_metal_mass_at_this_time
-        total_H_mass_at_this_time = total_H_mass_at_last_time - M_tot_at_this_time * (
+        if total_metal_mass_at_this_time < 0.0001:
+            total_metal_mass_at_this_time = 0.0001
+        total_H_mass_at_this_time = total_H_mass_at_last_time - locked_up_and_outflow_mass * (
             total_H_mass_at_last_time / total_gas_mass_at_last_time) + ejected_H_mass_at_this_time
-        total_He_mass_at_this_time = total_He_mass_at_last_time - M_tot_at_this_time * (
+        if total_H_mass_at_this_time < 0.0001:
+            total_H_mass_at_this_time = 0.0001
+        total_He_mass_at_this_time = total_He_mass_at_last_time - locked_up_and_outflow_mass * (
             total_He_mass_at_last_time / total_gas_mass_at_last_time) + ejected_He_mass_at_this_time
-        total_C_mass_at_this_time = total_C_mass_at_last_time - M_tot_at_this_time * (
+        if total_He_mass_at_this_time < 0.0001:
+            total_He_mass_at_this_time = 0.0001
+        total_C_mass_at_this_time = total_C_mass_at_last_time - locked_up_and_outflow_mass * (
             total_C_mass_at_last_time / total_gas_mass_at_last_time) + ejected_C_mass_at_this_time
-        total_N_mass_at_this_time = total_N_mass_at_last_time - M_tot_at_this_time * (
+        if total_C_mass_at_this_time < 0.0001:
+            total_C_mass_at_this_time = 0.0001
+        total_N_mass_at_this_time = total_N_mass_at_last_time - locked_up_and_outflow_mass * (
             total_N_mass_at_last_time / total_gas_mass_at_last_time) + ejected_N_mass_at_this_time
-        total_O_mass_at_this_time = total_O_mass_at_last_time - M_tot_at_this_time * (
+        if total_N_mass_at_this_time < 0.0001:
+            total_N_mass_at_this_time = 0.0001
+        total_O_mass_at_this_time = total_O_mass_at_last_time - locked_up_and_outflow_mass * (
             total_O_mass_at_last_time / total_gas_mass_at_last_time) + ejected_O_mass_at_this_time
-        total_Mg_mass_at_this_time = total_Mg_mass_at_last_time - M_tot_at_this_time * (
+        if total_O_mass_at_this_time < 0.0001:
+            total_O_mass_at_this_time = 0.0001
+        total_Mg_mass_at_this_time = total_Mg_mass_at_last_time - locked_up_and_outflow_mass * (
             total_Mg_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Mg_mass_at_this_time
-        total_Ca_mass_at_this_time = total_Ca_mass_at_last_time - M_tot_at_this_time * (
+        if total_Mg_mass_at_this_time < 0.0001:
+            total_Mg_mass_at_this_time = 0.0001
+        total_Ca_mass_at_this_time = total_Ca_mass_at_last_time - locked_up_and_outflow_mass * (
             total_Ca_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Ca_mass_at_this_time
-        total_Fe_mass_at_this_time = total_Fe_mass_at_last_time - M_tot_at_this_time * (
+        if total_Ca_mass_at_this_time < 0.0001:
+            total_Ca_mass_at_this_time = 0.0001
+        total_Fe_mass_at_this_time = total_Fe_mass_at_last_time - locked_up_and_outflow_mass * (
             total_Fe_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Fe_mass_at_this_time
+        if total_Fe_mass_at_this_time < 0.0001:
+            total_Fe_mass_at_this_time = 0.0001
 
         # # calculate the gravitational binding engergy:
         #
@@ -3366,7 +3383,7 @@ def cal_tot_sf(SFR, SFEN):
 
 if __name__ == '__main__':
     Log_SFR = 3
-    SFEN = 3
+    SFEN = 10
     location = 0
     skewness = 10
     sfr_tail = 0
@@ -3378,4 +3395,4 @@ if __name__ == '__main__':
     galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.45, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SNIa_ON=True, high_time_resolution=None, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
+                SNIa_ON=True, high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
