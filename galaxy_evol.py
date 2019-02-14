@@ -816,43 +816,43 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
             (math.log(expansion_factor_instantaneous, 10) + math.log(expansion_factor_adiabat, 10)) / 2)
 
         ### Element abundances in the gas phase (in solar unit):
-        locked_up_and_outflow_mass = M_tot_at_this_time #* 1.5 # # ~37% mass locked in brown dwarf. Maybe add outflow with 3 * ejected_gas_mass_at_this_time
-        total_gas_mass_at_this_time = total_gas_mass_at_last_time - locked_up_and_outflow_mass + ejected_gas_mass_at_this_time
+        lockup_and_outflow_mass = M_tot_at_this_time * 2  # lockup gas mass in BDs is about 4% thus neglected while the uniform outflow is often assumed to be the same value as the formed stellar mass.
+        total_gas_mass_at_this_time = total_gas_mass_at_last_time - lockup_and_outflow_mass + ejected_gas_mass_at_this_time
         if total_gas_mass_at_this_time < 0.0001:
             total_gas_mass_at_this_time = 0.0001
-        total_metal_mass_at_this_time = total_metal_mass_in_gas_at_last_time - locked_up_and_outflow_mass * \
+        total_metal_mass_at_this_time = total_metal_mass_in_gas_at_last_time - lockup_and_outflow_mass * \
             Z_gas_this_time_step + ejected_metal_mass_at_this_time
         if total_metal_mass_at_this_time < 0.0001:
             total_metal_mass_at_this_time = 0.0001
-        total_H_mass_at_this_time = total_H_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_H_mass_at_this_time = total_H_mass_at_last_time - lockup_and_outflow_mass * (
             total_H_mass_at_last_time / total_gas_mass_at_last_time) + ejected_H_mass_at_this_time
         if total_H_mass_at_this_time < 0.0001:
             total_H_mass_at_this_time = 0.0001
-        total_He_mass_at_this_time = total_He_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_He_mass_at_this_time = total_He_mass_at_last_time - lockup_and_outflow_mass * (
             total_He_mass_at_last_time / total_gas_mass_at_last_time) + ejected_He_mass_at_this_time
         if total_He_mass_at_this_time < 0.0001:
             total_He_mass_at_this_time = 0.0001
-        total_C_mass_at_this_time = total_C_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_C_mass_at_this_time = total_C_mass_at_last_time - lockup_and_outflow_mass * (
             total_C_mass_at_last_time / total_gas_mass_at_last_time) + ejected_C_mass_at_this_time
         if total_C_mass_at_this_time < 0.0001:
             total_C_mass_at_this_time = 0.0001
-        total_N_mass_at_this_time = total_N_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_N_mass_at_this_time = total_N_mass_at_last_time - lockup_and_outflow_mass * (
             total_N_mass_at_last_time / total_gas_mass_at_last_time) + ejected_N_mass_at_this_time
         if total_N_mass_at_this_time < 0.0001:
             total_N_mass_at_this_time = 0.0001
-        total_O_mass_at_this_time = total_O_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_O_mass_at_this_time = total_O_mass_at_last_time - lockup_and_outflow_mass * (
             total_O_mass_at_last_time / total_gas_mass_at_last_time) + ejected_O_mass_at_this_time
         if total_O_mass_at_this_time < 0.0001:
             total_O_mass_at_this_time = 0.0001
-        total_Mg_mass_at_this_time = total_Mg_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_Mg_mass_at_this_time = total_Mg_mass_at_last_time - lockup_and_outflow_mass * (
             total_Mg_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Mg_mass_at_this_time
         if total_Mg_mass_at_this_time < 0.0001:
             total_Mg_mass_at_this_time = 0.0001
-        total_Ca_mass_at_this_time = total_Ca_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_Ca_mass_at_this_time = total_Ca_mass_at_last_time - lockup_and_outflow_mass * (
             total_Ca_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Ca_mass_at_this_time
         if total_Ca_mass_at_this_time < 0.0001:
             total_Ca_mass_at_this_time = 0.0001
-        total_Fe_mass_at_this_time = total_Fe_mass_at_last_time - locked_up_and_outflow_mass * (
+        total_Fe_mass_at_this_time = total_Fe_mass_at_last_time - lockup_and_outflow_mass * (
             total_Fe_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Fe_mass_at_this_time
         if total_Fe_mass_at_this_time < 0.0001:
             total_Fe_mass_at_this_time = 0.0001
