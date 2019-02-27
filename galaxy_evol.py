@@ -13,7 +13,7 @@ import element_weight_table, solar_element_abundances
 from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 
 
-def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, str_evo_table='portinari98',
+def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, str_evo_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SNIa_ON=True, high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
@@ -23,7 +23,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
     ######################
     # If imf='igimf', the model will use variable IMF, imf='Kroupa' will use Kroupa IMF
     # unit_SFR correspond to SFH.txt. A 1 in SFH.txt stand for SFR = 1 * unit_SFR [solar mass/year] in a 10 Myr epoch.
-    # SFE is the total star formation efficency (total stellar mass/total gas mass in 13Gyr), which determines the initial gas mass.
+    # STR is the total stellar mass/total gas mass in 13Gyr, which determines the initial gas mass. See Yan et al. 2019
     # Z_0 is the initial metallicity
     ######################
     global igimf_mass_function, mass_grid_table, mass_grid_table2, Mfinal_table, Mmetal_table, M_element_table
@@ -63,9 +63,9 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
         total_SF += SFH_input[i]
         (i) = (i + 1)
 
-    # Star_formation_efficiency = SFE
+    # Star Trasnformation Rate (STR)
     total_star_formed = unit_SFR * 10**7 * total_SF
-    original_gas_mass = total_star_formed / SFE  # in solar mass unit
+    original_gas_mass = total_star_formed / STR  # in solar mass unit
 
     # Create the time steps (x axis) for final output
     time_axis = []
@@ -1135,7 +1135,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.3, SFEN=1, Z_0=0.000000134, Z_sol
     ### output plot ###
     ###################
 
-    text_output(imf, SFE, round(math.log(max(SFH_input), 10), 1), SFEN, original_gas_mass, Z_0, Z_solar)
+    text_output(imf, STR, round(math.log(max(SFH_input), 10), 1), SFEN, original_gas_mass, Z_0, Z_solar)
 
     print(" - Run time: %s -" % round((time.time() - start_time), 2))
 
@@ -2095,7 +2095,7 @@ def function_mass_Kroupa_IMF(mass):
     m = mass * Kroupa_IMF.custom_imf(mass, 0)
     return m
 
-def text_output(imf, SFE, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
+def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     global time_axis
     # print("time:", time_axis)
 
@@ -2213,10 +2213,10 @@ def text_output(imf, SFE, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     # print("Stellar [Z/H]:", round(stellar_Z_over_H_list[-1], 3))
 
     log_Z_0 = round(math.log(Z_0/Z_solar, 10), 2)
-    file = open('simulation_results_from_galaxy_evol/imf:{}-SFE:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, SFE, SFR, SFEN, log_Z_0), 'w')
+    file = open('simulation_results_from_galaxy_evol/imf:{}-STR:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STR, SFR, SFEN, log_Z_0), 'w')
 
     print("simulation results saved in the file:\n"
-          "simulation_results_from_galaxy_evol/imf:{}-SFE:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt".format(imf, SFE, SFR, SFEN, log_Z_0))
+          "simulation_results_from_galaxy_evol/imf:{}-STR:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt".format(imf, STR, SFR, SFEN, log_Z_0))
 
     file.write("# Number of star formation event epoch (10^7 yr):\n")
     file.write("%s\n" % number_of_sf_epoch)
@@ -3394,12 +3394,12 @@ if __name__ == '__main__':
     location = 0
     skewness = 10
     sfr_tail = 0
-    # generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
+    generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
     # galaxy_evol(unit_SFR=1e5, Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
     #                  mass_boundary_observe_low=0.5, mass_boundary_observe_up=8)
     # stellar evolution table being "WW95" or "portinari98"
     # imf='igimf' or 'diet_Salpeter'
-    galaxy_evol(imf='igimf', unit_SFR=1, SFE=0.45, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
+    galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SNIa_ON=True, high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
