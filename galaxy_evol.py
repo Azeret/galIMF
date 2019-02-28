@@ -9,7 +9,7 @@ import gc
 import sys
 sys.path.insert(0, 'Generated_IGIMFs')
 sys.path.insert(0, 'IMFs')
-import element_weight_table, solar_element_abundances
+import element_weight_table, element_abundances_solar, element_abundances_primary
 from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 
 
@@ -255,27 +255,16 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
             total_Ca_mass_at_this_time = 0
             total_Fe_mass_at_this_time = 0
 
-            total_H_mass_at_last_time = original_gas_mass * (0.7381-Z_0)
+            primary_H_mass_fraction = element_abundances_primary.function_element_mass_primary_fraction("H", Z_0, Z_solar)
+            total_H_mass_at_last_time = original_gas_mass * (primary_H_mass_fraction-Z_0)
             H_weight = element_weight_table.function_element_weight("H")
-            total_He_mass_at_last_time = original_gas_mass * 0.2485
-            total_C_mass_at_last_time = original_gas_mass * 0.7381 / H_weight\
-                                        * 10**(solar_element_abundances.function_solar_element_abundances("C")-12) \
-                                        * element_weight_table.function_element_weight("C") * Z_0 / Z_solar
-            total_N_mass_at_last_time = original_gas_mass * 0.7381/H_weight\
-                                        * 10**(solar_element_abundances.function_solar_element_abundances("N")-12) \
-                                        * element_weight_table.function_element_weight("N") * Z_0 / Z_solar
-            total_O_mass_at_last_time = original_gas_mass * 0.7381/H_weight\
-                                        * 10**(solar_element_abundances.function_solar_element_abundances("O")-12) \
-                                        * element_weight_table.function_element_weight("O") * Z_0 / Z_solar
-            total_Mg_mass_at_last_time = original_gas_mass * 0.7381/H_weight\
-                                        * 10**(solar_element_abundances.function_solar_element_abundances("Mg")-12) \
-                                        * element_weight_table.function_element_weight("Mg") * Z_0 / Z_solar
-            total_Ca_mass_at_last_time = original_gas_mass * 0.7381/H_weight\
-                                        * 10**(solar_element_abundances.function_solar_element_abundances("Ca")-12) \
-                                        * element_weight_table.function_element_weight("Ca") * Z_0 / Z_solar
-            total_Fe_mass_at_last_time = original_gas_mass * 0.7381/H_weight\
-                                        * 10**(solar_element_abundances.function_solar_element_abundances("Fe")-12) \
-                                        * element_weight_table.function_element_weight("Fe") * Z_0 / Z_solar
+            total_He_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("He", Z_0, Z_solar)
+            total_C_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("C", Z_0, Z_solar)
+            total_N_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("N", Z_0, Z_solar)
+            total_O_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("O", Z_0, Z_solar)
+            total_Mg_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("Mg", Z_0, Z_solar)
+            total_Ca_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("Ca", Z_0, Z_solar)
+            total_Fe_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("Fe", Z_0, Z_solar)
             total_metal_mass_in_gas_at_last_time = original_gas_mass * Z_0
             total_gas_mass_at_last_time = original_gas_mass
 
@@ -1946,8 +1935,8 @@ def function_element_abundunce(element_1_name, element_2_name, metal_1_mass, met
             print("Warning: current {} mass < 0.".format(element_1_name))
             metal_1_over_2 = None
         else:
-            solar_metal_1_logarithmic_abundances = solar_element_abundances.function_solar_element_abundances(element_1_name)
-            solar_metal_2_logarithmic_abundances = solar_element_abundances.function_solar_element_abundances(element_2_name)
+            solar_metal_1_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(element_1_name)
+            solar_metal_2_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(element_2_name)
 
             metal_1_element_weight = element_weight_table.function_element_weight(element_1_name)
             metal_2_element_weight = element_weight_table.function_element_weight(element_2_name)

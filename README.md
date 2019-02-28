@@ -276,4 +276,4 @@ See the [LICENSE](https://github.com/Azeret/galIMF/blob/master/LICENSE) file for
 
 ## Acknowledgment
 
-We thank Vaclav Pavlik for kindly testing the module GalIMF.
+We thank Vaclav Pavlik for kindly testing the code GalIMF 1.0.
