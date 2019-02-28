@@ -1130,7 +1130,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
     print(" - Run time: %s -" % round((time.time() - start_time), 2))
 
     # if output plot applies
-    plot_output(plot_show, plot_save, imf, igimf, primary_He_mass_fraction)
+    plot_output(plot_show, plot_save, imf, igimf)
 
     ###################
     ###     end     ###
@@ -2388,7 +2388,7 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
 
     return
 
-def plot_output(plot_show, plot_save, imf, igimf, primary_He_mass_fraction):
+def plot_output(plot_show, plot_save, imf, igimf):
     # plot SFH
     global all_sfr
     SFR_list = []
@@ -2723,7 +2723,7 @@ def plot_output(plot_show, plot_save, imf, igimf, primary_He_mass_fraction):
         plt.plot(log_time_axis, Y_list, label='gas')
         plt.plot(log_time_axis, stellar_Y_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Y_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [primary_He_mass_fraction, primary_He_mass_fraction], color='red', ls='dashed', label='solar')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [0.275, 0.275], color='red', ls='dashed', label='solar')
         plt.xlabel(r'log$_{10}$(age) [yr]')
         plt.ylabel('Y')
         plt.tight_layout()
