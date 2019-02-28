@@ -2714,6 +2714,8 @@ def plot_output(plot_show, plot_save, imf, igimf):
             plt.savefig('galaxy_evolution_fig_MgH_{}.pdf'.format(imf), dpi=250)
     #
     global stellar_Y_list, Y_list, Y_list_luminosity_weighted
+    solar_helium_abundance = 0.275
+    # Reference: Serenelli & Basu 2010, Determining the Initial Helium Abundance of the Sun, DOI: 10.1088/0004-637X/719/1/865
     if plot_show is True or plot_save is True:
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
@@ -2723,7 +2725,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(log_time_axis, Y_list, label='gas')
         plt.plot(log_time_axis, stellar_Y_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Y_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0.275, 0.275], color='red', ls='dashed', label='solar')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [solar_helium_abundance, solar_helium_abundance], color='red', ls='dashed', label='solar')
         plt.xlabel(r'log$_{10}$(age) [yr]')
         plt.ylabel('Y')
         plt.tight_layout()
