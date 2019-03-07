@@ -1,14 +1,13 @@
-H Name: based on WW95
-H where WW95 have 
+H Name: Totoal yield given by Woosley & Weaver 1995
 H Data prepared by: Yan Zhiqiang
 H Data prepared date: 28 Nov 2018
 H The Fe-56 is the sum of Fe-56, Co-56 and Ni-56 as the latter will decay into the former.
-H Number of metallicities: 4, Z=10^-4, ^-2, ^-1, ^0 times solar, i.e., 0.019, 0.0019...
-H Units: Msun, year, erg
+H Number of metallicities: 4, Z=10^-4, ^-2, ^-1, ^0 times solar, i.e., 0.01886
+H Units: solar mass, year, erg
 H Table: (M=12.066,Z=0.019)
 H Lifetime: 1.989E+07
 H Mfinal: 1.366E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &5.96E+00 &0.000E+00 &1 &1
 &He-4     &4.11E+00 &0.000E+00 &2 &4
 &C-12     &8.05E-02 &0.000E+00 &6 &12
@@ -23,7 +22,7 @@ H Mfinal: 1.366E+00
 H Table: (M=15.082,Z=0.019)
 H Lifetime: 1.413E+07
 H Mfinal: 1.48E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &6.98E+00 &0.000E+00 &1 &1
 &He-4     &5.24E+00 &0.000E+00 &2 &4
 &C-12     &1.61E-01 &0.000E+00 &6 &12
@@ -38,7 +37,7 @@ H Mfinal: 1.48E+00
 H Table: (M=20.11,Z=0.019)
 H Lifetime: 9.598E+06
 H Mfinal: 2.11E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &8.24E+00 &0.000E+00 &1 &1
 &He-4     &6.72E+00 &0.000E+00 &2 &4
 &C-12     &2.13E-01 &0.000E+00 &6 &12
@@ -53,7 +52,7 @@ H Mfinal: 2.11E+00
 H Table: (M=30.1644,Z=0.019)
 H Lifetime: 6.174E+06
 H Mfinal: 1.964E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.05E+01 &0.000E+00 &1 &1
 &He-4     &1.04E+01 &0.000E+00 &2 &4
 &C-12     &2.90E-01 &0.000E+00 &6 &12
@@ -68,7 +67,7 @@ H Mfinal: 1.964E+00
 H Table: (M=40.22,Z=0.019)
 H Lifetime: 4.858E+06
 H Mfinal: 7.72E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.11E+01 &0.000E+00 &1 &1
 &He-4     &1.30E+01 &0.000E+00 &2 &4
 &C-12     &3.63E-01 &0.000E+00 &6 &12
@@ -83,7 +82,7 @@ H Mfinal: 7.72E+00
 H Table: (M=12.066,Z=0.0019)
 H Lifetime: 2.102E+07
 H Mfinal: 1.37E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &6.26E+00 &0.000E+00 &1 &1
 &He-4     &3.91E+00 &0.000E+00 &2 &4
 &C-12     &8.93E-02 &0.000E+00 &6 &12
@@ -98,7 +97,7 @@ H Mfinal: 1.37E+00
 H Table: (M=15.082,Z=0.0019)
 H Lifetime: 1.505E+07
 H Mfinal: 1.482E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &7.42E+00 &0.000E+00 &1 &1
 &He-4     &5.04E+00 &0.000E+00 &2 &4
 &C-12     &1.42E-01 &0.000E+00 &6 &12
@@ -113,7 +112,7 @@ H Mfinal: 1.482E+00
 H Table: (M=20.11,Z=0.0019)
 H Lifetime: 1.029E+07
 H Mfinal: 2.01E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &8.95E+00 &0.000E+00 &1 &1
 &He-4     &6.70E+00 &0.000E+00 &2 &4
 &C-12     &2.46E-01 &0.000E+00 &6 &12
@@ -128,7 +127,7 @@ H Mfinal: 2.01E+00
 H Table: (M=30.1644,Z=0.0019)
 H Lifetime: 6.628E+06
 H Mfinal: 1.964E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.14E+01 &0.000E+00 &1 &1
 &He-4     &1.05E+01 &0.000E+00 &2 &4
 &C-12     &3.04E-01 &0.000E+00 &6 &12
@@ -143,7 +142,7 @@ H Mfinal: 1.964E+00
 H Table: (M=40.22,Z=0.0019)
 H Lifetime: 4.2E+06
 H Mfinal: 4.42E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.33E+01 &0.000E+00 &1 &1
 &He-4     &1.40E+01 &0.000E+00 &2 &4
 &C-12     &3.99E-01 &0.000E+00 &6 &12
@@ -158,7 +157,7 @@ H Mfinal: 4.42E+00
 H Table: (M=12.066,Z=0.00019)
 H Lifetime: 2.116E+07
 H Mfinal: 1.366E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &6.30E+00 &0.000E+00 &1 &1
 &He-4     &3.90E+00 &0.000E+00 &2 &4
 &C-12     &9.01E-02 &0.000E+00 &6 &12
@@ -173,7 +172,7 @@ H Mfinal: 1.366E+00
 H Table: (M=15.082,Z=0.00019)
 H Lifetime: 1.522E+07
 H Mfinal: 1.582E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &7.49E+00 &0.000E+00 &1 &1
 &He-4     &5.09E+00 &0.000E+00 &2 &4
 &C-12     &1.49E-01 &0.000E+00 &6 &12
@@ -188,7 +187,7 @@ H Mfinal: 1.582E+00
 H Table: (M=20.11,Z=0.00019)
 H Lifetime: 1.045E+07
 H Mfinal: 2.01E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &9.07E+00 &0.000E+00 &1 &1
 &He-4     &6.62E+00 &0.000E+00 &2 &4
 &C-12     &2.08E-01 &0.000E+00 &6 &12
@@ -203,7 +202,7 @@ H Mfinal: 2.01E+00
 H Table: (M=30.1644,Z=0.00019)
 H Lifetime: 6.750E+06
 H Mfinal: 2.1644E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.16E+01 &0.000E+00 &1 &1
 &He-4     &1.03E+01 &0.000E+00 &2 &4
 &C-12     &3.15E-01 &0.000E+00 &6 &12
@@ -218,7 +217,7 @@ H Mfinal: 2.1644E+00
 H Table: (M=40.22,Z=0.00019)
 H Lifetime: 5.284E+06
 H Mfinal: 4.42E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.37E+01 &0.000E+00 &1 &1
 &He-4     &1.39E+01 &0.000E+00 &2 &4
 &C-12     &3.89E-01 &0.000E+00 &6 &12
@@ -233,7 +232,7 @@ H Mfinal: 4.42E+00
 H Table: (M=12.066,Z=0.0000019)
 H Lifetime: 2.021E+07
 H Mfinal: 1.266E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &6.39E+00 &0.000E+00 &1 &1
 &He-4     &3.91E+00 &0.000E+00 &2 &4
 &C-12     &7.39E-02 &0.000E+00 &6 &12
@@ -248,7 +247,7 @@ H Mfinal: 1.266E+00
 H Table: (M=15.082,Z=0.0000019)
 H Lifetime: 1.467E+07
 H Mfinal: 1.582E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &7.64E+00 &0.000E+00 &1 &1
 &He-4     &5.08E+00 &0.000E+00 &2 &4
 &C-12     &1.43E-01 &0.000E+00 &6 &12
@@ -263,7 +262,7 @@ H Mfinal: 1.582E+00
 H Table: (M=20.11,Z=0.0000019)
 H Lifetime: 1.017E+07
 H Mfinal: 2.01E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &9.22E+00 &0.000E+00 &1 &1
 &He-4     &6.58E+00 &0.000E+00 &2 &4
 &C-12     &2.15E-01 &0.000E+00 &6 &12
@@ -278,7 +277,7 @@ H Mfinal: 2.01E+00
 H Table: (M=30.1644,Z=0.0000019)
 H Lifetime: 6.644E+06
 H Mfinal: 2.8644E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.20E+01 &0.000E+00 &1 &1
 &He-4     &1.01E+01 &0.000E+00 &2 &4
 &C-12     &3.33E-01 &0.000E+00 &6 &12
@@ -293,7 +292,7 @@ H Mfinal: 2.8644E+00
 H Table: (M=40.22,Z=0.0000019)
 H Lifetime: 5.236E+06
 H Mfinal: 4.12E+00
-&Isotopes &Yields    &X0        &Z &A
+&Isotopes &Yields   &X0        &Z &A
 &H-1      &1.43E+01 &0.000E+00 &1 &1
 &He-4     &1.36E+01 &0.000E+00 &2 &4
 &C-12     &4.20E-01 &0.000E+00 &6 &12
