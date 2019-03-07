@@ -13,16 +13,17 @@ import element_weight_table, element_abundances_solar, element_abundances_primar
 from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 
 
-def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, str_evo_table='portinari98',
+def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, str_evo_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
+                SFH_model='provided', SFE=0.1,
                 SNIa_ON=True, high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
 
     start_time = time.time()
 
     ######################
     # If imf='igimf', the model will use variable IMF, imf='Kroupa' will use Kroupa IMF
-    # unit_SFR correspond to SFH.txt. A 1 in SFH.txt stand for SFR = 1 * unit_SFR [solar mass/year] in a 10 Myr epoch.
+    # A 1 in SFH.txt stand for SFR = 1 [solar mass/year] in a 10 Myr epoch.
     # STR is the total stellar mass/total gas mass in 13Gyr, which determines the initial gas mass. See Yan et al. 2019
     # Z_0 is the initial metallicity
     ######################
@@ -64,7 +65,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
         (i) = (i + 1)
 
     # Star Trasnformation Rate (STR)
-    total_star_formed = unit_SFR * 10**7 * total_SF
+    total_star_formed = 10**7 * total_SF
     original_gas_mass = total_star_formed / STR  # in solar mass unit
 
     # Create the time steps (x axis) for final output
@@ -207,7 +208,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
             eject_Fe_mass = 0
             eject_metal_mass = 0
 
-            total_gas_mass_at_this_time = 0
+            total_gas_mass_at_this_time = original_gas_mass
             ejected_gas_mass_at_this_time = 0
             ejected_metal_mass_at_last_time = 0
 
@@ -296,7 +297,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
                             total_Fe_mass_at_last_time/original_gas_mass] # H He C N O Mg Ca Fe
         else:
             total_gas_mass_at_last_time = total_gas_mass_at_this_time
-            total_gas_mass_at_this_time = 0
+            # total_gas_mass_at_this_time is set in below
             ejected_gas_mass_at_this_time = 0
             total_metal_mass_in_gas_at_last_time = total_metal_mass_at_this_time
             total_metal_mass_at_this_time = 0
@@ -392,7 +393,14 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
             # get SFR, M_tot, igimf, integrated igimf, stellar lifetime and stellar remnant mass for this metallicity
             if epoch_index == len(epoch_info):
                 # SFR
-                S_F_R_of_this_epoch = SFH_input[epoch_index] * unit_SFR
+                if SFH_model == 'provided':
+                    S_F_R_of_this_epoch = SFH_input[epoch_index]
+                elif SFH_model == 'gas_mass_dependent':
+                    S_F_R_of_this_epoch = total_gas_mass_at_this_time * SFE / 10 ** 7
+                    if SFH_input[epoch_index] == 0:
+                        S_F_R_of_this_epoch = 0
+                else:
+                    print("Wrong input parameter for 'SFH_model'.")
 
                 # M_tot
                 # if total_gas_mass_at_last_time > 10**12:
@@ -446,7 +454,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
                         from IMFs import given_IMF
                         igimf_of_this_epoch = given_IMF
                     igimf = igimf_of_this_epoch
-                    age_of_this_epoch_at_end = (length_list_SFH_input - epoch_index -1 ) * 10 ** 7
+
                     #
                     def igimf_xi_function(mass):
                         return igimf_of_this_epoch.custom_imf(mass, this_time)
@@ -470,7 +478,7 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
                     # it need to be fixed by mutiplying a calibration factor which is close to 1:
                     mass_calibration_factor = M_tot_of_this_epoch / integrate_igimf_mass
                     # print("mass_calibration_factor:", mass_calibration_factor)
-                    
+
                     # integrate_igimf_mass_l = quad(igimf_mass_function, 0.08, 3, limit=40)[0]
                     # integrate_igimf_mass_h = quad(igimf_mass_function, 8, steller_mass_upper_bound, limit=40)[0]
                     # integrate_igimf_mass_m = quad(igimf_mass_function, 1.5, 8, limit=40)[0]
@@ -535,15 +543,19 @@ def galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=1, Z_0=0.000000134, Z_solar
                     # print("total star number", number_all)
                     # print("low", number_low/number_all)
 
+                    age_of_this_epoch_at_end = (length_list_SFH_input - epoch_index - 1) * 10 ** 7
                     mass_boundary_at_end = fucntion_mass_boundary(age_of_this_epoch_at_end, mass_grid_table,lifetime_table)
                     all_sf_imf.append([igimf, mass_boundary_at_end, this_time])
-                    all_sfr.append([S_F_R_of_this_epoch, age_of_this_epoch_at_end])
+                    time_of_the_epoch_in_Gyr = epoch_index / 100
+                    all_sfr.append([S_F_R_of_this_epoch, time_of_the_epoch_in_Gyr])
                     epoch_info.append(
                         [S_F_R_of_this_epoch, M_tot_of_this_epoch, igimf_of_this_epoch, integrate_igimf_mass,
                          mass_grid_table, lifetime_table, Mfinal_table, mass_grid_table2, Mmetal_table, M_element_table,
                          last_time_age, number_in_SNIa_boundary, metal_mass_fraction_in_gas, mass_calibration_factor])
                     metal_in_gas = metal_mass_fraction_in_gas
                 else:  # if SFR == 0
+                    time_of_the_epoch_in_Gyr = epoch_index / 100
+                    all_sfr.append([10**-5, time_of_the_epoch_in_Gyr])
                     epoch_info.append(
                         [0, 0, 0, 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0, 0, [0, 0, 0, 0, 0], 0])
             else:  # if epoch_index =! len(epoch_info)
@@ -1613,7 +1625,7 @@ def function_get_target_mass(initial_mass, mass_grid_table_number, Mtarget_table
     # new_time = 1
     # M_tot_list = []
     # for SFH in SFH_input:
-    #     formed_mass = SFH * unit_SFR * 10 ** 7
+    #     formed_mass = SFH * 10 ** 7
     #     M_tot += formed_mass
     #     M_tot_time_list += [new_time]
     #     if M_tot == 0:
@@ -1652,7 +1664,7 @@ def function_get_target_mass(initial_mass, mass_grid_table_number, Mtarget_table
 
 def function_get_igimf_for_this_epoch(SFR_input, Z_over_X, this_time, this_epoch, check_igimf):
     # this function calculate igimf, write them in directory Generated_IGIMFs, and import the file
-    # with igimf = function_get_igimf_for_every_epoch(SFH_input, unit_SFR, Z, Z_solar),
+    # with igimf = function_get_igimf_for_every_epoch(SFH_input, Z, Z_solar),
     # the igimf can be called by: igimf.custom_imf(stellar_mass, this_time).
     function_generate_igimf_file(SFR=SFR_input, Z_over_X=Z_over_X, printout=None, sf_epoch=this_epoch, check=check_igimf)
     if SFR_input == 0:
@@ -2395,14 +2407,16 @@ def plot_output(plot_show, plot_save, imf, igimf):
     age_list = []
     age_list.append(0)
     SFR_list.append(-5)
-    for i in range(len(all_sfr)):
-        age_list.append(i / 100)
-        SFR_list.append(math.log(all_sfr[i][0], 10))
-        age_list.append((i+1) / 100)
-        SFR_list.append(math.log(all_sfr[i][0], 10))
-    age_list.append((i+1) / 100)
+    age_list.append(0.01)
     SFR_list.append(-5)
-    age_list.append(5)
+    for i in range(len(all_sfr)):
+        age_list.append(all_sfr[i][1])
+        SFR_list.append(math.log(all_sfr[i][0], 10))
+        age_list.append(all_sfr[i][1]+0.01)
+        SFR_list.append(math.log(all_sfr[i][0], 10))
+    age_list.append(all_sfr[i][1]+0.01)
+    SFR_list.append(-5)
+    age_list.append(10)
     SFR_list.append(-5)
 
     if plot_show is True or plot_save is True:
@@ -2419,7 +2433,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.tight_layout()
         # plt.legend()
         if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_SFH_{}.pdf'.format(imf), dpi=250)
+            plt.savefig('galaxy_evolution_fig_SFH.pdf', dpi=250)
 
     length_of_SFH_list = len(SFR_list)
     file = open('simulation_results_from_galaxy_evol/plots/SFH.txt', 'w')
@@ -3296,7 +3310,6 @@ def generate_sfh_flat(Log_SFR, SFEN):
         file.write("0\n")
         (j) = (j + 1)
     file.write("# The value in each line stand for the SFR [solar mass / yr]\n")
-    file.write("# SFR = the value * unit_SFR (given in file galaxy_evol.py)\n")
     file.write("# in a star formation epoch (10 Myr)\n")
     file.write("# start from time 0 for the first line.\n")
     file.write("# Warning! Effective line number must be larger than 1.\n")
@@ -3345,7 +3358,6 @@ def generate_sfh_skewnorm(Log_SFR, SFEN):
             file.write("0\n")
             (j) = (j + 1)
     file.write("# The value in each line stand for the SFR [solar mass / yr]\n")
-    file.write("# SFR = the value * unit_SFR (given in file galaxy_evol.py)\n")
     file.write("# in a star formation epoch (10 Myr)\n")
     file.write("# start from time 0 for the first line.\n")
     file.write("# Warning! Effective line number must be larger than 1.\n")
@@ -3382,16 +3394,18 @@ def cal_tot_sf(SFR, SFEN):
 
 if __name__ == '__main__':
     Log_SFR = 3
-    SFEN = 10
+    SFEN = 5
     location = 0
     skewness = 10
     sfr_tail = 0
     generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
-    # galaxy_evol(unit_SFR=1e5, Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
+    # galaxy_evol(Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
     #                  mass_boundary_observe_low=0.5, mass_boundary_observe_up=8)
     # stellar evolution table being "WW95" or "portinari98"
     # imf='igimf' or 'diet_Salpeter'
-    galaxy_evol(imf='igimf', unit_SFR=1, STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
+    # SFH_model='provided' or 'gas_mass_dependent'
+    galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SNIa_ON=True, high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
+                SFH_model='provided', SFE=0.1, SNIa_ON=True,
+                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
