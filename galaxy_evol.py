@@ -9,14 +9,14 @@ import gc
 import sys
 sys.path.insert(0, 'Generated_IGIMFs')
 sys.path.insert(0, 'IMFs')
-import element_weight_table, element_abundances_solar, element_abundances_primary
+import element_weight_table, element_abundances_solar, element_abundances_primordial
 from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 
 
 def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, str_evo_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='provided', SFE=0.1,
+                SFH_model='provided', SFE=0.05,
                 SNIa_ON=True, high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
 
     start_time = time.time()
@@ -256,17 +256,17 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             total_Ca_mass_at_this_time = 0
             total_Fe_mass_at_this_time = 0
 
-            primary_H_mass_fraction = element_abundances_primary.function_element_mass_primary_fraction("H", Z_0, Z_solar)
-            primary_He_mass_fraction = element_abundances_primary.function_element_mass_primary_fraction("He", Z_0, Z_solar)
+            primary_H_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction("H", Z_0, Z_solar)
+            primary_He_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction("He", Z_0, Z_solar)
             total_H_mass_at_last_time = original_gas_mass * (primary_H_mass_fraction-Z_0)
             H_weight = element_weight_table.function_element_weight("H")
             total_He_mass_at_last_time = original_gas_mass * primary_He_mass_fraction
-            total_C_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("C", Z_0, Z_solar)
-            total_N_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("N", Z_0, Z_solar)
-            total_O_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("O", Z_0, Z_solar)
-            total_Mg_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("Mg", Z_0, Z_solar)
-            total_Ca_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("Ca", Z_0, Z_solar)
-            total_Fe_mass_at_last_time = original_gas_mass * element_abundances_primary.function_element_mass_primary_fraction("Fe", Z_0, Z_solar)
+            total_C_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("C", Z_0, Z_solar)
+            total_N_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("N", Z_0, Z_solar)
+            total_O_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("O", Z_0, Z_solar)
+            total_Mg_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("Mg", Z_0, Z_solar)
+            total_Ca_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("Ca", Z_0, Z_solar)
+            total_Fe_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("Fe", Z_0, Z_solar)
             total_metal_mass_in_gas_at_last_time = original_gas_mass * Z_0
             total_gas_mass_at_last_time = original_gas_mass
 
@@ -394,8 +394,11 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             if epoch_index == len(epoch_info):
                 # SFR
                 if SFH_model == 'provided':
+                    # This model apply the SFH specified by the SFH.txt
                     S_F_R_of_this_epoch = SFH_input[epoch_index]
                 elif SFH_model == 'gas_mass_dependent':
+                    # In this model, the SFR is determined by the current gas mass
+                    # if the current time is shorter than SFEN * 10^7 yr.
                     S_F_R_of_this_epoch = total_gas_mass_at_this_time * SFE / 10 ** 7
                     if SFH_input[epoch_index] == 0:
                         S_F_R_of_this_epoch = 0
@@ -555,7 +558,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                     metal_in_gas = metal_mass_fraction_in_gas
                 else:  # if SFR == 0
                     time_of_the_epoch_in_Gyr = epoch_index / 100
-                    all_sfr.append([10**-5, time_of_the_epoch_in_Gyr])
+                    all_sfr.append([10**-10, time_of_the_epoch_in_Gyr])
                     epoch_info.append(
                         [0, 0, 0, 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0, 0, [0, 0, 0, 0, 0], 0])
             else:  # if epoch_index =! len(epoch_info)
@@ -713,6 +716,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                     S_mass_eject = 0.086
                     Mg_mass_eject = 0.009  # Nomoto 1984 0.023 TNH93 0.009 i99CDD1 0.0077, i99CDD2 0.0042, i99W7 0.0085, ivo12/13 0.015-0.029, t03 0.013, t86 0.016
                     Ne_mass_eject = 0.005
+                    total_mass_eject_per_SNIa = Fe_mass_eject+Si_mass_eject+O_mass_eject+S_mass_eject+Mg_mass_eject+Ne_mass_eject
                     Chandrasekhar_mass = 1.44
                     pre_SNIa_NS_mass = 1
                     SNIa_energy_release_per_event = 10**51 # in the unit of 10^51 erg
@@ -728,7 +732,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                         # print("SN number per star in range:", SNIa_number_from_this_epoch_till_this_time/number_in_SNIa_boundary)
                         print("SNIa number within 10Gyr per solar mass of star:", SNIa_number_from_this_epoch_till_this_time/M_tot_of_this_epoch)
                     # update the element masses
-                    ejected_gas_mass_of_this_epoch += pre_SNIa_NS_mass * SNIa_number_from_this_epoch_till_this_time
+                    ejected_gas_mass_of_this_epoch += total_mass_eject_per_SNIa * SNIa_number_from_this_epoch_till_this_time
                     metal_mass_of_this_epoch += (Chandrasekhar_mass - (Chandrasekhar_mass - pre_SNIa_NS_mass) *
                                                  Z_gas_this_time_step) * SNIa_number_from_this_epoch_till_this_time
                     O_mass_of_SNIa = O_mass_eject * SNIa_number_from_this_epoch_till_this_time
@@ -1192,7 +1196,7 @@ def function_number_SNIa(last_delay_time, this_delay_time, stellar_number_in_SNI
     return SNIa_number
 
 def funtion_SNIa_DTD_normalization_parameter(SFR):
-    SFR = 0.0001  # uncommen this line to enable the renormalizaion of SNIa number as a function of SFR
+    SFR = 0.0001  # *** comment *** this line to enable the renormalizaion of SNIa number as a function of SFR
     x = 2
     SFRmatter = SFR + x
     logSFR = math.log(SFRmatter, 10)
@@ -2406,18 +2410,18 @@ def plot_output(plot_show, plot_save, imf, igimf):
     SFR_list = []
     age_list = []
     age_list.append(0)
-    SFR_list.append(-5)
+    SFR_list.append(-10)
     age_list.append(0.01)
-    SFR_list.append(-5)
+    SFR_list.append(-10)
     for i in range(len(all_sfr)):
         age_list.append(all_sfr[i][1])
         SFR_list.append(math.log(all_sfr[i][0], 10))
         age_list.append(all_sfr[i][1]+0.01)
         SFR_list.append(math.log(all_sfr[i][0], 10))
     age_list.append(all_sfr[i][1]+0.01)
-    SFR_list.append(-5)
+    SFR_list.append(-10)
     age_list.append(10)
-    SFR_list.append(-5)
+    SFR_list.append(-10)
 
     if plot_show is True or plot_save is True:
         plt.rc('font', family='serif')
@@ -3293,6 +3297,8 @@ def generate_SFH(distribution, Log_SFR, SFEN):
         generate_sfh_skewnorm(Log_SFR, SFEN)
     elif distribution == "flat":
         generate_sfh_flat(Log_SFR, SFEN)
+    elif distribution == "lognorm":
+        generate_sfh_lognorm(Log_SFR, SFEN)
     return
 
 
@@ -3370,6 +3376,36 @@ def generate_sfh_skewnorm(Log_SFR, SFEN):
     file.close()
     return
 
+def generate_sfh_lognorm(Log_SFR, SFEN):
+    tot_sf_set = 10 ** Log_SFR * SFEN
+    time_length_in_Gyr = 13
+    time_step_number = time_length_in_Gyr*100
+
+    from scipy.stats import lognorm
+    s = 1
+    sc = SFEN/2
+    time_list = np.linspace(0, time_step_number, time_step_number)
+    star_formation_rate = tot_sf_set * lognorm.pdf(time_list, s, scale=sc)
+
+    file = open('SFH.txt', 'w')
+    for i in range(time_step_number):
+        file.write("{}\n".format(star_formation_rate[i]))
+
+    file.write("# The value in each line stand for the SFR [solar mass / yr]\n")
+    file.write("# in a star formation epoch (10 Myr)\n")
+    file.write("# start from time 0 for the first line.\n")
+    file.write("# Warning! Effective line number must be larger than 1.\n")
+    file.write("# Add a '0' in the next line if there is only one line.\n")
+
+    file.close()
+
+    plt.plot(time_list, star_formation_rate, label='lognorm SFH')
+    plt.xlabel('Time step')
+    plt.ylabel(r'SFR [solar mass/year]')
+    plt.show()
+
+    return
+
 
 def cal_tot_sf(SFR, SFEN):
     # Skew normal distribution for star formation history
@@ -3377,7 +3413,7 @@ def cal_tot_sf(SFR, SFEN):
     # from scipy.stats import f
     global skewness, location
     from scipy.stats import skewnorm
-    x = np.linspace(skewnorm.ppf(0.01, skewness, location, 1), skewnorm.ppf(0.99, skewness, location, 1), SFEN)
+    x = np.linspace(skewnorm.ppf(0.01, skewness, location, 1), skewnorm.ppf(0.999999999, skewness, location, 1), SFEN)
     y = skewnorm.pdf(x, skewness, location, 1)
     # skewnorm.pdf(x, a, loc, scale) is the location and scale parameters,
     #   [identically equivalent to skewnorm.pdf(y, a) / scale with y = (x - loc) / scale]
@@ -3394,11 +3430,11 @@ def cal_tot_sf(SFR, SFEN):
 
 if __name__ == '__main__':
     Log_SFR = 3
-    SFEN = 5
+    SFEN = 10
     location = 0
     skewness = 10
     sfr_tail = 0
-    generate_SFH("flat", Log_SFR, SFEN)  # "skewnorm" or "flat"
+    generate_SFH("flat", Log_SFR, SFEN)  # "flat", "lognorm", or "skewnorm"
     # galaxy_evol(Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
     #                  mass_boundary_observe_low=0.5, mass_boundary_observe_up=8)
     # stellar evolution table being "WW95" or "portinari98"
@@ -3407,5 +3443,5 @@ if __name__ == '__main__':
     galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='provided', SFE=0.1, SNIa_ON=True,
-                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
+                SFH_model='gas_mass_dependent', SFE=0.013, SNIa_ON=True,
+                high_time_resolution=None, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
