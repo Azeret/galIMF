@@ -67,6 +67,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
     # Star Trasnformation Rate (STR)
     total_star_formed = 10**7 * total_SF
     original_gas_mass = total_star_formed / STR  # in solar mass unit
+    # print("original_gas_mass =", math.log(original_gas_mass, 10))
 
     # Create the time steps (x axis) for final output
     time_axis = []
@@ -1196,6 +1197,9 @@ def function_number_SNIa(last_delay_time, this_delay_time, stellar_number_in_SNI
     return SNIa_number
 
 def funtion_SNIa_DTD_normalization_parameter(SFR):
+    # this modification on the SNIa rate is to honor the fact that the number of SNIa should
+    # not only depends on the number of potential progenitor but also the density of the stellar system
+    # as is expected by the dynamical encounter rate.
     SFR = 0.0001  # *** comment *** this line to enable the renormalizaion of SNIa number as a function of SFR
     x = 2
     SFRmatter = SFR + x
@@ -3429,7 +3433,7 @@ def cal_tot_sf(SFR, SFEN):
 
 
 if __name__ == '__main__':
-    Log_SFR = 3
+    Log_SFR = 3.0008
     SFEN = 10
     location = 0
     skewness = 10
@@ -3443,5 +3447,5 @@ if __name__ == '__main__':
     galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='gas_mass_dependent', SFE=0.013, SNIa_ON=True,
-                high_time_resolution=None, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
+                SFH_model='provided', SFE=0.013, SNIa_ON=True,
+                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
