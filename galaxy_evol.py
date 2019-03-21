@@ -3437,11 +3437,11 @@ if __name__ == '__main__':
     ### Generate a new SFH.txt file ###
 
     # Log_SFR = 3.0008
-    # SFEN = 10
+    # SFEN = 100
     # location = 0
     # skewness = 10
     # sfr_tail = 0
-    # generate_SFH("flat", Log_SFR, SFEN)  # "flat", "lognorm", or "skewnorm"
+    # generate_SFH("lognorm", Log_SFR, SFEN)  # "flat", "lognorm", or "skewnorm"
 
     ####################################
 
