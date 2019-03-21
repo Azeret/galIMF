@@ -3434,10 +3434,12 @@ def cal_tot_sf(SFR, SFEN):
 
 if __name__ == '__main__':
 
+    SFEN="None"
+
     ### Generate a new SFH.txt file ###
 
-    # Log_SFR = 3.0008
     # SFEN = 100
+    # Log_SFR = 3.0008
     # location = 0
     # skewness = 10
     # sfr_tail = 0
