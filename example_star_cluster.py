@@ -55,6 +55,11 @@ alpha1_change = galIMF.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
 # apply galIMF to optimally sample stars from IMF:
 galIMF.function_sample_from_imf(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
 
+# apply galIMF to draw IMF analytically:
+galIMF.function_draw_xi_str(0.08, StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
+List_M_str_for_xi_str = galIMF.x_IMF
+List_xi_str = galIMF.y_IMF
+
 print("\n    - Sampling completed -\n")
 # followings are all sampled results:
 
@@ -100,7 +105,7 @@ for i, b in enumerate(bins):
             len_array = len_array+n
         vals0[i] = len_array/(bins[i+1]-bins[i])
 
-ax0.step(np.log10(bins), np.log10(vals0+1.e-3), color='blue', where='post', zorder=1, lw=1.5, label="OS")
+ax0.step(np.log10(bins), np.log10(vals0+1.e-3), color='blue', where='post', zorder=1, lw=1.5, label="Optimally sampled stellar masses")
 
 # constructing the canonical IMF:
 N = 100
@@ -118,9 +123,13 @@ def imf(mass, k, alpha):
     return k*mass*mass**(-alpha)
 
 
-Norm = quad(imf, 0.08, 0.5, args=(1, 1.3))[0] + quad(imf, 0.5, 120, args=(0.5, 2.3))[0]
+Norm = quad(imf, 0.08, 0.5, args=(1, 1.3))[0] + quad(imf, 0.5, 150, args=(0.5, 2.3))[0]
 can_imf = np.array(can_imf)*StarClusterMass/Norm
-ax0.plot(np.log10(masses), np.log10(can_imf), color='black', lw=1.5, label='IMF', zorder=0)
+ax0.plot(np.log10(masses), np.log10(can_imf), color='black', lw=1.5, label='Canonical IMF', zorder=0, ls='dotted')
+
+# plot analytical IMF:
+ax0.plot(np.log10(List_M_str_for_xi_str), np.log10(List_xi_str), color='red', label='analytical IMF', zorder=0, ls='dashed')
+
 
 # plot settings:
 ax0.set_ylabel(r'$\log_{\rm 10}(\xi, [\#_{\star}/M_\odot])$')
