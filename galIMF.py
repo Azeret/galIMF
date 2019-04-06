@@ -862,7 +862,7 @@ def cross_M_turn2(k_before, k_after, M_cross, alpha_before, alpha_after, i):
 
 ################# draw IMF without sampling #################
 
-def k_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
+def k_str(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global M_max, M_max_function, k3, k2, k1
     M_max = 0
     M_max_function = 0
@@ -877,10 +877,10 @@ x_IMF = []
 y_IMF = []
 
 
-def function_draw_xi_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
+def function_draw_xi_str(M_str_L, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global x_IMF, y_IMF, k1, k2, k3, M_max
-    k_str(M_str, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U)
-    function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)
+    k_str(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U)
+    function_draw_xi_str_loop(M_str_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)
     return
 
 
