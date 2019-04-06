@@ -2041,22 +2041,26 @@ def function_get_avaliable_Z(str_evo_table):
     return (sorted_Z_list, sorted_Z_list_2, sorted_Z_list_3)
 
 def function_select_metal(Z, Z_list):
+    # the list for stellar lifetime is
+    # [0.0004, 0.0008, 0.0012, 0.0016, 0.002, 0.0024, 0.0028, 0.0032, 0.0036, 0.004, 0.008, 0.012]
+    # the list for stellar metallicity is
+    # [0.0004, 0.004, 0.008, 0.0127]
     if Z <= Z_list[0]:
-        Z_select_in_table = Z_list[0]
-        return Z_select_in_table
+        Z_select__ = Z_list[0]
+        return Z_select__
     elif Z >= Z_list[-1]:
-        Z_select_in_table = Z_list[-1]
-        return Z_select_in_table
+        Z_select__ = Z_list[-1]
+        return Z_select__
     else:
         i = 1
         while i < len(Z_list):
             if Z < Z_list[i]:
                 if Z <= (Z_list[i] + Z_list[i - 1]) / 2:
-                    Z_select_in_table = Z_list[i - 1]
-                    return Z_select_in_table
+                    Z_select__ = Z_list[i - 1]
+                    return Z_select__
                 else:
-                    Z_select_in_table = Z_list[i]
-                    return Z_select_in_table
+                    Z_select__ = Z_list[i]
+                    return Z_select__
             (i)=(i+1)
 
 
@@ -3403,10 +3407,10 @@ def generate_sfh_lognorm(Log_SFR, SFEN):
 
     file.close()
 
-    plt.plot(time_list, star_formation_rate, label='lognorm SFH')
-    plt.xlabel('Time step')
-    plt.ylabel(r'SFR [solar mass/year]')
-    plt.show()
+    # plt.plot(time_list, star_formation_rate, label='lognorm SFH')
+    # plt.xlabel('Time step')
+    # plt.ylabel(r'SFR [solar mass/year]')
+    # plt.show()
 
     return
 
@@ -3438,12 +3442,12 @@ if __name__ == '__main__':
 
     ### Generate a new SFH.txt file ###
 
-    # SFEN = 100
-    # Log_SFR = 3.0008
-    # location = 0
-    # skewness = 10
-    # sfr_tail = 0
-    # generate_SFH("lognorm", Log_SFR, SFEN)  # "flat", "lognorm", or "skewnorm"
+    SFEN = 10
+    Log_SFR = 3.0008
+    location = 0
+    skewness = 10
+    sfr_tail = 0
+    generate_SFH("flat", Log_SFR, SFEN)  # "flat", "lognorm", or "skewnorm"
 
     ####################################
 
