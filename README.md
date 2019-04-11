@@ -4,33 +4,35 @@ last update: 11.04.2019
 
 ## Contents
 
-I. The IGIMF model:
- - [Overview](https://github.com/Azeret/galIMF#overview)
-   - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
-   - [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
- - [Deployment](https://github.com/Azeret/galIMF#deployment)
- - [Getting Started](https://github.com/Azeret/galIMF#getting-started)
-   - [Prerequisites](https://github.com/Azeret/galIMF#prerequisites)
-   - [Running the test](https://github.com/Azeret/galIMF#running-the-test)
- - [Employ GalIMF for your own program](https://github.com/Azeret/galIMF#employ-galimf-for-your-own-program)
-    - [For Python programs](https://github.com/Azeret/galIMF#for-the-python-program)
-    - [For non-Python programs](https://github.com/Azeret/galIMF#for-a-non-python-program)
- - [Inputs/parameters](https://github.com/Azeret/galIMF#inputsparameters)
-   - [Basic inputs](https://github.com/Azeret/galIMF#basic-inputs)
-   - [Other adjustable parameters](https://github.com/Azeret/galIMF#other-adjustable-parameters)
-   - [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
- 
- II. The galaxy evolution model:
- - [To be published](https://github.com/Azeret/galIMF#to-be-published)
- 
- III. Other information:
- - [Versioning](https://github.com/Azeret/galIMF#versioning)
- - [Updates](https://github.com/Azeret/galIMF#updates)
- - [Authors](https://github.com/Azeret/galIMF#authors)
- - [License](https://github.com/Azeret/galIMF#license)
- - [Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
+ - [The IGIMF model](https://github.com/Azeret/galIMF#the-igimf-model)
+   - [Overview](https://github.com/Azeret/galIMF#overview)
+     - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
+     - [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
+   - [Deployment](https://github.com/Azeret/galIMF#deployment)
+   - [Getting Started](https://github.com/Azeret/galIMF#getting-started)
+     - [Prerequisites](https://github.com/Azeret/galIMF#prerequisites)
+     - [Running the test](https://github.com/Azeret/galIMF#running-the-test)
+   - [Employ GalIMF for your own program](https://github.com/Azeret/galIMF#employ-galimf-for-your-own-program)
+      - [For Python programs](https://github.com/Azeret/galIMF#for-the-python-program)
+      - [For non-Python programs](https://github.com/Azeret/galIMF#for-a-non-python-program)
+   - [Inputs/parameters](https://github.com/Azeret/galIMF#inputsparameters)
+     - [Basic inputs](https://github.com/Azeret/galIMF#basic-inputs)
+     - [Other adjustable parameters](https://github.com/Azeret/galIMF#other-adjustable-parameters)
+     - [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
+ - [The galaxy evolution model](https://github.com/Azeret/galIMF#the-galaxy-evolution-model)
+   - [To be published](https://github.com/Azeret/galIMF#to-be-published)
+ - [Other information](https://github.com/Azeret/galIMF#other-information)
+   - [Versioning](https://github.com/Azeret/galIMF#versioning)
+   - [Updates](https://github.com/Azeret/galIMF#updates)
+   - [Authors](https://github.com/Azeret/galIMF#authors)
+   - [License](https://github.com/Azeret/galIMF#license)
+   - [Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
 
-## Overview
+
+
+## The IGIMF model
+ 
+### Overview
 
 GalIMF stands for the Galaxy-wide Initial Mass Function. GalIMF version 1.0.0 is the original version developed for [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y). It is a Python 3 module that allows users to compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory (see, e.g., [Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)).
 
@@ -41,7 +43,7 @@ An example file, [example_galaxy.py](https://github.com/Azeret/galIMF/blob/maste
 
 GalIMF is also able to optimally sample not an entire galaxy, but only one embedded star cluster with given mass and metallicity. This is demonstrated in [example_star_cluster.py](https://github.com/Azeret/galIMF/blob/master/example_star_cluster.py).
 
-### Scientific motivation
+#### Scientific motivation
 
 The initial stellar mass function (IMF) can be defined as a mass distribution of stars formed during one star formation event in a region of approximately the size of 1 pc. The stellar IMF, therefore, dictates the number of supernova explosions, the chemical enrichment, how bright the stellar population and unresolved objects are and many other issues which affect directly or indirectly a vast majority of astrophysical fields. 
 
@@ -57,7 +59,7 @@ For the computational details, please, look at [Yan, Jerabkova, Kroupa (2017)](h
 
 
 
-### Main features of the module
+#### Main features of the module
 
 The generated stellar mass distribution depends on the galaxy-wide star formation rate (**SFR**, which is related to the total mass of a galalxy) and the galaxy-wide **metallicity** ([M/H], see alpha1_model, alpha2_model, and alpha3_model in the code file [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py)).
 
@@ -81,7 +83,7 @@ This script needs two input values: SFR (the star formation rate, in Msun/yr) an
 
 
 
-## Deployment
+### Deployment
 
 For users without any experience with Python, we recommend using [Anaconda](https://www.continuum.io/) to install Python 3 and all required packages. 
 
@@ -91,11 +93,11 @@ For users having both Python 2 and Python 3 installed, your two Python interpret
 
 
 
-## Getting Started
+### Getting Started
 
 In the following subsections, we describe how to install and set up the module. We tested this on MACOSX, Linux and Windows platforms. 
 
-### Prerequisites
+#### Prerequisites
 
 The GalIMF module is written in Python 3, therefore you need to install [Python 3](https://www.python.org/download/releases/3.0/) and the following packages: 
 
@@ -103,7 +105,7 @@ For analyzing and visualize the results as our example script [example_galaxy.py
 
 
 
-### Running the test
+#### Running the test
 
 To learn how to use the code and to present its main features also to researchers not familiar with Python, we prepared an example implementation of the GalIMF module. This example implementation is called [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py) and is included together with the module.
 
@@ -117,9 +119,9 @@ The [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_gal
 
 
 
-## Employ GalIMF for your own program
+### Employ GalIMF for your own program
 
-### For Python programs
+#### For Python programs
 
 You can download the GalIMF repository and call the [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) module based on the placement in your computer.
 
@@ -147,15 +149,15 @@ import galIMF
 ```
 Then you can treat GalIMF as the same as any other packages.
 
-### For non-Python programs
+#### For non-Python programs
 
 Use a pipeline to first run, e.g., the [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py). Then read in the output files of GalIMF, e.g., GalIMF_IGIMF.txt, for your own program.
 
 
 
-## Inputs/parameters
+### Inputs/parameters
 
-### Basic inputs
+#### Basic inputs
 
 To apply the IGIMF theory on different galaxies, the following parameters should be changed. They are also the required input of our example code [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py):
 
@@ -166,7 +168,7 @@ To apply the IGIMF theory on different galaxies, the following parameters should
 * OSGIMF stellar mass resolution: resolution
 
 
-### Other adjustable parameters
+#### Other adjustable parameters
 
 The following inputs are not essential for the IGIMF theory and can be changed according to the research context:
 
@@ -211,7 +213,7 @@ M_ecl_L = 5:
 lower limit of the embedded cluster mass in stars [Solar mass] 
 
 
-### Internal parameters of the theory
+#### Internal parameters of the theory
 
 The following parameters should not be changed as they are part of the IGIMF theory. Read [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) carefully if you do intend to change them.
 
@@ -230,13 +232,17 @@ normalization factor in the optimal sampling condition equation
 
 
 
-## To be published
+## The galaxy evolution model
+
+### To be published
 
 The galaxy evolution model coupling the IGIMF theory will be published in Yan, Z., Jerabkova, T., Kroupa, P. (2019, in prepare).
 
 
 
-## Versioning
+## Other information
+
+### Versioning
 
 This site always keep the newest GalIMF version and the old version used in our publications.
 
@@ -246,7 +252,7 @@ See also the [GalIMF homepage](https://sites.google.com/view/galimf/home) for mo
 
 
 
-## Updates
+### Updates
 
 The major updates include:
 1. Add example files that demonstrates how to construct star cluster and galaxy-wide IMF as well as getting each stellar mass in the star cluster or the galaxy applying the IGIMF theory with the galIMF.py model.
@@ -258,7 +264,7 @@ The major updates include:
 
 
 
-## Authors
+### Authors
 
 The main author of the Python program is:
 
@@ -278,7 +284,7 @@ pavel(at)astro.uni-bonn.de
 
 
 
-## License
+### License
 
 This program is free software. You can redistribute it and/or modify it. However, you must state all modifications carefully and contain the License file when doing so.
 
@@ -289,12 +295,12 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 See the [LICENSE](https://github.com/Azeret/galIMF/blob/master/LICENSE) file for details.
 
-## Citation
+### Citation
 
 GalIMF is developed by our group with a large amount of  effort. If GalIMF contributes to a project that leads to a scientific publication, please acknowledge this work by citing the project. 
 
 You can use [this ready-made citation entry](http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2017A%26A...607A.126Y&data_type=BIBTEX&db_key=AST&nocookieset=1).
 
-## Acknowledgment
+### Acknowledgment
 
 We thank Vaclav Pavlik for kindly testing the code GalIMF 1.0.
