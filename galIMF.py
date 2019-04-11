@@ -1,5 +1,8 @@
-# A python3 code, last update 20 Dec 2018
-# This is the main module, galIMF.py, controlling and operating the other two modules IGIMF and OSGIMF
+# A python3 code
+# This is the main module operating the other two modules IGIMF and OSGIMF.
+# The IGIMF model calculates an analytically integrated galaxy-wide IMF;
+# The OSGIMF model samples all the star cluster mass and all the stellar mass in each star cluster
+# and then combind the stars in all star clusters to give the galaxy stellar population.
 
 # --------------------------------------------------------------------------------------------------------------------------------
 
