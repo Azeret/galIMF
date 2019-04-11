@@ -257,13 +257,13 @@ The major updates include:
 
 The main author of this module is:
 
-* Zhiqiang Yan,
+* [Yan Zhiqiang (闫智强)](https://orcid.org/0000-0001-7395-1198),
 University of Bonn, Charles University,
 yan(at)astro.uni-bonn.de
 
 The other members of this project are:
 
-* [Tereza Jerabkova](http://sirrah.troja.mff.cuni.cz/~tereza/index.html),
+* [Tereza Jeřábková](http://sirrah.troja.mff.cuni.cz/~tereza/index.html),
 Charles University, European Southern Observatory
 tereza(at)sirrah.troja.mff.cuni.cz
 
