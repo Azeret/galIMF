@@ -255,13 +255,13 @@ The major updates include:
 
 ## Authors
 
-The main author of this module is:
+The main author of the Python program is:
 
 * [Yan Zhiqiang (闫智强)](https://orcid.org/0000-0001-7395-1198),
 University of Bonn, Charles University,
 yan(at)astro.uni-bonn.de
 
-The other members of this project are:
+Other members of this project include:
 
 * [Tereza Jeřábková](http://sirrah.troja.mff.cuni.cz/~tereza/index.html),
 Charles University, European Southern Observatory
