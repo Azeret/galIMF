@@ -1,3 +1,12 @@
+# A python3 code
+# This is a single-zone closed-box galaxy chemical evolution module.
+# It is coupled with a variable galaxy-wide IMF that depends on the galactic property at the time of star formation.
+# The stellar population forms at every 10 Myr (the shortest time step) over 10 Gyr;
+# with each stellar population a different galaxy-wide IMF calculated using the IGIMF theory (the galIMF.py model).
+# The parameters assumed for the simulation are specified at the end of this file or imported from other files,
+# i.e., element_weight_table.py, element_abundances_solar.py, element_abundances_primordial.py.
+
+
 import numpy as np
 import time
 import math
@@ -121,7 +130,10 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
     # define an array save SF event informations that will be used in every latter time steps
     all_sf_imf = []
     all_sfr = []
-    epoch_info = [] # save [S_F_R_of_this_epoch, M_tot_of_this_epoch, igimf_mass_function, igimf_normalization]
+    epoch_info = [] # This array saves the properties,
+    # i.e., [S_F_R_of_this_epoch, M_tot_of_this_epoch, igimf_mass_function, igimf_normalization],
+    # of all the stellar populations formed at different time step (the so-called star formation epoch),
+    # Thus that at any later given time (aging), the effects (yield) of these populations can be easily computed.
     BH_mass_list = []
     NS_mass_list = []
     WD_mass_list = []
@@ -1212,6 +1224,8 @@ def funtion_SNIa_DTD_normalization_parameter(SFR):
     # The lower SFR do not further reduce the SNIa number as the low SFR happens after the star burst epoch
     # thus the newly formed star can still meet with stars formed at ealier epochs regredless of its current SFR.
     return SNIa_normalization_parameter
+
+####### the following code is for test, showing the renormalization function of SNIa# #######
 
 # xxx = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
 # y0 = funtion_SNIa_DTD_normalization_parameter(0.0001)
@@ -3320,7 +3334,7 @@ def generate_sfh_flat(Log_SFR, SFEN):
         file.write("{}\n".format(10 ** Log_SFR))
         (j) = (j + 1)
     j = 0
-    while j < 1001 - SFEN:
+    while j < 1301 - SFEN:
         file.write("0\n")
         (j) = (j + 1)
     file.write("# The value in each line stand for the SFR [solar mass / yr]\n")
@@ -3359,7 +3373,7 @@ def generate_sfh_skewnorm(Log_SFR, SFEN):
     sfr_for_the_tail_epoch = sfr_for_this_epoch / 2
     if sfr_tail == 0:
         j = 0
-        while j < 1001 - SFEN:
+        while j < 1301 - SFEN:
             file.write("0\n")
             (j) = (j + 1)
     elif sfr_tail == 1:
@@ -3368,7 +3382,7 @@ def generate_sfh_skewnorm(Log_SFR, SFEN):
             file.write("{}\n".format(sfr_for_the_tail_epoch))
             result_tail_sf += sfr_for_the_tail_epoch
             (j) = (j + 1)
-        while j < 1001 - SFEN:
+        while j < 1301 - SFEN:
             file.write("0\n")
             (j) = (j + 1)
     file.write("# The value in each line stand for the SFR [solar mass / yr]\n")
@@ -3440,24 +3454,29 @@ if __name__ == '__main__':
 
     SFEN="None"
 
-    ### Generate a new SFH.txt file ###
+    ### Generate a new SFH.txt file according to the following given parameters ###
 
-    SFEN = 10
-    Log_SFR = 3.0008
-    location = 0
-    skewness = 10
-    sfr_tail = 0
-    generate_SFH("flat", Log_SFR, SFEN)  # "flat", "lognorm", or "skewnorm"
+    SFEN = 10 # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
+    Log_SFR = 3.0008 # logarithmic characteristic star formation rate
+    location = 0 # SFH shape parameter
+    skewness = 10 # SFH shape parameter
+    sfr_tail = 0 # SFH shape parameter
+    generate_SFH("flat", Log_SFR, SFEN)
+    # input "flat", "lognorm", or "skewnorm" to generate a boxy, lognormal, or skewnorm SFH, respectively.
 
     ####################################
 
-    # galaxy_evol(Z_0=0.012, IMF_name='Salpeter', steller_mass_upper_bound=150, time_resolution_in_Myr=1,
-    #                  mass_boundary_observe_low=0.5, mass_boundary_observe_up=8)
-    # stellar evolution table being "WW95" or "portinari98"
-    # imf='igimf' or 'diet_Salpeter'
-    # SFH_model='provided' or 'gas_mass_dependent'
+    # str_evo_table='WW95' or 'portinari98', specify the stellar evolution table
+    # imf='igimf' or 'Kroupa' or 'Salpeter'...(see line 460 above), specify galaxy IMF model.
+    # SFH_model='provided' or 'gas_mass_dependent' specify the star formation history.
+    # The 'provided' SFH is given in SFH.txt;
+    # The 'gas_mass_dependent' use SFH.txt to setup the initial condition
+    # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True,
                 high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
+    # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
+    # Use plot_show=None if running on a computer cluster to avoid possible issues.
+    # In both cases, the simulation results are saved as txt files.
