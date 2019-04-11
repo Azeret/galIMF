@@ -4,6 +4,7 @@ last update: 11.04.2019
 
 ## Contents
 
+I. The IGIMF model:
  - [Overview](https://github.com/Azeret/galIMF#overview)
    - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
    - [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
@@ -18,6 +19,11 @@ last update: 11.04.2019
    - [Basic inputs](https://github.com/Azeret/galIMF#basic-inputs)
    - [Other adjustable parameters](https://github.com/Azeret/galIMF#other-adjustable-parameters)
    - [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
+ 
+ II. The galaxy evolution model:
+ - [To be published](https://github.com/Azeret/galIMF#to-be-published)
+ 
+ III. Other information:
  - [Versioning](https://github.com/Azeret/galIMF#versioning)
  - [Authors](https://github.com/Azeret/galIMF#authors)
  - [License](https://github.com/Azeret/galIMF#license)
@@ -223,6 +229,12 @@ normalization factor in the optimal sampling condition equation
 
 
 
+## To be published
+
+The galaxy evolution model coupling the IGIMF theory will be published in Yan, Z., Jerabkova, T., Kroupa, P. (2019, in prepare).
+
+
+
 ## Versioning
 
 This site always keep the newest GalIMF version and the old version used in our publications.
@@ -266,7 +278,7 @@ pavel(at)astro.uni-bonn.de
 This program is free software. You can redistribute it and/or modify it. However, you must state all modifications carefully and contain the License file when doing so.
 
 When publishing results based on this software or parts of it (the executable and / or the source code) please cite: 
-[Yan, Z., Jerabkova, T., Kroupa, P. (2017)](https://sites.google.com/view/galimf/citation)
+[Yan, Z., Jerabkova, T., Kroupa, P. (2017)](https://sites.google.com/view/galimf/citation) and Yan, Z., Jerabkova, T., Kroupa, P. (2019, in prepare) for the IGIMF model (galIMF.py) and galaxy evolution model (galaxy_evol.py), respectively. See below for citation entry.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
