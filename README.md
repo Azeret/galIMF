@@ -1,14 +1,6 @@
 # GalIMF version 1.1.2
 
-last update: 14.02.2019
-
-The updates record:
-1. Add example files that demonstrates how to construct star cluster and galaxy-wide IMF as well as getting each stellar mass in the star cluster or the galaxy applying the IGIMF theory with the galIMF.py model.
-2. Change the IMF metal dependence parameter from the iron abundance, [Fe/H], to the total metallicity, [M/H], indicating that the IMF variation depend on general or total metallicity instead of solely on the iron abundance. The old version applying [Fe/H] follows the formulation in Marks et al. 2012 (MNRAS.422.2246M) correctly but the author of this paper (through private communication) actually consider the [Fe/H] to be a representative of [M/H]. It makes more sense that all metal element should have a similar effect (if not an identical effect) to the IMF variation.
-3. Some function names in the file galIMF.py are changed to lower case letters. This may cause incompatible issues. Please change the function names accordingly or use the galIMF_version_1.0.py instead of galIMF.py.
-4. Add the galaxy evolution model, galaxy_evol.py, and corresponding supporting data files. The new model adopt the galaxy-wide IMF for a single 10 Myr star formation epoch calculated by galIMF.py to the galaxy formation and evolution in a 10 Gyr timescale. (01.01.2019)
-5. The approximated stellar luminosity weighted results is now available. The "stellar luminosity" adopted are the luminosity of the star during its main-sequence stage and do not consider any stellar evolution, i.e., the luminosity is only a function the stellar initial mass but not its age or metallicity. (10.02.2019)
-6. An uniform outflow (uniform in the sense that the element ratios are the same as the well-mixed gas phase) that is proportional to the stellar mass formed is added. It has a minor effect on the final total gas mass (roughly 0.3 dex) and the metal abundances (roughly 0.1 dex) and a negligible effect on the galaxy final metal abundance ratios (roughly 0.05 dex).
+last update: 11.04.2019
 
 ## Contents
 
@@ -33,9 +25,9 @@ The updates record:
 
 ## Overview
 
-GalIMF stands for the Galaxy-wide Initial Mass Function. GalIMF version 1.0.0 is the original version developed for [Yan, Jerabkova, Kroupa (2017, A&A, in press)](https://arxiv.org/abs/1707.04260). It is a Python 3 module that allows users to compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory (see, e.g., [Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)).
+GalIMF stands for the Galaxy-wide Initial Mass Function. GalIMF version 1.0.0 is the original version developed for [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y). It is a Python 3 module that allows users to compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory (see, e.g., [Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)).
 
-The module is described here, but more detailed comments can be found in the source code 
+The module is described here while more detailed comments can be found in the source code 
 together with the support PDF file ([supplementary-document-galimf.pdf](https://github.com/Azeret/galIMF/blob/master/supplementary-document-galimf.pdf)), where all equations are derived in detail and labeled in a consistent way with the source code [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
 An example file, [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py), is provided for a quick test and also serve as an easy entrance for the most basic usage of [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
@@ -54,7 +46,7 @@ And now here comes the question: if we take the locally constrained empirical la
 
 GalIMF represents a Python 3 module which allows computing galaxy-wide IMFs under various assumptions. With the module, we distribute an example script where we use the invariant two-part power-law canonical IMF (Kroupa 2001) as a benchmark and the grid of Salpeter slopes (2.3) drawn into the figures is used for demonstration of IMF variations. 
 
-For the computational details, please, look at Yan, Jerabkova & Kroupa (2017, A&A, in press) and [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S).
+For the computational details, please, look at [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) and [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S).
 
 
 
@@ -66,7 +58,7 @@ The code can generate a galaxy-wide IMF, i.e., IGIMF. It can also generate all t
 
 * IGIMF in its integrated form
 
-Based on a local IMF (can be the fixed universal Kroupa IMF or the systematically varying IMF based on [Marks et al. 2012](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M)), GalIMF will produce the galaxy-wide IMF in a data file with contents: stellar mass [Msun] vs. IGIMF values [number of stars Msun^(-1)] normalized to the total mass of a stellar population (see Yan, Jerabkova, Kroupa 2017, A&A, in press, for details).
+Based on a local IMF (can be the fixed universal Kroupa IMF or the systematically varying IMF based on [Marks et al. 2012](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M)), GalIMF will produce the galaxy-wide IMF in a data file with contents: stellar mass [Msun] vs. IGIMF values [number of stars Msun^(-1)] normalized to the total mass of a stellar population (see [Yan, Jerabkova, Kroupa 2017](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) for details).
 
 * OSGIMF 
 
@@ -214,7 +206,7 @@ lower limit of the embedded cluster mass in stars [Solar mass]
 
 ### Internal parameters of the theory
 
-The following parameters should not be changed as they are part of the IGIMF theory. Read Yan, Jerabkova, Kroupa (2017, A&A, in press) carefully if you do intend to change them.
+The following parameters should not be changed as they are part of the IGIMF theory. Read [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) carefully if you do intend to change them.
 
 * galaxy star formation assumption
 
@@ -233,11 +225,19 @@ normalization factor in the optimal sampling condition equation
 
 ## Versioning
 
-This is GalIMF version 1.0.4. No major change has been implied since version 1.0.0 and the scientific results are consistent.
+This site always keep the newest GalIMF version and the old version used in our publications.
 
-We use [SemVer](http://semver.org/) for versioning. Only major version updates (first and second digits) will be saved separately.
+We use [SemVer](http://semver.org/) for versioning. Only major version updates (first and second digits) will be mentioned.
 
-For the versions available, see the [GalIMF homepage](https://sites.google.com/view/galimf/home). 
+See also the [GalIMF homepage](https://sites.google.com/view/galimf/home) for more information. 
+
+The major updates include:
+1. Add example files that demonstrates how to construct star cluster and galaxy-wide IMF as well as getting each stellar mass in the star cluster or the galaxy applying the IGIMF theory with the galIMF.py model.
+2. Change the IMF metal dependence parameter from the iron abundance, [Fe/H], to the total metallicity, [M/H], indicating that the IMF variation depend on general or total metallicity instead of solely on the iron abundance. The old version applying [Fe/H] follows the formulation in Marks et al. 2012 (MNRAS.422.2246M) correctly but the author of this paper (through private communication) actually consider the [Fe/H] to be a representative of [M/H]. It makes more sense that all metal element should have a similar effect (if not an identical effect) to the IMF variation.
+3. Some function names in the file galIMF.py are changed to lower case letters. This may cause incompatible issues. Please change the function names accordingly or use the galIMF_version_1.0.py instead of galIMF.py.
+4. Add the galaxy evolution model, galaxy_evol.py, and corresponding supporting data files. The new model adopt the galaxy-wide IMF for a single 10 Myr star formation epoch calculated by galIMF.py to the galaxy formation and evolution in a 10 Gyr timescale. (01.01.2019)
+5. The approximated stellar luminosity weighted results is now available. The "stellar luminosity" adopted are the luminosity of the star during its main-sequence stage and do not consider any stellar evolution, i.e., the luminosity is only a function the stellar initial mass but not its age or metallicity. (10.02.2019)
+6. An uniform outflow (uniform in the sense that the element ratios are the same as the well-mixed gas phase) that is proportional to the stellar mass formed is added. It has a minor effect on the final total gas mass (roughly 0.3 dex) and the metal abundances (roughly 0.1 dex) and a negligible effect on the galaxy final metal abundance ratios (roughly 0.05 dex).
 
 
 
@@ -272,7 +272,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 See the [LICENSE](https://github.com/Azeret/galIMF/blob/master/LICENSE) file for details.
 
+## Citation
 
+GalIMF is developed by our group with a large amount of  effort. If GalIMF contributes to a project that leads to a scientific publication, please acknowledge this work by citing the project. 
+
+You can use [this ready-made citation entry](http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2017A%26A...607A.126Y&data_type=BIBTEX&db_key=AST&nocookieset=1).
 
 ## Acknowledgment
 
