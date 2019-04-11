@@ -25,6 +25,7 @@ I. The IGIMF model:
  
  III. Other information:
  - [Versioning](https://github.com/Azeret/galIMF#versioning)
+ - [Updates](https://github.com/Azeret/galIMF#updates)
  - [Authors](https://github.com/Azeret/galIMF#authors)
  - [License](https://github.com/Azeret/galIMF#license)
  - [Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
@@ -242,6 +243,10 @@ This site always keep the newest GalIMF version and the old version used in our 
 We use [SemVer](http://semver.org/) for versioning. Only major version updates (first and second digits) will be mentioned.
 
 See also the [GalIMF homepage](https://sites.google.com/view/galimf/home) for more information. 
+
+
+
+## Updates
 
 The major updates include:
 1. Add example files that demonstrates how to construct star cluster and galaxy-wide IMF as well as getting each stellar mass in the star cluster or the galaxy applying the IGIMF theory with the galIMF.py model.
