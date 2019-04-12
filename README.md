@@ -1,13 +1,14 @@
-# GalIMF version 1.1.2
+# GalIMF version 1.1.3
 
-last update: 11.04.2019
+last update: 12.04.2019
 
 ## Contents
-
+ - [Overview](https://github.com/Azeret/galIMF#overview)
+   - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
+   - [Development of the IGIMF theory](https://github.com/Azeret/galIMF#development-of-the-igimf-theory)
+   - [Validity and Controversy](https://github.com/Azeret/galIMF#validity-and-controversy)
  - [The IGIMF model](https://github.com/Azeret/galIMF#the-igimf-model)
-   - [Overview](https://github.com/Azeret/galIMF#overview)
-     - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
-     - [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
+   - [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
    - [Deployment](https://github.com/Azeret/galIMF#deployment)
    - [Getting Started](https://github.com/Azeret/galIMF#getting-started)
      - [Prerequisites](https://github.com/Azeret/galIMF#prerequisites)
@@ -30,33 +31,97 @@ last update: 11.04.2019
 
 
 
-## The IGIMF model
+
  
-### Overview
+## Overview
 
-GalIMF stands for the Galaxy-wide Initial Mass Function. GalIMF version 1.0.0 is the original version developed for [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y). It is a Python 3 module that allows users to compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory (see, e.g., [Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)).
+GalIMF stands for the Galaxy-wide Initial Mass Function originated from the Integrated-Galactic-IMF (IGIMF) theory [Kroupa & Weidner (2003)](http://adsabs.harvard.edu/abs/2003ApJ...598.1076K).
 
-The module is described here while more detailed comments can be found in the source code 
+GalIMF version 1.0.0 is the original version developed for [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y). It is a Python 3 module that allows users to compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory (see, e.g., [Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)).
+
+GalIMF version 1.1.3 is the version developed for Yan et al. (2019, in prepare). It is a Python 3 module that applies the IGIMF theory on a single-zone closed-box galaxy chemical evolution simulation.
+
+Please check [Versioning](https://github.com/Azeret/galIMF#versioning) below.
+
+
+### Scientific motivation
+
+The initial stellar mass function (IMF) can be defined as a mass distribution of stars formed during one star formation event in a region of approximately the size of 1 pc. The stellar IMF, therefore, dictates the number of supernova explosions, the chemical enrichment, how bright the stellar population and unresolved objects are and many other issues which affect directly or indirectly a vast majority of astrophysical fields. 
+
+Despite ongoing research, we still cannot formulate and predict the IMF self-consistently. Therefore it is necessary to look at the empirical evidence which might help us to understand the IMF. 
+
+One possible way of doing so is to look at Galactic star forming regions and try to estimate the shape of the IMF as is done by [Marks et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M). Then we can look at whole galaxies which can have very different chemical compositions and very different densities and other physical parameters. For a galaxy, we can measure the emitted light and we can try to constrain the total mass and deduce the composite galaxy-wide IMF. For example, one could use the Hα EW and galaxy color as in [Hoversten & Glazebrook (2008)](http://adsabs.harvard.edu/abs/2008ApJ...675..163H) or the ratio between Hα and UV luminosity as in [Lee et al. (2009)](http://adsabs.harvard.edu/abs/2009ApJ...706..599L).
+
+And now here comes the question: 
+
+1. If we take the locally constrained empirical laws and integrate them so we create this galaxy-wide IMF, will we get the same as the locally constrained stellar IMF? If yes, well it would be great and if not we can learn something more about the local IMF based on other galaxies. To help with exactly this problem we present this Python module GalIMF. And indeed, [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) demonstrated that the observations are consistent with prediction given by the IGIMF theory.
+2. Since the galaxy-wide IMF systematical vary with the galactic properties (see [Validity of the IGIMF theory](https://github.com/Azeret/galIMF#validity-of-the-igimf-theory) below),  the galaxy evolution history should be different from the estimates applying the canonical invariant IMF. What would be the influence of such a modification and what are the new implications? This is exactly what we are trying to answer in our new Yan et al. (2019, in prepare) paper.
+
+
+### Development of the IGIMF theory
+
+[Kroupa & Weidner (2003)](http://adsabs.harvard.edu/abs/2003ApJ...598.1076K) first point out that almost all star forms in a star cluster, thus that the galactic-field IMF is the summing up the stellar IMFs of all the star clusters.
+It also suggested that the most massive stellar mass in a star cluster, m<sub>max</sub>, is determined by the total mass of the embedded star cluster, M<sub>ecl</sub>, following a m<sub>max</sub>—M<sub>ecl</sub> relation.
+
+[Weidner et al. (2004)](http://adsabs.harvard.edu/abs/2004MNRAS.350.1503W) suggested a galaxy-wide star formation epoch of about 10 Myr and a star cluster population formed in the epoch with an embedded cluster mass funtion (ECMF) power-law-index, ß, of about 2.
+
+[Weidner & Kroupa (2005)](http://adsabs.harvard.edu/abs/2005ApJ...625..754W) point out that the IGIMF theory is related to the observed M<sub>ecl,max</sub>—galaxy-wide-SFR relation 
+and the reduced number of supernovae per star observed in dwarf galaxies.
+
+[Weidner & Kroupa (2006)](http://adsabs.harvard.edu/abs/2006MNRAS.365.1333W); [Weidner et al. (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.401..275W), [(2013)](http://adsabs.harvard.edu/abs/2013MNRAS.434...84W), [(2014)](http://adsabs.harvard.edu/abs/2014MNRAS.441.3348W): verified the m<sub>max</sub>—M<sub>ecl</sub> relation;
+
+[Pflamm-Altenburg+ (2007)](http://adsabs.harvard.edu/abs/2007ApJ...671.1550P) predicts the Hα depletion of low-SFR galaxies using the IGIMF theory.
+
+[Hoversten & Glazebrook (2008)](http://adsabs.harvard.edu/abs/2008ApJ...675..163H): verified the top-light gwIMF of low-SFR galaxies using Hα—color signal;
+
+[Pflamm-Altenburg et al. (2009a)](http://adsabs.harvard.edu/abs/2009MNRAS.395..394P) [(2009b)](http://adsabs.harvard.edu/abs/2009ApJ...706..516P); [Lee et al. (2009)](http://adsabs.harvard.edu/abs/2009ApJ...706..599L): verified the top-light gwIMF of dwarf galaxies using Hα/UV signal;
+
+[Pflamm-Altenburg & Kroupa (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.404.1564P); [Gvaramadze et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.424.3037G); [Stephens et al. (2017)](http://adsabs.harvard.edu/abs/2017ApJ...834...94S): 
+verified that the apparent isolated massive stars were born in star clusters.
+
+[Dabringhausen et al. (2009)](http://adsabs.harvard.edu/abs/2009MNRAS.394.1529D), [(2012)](http://adsabs.harvard.edu/abs/2012ApJ...747...72D); [Marks et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M) conclude the α<sub>1 & 2 & 3</sub>—M<sub>ecl</sub> relation.
+
+[Weidner et al. (2011)](http://adsabs.harvard.edu/abs/2011MNRAS.412..979W) incorporate an observational based α<sub>3</sub>—M<sub>ecl</sub> relation given in [Marks et al. (2012, in prepare at the time)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M) and first suggest a possible variation of ß.
+
+[Gunawardhana et al. (2011)](http://adsabs.harvard.edu/abs/2011MNRAS.415.1647G); [Romano et al. (2017)](http://adsabs.harvard.edu/abs/2017MNRAS.470..401R): verified the top-heavy gwIMF of high-SFR galaxies;
+
+[Kroupa et al. (2013)](http://adsabs.harvard.edu/abs/2013pss5.book..115K) gives a comprehensive summary of the IGIMF theory.
+
+[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W) incorporate an observational based ß—SFR relation
+
+[Kroupa et al. (2013)](http://adsabs.harvard.edu/abs/2013pss5.book..115K); [Schulz et al. (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S) develop the optimal sampling formulation.
+
+[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y); [Zhang et al. (2018)](http://adsabs.harvard.edu/abs/2018Natur.558..260Z): verified the systematic variation of the high-mass gwIMF slope;
+
+[Randriamanakoto et al. (2013)](http://adsabs.harvard.edu/abs/2013ApJ...775L..38R); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y): verified the M<sub>ecl,max</sub>—gwSFR relation .
+
+[Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) realise the optimal sampling of the entire galaxy; GalIMF open Python code;
+
+[Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) incorporate the α<sub>1 & 2</sub>—M<sub>ecl</sub> relation given by Marks+ (2012).
+
+[Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) point out that the suggested low-mass gwIMF variation may be explained by the IGIMF theory.
+
+Yan et al. (2019, in prepare) develop a galaxy evolution model coupling the IGIMF theory.
+
+### Validity and Controversy
+
+
+To be added...
+
+
+## The IGIMF model
+
+The module calculating the galaxy-wide IMF is described here while more detailed comments can be found in the source code 
 together with the support PDF file ([supplementary-document-galimf.pdf](https://github.com/Azeret/galIMF/blob/master/supplementary-document-galimf.pdf)), where all equations are derived in detail and labeled in a consistent way with the source code [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
 An example file, [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py), is provided for a quick test and also serve as an easy entrance for the most basic usage of [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
 GalIMF is also able to optimally sample not an entire galaxy, but only one embedded star cluster with given mass and metallicity. This is demonstrated in [example_star_cluster.py](https://github.com/Azeret/galIMF/blob/master/example_star_cluster.py).
 
-#### Scientific motivation
-
-The initial stellar mass function (IMF) can be defined as a mass distribution of stars formed during one star formation event in a region of approximately the size of 1 pc. The stellar IMF, therefore, dictates the number of supernova explosions, the chemical enrichment, how bright the stellar population and unresolved objects are and many other issues which affect directly or indirectly a vast majority of astrophysical fields. 
-
-Despite ongoing research, we still cannot formulate and predict the IMF self-consistently. Therefore it is necessary to look at the empirical evidence which might help us to understand the IMF. 
-
-One possible way of doing so is to look at Galactic star forming regions and try to estimate the shape of the IMF. Then we can look at whole galaxies which can have very different chemical compositions and very different densities and other physical parameters. For a galaxy, we can measure the emitted light and we can try to constrain the total mass and deduce the composite galaxy-wide IMF. 
-
-And now here comes the question: if we take the locally constrained empirical laws and integrate them so we create this galaxy-wide IMF, will we get the same as the locally constrained stellar IMF? If yes, well it would be great and if not we can learn something more about the local IMF based on other galaxies. To help with exactly this problem we present this Python module GalIMF.   
 
 GalIMF represents a Python 3 module which allows computing galaxy-wide IMFs under various assumptions. With the module, we distribute an example script where we use the invariant two-part power-law canonical IMF (Kroupa 2001) as a benchmark and the grid of Salpeter slopes (2.3) drawn into the figures is used for demonstration of IMF variations. 
 
 For the computational details, please, look at [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) and [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S).
-
 
 
 #### Main features of the module
@@ -246,9 +311,13 @@ The galaxy evolution model coupling the IGIMF theory will be published in Yan, Z
 
 This site always keep the newest GalIMF version and the old version used in our publications.
 
-We use [SemVer](http://semver.org/) for versioning. Only major version updates (first and second digits) will be mentioned.
+We use [SemVer](http://semver.org/) for versioning. That is, 
 
-See also the [GalIMF homepage](https://sites.google.com/view/galimf/home) for more information. 
+1. the first digits stand for MAJOR update that is incompatible with the earlier version;
+2. the second digits indicate MINOR update when new features or function is added in a backwards-compatible manner;
+3. the last digits note the backwards-compatible error corrections (e.g., adding comments, change parameter names, etc.).
+
+See the [GalIMF homepage](https://sites.google.com/view/galimf/home) for an overlook of all the major versions, related scientific publications, and simulations demonstrations.
 
 
 
