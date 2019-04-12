@@ -4,9 +4,10 @@ last update: 12.04.2019
 
 ## Contents
  - [Overview](https://github.com/Azeret/galIMF#overview)
-   - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
-   - [Development of the IGIMF theory](https://github.com/Azeret/galIMF#development-of-the-igimf-theory)
-   - [Validity and Controversy](https://github.com/Azeret/galIMF#validity-and-controversy)
+ - [Scientific motivation](https://github.com/Azeret/galIMF#scientific-motivation)
+ - [The IGIMF theory](https://github.com/Azeret/galIMF#the-igimf-theory)
+   - [Development and Validity](https://github.com/Azeret/galIMF#development-and-validity)
+   - [Controversy](https://github.com/Azeret/galIMF#controversy)
  - [The IGIMF model](https://github.com/Azeret/galIMF#the-igimf-model)
    - [Main features of the module](https://github.com/Azeret/galIMF#main-features-of-the-module)
    - [Deployment](https://github.com/Azeret/galIMF#deployment)
@@ -44,7 +45,7 @@ GalIMF version 1.1.3 is the version developed for Yan et al. (2019, in prepare).
 Please check [Versioning](https://github.com/Azeret/galIMF#versioning) below.
 
 
-### Scientific motivation
+## Scientific motivation
 
 The initial stellar mass function (IMF) can be defined as a mass distribution of stars formed during one star formation event in a region of approximately the size of 1 pc. The stellar IMF, therefore, dictates the number of supernova explosions, the chemical enrichment, how bright the stellar population and unresolved objects are and many other issues which affect directly or indirectly a vast majority of astrophysical fields. 
 
@@ -55,55 +56,58 @@ One possible way of doing so is to look at Galactic star forming regions and try
 And now here comes the question: 
 
 1. If we take the locally constrained empirical laws and integrate them so we create this galaxy-wide IMF, will we get the same as the locally constrained stellar IMF? If yes, well it would be great and if not we can learn something more about the local IMF based on other galaxies. To help with exactly this problem we present this Python module GalIMF. And indeed, [Yan, Jerabkova, Kroupa (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) demonstrated that the observations are consistent with prediction given by the IGIMF theory.
-2. Since the galaxy-wide IMF systematical vary with the galactic properties (see [Validity of the IGIMF theory](https://github.com/Azeret/galIMF#validity-of-the-igimf-theory) below),  the galaxy evolution history should be different from the estimates applying the canonical invariant IMF. What would be the influence of such a modification and what are the new implications? This is exactly what we are trying to answer in our new Yan et al. (2019, in prepare) paper.
+2. Since the galaxy-wide IMF systematical vary with the galactic properties (see [Development and Validity](https://github.com/Azeret/galIMF#development-and-validity) below),  the galaxy evolution history should be different from the estimates applying the canonical invariant IMF. What would be the influence of such a modification and what are the new implications? This is exactly what we are trying to answer in our new Yan et al. (2019, in prepare) paper.
 
 
-### Development of the IGIMF theory
+## The IGIMF theory
 
-[Kroupa & Weidner (2003)](http://adsabs.harvard.edu/abs/2003ApJ...598.1076K) first point out that almost all star forms in a star cluster, thus that the galactic-field IMF is the summing up the stellar IMFs of all the star clusters.
-It also suggested that the most massive stellar mass in a star cluster, m<sub>max</sub>, is determined by the total mass of the embedded star cluster, M<sub>ecl</sub>, following a m<sub>max</sub>—M<sub>ecl</sub> relation.
+### Development and Validity
 
-[Weidner et al. (2004)](http://adsabs.harvard.edu/abs/2004MNRAS.350.1503W) suggested a galaxy-wide star formation epoch of about 10 Myr and a star cluster population formed in the epoch with an embedded cluster mass funtion (ECMF) power-law-index, ß, of about 2.
+[Kroupa & Weidner (2003)](http://adsabs.harvard.edu/abs/2003ApJ...598.1076K) first point out that almost all star forms in a star cluster, thus *PREDICT*s that the galactic-field IMF is the summing up the stellar IMFs of all the star clusters.
+It also *SUGGEST*s that the most massive stellar mass in a star cluster, m<sub>max</sub>, is determined by the total mass of the embedded star cluster, M<sub>ecl</sub>, following a m<sub>max</sub>—M<sub>ecl</sub> relation.
+
+[Weidner et al. (2004)](http://adsabs.harvard.edu/abs/2004MNRAS.350.1503W) *DETERMINE*s a galaxy-wide star formation epoch of about 10 Myr and a star cluster population formed in the epoch with an embedded cluster mass funtion (ECMF) power-law-index, ß, of about 2.
 
 [Weidner & Kroupa (2005)](http://adsabs.harvard.edu/abs/2005ApJ...625..754W) point out that the IGIMF theory is related to the observed M<sub>ecl,max</sub>—galaxy-wide-SFR relation 
 and the reduced number of supernovae per star observed in dwarf galaxies.
 
-[Weidner & Kroupa (2006)](http://adsabs.harvard.edu/abs/2006MNRAS.365.1333W); [Weidner et al. (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.401..275W), [(2013)](http://adsabs.harvard.edu/abs/2013MNRAS.434...84W), [(2014)](http://adsabs.harvard.edu/abs/2014MNRAS.441.3348W): verified the m<sub>max</sub>—M<sub>ecl</sub> relation;
+[Weidner & Kroupa (2006)](http://adsabs.harvard.edu/abs/2006MNRAS.365.1333W); [Weidner et al. (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.401..275W), [(2013)](http://adsabs.harvard.edu/abs/2013MNRAS.434...84W), [(2014)](http://adsabs.harvard.edu/abs/2014MNRAS.441.3348W): **VERIFIED** the m<sub>max</sub>—M<sub>ecl</sub> relation;
 
-[Pflamm-Altenburg+ (2007)](http://adsabs.harvard.edu/abs/2007ApJ...671.1550P) predicts the Hα depletion of low-SFR galaxies using the IGIMF theory.
+[Pflamm-Altenburg+ (2007)](http://adsabs.harvard.edu/abs/2007ApJ...671.1550P) *PREDICT*s the Hα depletion of low-SFR galaxies using the IGIMF theory.
 
-[Hoversten & Glazebrook (2008)](http://adsabs.harvard.edu/abs/2008ApJ...675..163H): verified the top-light gwIMF of low-SFR galaxies using Hα—color signal;
+[Hoversten & Glazebrook (2008)](http://adsabs.harvard.edu/abs/2008ApJ...675..163H): **VERIFIED** the top-light gwIMF of low-SFR galaxies using Hα—color signal;
 
-[Pflamm-Altenburg et al. (2009a)](http://adsabs.harvard.edu/abs/2009MNRAS.395..394P) [(2009b)](http://adsabs.harvard.edu/abs/2009ApJ...706..516P); [Lee et al. (2009)](http://adsabs.harvard.edu/abs/2009ApJ...706..599L): verified the top-light gwIMF of dwarf galaxies using Hα/UV signal;
+[Pflamm-Altenburg et al. (2009a)](http://adsabs.harvard.edu/abs/2009MNRAS.395..394P) [(2009b)](http://adsabs.harvard.edu/abs/2009ApJ...706..516P); [Lee et al. (2009)](http://adsabs.harvard.edu/abs/2009ApJ...706..599L): **VERIFIED** the top-light gwIMF of dwarf galaxies using Hα/UV signal;
 
 [Pflamm-Altenburg & Kroupa (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.404.1564P); [Gvaramadze et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.424.3037G); [Stephens et al. (2017)](http://adsabs.harvard.edu/abs/2017ApJ...834...94S): 
-verified that the apparent isolated massive stars were born in star clusters.
+**VERIFIED** that the apparent isolated massive stars were born in star clusters.
 
-[Dabringhausen et al. (2009)](http://adsabs.harvard.edu/abs/2009MNRAS.394.1529D), [(2012)](http://adsabs.harvard.edu/abs/2012ApJ...747...72D); [Marks et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M) conclude the α<sub>1 & 2 & 3</sub>—M<sub>ecl</sub> relation.
+[Dabringhausen et al. (2009)](http://adsabs.harvard.edu/abs/2009MNRAS.394.1529D), [(2012)](http://adsabs.harvard.edu/abs/2012ApJ...747...72D); [Marks et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M) *DETERMINE*s the α<sub>1 & 2 & 3</sub>—M<sub>ecl</sub> relation from an analysis of observed open and globular cluster and ultra-compact dwarf galaxies.
 
-[Weidner et al. (2011)](http://adsabs.harvard.edu/abs/2011MNRAS.412..979W) incorporate an observational based α<sub>3</sub>—M<sub>ecl</sub> relation given in [Marks et al. (2012, in prepare at the time)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M) and first suggest a possible variation of ß.
+[Weidner et al. (2011)](http://adsabs.harvard.edu/abs/2011MNRAS.412..979W) *INCORPORATE* an observational based α<sub>3</sub>—M<sub>ecl</sub> relation given in [Marks et al. (2012, in prepare at the time)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M) and first suggest a possible variation of ß.
 
-[Gunawardhana et al. (2011)](http://adsabs.harvard.edu/abs/2011MNRAS.415.1647G); [Romano et al. (2017)](http://adsabs.harvard.edu/abs/2017MNRAS.470..401R): verified the top-heavy gwIMF of high-SFR galaxies;
+[Gunawardhana et al. (2011)](http://adsabs.harvard.edu/abs/2011MNRAS.415.1647G); [Romano et al. (2017)](http://adsabs.harvard.edu/abs/2017MNRAS.470..401R): **VERIFIED** the top-heavy gwIMF of high-SFR galaxies;
 
 [Kroupa et al. (2013)](http://adsabs.harvard.edu/abs/2013pss5.book..115K) gives a comprehensive summary of the IGIMF theory.
 
-[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W) incorporate an observational based ß—SFR relation
+[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W) *INCORPORATE* an observational based ß—SFR relation
 
 [Kroupa et al. (2013)](http://adsabs.harvard.edu/abs/2013pss5.book..115K); [Schulz et al. (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S) develop the optimal sampling formulation.
 
-[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y); [Zhang et al. (2018)](http://adsabs.harvard.edu/abs/2018Natur.558..260Z): verified the systematic variation of the high-mass gwIMF slope;
+[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y); [Zhang et al. (2018)](http://adsabs.harvard.edu/abs/2018Natur.558..260Z): **VERIFIED** the systematic variation of the high-mass gwIMF slope;
 
-[Randriamanakoto et al. (2013)](http://adsabs.harvard.edu/abs/2013ApJ...775L..38R); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y): verified the M<sub>ecl,max</sub>—gwSFR relation .
+[Randriamanakoto et al. (2013)](http://adsabs.harvard.edu/abs/2013ApJ...775L..38R); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y): **VERIFIED** the M<sub>ecl,max</sub>—gwSFR relation .
 
 [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) realise the optimal sampling of the entire galaxy; GalIMF open Python code;
 
-[Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) incorporate the α<sub>1 & 2</sub>—M<sub>ecl</sub> relation given by Marks+ (2012).
+[Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) *INCORPORATE* the α<sub>1 & 2</sub>—M<sub>ecl</sub> relation given by Marks+ (2012).
 
 [Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) point out that the suggested low-mass gwIMF variation may be explained by the IGIMF theory.
 
 Yan et al. (2019, in prepare) develop a galaxy evolution model coupling the IGIMF theory.
 
-### Validity and Controversy
+
+### Controversy
 
 
 To be added...
