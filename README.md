@@ -28,10 +28,8 @@ last update: 12.04.2019
    - [Versioning](https://github.com/Azeret/galIMF#versioning)
    - [Updates](https://github.com/Azeret/galIMF#updates)
    - [Authors](https://github.com/Azeret/galIMF#authors)
-   - [License](https://github.com/Azeret/galIMF#license)
+   - [License and Citation](https://github.com/Azeret/galIMF#license-and-citation)
    - [Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
-
-
 
 
  
