@@ -34,33 +34,6 @@ def multiline(xs, ys, c, ax=None, **kwargs):
 
 def plot_galaxy_evol():
 
-    # # Figure 0 SFH
-
-    file = open('SFH.txt', 'r')
-    SFH = file.readlines()
-    file.close()
-
-    while len(SFH)>1300:
-        del SFH[-1]
-
-    # print(SFH[-1])
-
-    age_list_lognormal = []
-    SFR_list_lognormal = []
-
-    for i in np.arange(0, 13, 0.01):
-        age_list_lognormal.append(i)
-
-    for i in np.arange(0, 1300, 1):
-        SFH__ = float(SFH[i])
-        if SFH__ > 0:
-            SFR_list_lognormal.append(math.log(SFH__, 10))
-        else:
-            SFR_list_lognormal.append(10**(-10))
-
-    age_list_lognormal = [0] + age_list_lognormal
-    SFR_list_lognormal = [-10] + SFR_list_lognormal
-
     # Figure 1 SFH
 
     file = open('simulation_results_from_galaxy_evol/plots_IGIMF/SFH.txt', 'r')
@@ -281,7 +254,7 @@ def plot_galaxy_evol():
     plt.tight_layout()
     plt.savefig('simulation_results_from_galaxy_evol/Z_over_X_time.pdf', dpi=250)
 
-    # Figure 10 Y_time
+    # Figure 8 Y_time
 
     file = open('simulation_results_from_galaxy_evol/plots_IGIMF/Y_time.txt', 'r')
     Y_time = file.readlines()
@@ -302,7 +275,7 @@ def plot_galaxy_evol():
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    fig = plt.figure(10, figsize=(4, 3.5))
+    fig = plt.figure(8, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot([], [], label='Gas', lw=0.7, color="k")
     plt.plot([], [], ls='dashed', lw=0.7, label='Stellar mass-weighted', color="k")
@@ -324,7 +297,7 @@ def plot_galaxy_evol():
     plt.tight_layout()
     plt.savefig('simulation_results_from_galaxy_evol/Y_time.pdf', dpi=250)
 
-    # Figure 11 Fe_over_H_time
+    # Figure 9 Fe_over_H_time
 
     file = open('simulation_results_from_galaxy_evol/plots_IGIMF/Fe_over_H_time.txt', 'r')
     Fe_over_H_time = file.readlines()
@@ -345,7 +318,7 @@ def plot_galaxy_evol():
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    fig = plt.figure(11, figsize=(4, 3.5))
+    fig = plt.figure(9, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot([], [], label='Gas', lw=0.7, color="k")
     plt.plot([], [], ls='dashed', lw=0.7, label='Stellar mass-weighted', color="k")
@@ -367,7 +340,7 @@ def plot_galaxy_evol():
     plt.tight_layout()
     plt.savefig('simulation_results_from_galaxy_evol/Fe_over_H_time.pdf', dpi=250)
 
-    # Figure 12 Mg_over_Fe_time
+    # Figure 10 Mg_over_Fe_time
 
     file = open('simulation_results_from_galaxy_evol/plots_IGIMF/Mg_over_Fe_time.txt', 'r')
     Mg_over_Fe_time = file.readlines()
@@ -388,7 +361,7 @@ def plot_galaxy_evol():
     plt.rc('font', family='serif')
     plt.rc('xtick', labelsize='x-small')
     plt.rc('ytick', labelsize='x-small')
-    fig = plt.figure(12, figsize=(4, 3.5))
+    fig = plt.figure(10, figsize=(4, 3.5))
     fig.add_subplot(1, 1, 1)
     plt.plot([], [], label='Gas', lw=0.7, color="k")
     plt.plot([], [], ls='dashed', lw=0.7, label='Stellar mass-weighted', color="k")
@@ -736,6 +709,6 @@ def plot_galaxy_evol_extended():
 
 if __name__ == '__main__':
     # plots for two different set of simulations, i.e., boxy SFH and lognormal SFH:
-    # plot_galaxy_evol()
-    plot_galaxy_evol_extended()
+    plot_galaxy_evol()
+    # plot_galaxy_evol_extended()
     plt.show()
