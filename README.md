@@ -117,7 +117,8 @@ stars through dynamical ejection and cluster expansion that leads to a preferent
 Thus the constrains on star-cluster IMF variation suffers this systematic uncertainties.
 
 On the other hand, galaxy-wide IMF measurements are free from the dynamical evolution and unresolved multiplicity of single stars
-as it fit the integrated emission from the entire galaxy. But the interpretation of the galactic spectrum and the IMF sensitive spectral features involves the complicated and uncertain stellar evolution model and stellar atmosphere model.
+as it fit the integrated emission from the entire galaxy. But the interpretation of the galactic spectrum and the IMF 
+sensitive spectral features involves the complicated and uncertain stellar evolution model and stellar atmosphere model.
 In addition, the spectra of the galaxy are influenced strongly by the star formation history, mean stellar metallicity/age, and the dust extinction from the galaxy thus the 
 interpretation of the gwIMF variation cannot easily be claimed to be the last solution. 
 

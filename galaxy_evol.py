@@ -1702,8 +1702,8 @@ def function_get_igimf_for_this_epoch(SFR_input, Z_over_X, this_time, this_epoch
     return igimf
 
 def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epoch=0, check=False):
-    # python3 code, last update Wed 10 July 2017
-
+    # This funtion check if the parameter for generating a new IGIMF match an old one,
+    # if not, the function generate a new IGIMF and add it to the generated-IGIMF list.
 
     # --------------------------------------------------------------------------------------------------------------------------------
     # import modules and libraries
