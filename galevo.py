@@ -2,7 +2,7 @@
 # This is a single-zone closed-box galaxy chemical evolution module.
 # It is coupled with a variable galaxy-wide IMF that depends on the galactic property at the time of star formation.
 # The stellar population forms at every 10 Myr (the shortest time step) over 10 Gyr;
-# with each stellar population a different galaxy-wide IMF calculated using the IGIMF theory (the galIMF.py model).
+# with each stellar population a different galaxy-wide IMF calculated using the IGIMF theory (the galimf.py model).
 # The parameters assumed for the simulation are specified at the end of this file or imported from other files,
 # i.e., element_weight_table.py, element_abundances_solar.py, element_abundances_primordial.py.
 
@@ -1140,12 +1140,12 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
     # import csv
     # with open('GalEvo_time.txt', 'w') as f:
     #     writer = csv.writer(f, delimiter=' ')
-    #     f.write("# galaxy_evol.py output file.\n# time\n")
+    #     f.write("# galevo.py output file.\n# time\n")
     #     writer.writerows(
     #         zip(time_axis))
     # with open('GalEvo_ratio.txt', 'w') as f:
     #     writer = csv.writer(f, delimiter=' ')
-    #     f.write("# galaxy_evol.py output file.\n# Remnant_Star_ratio\n")
+    #     f.write("# galevo.py output file.\n# Remnant_Star_ratio\n")
     #     writer.writerows(
     #         zip(Remnant_Star_ratio))
 
@@ -1709,7 +1709,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
     # import modules and libraries
     # --------------------------------------------------------------------------------------------------------------------------------
 
-    import galIMF  # galIMF containing IGIMF function and OSGIMF function and additional computational modules
+    import galimf  # galIMF containing IGIMF function and OSGIMF function and additional computational modules
 
     import matplotlib.pyplot as plt  # matplotlib for plotting
     import numpy as np
@@ -1772,13 +1772,13 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
                     "\nSFR [Msolar/yr] = "))
             # Star Formation Rate [solar mass / yr]
         if SFR != 0:
-            bindw = galIMF.resolution_histogram_relative = 10 ** (max((0 - math.log(SFR, 10)), 0) ** (0.2) - 1.9)
+            bindw = galimf.resolution_histogram_relative = 10 ** (max((0 - math.log(SFR, 10)), 0) ** (0.2) - 1.9)
         # will change the resolution of histogram for optimall sampling automatically addjusted with SFR value.
-        alpha3_model = 2#1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galIMF.py'
+        alpha3_model = 2#1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
         alpha_2 = 2.3  # IMF middle-mass power-index
         alpha_1 = 1.3  # IMF low-mass-end power-index
-        alpha2_model = 1#0  # see file 'galIMF.py'
-        alpha1_model = 1#0  # see file 'galIMF.py'
+        alpha2_model = 1#0  # see file 'galimf.py'
+        alpha1_model = 1#0  # see file 'galimf.py'
         beta_model = 1
         if Z_over_X is None:
             Z_over_X = float(input("\nPlease input the metallicity, [Z/X] = log(M_{metal}/M_{H})-log(M_{metal,sun}/M_{H,sun})"
@@ -1810,7 +1810,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         if printout == True:
             print("\nCalculating IGIMF......")
 
-        galIMF.function_galimf(
+        galimf.function_galimf(
             "I",  # IorS ### "I" for IGIMF; "OS" for OSGIMF
             SFR,  # Star Formation Rate [solar mass / yr]
             alpha3_model,  # IMF high-mass-end power-index model, see file 'alpha3.py'
@@ -1847,8 +1847,8 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
 
         global masses, igimf
 
-        masses = np.array(galIMF.List_M_str_for_xi_str)
-        igimf = np.array(galIMF.List_xi)
+        masses = np.array(galimf.List_M_str_for_xi_str)
+        igimf = np.array(galimf.List_xi)
 
 
         #######################################################

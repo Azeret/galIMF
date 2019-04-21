@@ -15,7 +15,7 @@
 # Import modules and libraries
 # --------------------------------------------------------------------------------------------------------------------------------
 
-import galIMF  # galIMF containing IGIMF function and OSGIMF function and additional computational modules
+import galimf  # galIMF containing IGIMF function and OSGIMF function and additional computational modules
 import matplotlib.pyplot as plt  # matplotlib for plotting
 import numpy as np
 import math
@@ -52,14 +52,14 @@ SFR = float(input("    Please input the galaxy-wide SFR in solar mass per year a
 M_over_H = float(input("\n    Please input the metallicity, [M/H]"
                        "\n    A typical input should be smaller than 0, i.e., metal poor."
                        "\n\n    [M/H] = "))
-bindw = galIMF.resolution_histogram_relative = 10**(max((0-math.log(SFR, 10)), 0)**0.2-1.9)
+bindw = galimf.resolution_histogram_relative = 10 ** (max((0 - math.log(SFR, 10)), 0) ** 0.2 - 1.9)
 # will change the resolution of histogram for optimal sampling automatically adjusted with SFR value.
 
-alpha3_model = 1  # IMF high-mass-end power-index model, see file 'galIMF.py'
+alpha3_model = 1  # IMF high-mass-end power-index model, see file 'galimf.py'
 alpha_2 = 2.3  # IMF middle-mass power-index
 alpha_1 = 1.3  # IMF low-mass-end power-index
-alpha2_model = 1  # see file 'galIMF.py'
-alpha1_model = 1  # see file 'galIMF.py'
+alpha2_model = 1  # see file 'galimf.py'
+alpha1_model = 1  # see file 'galimf.py'
 beta_model = 1
 M_str_L = 0.08  # star mass lower limit [solar mass]
 M_str_U = 150  # star mass upper limit [solar mass]
@@ -85,31 +85,31 @@ I_str = 1.  # normalization factor in the Optimal Sampling condition equation
 
 print("\n    Calculating galaxy-wide IMF......")
 start_time = time.time()
-galIMF.function_galimf(
+galimf.function_galimf(
     "I",  # IorS ### "I" for IGIMF; "OS" for OSGIMF
     SFR,  # Star Formation Rate [solar mass / yr]
-    alpha3_model,  # IMF high-mass-end power-index model, see file 'galIMF.py'
+    alpha3_model,  # IMF high-mass-end power-index model, see file 'galimf.py'
     delta_t,  # star formation epoch [Myr]
     M_over_H,
     I_ecl,  # normalization factor in the Optimal Sampling condition equation
     M_ecl_U,  # embedded cluster mass upper limit [solar mass]
     M_ecl_L,  # embedded cluster mass lower limit [solar mass]
-    beta_model,  # ECMF power-index model, see file 'galIMF.py'
+    beta_model,  # ECMF power-index model, see file 'galimf.py'
     I_str,  # normalization factor in the Optimal Sampling condition equation
     M_str_L,  # star mass lower limit [solar mass]
     alpha_1,  # IMF low-mass-end power-index
-    alpha1_model,  # see file 'galIMF.py'
+    alpha1_model,  # see file 'galimf.py'
     M_turn,  # IMF power-index change point [solar mass]
     alpha_2,  # IMF middle-mass power-index
-    alpha2_model,  # see file 'galIMF.py'
+    alpha2_model,  # see file 'galimf.py'
     M_turn2,  # IMF power-index change point [solar mass]
     M_str_U,  # star mass upper limit [solar mass]
     printout=True  # save the generated IMF
 )
 print("    - Galaxy-wide IMF calculation complete -")
 
-masses = np.array(galIMF.List_M_str_for_xi_str)
-igimf = np.array(galIMF.List_xi)
+masses = np.array(galimf.List_M_str_for_xi_str)
+igimf = np.array(galimf.List_xi)
 
 # igimf is normalized by default to a total mass formed in 10 Myr given the SFR
 # to change the normalization follow the commented part of a code
@@ -134,43 +134,43 @@ OSrequest = input("\n    Do you wants to calculate OSGIMF? "
                   "\n    Input 1 as yes: ")
 
 if OSrequest == "y" or OSrequest == "Y" or OSrequest == "yes" or OSrequest == "Yes" or OSrequest == "1":
-    galIMF.resolution_histogram_relative = bindw / float(
+    galimf.resolution_histogram_relative = bindw / float(
         input("\n    Please input the result resolution (Input 1 for the first run): \n\n"
               "Resolution = "))
     print("\n    Calculating stellar masses of the galaxy......")
     start_time = time.time()
-    galIMF.function_galimf(
+    galimf.function_galimf(
         "OS",  # IorS ### "I" for IGIMF; "OS" for OSGIMF
         SFR,  # Star Formation Rate [solar mass / yr]
-        alpha3_model,  # IMF high-mass-end power-index model, see file 'galIMF.py'
+        alpha3_model,  # IMF high-mass-end power-index model, see file 'galimf.py'
         delta_t,  # star formation epoch [Myr]
         M_over_H,
         I_ecl,  # normalization factor in the Optimal Sampling condition equation
         M_ecl_U,  # embedded cluster mass upper limit [solar mass]
         M_ecl_L,  # embedded cluster mass lower limit [solar mass]
-        beta_model,  # ECMF power-index model, see file 'galIMF.py'
+        beta_model,  # ECMF power-index model, see file 'galimf.py'
         I_str,  # normalization factor in the Optimal Sampling condition equation
         M_str_L,  # star mass lower limit [solar mass]
         alpha_1,  # IMF low-mass-end power-index
-        alpha1_model,  # see file 'galIMF.py'
+        alpha1_model,  # see file 'galimf.py'
         M_turn,  # IMF power-index change point [solar mass]
         alpha_2,  # IMF middle-mass power-index
-        alpha2_model,  # see file 'galIMF.py'
+        alpha2_model,  # see file 'galimf.py'
         M_turn2,  # IMF power-index change point [solar mass]
         M_str_U,  # star mass upper limit [solar mass]
         printout=True  # save the generated OSGIMF
     )
     print("    - Stellar masses calculation complete - Run time: %ss -" % round((time.time() - start_time), 2))
     # One can easily import data considering number of stars in each mass bin assuming optimal sampling
-    mass_range_center = galIMF.mass_range_center
-    mass_range = galIMF.mass_range
-    mass_range_upper_limit = galIMF.mass_range_upper_limit
-    mass_range_lower_limit = galIMF.mass_range_lower_limit
-    star_number = galIMF.star_number
+    mass_range_center = galimf.mass_range_center
+    mass_range = galimf.mass_range
+    mass_range_upper_limit = galimf.mass_range_upper_limit
+    mass_range_lower_limit = galimf.mass_range_lower_limit
+    star_number = galimf.star_number
     mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number = zip(
         *sorted(zip(mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number)))
-    masses = np.array(galIMF.List_mass_grid_x_axis) + 1.e-50
-    osgimf = np.array(galIMF.List_star_number_in_mass_grid_y_axis) + 1.e-50
+    masses = np.array(galimf.List_mass_grid_x_axis) + 1.e-50
+    osgimf = np.array(galimf.List_star_number_in_mass_grid_y_axis) + 1.e-50
     plt.plot(np.log10(masses), np.log10(osgimf), color='green', lw=2.5, label='Stellar mass histogram')
 
 

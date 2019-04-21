@@ -14,7 +14,7 @@
 # Import modules and libraries
 # --------------------------------------------------------------------------------------------------------------------------------
 
-import galIMF  # Main part of the GalIMF code for generating and sampling Galaxy-wide stellar Initial Mass Function.
+import galimf  # Main part of the GalIMF code for generating and sampling Galaxy-wide stellar Initial Mass Function.
 from pylab import *
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
@@ -48,30 +48,30 @@ alpha_1 = 1.3
 alpha3_model = 2
 alpha2_model = 1
 alpha1_model = 1
-alpha3_change = galIMF.function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
-alpha2_change = galIMF.function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
-alpha1_change = galIMF.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
+alpha3_change = galimf.function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
+alpha2_change = galimf.function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
+alpha1_change = galimf.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
 
 # apply galIMF to optimally sample stars from IMF:
-galIMF.function_sample_from_imf(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
+galimf.function_sample_from_imf(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
 
 # apply galIMF to draw IMF analytically:
-galIMF.function_draw_xi_str(0.08, StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
-List_M_str_for_xi_str = galIMF.x_IMF
-List_xi_str = galIMF.y_IMF
+galimf.function_draw_xi_str(0.08, StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
+List_M_str_for_xi_str = galimf.x_IMF
+List_xi_str = galimf.y_IMF
 
 print("\n    - Sampling completed -\n")
 # followings are all sampled results:
 
 # most massive stellar mass in the cluster:
-print("    The most massive star in this star cluster has {} solar mass".format(round(galIMF.list_M_str_i[0], 2)))
+print("    The most massive star in this star cluster has {} solar mass".format(round(galimf.list_M_str_i[0], 2)))
 
 # All of the sampled stellar masses in solar mass unit are (from massive to less massive):
-list_stellar_masses = np.array(galIMF.list_M_str_i)
+list_stellar_masses = np.array(galimf.list_M_str_i)
 
 # NOTE! Multiple stars can be represented by a same stellar mass if they have similar masses,
 # The number of stars represented by the stellar masses above are:
-list_stellar_numbers = galIMF.list_n_str_i
+list_stellar_numbers = galimf.list_n_str_i
 if list_stellar_numbers[-1] == 0:
     del list_stellar_numbers[-1]
 n_stars = np.array(list_stellar_numbers)
