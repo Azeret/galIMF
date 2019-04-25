@@ -20,13 +20,14 @@ sys.path.insert(0, 'Generated_IGIMFs')
 sys.path.insert(0, 'IMFs')
 import element_weight_table, element_abundances_solar, element_abundances_primordial
 from IMFs import Kroupa_IMF, diet_Salpeter_IMF
+from yield_tables import SNIa_yield
 
 
 def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, str_evo_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.05,
-                SNIa_ON=True, high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
+                SNIa_ON=True, yield_reference_name='Gibson1997', high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
 
     start_time = time.time()
 
@@ -119,7 +120,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
     # the final time axis is the sorted combination of the two
     time_axis = sorted(list(set(time_axis + time_axis_for_SFH_input)))
-    print("calculate at time:", time_axis)
+    print("calculate results at galaxy age [yr]:", time_axis)
     length_list_time_step = len(time_axis)
 
     ###################
@@ -721,14 +722,12 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                 # if consider SNIa
                 if SNIa_ON == True:
                     # read in SNIa yield table
-                    # TNH93: see Gibson, B. K., Loewenstein, M., & Mushotzky, R. F. 1997, MNRAS, 290, 623
-                    # based on the work of Thielemann et al. (1993)
-                    Fe_mass_eject = 0.744  # Nomoto 1984 0.613  # TNH93 0.744 i99CDD1 0.56, i99CDD2 0.76, i99W7 0.63, ivo12/13 0.62-0.67, t03 0.74, t86 0.63
-                    Si_mass_eject = 0.158
-                    O_mass_eject = 0.148 # Nomoto 1984 0.140 TNH93 0.148 i99CDD1 0.09, i99CDD2 0.06, i99W7 0.14, ivo12/13 0.09-0.1, t03 0.14, t86 0.13
-                    S_mass_eject = 0.086
-                    Mg_mass_eject = 0.009  # Nomoto 1984 0.023 TNH93 0.009 i99CDD1 0.0077, i99CDD2 0.0042, i99W7 0.0085, ivo12/13 0.015-0.029, t03 0.013, t86 0.016
-                    Ne_mass_eject = 0.005
+                    Fe_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Fe')
+                    Si_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Si')
+                    O_mass_eject  = SNIa_yield.function_mass_ejected(yield_reference_name, 'O')
+                    S_mass_eject  = SNIa_yield.function_mass_ejected(yield_reference_name, 'S')
+                    Mg_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Mg')
+                    Ne_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Ne')
                     total_mass_eject_per_SNIa = Fe_mass_eject+Si_mass_eject+O_mass_eject+S_mass_eject+Mg_mass_eject+Ne_mass_eject
                     Chandrasekhar_mass = 1.44
                     pre_SNIa_NS_mass = 1
@@ -3472,10 +3471,11 @@ if __name__ == '__main__':
     # The 'provided' SFH is given in SFH.txt;
     # The 'gas_mass_dependent' use SFH.txt to setup the initial condition
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
+    # yield_reference_name='Gibson1997' or 'Seitenzahl2013'
     galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='provided', SFE=0.013, SNIa_ON=True,
+                SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Gibson1997',
                 high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
