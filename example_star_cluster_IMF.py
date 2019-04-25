@@ -17,7 +17,7 @@
 import galimf  # Main part of the GalIMF code for generating and sampling Galaxy-wide stellar Initial Mass Function.
 from pylab import *
 import matplotlib.pyplot as plt
-from scipy.integrate import quad
+import numpy as np
 import csv  # csv and izip/zip are used to create output files
 try:
     from itertools import izip as zip
@@ -32,9 +32,9 @@ gs1 = GridSpec(1, 1)
 ax0 = plt.subplot(gs1[0])
 
 # input parameters:
-StarClusterMass = float(input("\n    ============================\n"
-                              "    === example_star_cluster ===\n"
-                              "    ============================\n\n"
+StarClusterMass = float(input("\n    ================================\n"
+                              "    === example_star_cluster_IMF ===\n"
+                              "    ================================\n\n"
                               "    This code generate the stellar masses of one star cluster with given mass"
                               " applying optimal sampling.\n\n"
                               "    Please type in the cluster mass in solar mass unit then hit return:"))
@@ -146,3 +146,49 @@ print("    The plot is saved in the file: star_cluster_IMF_plot.pdf\n\n"
 
 # show the plot
 plt.show()
+
+
+
+### Plot the mmax--Mecl relation:
+#
+# alpha_2 = 2.3
+# alpha_1 = 1.3
+# alpha3_model = 2
+# alpha2_model = 1
+# alpha1_model = 1
+# M_over_H_list = [-3, -2, -1, 0, 1]
+# for j in range(5):
+#     M_over_H = M_over_H_list[j]
+#     # The lowest possible star cluster mass has a limit when M_ecl=m_max, depending on the assumed IMF.
+#     if M_over_H < 0.1:
+#         lower_cluster_mass_limit = 0.15 - M_over_H / 11
+#     else:
+#         lower_cluster_mass_limit = 0.15 - M_over_H / 28
+#     alpha2_change = galimf.function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
+#     alpha1_change = galimf.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
+#     StarClusterMass_list = np.arange(lower_cluster_mass_limit, 10, 0.1).tolist()
+#     for i in range(49):
+#         StarClusterMass_list += [10 ** ((i + 10) / 10)]
+#
+#     M_max_list = []
+#
+#     for i in range(len(StarClusterMass_list)):
+#         StarClusterMass = StarClusterMass_list[i]
+#         alpha3_change = galimf.function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
+#         galimf.function_sample_from_imf(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change,
+#                                         150)
+#         galimf.function_draw_xi_str(0.08, StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change,
+#                                     150)
+#         List_M_str_for_xi_str = galimf.x_IMF
+#         List_xi_str = galimf.y_IMF
+#         M_max_list.append(galimf.list_M_str_i[0])
+#     plt.loglog(StarClusterMass_list, M_max_list, label="[Z]={}".format(M_over_H))
+#
+# plt.loglog([5, 5], [0.1, 10], lw=0.5, label=r'cluster mass = 5 [M$_\odot$]')
+# plt.loglog([0.1, 10], [1, 1], ls='dotted', c='0.5')
+#
+# plt.xlabel(r"Star cluster mass [M$_\odot$]")
+# plt.ylabel(r"Most massive star mass [M$_\odot$]")
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
