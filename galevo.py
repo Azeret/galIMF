@@ -3313,9 +3313,9 @@ def plot_output(plot_show, plot_save, imf, igimf):
     return
 
 
-def generate_SFH(distribution, Log_SFR, SFEN):
+def generate_SFH(distribution, Log_SFR, SFEN, sfr_tail, skewness, location):
     if distribution == "skewnorm":
-        generate_sfh_skewnorm(Log_SFR, SFEN)
+        generate_sfh_skewnorm(Log_SFR, SFEN, sfr_tail, skewness, location)
     elif distribution == "flat":
         generate_sfh_flat(Log_SFR, SFEN)
     elif distribution == "lognorm":
@@ -3346,13 +3346,12 @@ def generate_sfh_flat(Log_SFR, SFEN):
     return
 
 
-def generate_sfh_skewnorm(Log_SFR, SFEN):
-    global sfr_tail
+def generate_sfh_skewnorm(Log_SFR, SFEN, sfr_tail, skewness, location):
     tot_sf_set = 10 ** Log_SFR * SFEN
     tot_sf = 0
     while tot_sf < tot_sf_set:
         SFEN += 1
-        result_cal_tot_sf = cal_tot_sf(Log_SFR, SFEN)
+        result_cal_tot_sf = cal_tot_sf(Log_SFR, SFEN, skewness, location)
         (tot_sf) = (result_cal_tot_sf[0])
 
     file = open('SFH.txt', 'w')
@@ -3428,11 +3427,10 @@ def generate_sfh_lognorm(Log_SFR, SFEN):
     return
 
 
-def cal_tot_sf(SFR, SFEN):
+def cal_tot_sf(SFR, SFEN, skewness, location):
     # Skew normal distribution for star formation history
     # took input: maximum star formation rate, star formation event number
     # from scipy.stats import f
-    global skewness, location
     from scipy.stats import skewnorm
     x = np.linspace(skewnorm.ppf(0.01, skewness, location, 1), skewnorm.ppf(0.999999999, skewness, location, 1), SFEN)
     y = skewnorm.pdf(x, skewness, location, 1)
@@ -3460,7 +3458,7 @@ if __name__ == '__main__':
     location = 0 # SFH shape parameter
     skewness = 10 # SFH shape parameter
     sfr_tail = 0 # SFH shape parameter
-    generate_SFH("flat", Log_SFR, SFEN)
+    generate_SFH("flat", Log_SFR, SFEN, sfr_tail, skewness, location)
     # input "flat", "lognorm", or "skewnorm" to generate a boxy, lognormal, or skewnorm SFH, respectively.
 
     ####################################
