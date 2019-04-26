@@ -3,9 +3,10 @@
 
 def function_mass_ejected(yield_reference_name, element_name):
     mass_ejected = 0
-    if yield_reference_name == 'Gibson1997':
-        # Reference: Gibson, B. K., Loewenstein, M., & Mushotzky, R. F. 1997, MNRAS, 290, 623
-        # based on the work of Thielemann et al. (1993)
+    if yield_reference_name == ' Thielemann1993':
+        # Reference: Thielemann et al. (1993)
+        # Values adopted from
+        # Gibson, B. K., Loewenstein, M., & Mushotzky, R. F. 1997, MNRAS, 290, 623, their TNH93 dataset
         if element_name == "O":
             mass_ejected = 0.148  #
         elif element_name == "Ne":

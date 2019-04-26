@@ -27,7 +27,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.05,
-                SNIa_ON=True, yield_reference_name='Gibson1997', high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
+                SNIa_ON=True, yield_reference_name='Thielemann1993', high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
 
     start_time = time.time()
 
@@ -3469,11 +3469,11 @@ if __name__ == '__main__':
     # The 'provided' SFH is given in SFH.txt;
     # The 'gas_mass_dependent' use SFH.txt to setup the initial condition
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
-    # yield_reference_name='Gibson1997' or 'Seitenzahl2013'
+    # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Gibson1997',
+                SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Thielemann1993',
                 high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
