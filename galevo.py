@@ -27,7 +27,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.05,
-                SNIa_ON=True, yield_reference_name='Thielemann1993', high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
+                SNIa_ON=True, yield_reference_name='Thielemann1993', solar_abu_reference_name='Anders1989',
+                high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
 
     start_time = time.time()
 
@@ -40,6 +41,9 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
     global igimf_mass_function, mass_grid_table, mass_grid_table2, Mfinal_table, Mmetal_table, M_element_table
     global time_axis, gas_Z_over_X_list, total_star_formed, \
         O_over_H_list, Mg_over_H_list, Fe_over_H_list, Y_list, \
+        ejected_O_mass_till_this_time_tot_list, ejected_O_mass_till_this_time_SNII_list, ejected_O_mass_till_this_time_SNIa_list, \
+        ejected_Mg_mass_till_this_time_tot_list, ejected_Mg_mass_till_this_time_SNII_list, ejected_Mg_mass_till_this_time_SNIa_list, \
+        ejected_Fe_mass_till_this_time_tot_list, ejected_Fe_mass_till_this_time_SNII_list, ejected_Fe_mass_till_this_time_SNIa_list, \
         Mg_over_Fe_list, C_over_Fe_list, N_over_Fe_list, Ca_over_Fe_list, O_over_Fe_list, \
         stellar_O_over_H_list, stellar_Mg_over_H_list, stellar_Y_list, stellar_Fe_over_H_list, \
         stellar_Mg_over_Fe_list, stellar_C_over_Fe_list, stellar_N_over_Fe_list, stellar_Ca_over_Fe_list, \
@@ -140,6 +144,15 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
     WD_mass_list = []
     gas_Z_over_X_list = []
     O_over_H_list = []
+    ejected_O_mass_till_this_time_tot_list = []
+    ejected_O_mass_till_this_time_SNII_list = []
+    ejected_O_mass_till_this_time_SNIa_list = []
+    ejected_Mg_mass_till_this_time_tot_list = []
+    ejected_Mg_mass_till_this_time_SNII_list = []
+    ejected_Mg_mass_till_this_time_SNIa_list = []
+    ejected_Fe_mass_till_this_time_tot_list = []
+    ejected_Fe_mass_till_this_time_SNII_list = []
+    ejected_Fe_mass_till_this_time_SNIa_list = []
     Y_list = []
     Mg_over_H_list = []
     Fe_over_H_list = []
@@ -226,8 +239,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             ejected_gas_mass_at_this_time = 0
             ejected_metal_mass_at_last_time = 0
 
-            M_tot_of_last_time = 0
-            M_tot_of_this_time = 0
+            M_tot_up_to_last_time = 0
+            M_tot_up_to_this_time = 0
             stellar_mass_at_last_time = 0
             stellar_mass_at_this_time = 0
             stellar_luminosity_at_this_time = 0
@@ -270,17 +283,17 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             total_Ca_mass_at_this_time = 0
             total_Fe_mass_at_this_time = 0
 
-            primary_H_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction("H", Z_0, Z_solar)
-            primary_He_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction("He", Z_0, Z_solar)
+            primary_H_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "H", Z_0, Z_solar)
+            primary_He_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "He", Z_0, Z_solar)
             total_H_mass_at_last_time = original_gas_mass * (primary_H_mass_fraction-Z_0)
             H_weight = element_weight_table.function_element_weight("H")
             total_He_mass_at_last_time = original_gas_mass * primary_He_mass_fraction
-            total_C_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("C", Z_0, Z_solar)
-            total_N_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("N", Z_0, Z_solar)
-            total_O_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("O", Z_0, Z_solar)
-            total_Mg_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("Mg", Z_0, Z_solar)
-            total_Ca_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("Ca", Z_0, Z_solar)
-            total_Fe_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction("Fe", Z_0, Z_solar)
+            total_C_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "C", Z_0, Z_solar)
+            total_N_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "N", Z_0, Z_solar)
+            total_O_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "O", Z_0, Z_solar)
+            total_Mg_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "Mg", Z_0, Z_solar)
+            total_Ca_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "Ca", Z_0, Z_solar)
+            total_Fe_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "Fe", Z_0, Z_solar)
             total_metal_mass_in_gas_at_last_time = original_gas_mass * Z_0
             total_gas_mass_at_last_time = original_gas_mass
 
@@ -331,8 +344,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             total_Ca_mass_at_this_time = 0
             total_Fe_mass_at_last_time = total_Fe_mass_at_this_time
             total_Fe_mass_at_this_time = 0
-            M_tot_of_last_time = M_tot_of_this_time
-            M_tot_of_this_time = 0
+            M_tot_up_to_last_time = M_tot_up_to_this_time
+            M_tot_up_to_this_time = 0
             stellar_mass_at_last_time = stellar_mass_at_this_time
             stellar_mass_at_this_time = 0
             stellar_luminosity_at_this_time = 0
@@ -394,11 +407,9 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         # add up metals contributed by SSP from each SF epoch
         # consider only the SF event (epoch) that had happend
         Fe_production_SNII = 0
-        Fe_production_SNIa = 0
         Mg_production_SNII = 0
-        Mg_production_SNIa = 0
         O_production_SNII = 0
-        O_production_SNIa = 0
+
 
         epoch_index = 0
         while epoch_index < epoch_index_limit:
@@ -607,7 +618,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
             if S_F_R_of_this_epoch > 0:
                 # get M_tot (total initial mass of all star ever formed)
-                M_tot_of_this_time += M_tot_of_this_epoch
+                M_tot_up_to_this_time += M_tot_of_this_epoch
                 # calculate stellar initial mass that is still alive (dead star mass boundary)
                 mass_boundary = fucntion_mass_boundary(age_of_this_epoch, mass_grid_table, lifetime_table)
                 # output of this epoch
@@ -626,7 +637,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                     # print(m1 / m2)
 
                     integrate_star_mass = quad(igimf_mass_function, 0.08, mass_boundary, limit=40)[0] # normalized mass
-                    integrate_star_luminosity = quad(igimf_luminous_function, 0.08, mass_boundary, limit=40)[0] # normalized mass
+                    integrate_star_luminosity = quad(igimf_luminous_function, 0.08, mass_boundary, limit=40)[0]
                     current_stellar_mass_of_this_epoch = mass_calibration_factor * integrate_star_mass # real mass
                     current_stellar_luminosity_of_this_epoch = mass_calibration_factor * integrate_star_luminosity
 
@@ -752,16 +763,15 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                     Fe_mass_of_SNIa = (Fe_mass_eject
                                               #- (Chandrasekhar_mass - pre_SNIa_NS_mass) * Fe_H_mass_ratio_at_last_time * 0.7057 # this term is small and can be neglected
                                               ) * SNIa_number_from_this_epoch_till_this_time
+                    # Si_mass_of_SNIa = Si_mass_eject * SNIa_number_from_this_epoch_till_this_time
+                    # S_mass_of_SNIa = S_mass_eject * SNIa_number_from_this_epoch_till_this_time
+                    # Ne_mass_of_SNIa = Ne_mass_eject * SNIa_number_from_this_epoch_till_this_time
                     O_mass_of_this_epoch += O_mass_of_SNIa
                     Mg_mass_of_this_epoch += Mg_mass_of_SNIa
                     Fe_mass_of_this_epoch += Fe_mass_of_SNIa
-                    Fe_production_SNIa += Fe_mass_of_this_epoch
-                    Mg_production_SNIa += Mg_mass_of_this_epoch
-                    O_production_SNIa += O_mass_of_this_epoch
-                    # if age_of_this_epoch == 1 * 10 ** 9:
-                    #     print("Fe_production_SNIa", Fe_mass_of_SNIa)
-                    #     print("O_production_SNIa", O_mass_of_SNIa)
-                    #     print("Mg_production_SNIa", Mg_mass_of_SNIa)
+                    # Si_mass_of_this_epoch += Si_mass_of_SNIa
+                    # S_mass_of_this_epoch += S_mass_of_SNIa
+                    # Ne_mass_of_this_epoch += Ne_mass_of_SNIa
 
                     remnant_mass_of_this_epoch -= pre_SNIa_NS_mass * SNIa_number_from_this_epoch_till_this_time
                     WD_mass_of_this_epoch -= pre_SNIa_NS_mass * SNIa_number_from_this_epoch_till_this_time
@@ -800,7 +810,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         # output of this time step
         total_energy_release = SNIa_energy_release + SNII_energy_release
 
-        ### yeilds at this time step:
+        ### yeilds at this time step from all SF epoch:
         ejected_gas_mass_at_this_time = ejected_gas_mass_till_this_time - ejected_gas_mass_till_last_time
         ejected_metal_mass_at_this_time = ejected_metal_mass_till_this_time - ejected_metal_mass_till_last_time
         ejected_H_mass_at_this_time = ejected_H_mass_till_this_time - ejected_H_mass_till_last_time
@@ -811,9 +821,10 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         ejected_Mg_mass_at_this_time = ejected_Mg_mass_till_this_time - ejected_Mg_mass_till_last_time
         ejected_Ca_mass_at_this_time = ejected_Ca_mass_till_this_time - ejected_Ca_mass_till_last_time
         ejected_Fe_mass_at_this_time = ejected_Fe_mass_till_this_time - ejected_Fe_mass_till_last_time
-        ejected_gas_Mg_over_Fe_till_this_time = function_element_abundunce("Mg", "Fe", ejected_Mg_mass_till_this_time, ejected_Fe_mass_till_this_time)
-        ejected_gas_Mg_over_Fe_at_this_time = function_element_abundunce("Mg", "Fe", ejected_Mg_mass_at_this_time, ejected_Fe_mass_at_this_time)
-        M_tot_at_this_time = M_tot_of_this_time - M_tot_of_last_time # new SF mass added at this time step
+        ejected_gas_Mg_over_Fe_till_this_time = function_element_abundunce(solar_abu_reference_name, "Mg", "Fe", ejected_Mg_mass_till_this_time, ejected_Fe_mass_till_this_time)
+        ejected_gas_Mg_over_Fe_at_this_time = function_element_abundunce(solar_abu_reference_name, "Mg", "Fe", ejected_Mg_mass_at_this_time, ejected_Fe_mass_at_this_time)
+        # M_tot_of_this_time = M_tot_up_to_this_time - M_tot_up_to_last_time # new SF mass added at this time step
+        # M_tot_of_this_time shoud be M_tot_of_this_epoch
         #
         galaxy_mass_without_gas_at_this_time = stellar_mass_at_this_time + remnant_mass_at_this_time
         if galaxy_mass_without_gas_at_this_time == 0 or ejected_gas_mass_at_this_time == 0:
@@ -835,9 +846,9 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
         ### Element abundances in the gas phase (in solar unit):
         if outflow is True:
-            lockup_and_outflow_mass = M_tot_at_this_time * 2  # lockup gas mass in BDs is about 4% thus neglected while the uniform outflow is often assumed to be the same value as the formed stellar mass.
+            lockup_and_outflow_mass = M_tot_of_this_epoch * 2  # M_tot_of_this_time * 2  # lockup gas mass in BDs is about 4% thus neglected while the uniform outflow is often assumed to be the same value as the formed stellar mass.
         else:
-            lockup_and_outflow_mass = M_tot_at_this_time
+            lockup_and_outflow_mass = M_tot_of_this_epoch  # M_tot_of_this_time
         total_gas_mass_at_this_time = total_gas_mass_at_last_time - lockup_and_outflow_mass + ejected_gas_mass_at_this_time
         if total_gas_mass_at_this_time < 0.0001:
             total_gas_mass_at_this_time = 0.0001
@@ -933,40 +944,40 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         Z_over_X = math.log(total_metal_mass_at_this_time/total_H_mass_at_this_time, 10) - math.log(Z_solar/primary_H_mass_fraction, 10)
         # Fe_H_mass_ratio_at_this_time = total_Fe_mass_at_this_time / total_H_mass_at_this_time
         gas_Y_at_this_time = total_He_mass_at_this_time / total_gas_mass_at_this_time
-        O_over_H_number_ratio = function_element_abundunce("O", "H", total_O_mass_at_this_time, total_H_mass_at_this_time)
-        Mg_over_H_number_ratio = function_element_abundunce("Mg", "H", total_Mg_mass_at_this_time, total_H_mass_at_this_time)
-        Fe_over_H_number_ratio = function_element_abundunce("Fe", "H", total_Fe_mass_at_this_time, total_H_mass_at_this_time)
-        C_over_Fe_number_ratio = function_element_abundunce("C", "Fe", total_C_mass_at_this_time, total_Fe_mass_at_this_time)
-        N_over_Fe_number_ratio = function_element_abundunce("N", "Fe", total_N_mass_at_this_time, total_Fe_mass_at_this_time)
-        O_over_Fe_number_ratio = function_element_abundunce("O", "Fe", total_O_mass_at_this_time, total_Fe_mass_at_this_time)
-        Mg_over_Fe_number_ratio = function_element_abundunce("Mg", "Fe", total_Mg_mass_at_this_time, total_Fe_mass_at_this_time)
-        Ca_over_Fe_number_ratio = function_element_abundunce("Ca", "Fe", total_Ca_mass_at_this_time, total_Fe_mass_at_this_time)
+        O_over_H_number_ratio = function_element_abundunce(solar_abu_reference_name, "O", "H", total_O_mass_at_this_time, total_H_mass_at_this_time)
+        Mg_over_H_number_ratio = function_element_abundunce(solar_abu_reference_name, "Mg", "H", total_Mg_mass_at_this_time, total_H_mass_at_this_time)
+        Fe_over_H_number_ratio = function_element_abundunce(solar_abu_reference_name, "Fe", "H", total_Fe_mass_at_this_time, total_H_mass_at_this_time)
+        C_over_Fe_number_ratio = function_element_abundunce(solar_abu_reference_name, "C", "Fe", total_C_mass_at_this_time, total_Fe_mass_at_this_time)
+        N_over_Fe_number_ratio = function_element_abundunce(solar_abu_reference_name, "N", "Fe", total_N_mass_at_this_time, total_Fe_mass_at_this_time)
+        O_over_Fe_number_ratio = function_element_abundunce(solar_abu_reference_name, "O", "Fe", total_O_mass_at_this_time, total_Fe_mass_at_this_time)
+        Mg_over_Fe_number_ratio = function_element_abundunce(solar_abu_reference_name, "Mg", "Fe", total_Mg_mass_at_this_time, total_Fe_mass_at_this_time)
+        Ca_over_Fe_number_ratio = function_element_abundunce(solar_abu_reference_name, "Ca", "Fe", total_Ca_mass_at_this_time, total_Fe_mass_at_this_time)
 
         ### Element abundances in of stars (consider only the metal of stellar surface, i.e., neglect stellar evolution
         # This raises errors from very low mass stars which are fully convective but may not be observationally important):
         ##### mass weighted abundances
         # (total metal in stars / total H in stars):
         mass_weighted_stellar_Y = stellar_He_mass_at_this_time / stellar_mass_at_this_time
-        mass_weighted_stellar_O_over_H = function_element_abundunce("O", "H", stellar_O_mass_at_this_time, stellar_H_mass_at_this_time)
-        mass_weighted_stellar_Mg_over_H = function_element_abundunce("Mg", "H", stellar_Mg_mass_at_this_time, stellar_H_mass_at_this_time)
-        mass_weighted_stellar_Fe_over_H = function_element_abundunce("Fe", "H", stellar_Fe_mass_at_this_time, stellar_H_mass_at_this_time)
-        # mass_weighted_stellar_C_over_Fe = function_element_abundunce("C", "Fe", stellar_C_mass_at_this_time, stellar_Fe_mass_at_this_time)
-        # mass_weighted_stellar_N_over_Fe = function_element_abundunce("N", "Fe", stellar_N_mass_at_this_time, stellar_Fe_mass_at_this_time)
-        mass_weighted_stellar_O_over_Fe = function_element_abundunce("O", "Fe", stellar_O_mass_at_this_time, stellar_Fe_mass_at_this_time)
-        mass_weighted_stellar_Mg_over_Fe = function_element_abundunce("Mg", "Fe", stellar_Mg_mass_at_this_time, stellar_Fe_mass_at_this_time)
-        # mass_weighted_stellar_Ca_over_Fe = function_element_abundunce("Ca", "Fe", stellar_Ca_mass_at_this_time, stellar_Fe_mass_at_this_time)
+        mass_weighted_stellar_O_over_H = function_element_abundunce(solar_abu_reference_name, "O", "H", stellar_O_mass_at_this_time, stellar_H_mass_at_this_time)
+        mass_weighted_stellar_Mg_over_H = function_element_abundunce(solar_abu_reference_name, "Mg", "H", stellar_Mg_mass_at_this_time, stellar_H_mass_at_this_time)
+        mass_weighted_stellar_Fe_over_H = function_element_abundunce(solar_abu_reference_name, "Fe", "H", stellar_Fe_mass_at_this_time, stellar_H_mass_at_this_time)
+        # mass_weighted_stellar_C_over_Fe = function_element_abundunce(solar_abu_reference_name, "C", "Fe", stellar_C_mass_at_this_time, stellar_Fe_mass_at_this_time)
+        # mass_weighted_stellar_N_over_Fe = function_element_abundunce(solar_abu_reference_name, "N", "Fe", stellar_N_mass_at_this_time, stellar_Fe_mass_at_this_time)
+        mass_weighted_stellar_O_over_Fe = function_element_abundunce(solar_abu_reference_name, "O", "Fe", stellar_O_mass_at_this_time, stellar_Fe_mass_at_this_time)
+        mass_weighted_stellar_Mg_over_Fe = function_element_abundunce(solar_abu_reference_name, "Mg", "Fe", stellar_Mg_mass_at_this_time, stellar_Fe_mass_at_this_time)
+        # mass_weighted_stellar_Ca_over_Fe = function_element_abundunce(solar_abu_reference_name, "Ca", "Fe", stellar_Ca_mass_at_this_time, stellar_Fe_mass_at_this_time)
 
         ##### luminosity weighted abundances
         # (total metal in stars / total H in stars):
         luminosity_weighted_stellar_Y = stellar_He_luminosity_at_this_time / stellar_luminosity_at_this_time
-        luminosity_weighted_stellar_O_over_H = function_element_abundunce("O", "H", stellar_O_luminosity_at_this_time, stellar_H_luminosity_at_this_time)
-        luminosity_weighted_stellar_Mg_over_H = function_element_abundunce("Mg", "H", stellar_Mg_luminosity_at_this_time, stellar_H_luminosity_at_this_time)
-        luminosity_weighted_stellar_Fe_over_H = function_element_abundunce("Fe", "H", stellar_Fe_luminosity_at_this_time, stellar_H_luminosity_at_this_time)
-        # luminosity_weighted_stellar_C_over_Fe = function_element_abundunce("C", "Fe", stellar_C_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
-        # luminosity_weighted_stellar_N_over_Fe = function_element_abundunce("N", "Fe", stellar_N_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
-        luminosity_weighted_stellar_O_over_Fe = function_element_abundunce("O", "Fe", stellar_O_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
-        luminosity_weighted_stellar_Mg_over_Fe = function_element_abundunce("Mg", "Fe", stellar_Mg_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
-        # luminosity_weighted_stellar_Ca_over_Fe = function_element_abundunce("Ca", "Fe", stellar_Ca_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
+        luminosity_weighted_stellar_O_over_H = function_element_abundunce(solar_abu_reference_name, "O", "H", stellar_O_luminosity_at_this_time, stellar_H_luminosity_at_this_time)
+        luminosity_weighted_stellar_Mg_over_H = function_element_abundunce(solar_abu_reference_name, "Mg", "H", stellar_Mg_luminosity_at_this_time, stellar_H_luminosity_at_this_time)
+        luminosity_weighted_stellar_Fe_over_H = function_element_abundunce(solar_abu_reference_name, "Fe", "H", stellar_Fe_luminosity_at_this_time, stellar_H_luminosity_at_this_time)
+        # luminosity_weighted_stellar_C_over_Fe = function_element_abundunce(solar_abu_reference_name, "C", "Fe", stellar_C_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
+        # luminosity_weighted_stellar_N_over_Fe = function_element_abundunce(solar_abu_reference_name, "N", "Fe", stellar_N_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
+        luminosity_weighted_stellar_O_over_Fe = function_element_abundunce(solar_abu_reference_name, "O", "Fe", stellar_O_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
+        luminosity_weighted_stellar_Mg_over_Fe = function_element_abundunce(solar_abu_reference_name, "Mg", "Fe", stellar_Mg_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
+        # luminosity_weighted_stellar_Ca_over_Fe = function_element_abundunce(solar_abu_reference_name, "Ca", "Fe", stellar_Ca_luminosity_at_this_time, stellar_Fe_luminosity_at_this_time)
 
 
         if stellar_H_mass_at_this_time == 0:
@@ -1010,6 +1021,20 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             gas_Z_over_X_list += [math.log(Z_0 / Z_solar, 10)]
         else:
             gas_Z_over_X_list += [Z_over_X]
+
+
+        ejected_O_mass_till_this_time_tot_list += [ejected_O_mass_till_this_time]
+        ejected_O_mass_till_this_time_SNII_list += [O_production_SNII]
+        ejected_O_mass_till_this_time_SNIa_list += [ejected_O_mass_till_this_time - O_production_SNII]
+
+        ejected_Mg_mass_till_this_time_tot_list += [ejected_Mg_mass_till_this_time]
+        ejected_Mg_mass_till_this_time_SNII_list += [Mg_production_SNII]
+        ejected_Mg_mass_till_this_time_SNIa_list += [ejected_Mg_mass_till_this_time - Mg_production_SNII]
+
+        ejected_Fe_mass_till_this_time_tot_list += [ejected_Fe_mass_till_this_time]
+        ejected_Fe_mass_till_this_time_SNII_list += [Fe_production_SNII]
+        ejected_Fe_mass_till_this_time_SNIa_list += [ejected_Fe_mass_till_this_time - Fe_production_SNII]
+
 
         Y_list += [gas_Y_at_this_time]
         O_over_H_list += [O_over_H_number_ratio]
@@ -1064,8 +1089,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         ejected_gas_Mg_over_Fe_list += [ejected_gas_Mg_over_Fe_till_this_time]
         instant_ejected_gas_Mg_over_Fe_list += [ejected_gas_Mg_over_Fe_at_this_time]
 
-        if M_tot_of_this_time > 0:
-            ejected_metal_mass_list += [ejected_metal_mass_till_this_time/M_tot_of_this_time]
+        if M_tot_up_to_this_time > 0:
+            ejected_metal_mass_list += [ejected_metal_mass_till_this_time/M_tot_up_to_this_time]
         else:
             ejected_metal_mass_list += [0]
 
@@ -1943,7 +1968,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         return
     return
 
-def function_element_abundunce(element_1_name, element_2_name, metal_1_mass, metal_2_mass):
+def function_element_abundunce(solar_abu_reference_name, element_1_name, element_2_name, metal_1_mass, metal_2_mass):
     # this function calculate the atom number ratio compare to solar value [metal/H]
     if metal_2_mass == 0:
         if metal_1_mass == 0:
@@ -1969,8 +1994,8 @@ def function_element_abundunce(element_1_name, element_2_name, metal_1_mass, met
             print("Warning: current {} mass < 0.".format(element_1_name))
             metal_1_over_2 = None
         else:
-            solar_metal_1_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(element_1_name)
-            solar_metal_2_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(element_2_name)
+            solar_metal_1_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(solar_abu_reference_name, element_1_name)
+            solar_metal_2_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(solar_abu_reference_name, element_2_name)
 
             metal_1_element_weight = element_weight_table.function_element_weight(element_1_name)
             metal_2_element_weight = element_weight_table.function_element_weight(element_2_name)
@@ -2710,6 +2735,49 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
+    #
+    global ejected_O_mass_till_this_time_tot_list, ejected_O_mass_till_this_time_SNIa_list, ejected_O_mass_till_this_time_SNII_list
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(21, figsize=(4, 3.5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, ejected_O_mass_till_this_time_tot_list, label='tot')
+        plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNIa_list, label='from SNIa')
+        plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNII_list, label='from SNII')
+        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.ylabel(r'ejected O [M$_\odot$]')
+        plt.tight_layout()
+        plt.legend()
+    global ejected_Mg_mass_till_this_time_tot_list, ejected_Mg_mass_till_this_time_SNIa_list, ejected_Mg_mass_till_this_time_SNII_list
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(22, figsize=(4, 3.5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_tot_list, label='tot')
+        plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNIa_list, label='from SNIa')
+        plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNII_list, label='from SNII')
+        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.ylabel(r'ejected Mg [M$_\odot$]')
+        plt.tight_layout()
+        plt.legend()
+    global ejected_Fe_mass_till_this_time_tot_list, ejected_Fe_mass_till_this_time_SNIa_list, ejected_Fe_mass_till_this_time_SNII_list
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(23, figsize=(4, 3.5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_tot_list, label='tot')
+        plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNIa_list, label='from SNIa')
+        plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNII_list, label='from SNII')
+        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.ylabel(r'ejected Fe [M$_\odot$]')
+        plt.tight_layout()
+        plt.legend()
     #
     global O_over_H_list, stellar_O_over_H_list, stellar_O_over_H_list_luminosity_weighted
     if plot_show is True or plot_save is True:
@@ -3453,7 +3521,7 @@ if __name__ == '__main__':
 
     ### Generate a new SFH.txt file according to the following given parameters ###
 
-    SFEN = 10 # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
+    SFEN = 5 # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
     Log_SFR = 3.0008 # logarithmic characteristic star formation rate
     location = 0 # SFH shape parameter
     skewness = 10 # SFH shape parameter
@@ -3470,11 +3538,13 @@ if __name__ == '__main__':
     # The 'gas_mass_dependent' use SFH.txt to setup the initial condition
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
-    galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
+    # solar_abu_reference_name='Anders1989' or 'Asplund2009'
+    galaxy_evol(imf='Kroupa', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Thielemann1993',
-                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
+                SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
+                solar_abu_reference_name='Anders1989',
+                high_time_resolution=None, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
     # In both cases, the simulation results are saved as txt files.

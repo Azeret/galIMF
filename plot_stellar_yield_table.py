@@ -3,6 +3,16 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import interpolate
+import element_abundances_solar
+
+reference_name = 'Anders1989'
+H_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'H')
+# He_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'He')
+# C_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'C')
+# N_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'N')
+O_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'O')
+Mg_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'Mg')
+Fe_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'Fe')
 
 
 def plot_lifetime_and_finalmass():
@@ -302,7 +312,7 @@ def function_read_file(yield_table_name):
         N_eject_mass_list, O_eject_mass_list, Ne_eject_mass_list, Mg_eject_mass_list, Si_eject_mass_list, \
         S_eject_mass_list, Ca_eject_mass_list,  Fe_eject_mass_list, Metal_eject_mass_list
     global O_over_Mg_list, Mg_over_Fe_list, Mg_over_H_list, Fe_over_H_list, O_over_H_list, Z_over_H_list, \
-        Z_over_X_list, YYY_list, H_over_M_list, Z_over_M_list, O_over_Fe_list
+        Z_over_X_list, Z_over_Z0_list, XXX_list, YYY_list, ZZZ_list, O_over_Fe_list
     #
     i = len(data)-1
     while i > -1:
@@ -344,23 +354,24 @@ def function_read_file(yield_table_name):
             Ca_num = Ca_mass/40.078
             Fe_num = Fe_mass/55.845
             Metal_num = C_num+N_num+O_num+Ne_num+Mg_num+Si_num+S_num+Ca_num+Fe_num
-            O_over_Mg = math.log(O_num/Mg_num, 10) - 8.69 + 7.60
-            Mg_over_H = math.log(Mg_num/H_num, 10) - 7.60 + 12
-            Fe_over_H = math.log(Fe_num/H_num, 10) - 7.50 + 12
-            O_over_H = math.log(O_num/H_num, 10) - 8.69 + 12
-            Mg_over_Fe = math.log(Mg_num/Fe_num, 10) - 7.60 + 7.50
-            O_over_Fe = math.log(O_num/Fe_num, 10) - 8.69 + 7.50
+            O_over_Mg = math.log(O_num/Mg_num, 10) - O_abundances_solar + Mg_abundances_solar
+            Mg_over_H = math.log(Mg_num/H_num, 10) - Mg_abundances_solar + H_abundances_solar
+            Fe_over_H = math.log(Fe_num/H_num, 10) - Fe_abundances_solar + H_abundances_solar
+            O_over_H = math.log(O_num/H_num, 10) - O_abundances_solar + H_abundances_solar
+            Mg_over_Fe = math.log(Mg_num/Fe_num, 10) - Mg_abundances_solar + Fe_abundances_solar
+            O_over_Fe = math.log(O_num/Fe_num, 10) - O_abundances_solar + Fe_abundances_solar
             Metal_mass = round((ejecta_mass - H_mass - He_mass), 5)  ####################
             # Metal_mass = round((C_mass+N_mass+O_mass+Ne_mass+Mg_mass+Si_mass+S_mass+Ca_mass+Fe_mass), 5)  ###### the same ######
             if Metal_mass<0:
                 print("Warning: Metal_mass=", Metal_mass, "<0")
                 print("check stellar yield table with metallicity and mass being:", Z, "&", M)
                 Metal_mass = 0
-            Z_over_X = math.log(Metal_mass / H_mass, 10) - math.log(0.0134 / 0.7381, 10)
-            Z_over_H = math.log(Metal_num / H_num, 10) - math.log(0.0134 / 18 / 0.7381, 10)  # where 18 is the estimated average atomic weight over the weight of hydrogen.
-            Z_over_M = math.log(Metal_mass / M, 10) - math.log(0.0134, 10)
-            H_over_M = math.log(H_mass / M, 10) - math.log(0.7381, 10)
+            Z_over_X = math.log(Metal_mass / H_mass, 10) - math.log(0.01886 / 0.7381, 10)
+            Z_over_Z0 = math.log(Metal_mass / ejecta_mass, 10) - math.log(0.01886, 10)
+            Z_over_H = math.log(Metal_num / H_num, 10) - math.log(0.01886 / 18 / 0.7381, 10)  # where 18 is the estimated average atomic weight over the weight of hydrogen.
+            XXX = H_mass / ejecta_mass
             YYY = He_mass / ejecta_mass
+            ZZZ = Metal_mass / ejecta_mass
             if len(Z_list) == 0:
                 Z_list.append(Z)
                 Z_n = 0
@@ -380,9 +391,10 @@ def function_read_file(yield_table_name):
                 Metal_eject_mass_list.append([])
                 Z_over_H_list.append([])
                 Z_over_X_list.append([])
+                Z_over_Z0_list.append([])
+                XXX_list.append([])
                 YYY_list.append([])
-                Z_over_M_list.append([])
-                H_over_M_list.append([])
+                ZZZ_list.append([])
                 O_over_Mg_list.append([])
                 Mg_over_Fe_list.append([])
                 Mg_over_H_list.append([])
@@ -413,9 +425,10 @@ def function_read_file(yield_table_name):
                 O_over_H_list.append([])
                 Z_over_H_list.append([])
                 Z_over_X_list.append([])
+                Z_over_Z0_list.append([])
+                XXX_list.append([])
                 YYY_list.append([])
-                Z_over_M_list.append([])
-                H_over_M_list.append([])
+                ZZZ_list.append([])
                 O_over_Fe_list.append([])
             M_list[Z_n].append(M)
             eject_mass_list[Z_n].append(ejecta_mass)
@@ -437,9 +450,10 @@ def function_read_file(yield_table_name):
             O_over_H_list[Z_n].append(O_over_H)
             Z_over_H_list[Z_n].append(Z_over_H)
             Z_over_X_list[Z_n].append(Z_over_X)
+            Z_over_Z0_list[Z_n].append(Z_over_Z0)
+            XXX_list[Z_n].append(XXX)
             YYY_list[Z_n].append(YYY)
-            Z_over_M_list[Z_n].append(Z_over_M)
-            H_over_M_list[Z_n].append(H_over_M)
+            ZZZ_list[Z_n].append(ZZZ)
             Fe_over_H_list[Z_n].append(Fe_over_H)
             O_over_Fe_list[Z_n].append(O_over_Fe)
         (i) = (i - 1)
@@ -514,8 +528,8 @@ def function_get_Z_M(M_Z_string):
     return (Z, M)
 
 def funtion_plot_yields():
-    global O_over_Mg_list, Mg_over_Fe_list, Mg_over_H_list, Fe_over_H_list, O_over_H_list, Z_over_X_list, YYY_list, \
-        Z_over_H_list, H_over_M_list, Z_over_M_list, O_over_Fe_list, M_list, Z_list
+    global O_over_Mg_list, Mg_over_Fe_list, Mg_over_H_list, Fe_over_H_list, O_over_H_list, Z_over_X_list, Z_over_Z0_list, \
+        Z_over_H_list, O_over_Fe_list, M_list, Z_list, XXX_list, YYY_list, ZZZ_list
     color_list_ = []
     for i in range(len(Z_list)):
         ZZZ = Z_list[i]
@@ -532,6 +546,7 @@ def funtion_plot_yields():
             M_list[j][i] = math.log(M_list[j][i], 10)
             (i) = (i+1)
         (j) = (j+1)
+
     # plt.rc('font', family='serif')
     # plt.rc('xtick', labelsize='x-small')
     # plt.rc('ytick', labelsize='x-small')
@@ -546,7 +561,7 @@ def funtion_plot_yields():
     # Mg_mass_eject_SNIa = 0.009  # TNH93 0.009 i99CDD1 0.0077, i99CDD2 0.0042, i99W7 0.0085, ivo12/13 0.015-0.029, t03 0.013, t86 0.016
     # O_num = O_mass_eject_SNIa / 15.9994
     # Mg_num = Mg_mass_eject_SNIa / 24.305
-    # O_over_Mg_SNIa = math.log(O_num / Mg_num, 10) - 8.69 + 7.60
+    # O_over_Mg_SNIa = math.log(O_num / Mg_num, 10) - O_abundances_solar + Mg_abundances_solar
     # plt.plot([-0.3, 0.9], [O_over_Mg_SNIa, O_over_Mg_SNIa], ls="--", lw=2, label="SNIa")
     # plt.legend(prop={'size': 7}, loc='best')
     # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
@@ -566,7 +581,7 @@ def funtion_plot_yields():
     Fe_mass_eject_SNIa = 0.372  #0.63 # Recchi2009 halfed to 0.372  # TNH93 0.744 i99CDD1 0.56, i99CDD2 0.76, i99W7 0.63, ivo12/13 0.62-0.67, t03 0.74, t86 0.63
     Mg_num = Mg_mass_eject_SNIa / 24.305
     Fe_num = Fe_mass_eject_SNIa / 55.845
-    Mg_over_Fe_SNIa = math.log(Mg_num / Fe_num, 10) - 7.60 + 7.50
+    Mg_over_Fe_SNIa = math.log(Mg_num / Fe_num, 10) - Mg_abundances_solar + Fe_abundances_solar
     # plt.plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=2, label="SNIa")
     # plt.plot([-2, 3], [0, 0], lw=0.5, ls='dotted')
     # plt.xlim(-0.5, 2.2)
@@ -588,7 +603,7 @@ def funtion_plot_yields():
     # while i > -1:
     #     plt.plot(M_list[i], O_over_Fe_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
-    # O_over_Fe_SNIa = math.log(O_num / Fe_num, 10) - 7.60 + 7.50
+    # O_over_Fe_SNIa = math.log(O_num / Fe_num, 10) - O_abundances_solar + Fe_abundances_solar
     # plt.plot([-0.3, 0.9], [O_over_Fe_SNIa, O_over_Fe_SNIa], ls="--", lw=2, label="SNIa")
     # plt.legend(prop={'size': 7}, loc='best')
     # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
@@ -683,39 +698,6 @@ def funtion_plot_yields():
     # plt.rc('font', family='serif')
     # plt.rc('xtick', labelsize='x-small')
     # plt.rc('ytick', labelsize='x-small')
-    # fig = plt.figure(9, figsize=(4, 3.5))
-    # plt.xlim(-0.5, 2.2)
-    # plt.ylim(-2, 2)
-    # i = len(M_list) - 1
-    # while i > -1:
-    #     plt.plot(M_list[i], Z_over_M_list[i], label='Z={}'.format(Z_list[i]))
-    #     (i) = (i - 1)
-    # plt.plot([-2, 3], [0, 0], lw=0.1)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
-    # plt.ylabel(r'[Z/M]')
-    # plt.title("Metal mass compared to stellar mass")
-    # plt.tight_layout()
-    #
-    # plt.rc('font', family='serif')
-    # plt.rc('xtick', labelsize='x-small')
-    # plt.rc('ytick', labelsize='x-small')
-    # fig = plt.figure(10, figsize=(4, 3.5))
-    # plt.xlim(-0.5, 2.2)
-    # plt.ylim(-2, 2)
-    # i = len(M_list) - 1
-    # while i > -1:
-    #     plt.plot(M_list[i], H_over_M_list[i], label='Z={}'.format(Z_list[i]))
-    #     (i) = (i - 1)
-    # plt.plot([-2, 3], [0, 0], lw=0.1)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
-    # plt.ylabel(r'[H/M]')
-    # plt.tight_layout()
-    #
-    # plt.rc('font', family='serif')
-    # plt.rc('xtick', labelsize='x-small')
-    # plt.rc('ytick', labelsize='x-small')
     # fig = plt.figure(11, figsize=(4, 3.5))
     # plt.xlim(-0.5, 2.2)
     # plt.ylim(0.23, 0.6)
@@ -736,16 +718,18 @@ def funtion_plot_yields():
 
     i = len(M_list) - 1
     while i > -1:
-        axs[0].plot(M_list[i], Z_over_X_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
+        axs[0].plot(M_list[i], Z_over_Z0_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
         (i) = (i - 1)
     axs[0].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
     axs[0].set_yticks(np.arange(-2, 2.1, 1))
-    axs[0].set_ylim(-1.9, 2)
-    axs[0].set_ylabel(r'[Z/X]')
+    axs[0].set_ylim(-2.1, 2.5)
+    axs[0].set_ylabel(r'[Z]')
 
     i = len(M_list) - 1
     while i > -1:
+        # axs[1].plot(M_list[i], XXX_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
         axs[1].plot(M_list[i], YYY_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
+        # axs[1].plot(M_list[i], ZZZ_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
         (i) = (i - 1)
     axs[1].plot([-2, 3], [0.273, 0.273], lw=0.7, ls='dotted')
     axs[1].set_yticks(np.arange(0.2, 0.61, 0.1))
@@ -761,7 +745,7 @@ def funtion_plot_yields():
         (i) = (i - 1)
     axs[2].plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
     axs[2].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
-    # axs[2].set_yticks(np.arange(6, 16, 2))
+    axs[2].set_yticks(np.arange(6, 16, 2))
     axs[2].set_ylim(-2, 3.5)
     axs[2].set_ylabel(r'[Mg/Fe]')
     axs[2].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [M$_\odot$])')
@@ -802,9 +786,10 @@ if __name__ == '__main__':
     O_over_H_list = []
     Z_over_H_list = []
     Z_over_X_list = []
+    Z_over_Z0_list = []
+    XXX_list = []
     YYY_list = []
-    Z_over_M_list = []
-    H_over_M_list = []
+    ZZZ_list = []
     Mg_over_Fe_list = []
     O_over_Fe_list = []
     yield_table_name = "portinari98" # being "WW95" or "portinari98" or "marigo01"
