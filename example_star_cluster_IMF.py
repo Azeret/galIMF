@@ -18,6 +18,7 @@ import galimf  # Main part of the GalIMF code for generating and sampling Galaxy
 from pylab import *
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.integrate import quad
 import csv  # csv and izip/zip are used to create output files
 try:
     from itertools import izip as zip
