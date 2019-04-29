@@ -1,4 +1,4 @@
-# Python3 code, last update Wed 20 Dec 2018
+# Python3 code
 
 # An example file that demonstrates how to construct galaxy-wide IMF
 # as well as getting each stellar mass in the galaxy applying the IGIMF theory with the galIMF model.
