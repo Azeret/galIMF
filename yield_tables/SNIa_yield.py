@@ -3,7 +3,7 @@
 
 def function_mass_ejected(yield_reference_name, element_name):
     mass_ejected = 0
-    if yield_reference_name == ' Thielemann1993':
+    if yield_reference_name == 'Thielemann1993':
         # Reference: Thielemann et al. (1993)
         # Values adopted from
         # Gibson, B. K., Loewenstein, M., & Mushotzky, R. F. 1997, MNRAS, 290, 623, their TNH93 dataset
@@ -50,6 +50,8 @@ def function_mass_ejected(yield_reference_name, element_name):
             mass_ejected = 0.065  # +-0.010
         else:
             mass_ejected = 0
+    else:
+        print('input wrong yield_reference_name')
     return mass_ejected
 
 
