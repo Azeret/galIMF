@@ -3538,12 +3538,12 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='Kroupa', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
+    galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
                 solar_abu_reference_name='Anders1989',
-                high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
+                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
     # In both cases, the simulation results are saved as txt files.
