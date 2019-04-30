@@ -823,8 +823,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         ejected_Fe_mass_at_this_time = ejected_Fe_mass_till_this_time - ejected_Fe_mass_till_last_time
         ejected_gas_Mg_over_Fe_till_this_time = function_element_abundunce(solar_abu_reference_name, "Mg", "Fe", ejected_Mg_mass_till_this_time, ejected_Fe_mass_till_this_time)
         ejected_gas_Mg_over_Fe_at_this_time = function_element_abundunce(solar_abu_reference_name, "Mg", "Fe", ejected_Mg_mass_at_this_time, ejected_Fe_mass_at_this_time)
-        # M_tot_of_this_time = M_tot_up_to_this_time - M_tot_up_to_last_time # new SF mass added at this time step
-        # M_tot_of_this_time shoud be M_tot_of_this_epoch
+        M_tot_of_this_time = M_tot_up_to_this_time - M_tot_up_to_last_time # new SF mass added at this time step
         #
         galaxy_mass_without_gas_at_this_time = stellar_mass_at_this_time + remnant_mass_at_this_time
         if galaxy_mass_without_gas_at_this_time == 0 or ejected_gas_mass_at_this_time == 0:
@@ -846,9 +845,9 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
         ### Element abundances in the gas phase (in solar unit):
         if outflow is True:
-            lockup_and_outflow_mass = M_tot_of_this_epoch * 2  # M_tot_of_this_time * 2  # lockup gas mass in BDs is about 4% thus neglected while the uniform outflow is often assumed to be the same value as the formed stellar mass.
+            lockup_and_outflow_mass = M_tot_of_this_time * 2  # lockup gas mass in BDs is about 4% thus neglected while the uniform outflow is often assumed to be the same value as the formed stellar mass.
         else:
-            lockup_and_outflow_mass = M_tot_of_this_epoch  # M_tot_of_this_time
+            lockup_and_outflow_mass = M_tot_of_this_time
         total_gas_mass_at_this_time = total_gas_mass_at_last_time - lockup_and_outflow_mass + ejected_gas_mass_at_this_time
         if total_gas_mass_at_this_time < 0.0001:
             total_gas_mass_at_this_time = 0.0001
@@ -3521,7 +3520,7 @@ if __name__ == '__main__':
 
     ### Generate a new SFH.txt file according to the following given parameters ###
 
-    SFEN = 5 # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
+    SFEN = 10 # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
     Log_SFR = 3.0008 # logarithmic characteristic star formation rate
     location = 0 # SFH shape parameter
     skewness = 10 # SFH shape parameter
@@ -3544,7 +3543,7 @@ if __name__ == '__main__':
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
                 solar_abu_reference_name='Anders1989',
-                high_time_resolution=None, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
+                high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
     # In both cases, the simulation results are saved as txt files.
