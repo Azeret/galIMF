@@ -65,6 +65,11 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
     ### preparation ###
     ###################
 
+    # Warning flags:
+    Warning_ejected_gas_mass_of_this_epoch = False
+    Warning_WD_mass_till_this_time = False
+    Warning_galaxy_mass_ejected_gas_mass = False
+
     # get all avaliable metallicity from stellar evolution table
     (Z_list, Z_list_2, Z_list_3) = function_get_avaliable_Z(str_evo_table)
 
@@ -124,7 +129,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
     # the final time axis is the sorted combination of the two
     time_axis = sorted(list(set(time_axis + time_axis_for_SFH_input)))
-    print("calculate results at galaxy age [yr]:", time_axis)
+    print("Simulation results will be give at galactic age [yr] =\n", time_axis)
     length_list_time_step = len(time_axis)
 
     ###################
@@ -668,6 +673,11 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                     WD_mass_of_this_epoch = get_WD_mass(mass_boundary, 1, 1, mass_calibration_factor)
                     remnant_mass_of_this_epoch = WD_mass_of_this_epoch + NS_mass_of_this_epoch + BH_mass_of_this_epoch
                     ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - current_stellar_mass_of_this_epoch - remnant_mass_of_this_epoch
+                    if ejected_gas_mass_of_this_epoch < 0:
+                        Warning_ejected_gas_mass_of_this_epoch = True
+                        # Warning: integrate_star_mass > integrate_igimf_mass caused by the igimf_mass_function integration error
+                        ejected_gas_mass_of_this_epoch = 0
+
                     #
                     # # consider direct black hole as in Heger et al. (2003) (maybe not self-consistant with the stellar evolution table)
                     # if mass_boundary > 100:
@@ -753,7 +763,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                     if age_of_this_epoch == 10*10**9-1*10**7:
                         # print(function_number_SNIa(0, 10 * 10 ** 9, 1, 0))
                         # print("SN number per star in range:", SNIa_number_from_this_epoch_till_this_time/number_in_SNIa_boundary)
-                        print("SNIa number within 10Gyr per solar mass of star:", SNIa_number_from_this_epoch_till_this_time/M_tot_of_this_epoch)
+                        print("\nType Ia supernova (SNIa) is activated.\n"
+                              "Total SNIa number per solar mass of star formed at t = 10Gyr:", SNIa_number_from_this_epoch_till_this_time/M_tot_of_this_epoch)
                     # update the element masses
                     ejected_gas_mass_of_this_epoch += total_mass_eject_per_SNIa * SNIa_number_from_this_epoch_till_this_time
                     metal_mass_of_this_epoch += (Chandrasekhar_mass - (Chandrasekhar_mass - pre_SNIa_NS_mass) *
@@ -830,10 +841,11 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             expansion_factor_instantaneous = 1
             expansion_factor_adiabat = 1
         elif galaxy_mass_without_gas_at_this_time < ejected_gas_mass_at_this_time:
-            print('Warning: galaxy_mass < ejected_gas_mass. '
-                  'This is due to too large a timestep. '
-                  'It is easy to aviod this issue by applying the "high_time_resolution=True". '
-                  'But the simulation will take much longer time.')
+            Warning_galaxy_mass_ejected_gas_mass = True
+            # Warning: galaxy_mass < ejected_gas_mass.
+            # This is due to too large a timestep.
+            # It is easy to aviod this issue by applying the "high_time_resolution=True"
+            # but the simulation will take much longer time.
             expansion_factor_instantaneous = 10
             expansion_factor_adiabat = (galaxy_mass_without_gas_at_this_time + ejected_gas_mass_at_this_time) / galaxy_mass_without_gas_at_this_time
         else:
@@ -1001,17 +1013,21 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         ##########################################
 
         if BH_mass_till_this_time == 0:
-            BH_mass_list += [0.1]
+            BH_mass_list += [10**(-10)]
         else:
             BH_mass_list += [BH_mass_till_this_time]
 
         if NS_mass_till_this_time == 0:
-            NS_mass_list += [0.1]
+            NS_mass_list += [10**(-10)]
         else:
             NS_mass_list += [NS_mass_till_this_time]
 
         if WD_mass_till_this_time == 0:
-            WD_mass_list += [0.1]
+            WD_mass_list += [10**(-10)]
+        elif WD_mass_till_this_time < 0:
+            Warning_WD_mass_till_this_time = True
+            # Warning: more SNIa formed than WD avaliable. Please modify the SNIa rate assumption
+            WD_mass_list += [10**(-10)]
         else:
             WD_mass_list += [WD_mass_till_this_time]
 
@@ -1071,17 +1087,17 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         stellar_Z_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_Z_over_H]
 
         if remnant_mass_at_this_time == 0:
-            remnant_mass_list += [0.1]
+            remnant_mass_list += [10**(-10)]
         else:
             remnant_mass_list += [remnant_mass_at_this_time]
 
         if total_gas_mass_at_this_time == 0:
-            total_gas_mass_list += [0.1]
+            total_gas_mass_list += [10**(-10)]
         else:
             total_gas_mass_list += [total_gas_mass_at_this_time]
 
         if ejected_gas_mass_till_this_time == 0 or ejected_gas_mass_till_this_time < 0:
-            ejected_gas_mass_list += [0.1]
+            ejected_gas_mass_list += [10**(-10)]
         else:
             ejected_gas_mass_list += [ejected_gas_mass_till_this_time]
 
@@ -1109,7 +1125,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             expansion_factor_list += [expansion_factor * expansion_factor_list[-1]]
 
         if stellar_mass_at_this_time == 0:
-            stellar_mass_list += [0.1]
+            stellar_mass_list += [10**(-10)]
         else:
             stellar_mass_list += [stellar_mass_at_this_time]
 
@@ -1153,6 +1169,22 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             gc.collect()
         (time_step)=(time_step + 1)
 
+    ######################
+    ### Show Warnings ###
+    ######################
+
+    if Warning_ejected_gas_mass_of_this_epoch == True:
+        print('\nWarning: ejected_gas_mass_of_this_epoch < 0. See comments in galevo.py')
+
+    if Warning_WD_mass_till_this_time == True:
+        print("Warning: WD_mass_till_this_time < 0. See comments in galevo.py")
+
+    if Warning_galaxy_mass_ejected_gas_mass == True:
+        print('Warning: galaxy_mass < ejected_gas_mass. See comments in galevo.py.')
+
+
+    print("\n - Simulation complete. Computation time: %s -\n" % round((time.time() - start_time), 2))
+
     ###################
     ### output data ###
     ###################
@@ -1179,14 +1211,13 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
     text_output(imf, STR, round(math.log(max(SFH_input), 10), 1), SFEN, original_gas_mass, Z_0, Z_solar)
 
-    print(" - Run time: %s -" % round((time.time() - start_time), 2))
-
     # if output plot applies
     plot_output(plot_show, plot_save, imf, igimf)
 
     ###################
     ###     end     ###
     ###################
+
     return
 
 # def function_update_element_gas_infall():
@@ -2147,6 +2178,7 @@ def function_mass_Kroupa_IMF(mass):
     return m
 
 def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
+    print('\nGenerating txt output, including:\n')
     global time_axis
     # print("time:", time_axis)
 
@@ -2220,12 +2252,12 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
 
     global BH_mass_list, NS_mass_list, WD_mass_list, remnant_mass_list, stellar_mass_list, ejected_gas_mass_list
     stellar_mass = round(math.log(stellar_mass_list[-1], 10), 4)
-    print("Mass of all alive stars at final time: 10^", stellar_mass)
+    print("Mass of all alive stars at final time: 10 ^", stellar_mass)
     downsizing_relation__star_formation_duration = round(10**(2.38-0.24*stellar_mass), 4)  # Recchi 2009
     # print("star formation duration (downsizing relation):", downsizing_relation__star_formation_duration, "Gyr")
 
     stellar_and_remnant_mass = round(math.log(stellar_mass_list[-1] + remnant_mass_list[-1], 10), 1)
-    print("Mass of stars and remnants at final time: 10^", stellar_and_remnant_mass)
+    print("Mass of stars and remnants at final time: 10 ^", stellar_and_remnant_mass)
 
     total_mas_in_box = original_gas_mass
 
@@ -2390,9 +2422,13 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
         (i) = (i + 1)
     file.write("\n")
 
+    if SNIa_energy_release_list[-1] < 10**(-10):
+        SNIa_energy_release_list[-1] = 10 ** (-10)
     file.write("# Total number of SNIa (log_10):\n")
     file.write("%s\n" % round(math.log(SNIa_energy_release_list[-1], 10), 1))
 
+    if SNII_energy_release_list[-1] < 10**(-10):
+        SNII_energy_release_list[-1] = 10 ** (-10)
     file.write("# Total number of SNII (log_10):\n")
     file.write("%s\n" % round(math.log(SNII_energy_release_list[-1], 10), 1))
 
@@ -2450,6 +2486,7 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     return
 
 def plot_output(plot_show, plot_save, imf, igimf):
+    print('\nGenerating plots output...\n')
     # plot SFH
     global all_sfr
     SFR_list = []
@@ -2734,49 +2771,6 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-    #
-    global ejected_O_mass_till_this_time_tot_list, ejected_O_mass_till_this_time_SNIa_list, ejected_O_mass_till_this_time_SNII_list
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(21, figsize=(4, 3.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, ejected_O_mass_till_this_time_tot_list, label='tot')
-        plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNIa_list, label='from SNIa')
-        plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNII_list, label='from SNII')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
-        plt.ylabel(r'ejected O [M$_\odot$]')
-        plt.tight_layout()
-        plt.legend()
-    global ejected_Mg_mass_till_this_time_tot_list, ejected_Mg_mass_till_this_time_SNIa_list, ejected_Mg_mass_till_this_time_SNII_list
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(22, figsize=(4, 3.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_tot_list, label='tot')
-        plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNIa_list, label='from SNIa')
-        plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNII_list, label='from SNII')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
-        plt.ylabel(r'ejected Mg [M$_\odot$]')
-        plt.tight_layout()
-        plt.legend()
-    global ejected_Fe_mass_till_this_time_tot_list, ejected_Fe_mass_till_this_time_SNIa_list, ejected_Fe_mass_till_this_time_SNII_list
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(23, figsize=(4, 3.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_tot_list, label='tot')
-        plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNIa_list, label='from SNIa')
-        plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNII_list, label='from SNII')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
-        plt.ylabel(r'ejected Fe [M$_\odot$]')
-        plt.tight_layout()
-        plt.legend()
     #
     global O_over_H_list, stellar_O_over_H_list, stellar_O_over_H_list_luminosity_weighted
     if plot_show is True or plot_save is True:
@@ -3208,15 +3202,19 @@ def plot_output(plot_show, plot_save, imf, igimf):
     #
     global BH_mass_list, NS_mass_list, WD_mass_list, total_gas_mass_list, ejected_gas_mass_list
     for i in range(length_of_time_axis):
+        if remnant_mass_list[i] < 10 ** (-10):
+            remnant_mass_list[i] = 10 ** (-10)
         remnant_mass_list[i] = math.log(remnant_mass_list[i], 10)
+        if total_gas_mass_list[i] < 10 ** (-10):
+            total_gas_mass_list[i] = 10 ** (-10)
         total_gas_mass_list[i] = math.log(total_gas_mass_list[i], 10)
+        if stellar_mass_list[i] < 10 ** (-10):
+            stellar_mass_list[i] = 10 ** (-10)
         stellar_mass_list[i] = math.log(stellar_mass_list[i], 10)
         ejected_gas_mass_list[i] = math.log(ejected_gas_mass_list[i], 10)
-        if WD_mass_list[i]<0:
-            print("Warrning: WD_mass_list[{}] < 0".format(i))
-            WD_mass_list[i]=1
-        else:
-            WD_mass_list[i] = math.log(WD_mass_list[i], 10)
+        if WD_mass_list[i] < 10 ** (-10):
+            WD_mass_list[i] = 10 ** (-10)
+        WD_mass_list[i] = math.log(WD_mass_list[i], 10)
         NS_mass_list[i] = math.log(NS_mass_list[i], 10)
         BH_mass_list[i] = math.log(BH_mass_list[i], 10)
     # time_axis[0] = time_axis[1]
@@ -3291,7 +3289,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file = open('simulation_results_from_galaxy_evol/plots/SN_number_mass.txt', 'w')
     file.write("# final SNIa_number per stellar mass formed\n")
     file.write("{}\n".format(SNIa_number_list[-1]/total_star_formed))
-    print(SNIa_number_list[-1]/total_star_formed)
+    # print("total SNIa number per solar mass of star formed:", SNIa_number_list[-1]/total_star_formed)
     file.write("# final SNII_number per stellar mass formed\n")
     file.write("{}\n".format(SNII_number_list[-1]/total_star_formed))
     file.close()
@@ -3375,6 +3373,50 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.legend(prop={'size': 7.5}, loc='best')
         plt.tight_layout()
 
+        #
+        global ejected_O_mass_till_this_time_tot_list, ejected_O_mass_till_this_time_SNIa_list, ejected_O_mass_till_this_time_SNII_list
+        if plot_show is True or plot_save is True:
+            plt.rc('font', family='serif')
+            plt.rc('xtick', labelsize='x-small')
+            plt.rc('ytick', labelsize='x-small')
+            fig = plt.figure(21, figsize=(4, 3.5))
+            fig.add_subplot(1, 1, 1)
+            plt.plot(log_time_axis, ejected_O_mass_till_this_time_tot_list, label='tot')
+            plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNIa_list, label='from SNIa')
+            plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNII_list, label='from SNII')
+            plt.xlabel(r'log$_{10}$(age) [yr]')
+            plt.ylabel(r'ejected O [M$_\odot$]')
+            plt.tight_layout()
+            plt.legend()
+        global ejected_Mg_mass_till_this_time_tot_list, ejected_Mg_mass_till_this_time_SNIa_list, ejected_Mg_mass_till_this_time_SNII_list
+        if plot_show is True or plot_save is True:
+            plt.rc('font', family='serif')
+            plt.rc('xtick', labelsize='x-small')
+            plt.rc('ytick', labelsize='x-small')
+            fig = plt.figure(22, figsize=(4, 3.5))
+            fig.add_subplot(1, 1, 1)
+            plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_tot_list, label='tot')
+            plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNIa_list, label='from SNIa')
+            plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNII_list, label='from SNII')
+            plt.xlabel(r'log$_{10}$(age) [yr]')
+            plt.ylabel(r'ejected Mg [M$_\odot$]')
+            plt.tight_layout()
+            plt.legend()
+        global ejected_Fe_mass_till_this_time_tot_list, ejected_Fe_mass_till_this_time_SNIa_list, ejected_Fe_mass_till_this_time_SNII_list
+        if plot_show is True or plot_save is True:
+            plt.rc('font', family='serif')
+            plt.rc('xtick', labelsize='x-small')
+            plt.rc('ytick', labelsize='x-small')
+            fig = plt.figure(23, figsize=(4, 3.5))
+            fig.add_subplot(1, 1, 1)
+            plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_tot_list, label='tot')
+            plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNIa_list, label='from SNIa')
+            plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNII_list, label='from SNII')
+            plt.xlabel(r'log$_{10}$(age) [yr]')
+            plt.ylabel(r'ejected Fe [M$_\odot$]')
+            plt.tight_layout()
+            plt.legend()
+
     if plot_show is True:
         plt.show()
     return
@@ -3387,6 +3429,8 @@ def generate_SFH(distribution, Log_SFR, SFEN, sfr_tail, skewness, location):
         generate_sfh_flat(Log_SFR, SFEN)
     elif distribution == "lognorm":
         generate_sfh_lognorm(Log_SFR, SFEN)
+    else:
+        print('Warning: input unrecognized distribution name for galevo.generate_SFH')
     return
 
 
@@ -3538,7 +3582,7 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STR=1, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
+    galaxy_evol(imf='igimf', STR=0.99, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
