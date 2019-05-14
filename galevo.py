@@ -18,12 +18,13 @@ import gc
 import sys
 sys.path.insert(0, 'Generated_IGIMFs')
 sys.path.insert(0, 'IMFs')
+sys.path.insert(0, 'yield_tables')
 import element_weight_table, element_abundances_solar, element_abundances_primordial
 from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 from yield_tables import SNIa_yield
 
 
-def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, str_evo_table='portinari98',
+def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Anders1989_mass', str_evo_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.05,
@@ -115,13 +116,21 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         if SFH_input[i] > 0:
             if high_time_resolution == True:
                 time_axis_for_SFH_input += [i * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 5]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 5]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 5]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 6]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 6]
-                time_axis_for_SFH_input += [i * 10 ** 7 + 4 * 10 ** 6]
-                time_axis_for_SFH_input += [i * 10 ** 7 + 6 * 10 ** 6]
-                time_axis_for_SFH_input += [i * 10 ** 7 + 8 * 10 ** 6]
-                time_axis_for_SFH_input += [i * 10 ** 7 + 10 * 10 ** 6]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 6]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 8]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 8]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 8]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 9]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 9]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 9]
             else:
                 time_axis_for_SFH_input += [i * 10 ** 7]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 9 * 10 ** 6]
@@ -208,7 +217,13 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
     SNII_energy_release_list = []
     SNII_number_list = []
     SNII_number_per_century = []
-    Z_over_X = math.log(Z_0 / Z_solar, 10)
+    Z_solar = element_abundances_solar.function_solar_element_abundances(Z_solar_table, 'Metal')
+    X_solar = element_abundances_solar.function_solar_element_abundances(Z_solar_table, 'H')
+    primary_H_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(
+        solar_abu_reference_name, "H", Z_0, Z_solar)
+    primary_He_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(
+        solar_abu_reference_name, "He", Z_0, Z_solar)
+    Z_over_X = math.log(Z_0 / primary_H_mass_fraction, 10) - math.log(Z_solar / X_solar, 10)
     # do calculation for each time start from time 0
     time_step = 0
     gc_collect_check = 1
@@ -288,9 +303,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             total_Ca_mass_at_this_time = 0
             total_Fe_mass_at_this_time = 0
 
-            primary_H_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "H", Z_0, Z_solar)
-            primary_He_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "He", Z_0, Z_solar)
-            total_H_mass_at_last_time = original_gas_mass * (primary_H_mass_fraction-Z_0)
+            total_H_mass_at_last_time = original_gas_mass * primary_H_mass_fraction
             H_weight = element_weight_table.function_element_weight("H")
             total_He_mass_at_last_time = original_gas_mass * primary_He_mass_fraction
             total_C_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(solar_abu_reference_name, "C", Z_0, Z_solar)
@@ -322,7 +335,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
             stellar_Ca_luminosity_at_this_time = 0
             stellar_Fe_luminosity_at_this_time = 0
 
-            metal_mass_fraction_in_gas = [Z_gas_this_time_step, primary_H_mass_fraction-Z_0, primary_He_mass_fraction,
+            metal_mass_fraction_in_gas = [Z_gas_this_time_step, primary_H_mass_fraction, primary_He_mass_fraction,
                                           total_C_mass_at_last_time/original_gas_mass,
                             total_N_mass_at_last_time/original_gas_mass, total_O_mass_at_last_time/original_gas_mass,
                             total_Mg_mass_at_last_time/original_gas_mass, total_Ca_mass_at_last_time/original_gas_mass,
@@ -675,7 +688,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
                     ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - current_stellar_mass_of_this_epoch - remnant_mass_of_this_epoch
                     if ejected_gas_mass_of_this_epoch < 0:
                         Warning_ejected_gas_mass_of_this_epoch = True
-                        # Warning: integrate_star_mass > integrate_igimf_mass caused by the igimf_mass_function integration error
+                        # Warning: ejected_gas_mass_of_this_epoch < 0 (integrate_star_mass > integrate_igimf_mass)
+                        # caused by the igimf_mass_function integration error
                         ejected_gas_mass_of_this_epoch = 0
 
                     #
@@ -952,7 +966,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
         #     function_update_element_gas_infall()
 
         # gas metallicity_at_this_time = total_metal_mass_at_this_time (in gas) / total_gas_mass_at_this_time
-        Z_over_X = math.log(total_metal_mass_at_this_time/total_H_mass_at_this_time, 10) - math.log(Z_solar/primary_H_mass_fraction, 10)
+        Z_over_X = math.log(total_metal_mass_at_this_time/total_H_mass_at_this_time, 10) - math.log(Z_solar/X_solar, 10)
         # Fe_H_mass_ratio_at_this_time = total_Fe_mass_at_this_time / total_H_mass_at_this_time
         gas_Y_at_this_time = total_He_mass_at_this_time / total_gas_mass_at_this_time
         O_over_H_number_ratio = function_element_abundunce(solar_abu_reference_name, "O", "H", total_O_mass_at_this_time, total_H_mass_at_this_time)
@@ -992,13 +1006,13 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
 
         if stellar_H_mass_at_this_time == 0:
-            mass_weighted_stellar_Z_over_X = math.log(Z_0 / Z_solar, 10)
+            mass_weighted_stellar_Z_over_X = math.log(Z_0 / Z_solar, 10)  # approximated with [Z]
             luminosity_weighted_stellar_Z_over_X = mass_weighted_stellar_Z_over_X
         else:
             mass_weighted_stellar_Z_over_X = math.log(stellar_metal_mass_at_this_time / stellar_H_mass_at_this_time, 10) \
-                                         - math.log(Z_solar / primary_H_mass_fraction, 10)
+                                         - math.log(Z_solar / X_solar, 10)
             luminosity_weighted_stellar_Z_over_X = math.log(stellar_metal_luminosity_at_this_time / stellar_H_luminosity_at_this_time, 10) \
-                                         - math.log(Z_solar / primary_H_mass_fraction, 10)
+                                         - math.log(Z_solar / X_solar, 10)
 
         # the so called [Z/H] as determined by observation with equation: [Z/H] = [Fe/H] + A[Mg/Fe] where A=0.94 (Thomas 2003)
         if mass_weighted_stellar_Fe_over_H is None or mass_weighted_stellar_Mg_over_Fe is None:
@@ -1033,7 +1047,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar=0.01886, st
 
         if Z_over_X == 0:
             print("Warning: Z_over_X == 0")
-            gas_Z_over_X_list += [math.log(Z_0 / Z_solar, 10)]
+            gas_Z_over_X_list += [math.log(Z_0 / Z_solar, 10)]  # approximated with [Z]
         else:
             gas_Z_over_X_list += [Z_over_X]
 
@@ -1748,6 +1762,13 @@ def function_get_igimf_for_this_epoch(SFR_input, Z_over_X, this_time, this_epoch
     else:
         igimf_file_name = "igimf_SFR_{}_Fe_over_H_{}".format(round(math.log(SFR_input, 10)*100000), round(Z_over_X * 100000))
     igimf = __import__(igimf_file_name)
+    # import os
+    # if os.path.isfile('Generated_IGIMFs/' + igimf_file_name + '.py'):
+    #     igimf = __import__(igimf_file_name)
+    # else:
+    #     cwd = os.getcwd()
+    #     igimf = __import__(cwd + '/galIMF/Generated_IGIMFs/' + igimf_file_name)
+
     # if shows ModuleNotFoundError:
     # No module named 'igimf_SFR_..._Fe_over_H_...',
     # then try clear all (except for the first and last) lines in the file Generated_IGIMGs/all_igimf_list.txt.
@@ -1771,14 +1792,20 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
     import math
     import time
     import sys
-
+    import os
 
     # --------------------------------------------------------------------------------------------------------------------------------
     # check if the required IGIMF has already been generated
     # --------------------------------------------------------------------------------------------------------------------------------
 
+    Generated_IGIMFs_path = 'Generated_IGIMFs'
+    if os.path.isdir(Generated_IGIMFs_path) == False:
+        Generated_IGIMFs_path = '/galIMF/Generated_IGIMFs'
+        if os.path.isdir(Generated_IGIMFs_path) == False:
+            cwd = os.getcwd()
+            Generated_IGIMFs_path = cwd + '/galIMF/Generated_IGIMFs'
 
-    check_file = open('Generated_IGIMFs/all_igimf_list.txt', 'r')
+    check_file = open(Generated_IGIMFs_path + '/all_igimf_list.txt', 'r')
     igimf_list = check_file.readlines()
     check_file.close()
 
@@ -2039,8 +2066,15 @@ def function_get_avaliable_Z(str_evo_table):
     # stellar life-time table and metal production tables have different avalible metal grid.
     import os
 
+    yield_path = 'yield_tables'
+    if os.path.isdir(yield_path) == False:
+        yield_path = '/galIMF/yield_tables'
+        if os.path.isdir(yield_path) == False:
+            cwd = os.getcwd()
+            yield_path = cwd + '/galIMF/yield_tables'
+
     # list 1
-    file_names_setllar_lifetime_from_str_evo_table = os.listdir('yield_tables/rearranged/setllar_lifetime_from_portinari98')
+    file_names_setllar_lifetime_from_str_evo_table = os.listdir(yield_path + '/rearranged/setllar_lifetime_from_portinari98')
     Z_list = []
     for name in file_names_setllar_lifetime_from_str_evo_table:
         length_file_name = len(name)
@@ -2061,7 +2095,7 @@ def function_get_avaliable_Z(str_evo_table):
         Z_list += [float(Z)]
     sorted_Z_list = sorted(Z_list)
     # list 2
-    file_names_setllar_lifetime_from_str_evo_table = os.listdir('yield_tables/rearranged/setllar_Metal_eject_mass_from_{}'.format(str_evo_table))
+    file_names_setllar_lifetime_from_str_evo_table = os.listdir(yield_path + '/rearranged/setllar_Metal_eject_mass_from_{}'.format(str_evo_table))
     Z_list_2 = []
     for name in file_names_setllar_lifetime_from_str_evo_table:
         length_file_name = len(name)
@@ -2084,7 +2118,7 @@ def function_get_avaliable_Z(str_evo_table):
     if str_evo_table != "portinari98":
         # list 3
         file_names_setllar_lifetime_from_str_evo_table = os.listdir(
-            'yield_tables/rearranged/setllar_Metal_eject_mass_from_marigo01')
+            yield_path + '/rearranged/setllar_Metal_eject_mass_from_marigo01')
         Z_list_3 = []
         for name in file_names_setllar_lifetime_from_str_evo_table:
             length_file_name = len(name)
@@ -2178,7 +2212,7 @@ def function_mass_Kroupa_IMF(mass):
     return m
 
 def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
-    print('\nGenerating txt output, including:\n')
+    print('\nGenerating txt output files. Result includes:\n')
     global time_axis
     # print("time:", time_axis)
 
@@ -2298,7 +2332,7 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     log_Z_0 = round(math.log(Z_0/Z_solar, 10), 2)
     file = open('simulation_results_from_galaxy_evol/imf:{}-STR:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STR, SFR, SFEN, log_Z_0), 'w')
 
-    print("simulation results saved in the file:\n"
+    print("\nsimulation results saved in the file:\n"
           "simulation_results_from_galaxy_evol/imf:{}-STR:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt".format(imf, STR, SFR, SFEN, log_Z_0))
 
     file.write("# Number of star formation event epoch (10^7 yr):\n")
@@ -2486,7 +2520,8 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     return
 
 def plot_output(plot_show, plot_save, imf, igimf):
-    print('\nGenerating plots output...\n')
+    if plot_show is True:
+        print('\nGenerating plot outputs...\n')
     # plot SFH
     global all_sfr
     SFR_list = []
@@ -2717,7 +2752,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(log_time_axis, stellar_Fe_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Fe_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel('[Fe/H]')
         # if imf == 'igimf':
         #     plt.title('IGIMF')
@@ -2783,7 +2818,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(log_time_axis, stellar_O_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_O_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel('[O/H]')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
         # plt.ylim(-5, 1)
@@ -2804,7 +2839,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(log_time_axis, stellar_Mg_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Mg_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel('[Mg/H]')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
         # plt.ylim(-5, 1)
@@ -2826,7 +2861,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(log_time_axis, stellar_Y_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Y_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [solar_helium_abundance, solar_helium_abundance], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel('Y')
         plt.tight_layout()
         plt.legend()
@@ -2875,7 +2910,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(log_time_axis, stellar_Mg_over_Fe_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Mg_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel('[Mg/Fe]')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
         # plt.ylim(-1, 3.5)
@@ -2936,7 +2971,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(log_time_axis, stellar_O_over_Fe_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_O_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel('[O/Fe]')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
         # plt.ylim(-1, 3.5)
@@ -2970,19 +3005,18 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
         plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(10, figsize=(4, 3.5))
+        fig = plt.figure(10, figsize=(3.5, 3))
         fig.add_subplot(1, 1, 1)
-        plt.loglog(time_axis, SNIa_number_per_century, label='SNIa')  # Number per century
-        plt.loglog(time_axis, SNII_number_per_century, label='SNII')  # Number per century
-        plt.loglog(time_axis, SN_number_per_century, ls="dotted", label='total')
-        plt.xlabel(r'Time [yr]')
-        plt.ylabel(r'Number of SN per century')
-        # plt.xlim(6, 1.01 * log_time_axis[-1])
-        # plt.ylim(8.5, 11.6)
+        plt.loglog(time_axis, SNIa_number_per_century, label='SNIa', color="tab:orange", ls='dotted')  # Number per century
+        plt.loglog(time_axis, SNII_number_per_century, label='SNII', color="tab:orange")  # Number per century
+        # plt.loglog(time_axis, SN_number_per_century, ls="dotted", label='total')
+        plt.xlabel(r'time [yr]')
+        plt.ylabel(r'# of SN per century')
+        plt.xlim(10 ** 7, 14 * 10 ** 9)
+        plt.ylim(1e-2, 1e6)
         plt.legend()
         plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_SN_number.pdf'.format(imf), dpi=250)
+        plt.savefig('galaxy_evolution_SN_number.pdf'.format(imf), dpi=250)
 
     file = open('simulation_results_from_galaxy_evol/plots/SN_number_evolution.txt', 'w')
     file.write("# time_axis\n")
@@ -3147,7 +3181,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot([6, 11], [-1.173, -1.173], color='red', ls='dotted', lw=0.5)
         plt.plot([6, 11], [-0.523, -0.523], color='red', ls='dotted', lw=0.5)
         plt.plot([6, 11], [-0.272, -0.272], color='red', ls='dotted', lw=0.5)
-        plt.xlabel(r'log(age [Gyr])')
+        plt.xlabel(r'log(time [Gyr])')
         plt.ylabel('[Z/X]')
         # plt.ylim(-2, 1)
         # if imf == 'igimf':
@@ -3295,7 +3329,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.close()
 
     if plot_show is True or plot_save is True:
-        plt.xlabel(r'log$_{10}$(age [yr])')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel(r'log$_{10}$(Mass [M$_\odot$])')
         # if imf == 'igimf':
         #     plt.title('IGIMF')
@@ -3314,7 +3348,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.plot(time_axis, expansion_factor_instantaneous_list, label='instantaneous')
         plt.plot(time_axis, expansion_factor_adiabat_list, label='slow')
         plt.plot(time_axis, expansion_factor_list, label='average')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel(r'expansion_factor')
         plt.legend(prop={'size': 7.5}, loc='lower right')
         # plt.xlim(6.4, 1.01 * time_axis[-1])
@@ -3352,7 +3386,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, ejected_gas_Mg_over_Fe_list, label='total')
         plt.plot(time_axis, instant_ejected_gas_Mg_over_Fe_list, label='instant')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel(r'[Mg/Fe]')
         # plt.xlim(6.4, 1.01 * time_axis[-1])
         # plt.ylim(7.3, 12.2)
@@ -3365,7 +3399,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         fig = plt.figure(16, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, ejected_metal_mass_list, label='total')
-        plt.xlabel(r'log$_{10}$(age) [yr]')
+        plt.xlabel(r'log$_{10}$(time) [yr]')
         plt.ylabel(r'ejected metal mass')
         # plt.xlim(6.4, 1.01 * time_axis[-1])
         # plt.ylim(7.3, 12.2)
@@ -3384,7 +3418,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
             plt.plot(log_time_axis, ejected_O_mass_till_this_time_tot_list, label='tot')
             plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNIa_list, label='from SNIa')
             plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(age) [yr]')
+            plt.xlabel(r'log$_{10}$(time) [yr]')
             plt.ylabel(r'ejected O [M$_\odot$]')
             plt.tight_layout()
             plt.legend()
@@ -3398,7 +3432,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
             plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_tot_list, label='tot')
             plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNIa_list, label='from SNIa')
             plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(age) [yr]')
+            plt.xlabel(r'log$_{10}$(time) [yr]')
             plt.ylabel(r'ejected Mg [M$_\odot$]')
             plt.tight_layout()
             plt.legend()
@@ -3407,15 +3441,16 @@ def plot_output(plot_show, plot_save, imf, igimf):
             plt.rc('font', family='serif')
             plt.rc('xtick', labelsize='x-small')
             plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(23, figsize=(4, 3.5))
+            fig = plt.figure(23, figsize=(3.5, 3))
             fig.add_subplot(1, 1, 1)
             plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_tot_list, label='tot')
             plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNIa_list, label='from SNIa')
             plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(age) [yr]')
+            plt.xlabel(r'log$_{10}$(time) [yr]')
             plt.ylabel(r'ejected Fe [M$_\odot$]')
             plt.tight_layout()
             plt.legend()
+            plt.savefig('Fe_production.pdf', dpi=250)
 
     if plot_show is True:
         plt.show()
@@ -3582,12 +3617,12 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STR=0.99, SFEN=SFEN, Z_0=0.00000001886, Z_solar=0.01886,
+    galaxy_evol(imf='igimf', STR=0.99, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
                 solar_abu_reference_name='Anders1989',
-                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
+                high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
     # In both cases, the simulation results are saved as txt files.
