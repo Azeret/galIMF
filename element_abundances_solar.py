@@ -31,7 +31,7 @@ def function_solar_element_abundances(reference_name, element_name):
         elif element_name == "Fe":
             solar_element_abundances = 7.67
         else:
-            print("Wrong/unknown element name for function_solar_element_abundances")
+            print("Wrong/unknown element name for function_solar_element_abundances; Anders1989")
             solar_element_abundances = None
     elif reference_name == 'Asplund2009':
         if element_name == "H":
@@ -57,7 +57,17 @@ def function_solar_element_abundances(reference_name, element_name):
         elif element_name == "Fe":
             solar_element_abundances = 7.50
         else:
-            print("Wrong/unknown element name for function_solar_element_abundances")
+            print("Wrong/unknown element name for function_solar_element_abundances; Asplund2009")
+            solar_element_abundances = None
+    elif reference_name == 'Anders1989_mass':
+        if element_name == "H":
+            solar_element_abundances = 0.70683
+        elif element_name == "He":
+            solar_element_abundances = 0.27431
+        elif element_name == "Metal":
+            solar_element_abundances = 0.01886
+        else:
+            print("Wrong/unknown element name for function_solar_element_abundances; Anders1989_mass")
             solar_element_abundances = None
     else:
         print('Wrong input reference_name for element_abundances_solar.function_solar_element_abundances.')
