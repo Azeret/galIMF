@@ -721,8 +721,8 @@ def funtion_plot_yields():
         axs[0].plot(M_list[i], Z_over_Z0_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
         (i) = (i - 1)
     axs[0].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
-    axs[0].set_yticks(np.arange(-2, 2.1, 1))
-    axs[0].set_ylim(-2.1, 2.5)
+    axs[0].set_yticks(np.arange(-1, 2.1, 1))
+    axs[0].set_ylim(-2, 1.6)
     axs[0].set_ylabel(r'[Z]')
 
     i = len(M_list) - 1
@@ -745,7 +745,7 @@ def funtion_plot_yields():
         (i) = (i - 1)
     axs[2].plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
     axs[2].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
-    axs[2].set_yticks(np.arange(6, 16, 2))
+    axs[2].set_yticks(np.arange(-2, 2.1, 2))
     axs[2].set_ylim(-2, 3.5)
     axs[2].set_ylabel(r'[Mg/Fe]')
     axs[2].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [M$_\odot$])')
