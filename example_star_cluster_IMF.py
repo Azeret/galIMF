@@ -1,14 +1,13 @@
 # Python3 code, last update Wed 20 Dec 2018
 
-# An example file that demonstrates how to construct star cluster IMF
-# as well as getting each stellar mass in the star cluster applying the IGIMF theory with the galIMF model.
+# Example file for sampling the stellar masses of every star in the star cluster.
 
 # Made by: Yan Zhiqiang & Tereza Jerabkova
 
 # The outputs of this example are:
 
-#  - the comparison plot of generated variable IMF and canonical IMF;
-#  - the txt file containing the stellar masses.
+#  - a comparison plot of generated variable IMF and canonical IMF ('star_cluster_IMF_plot.pdf');
+#  - a .txt file containing the stellar masses ('Stellar_masses_for_a_star_cluster.txt').
 
 # --------------------------------------------------------------------------------------------------------------------------------
 # Import modules and libraries
@@ -36,8 +35,8 @@ ax0 = plt.subplot(gs1[0])
 StarClusterMass = float(input("\n    ================================\n"
                               "    === example_star_cluster_IMF ===\n"
                               "    ================================\n\n"
-                              "    This code generate the stellar masses of one star cluster with given mass"
-                              " applying optimal sampling.\n\n"
+                              "    This code generate the stellar masses of one star-cluster given the total "
+                              "star-cluster mass applying optimal sampling.\n\n"
                               "    Please type in the cluster mass in solar mass unit then hit return:"))
 M_over_H = float(input("    Please type in the initial metallicity, [M/H], then hit return:"))
 
