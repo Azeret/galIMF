@@ -60,7 +60,9 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
         total_energy_release_list, SN_number_per_century, total_gas_kinetic_energy_list, original_gas_mass#, binding_energy_list
     global BH_mass_list, NS_mass_list, WD_mass_list
     global all_sf_imf, all_sfr
-    global times_calculate_igimf
+    global times_calculate_igimf, instantaneous_recycling
+
+    instantaneous_recycling = False
     times_calculate_igimf = 0
     ###################
     ### preparation ###
@@ -116,6 +118,11 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
         if SFH_input[i] > 0:
             if high_time_resolution == True:
                 time_axis_for_SFH_input += [i * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 4]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 4]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 7 * 10 ** 4]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 8 * 10 ** 4]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 9 * 10 ** 4]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 5]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 5]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 5]
@@ -124,8 +131,16 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
                 time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 6]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 7]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 3 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 4 * 10 ** 7]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 7]
-                time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 8]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 6 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 7 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 8 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 9 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 10 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 11 * 10 ** 7]
+                time_axis_for_SFH_input += [i * 10 ** 7 + 12 * 10 ** 7]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 2 * 10 ** 8]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 8]
                 time_axis_for_SFH_input += [i * 10 ** 7 + 1 * 10 ** 9]
@@ -242,7 +257,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
         # initialize values
         total_energy_release = 0
         SNIa_energy_release = 0
-        SNIa_number = 0
+        SNIa_number_from_all_epoch = 0
         SNII_energy_release = 0
         SNII_number = 0
         if time_step == 0:
@@ -567,22 +582,26 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
                     M_element_table = [MH_table, MHe_table, MC_table, MN_table, MO_table, MMg_table, MNe_table, MSi_table, MS_table, MCa_table, MFe_table]
 
                     # check if the in put lifetime and final mass table used the same mass grid
-                    if mass_1 != mass_12:
-                        print('Error! Stellar lifetime and final mass input data do not match.\n'
-                              'Check the table file: yield_tables/rearranged/setllar_final_mass_from_portinari98/portinari98_Z={}.txt\n'
-                              'and table file: yield_tables/rearranged/setllar_lifetime_from_portinari98/portinari98_Z={}.txt'.format(
-                                                                                               Z_select_in_table,
-                                                                                               Z_select_in_table))
-                    else:
-                        mass_grid_table = mass
-                        mass_grid_table2 = mass2
+                    # if mass_1 != mass_12:
+                    #     print('Error! Stellar lifetime and final mass input data do not match.\n'
+                    #           'Check the table file: yield_tables/rearranged/setllar_final_mass_from_portinari98/portinari98_Z={}.txt\n'
+                    #           'and table file: yield_tables/rearranged/setllar_lifetime_from_portinari98/portinari98_Z={}.txt'.format(
+                    #                                                                            Z_select_in_table,
+                    #                                                                            Z_select_in_table))
+                    # else:
+                    #     mass_grid_table = mass
+                    #     mass_grid_table2 = mass2
+                    mass_grid_table = mass
+                    mass_grid_table2 = mass2
+
                     last_time_age = age_of_this_epoch
                     number_in_SNIa_boundary = mass_calibration_factor * quad(igimf_xi_function, 1.5, 8, limit=40)[0]  # see function_number_SNIa below
                     number_all = quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=40)[0]  # see function_number_SNIa below
                     # number_low = quad(igimf_xi_function, 0.08, 2, limit=40)[0]  # see function_number_SNIa below
                     # number_up = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=40)[0]  # see function_number_SNIa below
                     # print("up", number_up/number_all)
-                    SNIa_number_prob = number_in_SNIa_boundary**2 / number_all * 10**2 * 0.61
+
+                    # SNIa_number_prob = number_in_SNIa_boundary**2 / number_all * 10**2 * 0.61
                     # number_in_SNIa_boundary = SNIa_number_prob
                     # SNIa_number_prob = number_in_SNIa_boundary / integrate_igimf_mass
                     # print("SNIa SNIa_number_prob:", SNIa_number_prob)
@@ -800,7 +819,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
 
                     remnant_mass_of_this_epoch -= pre_SNIa_NS_mass * SNIa_number_from_this_epoch_till_this_time
                     WD_mass_of_this_epoch -= pre_SNIa_NS_mass * SNIa_number_from_this_epoch_till_this_time
-                    SNIa_number += SNIa_number_from_this_epoch_till_this_time
+                    SNIa_number_from_all_epoch += SNIa_number_from_this_epoch_till_this_time
                     SNIa_energy_release += SNIa_energy_release_per_event * SNIa_number_from_this_epoch_till_this_time
                 #
                 stellar_mass_at_this_time += current_stellar_mass_of_this_epoch
@@ -1144,7 +1163,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
             stellar_mass_list += [stellar_mass_at_this_time]
 
         SNIa_energy_release_list += [SNIa_energy_release]
-        SNIa_number_list += [SNIa_number]
+        SNIa_number_list += [SNIa_number_from_all_epoch]
 
         if len(SNIa_number_per_century) == 0:
             SNIa_number_per_century += [SNIa_number_list[0]]
@@ -1238,7 +1257,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
 #     return
 
 
-# # calculate the diet_Salpeter_number_to_mass_ratio:
+# # calculate the diet_Salpeter_mass_to_number_ratio:
 # Bell & de Jong (2001). Salpeter IMF x = 1.35 with a flat x = 0 slope below 0.35
 def function_xi_diet_Salpeter_IMF(mass):
     # integrate this function's output xi result in the number of stars in mass limits.
@@ -1252,9 +1271,11 @@ def function_mass_diet_Salpeter_IMF(mass):
 
 integrate_all_for_function_mass_SNIa = quad(function_mass_diet_Salpeter_IMF, 0.1, 100, limit=40)[0]
 integrate_28_for_function_number_SNIa = quad(function_xi_diet_Salpeter_IMF, 1.5, 8, limit=40)[0]
-diet_Salpeter_number_to_mass_ratio = integrate_all_for_function_mass_SNIa / integrate_28_for_function_number_SNIa
+diet_Salpeter_mass_to_number_ratio = integrate_all_for_function_mass_SNIa / integrate_28_for_function_number_SNIa
 
 def function_number_SNIa(last_delay_time, this_delay_time, stellar_number_in_SNIa_boundary, S_F_R_of_this_epoch):
+    # This function calculate the number of SNIa between last_delay_time and this_delay_time
+    
     # It is commonly assumed that the maximum stellar mass able to produce a degenerate C–O white dwarf is 8 M⊙,
     # The minimum possible binary mass is assumed to be 3 M⊙ in order to ensure that the
     # smallest possible white dwarf can accrete enough mass from the secondary star to reach the Chandrasekhar mass.
@@ -1262,12 +1283,13 @@ def function_number_SNIa(last_delay_time, this_delay_time, stellar_number_in_SNI
     # Thus we should normalize the DTD according to the number (but currently, mass) of stars between 1.5 and 8 solar mass
     # normalized with a SNIa assuming fixed diet-Salpeter IMF (Bell et al. 149:289–312, 2003)
     # See Dan Maoz and Filippo Mannucci 2012 review
-    global diet_Salpeter_number_to_mass_ratio
-    SNIa_normalization_parameter = funtion_SNIa_DTD_normalization_parameter(S_F_R_of_this_epoch)
-    # integrate SNIa number from last_delay_time to this_delay_time
+    global diet_Salpeter_mass_to_number_ratio
+    SNIa_normalization_parameter = funtion_SNIa_DTD_normalization_parameter(S_F_R_of_this_epoch) 
+    # SNIa_normalization_parameter considers the possible variation of binary encounter rate in different system density
+    # integrate SNIa number from last_delay_time to this_delay_time using observationally determined DTD assuming diet-Salpeter IMF
     diet_Salpeter_SNIa_number_per_solar_mass =quad(function_SNIa_DTD, last_delay_time, this_delay_time, limit=40)[0]
     # calculate actual SNIa event number
-    SNIa_number = stellar_number_in_SNIa_boundary *  SNIa_normalization_parameter * diet_Salpeter_SNIa_number_per_solar_mass * diet_Salpeter_number_to_mass_ratio
+    SNIa_number = stellar_number_in_SNIa_boundary * SNIa_normalization_parameter * diet_Salpeter_SNIa_number_per_solar_mass * diet_Salpeter_mass_to_number_ratio
     # if this_delay_time == 1 * 10 ** 9:
     #     print("stellar_number_in_SNIa_boundary ===", stellar_number_in_SNIa_boundary)
     #     print("diet_Salpeter_SNIa_number_per_solar_mass", diet_Salpeter_SNIa_number_per_solar_mass)
@@ -1334,16 +1356,23 @@ def function_SNIa_DTD(delay_time):
     return number
 
 def function_read_lifetime(str_evo_table, Z_select_in_table):
-    file_lifetime = open(
-        'yield_tables/rearranged/setllar_lifetime_from_portinari98/portinari98_Z={}.txt'.format(Z_select_in_table),
-        'r')
-    data = file_lifetime.readlines()
-    metallicity = data[1]
-    mass_1 = data[3]
-    lifetime_ = data[5]
-    file_lifetime.close()
-    mass = [float(x) for x in mass_1.split()]
-    lifetime_table = [float(x) for x in lifetime_.split()]
+    #### if apply instantaneous recycling approximation ####
+    global instantaneous_recycling
+    if instantaneous_recycling == True:
+        mass_1 = 0
+        mass = [0.08, 1, 1.00001, 150]
+        lifetime_table = [1e12, 1e12, 0.1, 0.1]
+    else:
+        file_lifetime = open(
+            'yield_tables/rearranged/setllar_lifetime_from_portinari98/portinari98_Z={}.txt'.format(Z_select_in_table),
+            'r')
+        data = file_lifetime.readlines()
+        metallicity = data[1]
+        mass_1 = data[3]
+        lifetime_ = data[5]
+        file_lifetime.close()
+        mass = [float(x) for x in mass_1.split()]
+        lifetime_table = [float(x) for x in lifetime_.split()]
     return (mass_1, mass, lifetime_table)
 
 def function_read_Mfinal(str_evo_table, Z_select_in_table):
@@ -1858,8 +1887,8 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         alpha3_model = 2#1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
         alpha_2 = 2.3  # IMF middle-mass power-index
         alpha_1 = 1.3  # IMF low-mass-end power-index
-        alpha2_model = 1#0  # see file 'galimf.py'
-        alpha1_model = 1#0  # see file 'galimf.py'
+        alpha2_model = 1  # see file 'galimf.py'
+        alpha1_model = 1  # see file 'galimf.py'
         beta_model = 1
         if Z_over_X is None:
             Z_over_X = float(input("\nPlease input the metallicity, [Z/X] = log(M_{metal}/M_{H})-log(M_{metal,sun}/M_{H,sun})"
@@ -2980,6 +3009,22 @@ def plot_output(plot_show, plot_save, imf, igimf):
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
     #
+    del Fe_over_H_list[0]
+    del stellar_Fe_over_H_list[0]
+    del stellar_Fe_over_H_list[0]
+    del stellar_Fe_over_H_list_luminosity_weighted[0]
+    del stellar_Fe_over_H_list_luminosity_weighted[0]
+    del Mg_over_Fe_list[0]
+    del stellar_Mg_over_Fe_list[0]
+    del stellar_Mg_over_Fe_list[0]
+    del stellar_Mg_over_Fe_list_luminosity_weighted[0]
+    del stellar_Mg_over_Fe_list_luminosity_weighted[0]
+    del O_over_Fe_list[0]
+    del stellar_O_over_Fe_list[0]
+    del stellar_O_over_Fe_list[0]
+    del stellar_O_over_Fe_list_luminosity_weighted[0]
+    del stellar_O_over_Fe_list_luminosity_weighted[0]
+
     if plot_show is True or plot_save is True:
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
@@ -2988,7 +3033,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         fig.add_subplot(1, 1, 1)
         plt.plot(Fe_over_H_list, Mg_over_Fe_list, label='gas')
         plt.plot(stellar_Fe_over_H_list, stellar_Mg_over_Fe_list, label='stellar MW')
-        plt.plot(stellar_Fe_over_H_list, stellar_Mg_over_Fe_list_luminosity_weighted, label='stellar LW')
+        plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_Mg_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
         plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
         plt.xlabel('[Fe/H]')
@@ -3000,20 +3045,40 @@ def plot_output(plot_show, plot_save, imf, igimf):
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_MgFe-FeH_{}.pdf'.format(imf), dpi=250)
     #
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(10, figsize=(4, 3.5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(Fe_over_H_list, O_over_Fe_list, label='gas')
+        plt.plot(stellar_Fe_over_H_list, stellar_O_over_Fe_list, label='stellar MW')
+        plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_O_over_Fe_list_luminosity_weighted, label='stellar LW')
+        plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
+        plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
+        plt.xlabel('[Fe/H]')
+        plt.ylabel('[O/Fe]')
+        # plt.xlim(-5, 1)
+        # plt.ylim(-1, 3.5)
+        plt.legend()
+        plt.tight_layout()
+        if plot_save is True:
+            plt.savefig('galaxy_evolution_fig_OFe-FeH_{}.pdf'.format(imf), dpi=250)
+    #
     global SNIa_number_per_century, SNII_number_per_century
     if plot_show is True or plot_save is True:
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
         plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(10, figsize=(3.5, 3))
+        fig = plt.figure(11, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         plt.loglog(time_axis, SNIa_number_per_century, label='SNIa', color="tab:orange", ls='dotted')  # Number per century
         plt.loglog(time_axis, SNII_number_per_century, label='SNII', color="tab:orange")  # Number per century
         # plt.loglog(time_axis, SN_number_per_century, ls="dotted", label='total')
         plt.xlabel(r'time [yr]')
         plt.ylabel(r'# of SN per century')
-        plt.xlim(10 ** 7, 14 * 10 ** 9)
-        plt.ylim(1e-2, 1e6)
+        # plt.xlim(10 ** 7, 14 * 10 ** 9)
+        # plt.ylim(1e-2, 1e6)
         plt.legend()
         plt.tight_layout()
         plt.savefig('galaxy_evolution_SN_number.pdf'.format(imf), dpi=250)
@@ -3091,7 +3156,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
         plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(11, figsize=(4, 3.5))
+        fig = plt.figure(12, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         plt.loglog(time_axis, SN_energy_per_current_crossing_time_list, label='SN/CC')
         plt.loglog(time_axis, SN_energy_per_final_crossing_time_list, label='SN/FC')
@@ -3166,7 +3231,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
         plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(12, figsize=(4, 3.5))
+        fig = plt.figure(13, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         # time_axis[0] = 1
         # time_axis_G = [0]*length_of_time_axis
@@ -3253,7 +3318,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         BH_mass_list[i] = math.log(BH_mass_list[i], 10)
     # time_axis[0] = time_axis[1]
     if plot_show is True or plot_save is True:
-        fig = plt.figure(13, figsize=(4, 3.5))
+        fig = plt.figure(14, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, total_gas_mass_list, lw=2, label='all gas')
         plt.plot(time_axis, ejected_gas_mass_list, lw=2, label='ejected gas')
@@ -3343,7 +3408,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
 
     global expansion_factor_instantaneous_list, expansion_factor_adiabat_list
     if plot_show is True or plot_save is True:
-        fig = plt.figure(14, figsize=(4, 3.5))
+        fig = plt.figure(15, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, expansion_factor_instantaneous_list, label='instantaneous')
         plt.plot(time_axis, expansion_factor_adiabat_list, label='slow')
@@ -3382,7 +3447,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
 
     global ejected_gas_Mg_over_Fe_list, instant_ejected_gas_Mg_over_Fe_list
     if plot_show is True or plot_save is True:
-        fig = plt.figure(15, figsize=(4, 3.5))
+        fig = plt.figure(16, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, ejected_gas_Mg_over_Fe_list, label='total')
         plt.plot(time_axis, instant_ejected_gas_Mg_over_Fe_list, label='instant')
@@ -3396,7 +3461,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
 
     global ejected_metal_mass_list
     if plot_show is True or plot_save is True:
-        fig = plt.figure(16, figsize=(4, 3.5))
+        fig = plt.figure(17, figsize=(4, 3.5))
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, ejected_metal_mass_list, label='total')
         plt.xlabel(r'log$_{10}$(time) [yr]')
@@ -3600,7 +3665,7 @@ if __name__ == '__main__':
     ### Generate a new SFH.txt file according to the following given parameters ###
 
     SFEN = 10 # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
-    Log_SFR = 3.0008 # logarithmic characteristic star formation rate
+    Log_SFR = 3 # logarithmic characteristic star formation rate
     location = 0 # SFH shape parameter
     skewness = 10 # SFH shape parameter
     sfr_tail = 0 # SFH shape parameter
@@ -3617,12 +3682,12 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STR=0.99, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
+    galaxy_evol(imf='igimf', STR=0.9, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
                 solar_abu_reference_name='Anders1989',
-                high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=True)
+                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
     # In both cases, the simulation results are saved as txt files.
