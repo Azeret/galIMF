@@ -55,7 +55,7 @@ galevo.galaxy_evol(
     STR=0.9,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
     SFEN=SFEN,
     Z_0=0.00000001886,
-    Z_solar=0.01886,
+    Z_solar_table="Anders1989_mass",
     str_evo_table='portinari98',
     IMF_name='Kroupa',
     steller_mass_upper_bound=150,
