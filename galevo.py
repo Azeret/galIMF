@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, 'Generated_IGIMFs')
 sys.path.insert(0, 'IMFs')
 sys.path.insert(0, 'yield_tables')
-import element_weight_table, element_abundances_solar, element_abundances_primordial
+import element_weight_table, element_abundances_solar, element_abundances_primordial, stellar_luminosity
 from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 from yield_tables import SNIa_yield
 
@@ -153,7 +153,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
 
     # the final time axis is the sorted combination of the two
     time_axis = sorted(list(set(time_axis + time_axis_for_SFH_input)))
-    print("Simulation results will be give at galactic age [yr] =\n", time_axis)
+    print("\nSimulation results will be give at galactic age [yr] =\n", time_axis)
     length_list_time_step = len(time_axis)
 
     ###################
@@ -524,14 +524,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
                         return igimf_of_this_epoch.custom_imf(mass, this_time) * mass
 
                     def igimf_luminous_function(mass):
-                        if mass < 0.23 ** (1 / 1.7):
-                            return igimf_of_this_epoch.custom_imf(mass, this_time) * 0.23 * mass ** 2.3
-                        elif mass < 1.96:
-                            return igimf_of_this_epoch.custom_imf(mass, this_time) * mass ** 4
-                        elif mass < (32000 / 1.4) ** (1 / 2.5):
-                            return igimf_of_this_epoch.custom_imf(mass, this_time) * 1.4 * mass ** 3.5
-                        else:
-                            return igimf_of_this_epoch.custom_imf(mass, this_time) * 32000 * mass
+                        return igimf_of_this_epoch.custom_imf(mass, this_time) * \
+                               stellar_luminosity.stellar_luminosity_function(mass=mass)
 
                     # integrated igimf_mass_function from 0.08 to steller_mass_upper_bound
                     integrate_igimf_mass = quad(igimf_mass_function, 0.08, steller_mass_upper_bound, limit=40)[0]
@@ -644,14 +638,8 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
                 def igimf_mass_function(mass):
                     return igimf_of_this_epoch.custom_imf(mass, this_time) * mass
                 def igimf_luminous_function(mass):
-                    if mass < 0.23**(1/1.7):
-                        return igimf_of_this_epoch.custom_imf(mass, this_time) * 0.23 * mass**2.3
-                    elif mass < 1.96:
-                        return igimf_of_this_epoch.custom_imf(mass, this_time) * mass**4
-                    elif mass < (32000/1.4)**(1/2.5):
-                        return igimf_of_this_epoch.custom_imf(mass, this_time) * 1.4 * mass ** 3.5
-                    else:
-                        return igimf_of_this_epoch.custom_imf(mass, this_time) * 32000 * mass
+                    return igimf_of_this_epoch.custom_imf(mass, this_time) * \
+                           stellar_luminosity.stellar_luminosity_function(mass=mass)
 
             if S_F_R_of_this_epoch > 0:
                 # get M_tot (total initial mass of all star ever formed)
@@ -2319,7 +2307,7 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     downsizing_relation__star_formation_duration = round(10**(2.38-0.24*stellar_mass), 4)  # Recchi 2009
     # print("star formation duration (downsizing relation):", downsizing_relation__star_formation_duration, "Gyr")
 
-    stellar_and_remnant_mass = round(math.log(stellar_mass_list[-1] + remnant_mass_list[-1], 10), 1)
+    stellar_and_remnant_mass = round(math.log(stellar_mass_list[-1] + remnant_mass_list[-1], 10), 4)
     print("Mass of stars and remnants at final time: 10 ^", stellar_and_remnant_mass)
 
     total_mas_in_box = original_gas_mass
@@ -2429,6 +2417,9 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
         (i) = (i + 1)
     file.write("\n")
 
+    Mass_weighted_stellar_Mg_over_Fe = stellar_Mg_over_Fe_list[-1]
+    print("Mass-weighted stellar [Mg/Fe] at final time:", Mass_weighted_stellar_Mg_over_Fe)
+
     file.write("# Gas [O/Fe]:\n")
     i = 0
     while i < length_of_time_axis:
@@ -2484,6 +2475,9 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
         file.write("%s " % stellar_Z_over_X_list[i])
         (i) = (i + 1)
     file.write("\n")
+
+    Mass_weighted_stellar_metallicity = stellar_Z_over_X_list[-1]
+    print("Mass-weighted stellar [Z/X] at final time:", Mass_weighted_stellar_metallicity)
 
     if SNIa_energy_release_list[-1] < 10**(-10):
         SNIa_energy_release_list[-1] = 10 ** (-10)
@@ -3682,7 +3676,7 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STR=0.9, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
+    galaxy_evol(imf='igimf', STR=0.3, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
