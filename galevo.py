@@ -1264,7 +1264,11 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
     if Warning_galaxy_mass_ejected_gas_mass == True:
         print('Warning: galaxy_mass < ejected_gas_mass. See comments in galevo.py.')
 
-    print("\n - Simulation complete. Computation time: %s -\n" % round((time.time() - start_time), 2))
+    computation_time_seconds = round((time.time() - start_time), 2)
+    minutes, seconds = divmod(computation_time_seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    print("\n - Simulation complete. Computation time: {} d {} h {} m {} s -\n".format(days, hours, minutes, seconds))
 
     ###################
     ### output data ###
@@ -3707,11 +3711,11 @@ def generate_sfh_flat_tail(Log_SFR, SFEN):
         file.write("{}\n".format(10 ** Log_SFR))
         (j) = (j + 1)
     j = 0
-    while j < 1379 - SFEN:
+    while j < 1389 - SFEN:
         file.write("0\n")
         (j) = (j + 1)
     j = 0
-    while j < 20:
+    while j < 10:
         file.write("{}\n".format(10 ** (Log_SFR-2)))
         (j) = (j + 1)
     file.write("# The value in each line stand for the SFR [solar mass / yr]\n")
@@ -3837,7 +3841,7 @@ if __name__ == '__main__':
     location = 0  # SFH shape parameter
     skewness = 10  # SFH shape parameter
     sfr_tail = 0  # SFH shape parameter
-    generate_SFH("flat_tail", Log_SFR, SFEN, sfr_tail, skewness, location)
+    generate_SFH("flat", Log_SFR, SFEN, sfr_tail, skewness, location)
     # input "flat", "lognorm", or "skewnorm" to generate a boxy, lognormal, or skewnorm SFH, respectively.
 
     ####################################
