@@ -52,7 +52,7 @@ galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
 print('\nStart galaxy simulation...\n')
 galevo.galaxy_evol(
     imf='igimf',
-    STR=0.9,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
+    STF=0.3,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
     SFEN=SFEN,
     Z_0=0.00000001886,
     Z_solar_table="Anders1989_mass",
