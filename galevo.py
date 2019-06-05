@@ -25,7 +25,7 @@ from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 from yield_tables import SNIa_yield
 
 
-def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Anders1989_mass',
+def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Anders1989_mass',
                 str_evo_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
@@ -37,7 +37,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
     ######################
     # If imf='igimf', the model will use variable IMF, imf='Kroupa' will use Kroupa IMF
     # A 1 in SFH.txt stand for SFR = 1 [solar mass/year] in a 10 Myr epoch.
-    # STR is the total stellar mass/total gas mass in 13Gyr, which determines the initial gas mass. See Yan et al. 2019
+    # STF is the total stellar mass/total gas mass in 13Gyr, which determines the initial gas mass. See Yan et al. 2019
     # Z_0 is the initial metallicity
     ######################
     global igimf_mass_function, mass_grid_table, mass_grid_table2, Mfinal_table, Mmetal_table, M_element_table
@@ -87,9 +87,9 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
         total_SF += SFH_input[i]
         (i) = (i + 1)
 
-    # Star Trasnformation Rate (STR)
+    # Star Trasnformation Rate (STF)
     total_star_formed = 10 ** 7 * total_SF
-    original_gas_mass = total_star_formed / STR  # in solar mass unit
+    original_gas_mass = total_star_formed / STF  # in solar mass unit
     # print("original_gas_mass =", math.log(original_gas_mass, 10))
 
     # Create the time steps (x axis) for final output
@@ -1294,7 +1294,7 @@ def galaxy_evol(imf='igimf', STR=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
     ### output plot ###
     ###################
 
-    text_output(imf, STR, round(math.log(max(SFH_input), 10), 1), SFEN, original_gas_mass, Z_0, Z_solar)
+    text_output(imf, STF, round(math.log(max(SFH_input), 10), 1), SFEN, original_gas_mass, Z_0, Z_solar)
 
     # if output plot applies
     plot_output(plot_show, plot_save, imf, igimf)
@@ -2353,7 +2353,7 @@ def function_mass_Kroupa_IMF(mass):
     return m
 
 
-def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
+def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     print('\nGenerating txt output files. Result includes:\n')
     global time_axis
     # print("time:", time_axis)
@@ -2471,11 +2471,11 @@ def text_output(imf, STR, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
 
     log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
     file = open(
-        'simulation_results_from_galaxy_evol/imf:{}-STR:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STR, SFR, SFEN,
+        'simulation_results_from_galaxy_evol/imf:{}-STF:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STF, SFR, SFEN,
                                                                                                  log_Z_0), 'w')
 
     print("\nsimulation results saved in the file:\n"
-          "simulation_results_from_galaxy_evol/imf:{}-STR:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt".format(imf, STR, SFR, SFEN,
+          "simulation_results_from_galaxy_evol/imf:{}-STF:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt".format(imf, STF, SFR, SFEN,
                                                                                                    log_Z_0))
 
     file.write("# Number of star formation event epoch (10^7 yr):\n")
@@ -3854,7 +3854,7 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STR=0.3, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
+    galaxy_evol(imf='igimf', STF=0.3, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
                 str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
