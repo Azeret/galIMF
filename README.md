@@ -269,7 +269,7 @@ Other inputs include the choice of stellar yield table, initial gas metal abunda
 
 ### Example
 
-An example file is given in example_galaxy_evolution.py
+An example is given in file "example_galaxy_evolution.py".
 
 
 
@@ -317,7 +317,7 @@ tereza(at)sirrah.troja.mff.cuni.cz
 
 * Prof. Dr. [Pavel Kroupa](https://astro.uni-bonn.de/~pavel/),
 Universty of Bonn, Charles University,
-pavel(at)astro.uni-bonn.de
+pkroupa(at)uni-bonn.de
 
 
 
@@ -330,8 +330,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 GalIMF is developed by our group with **a large amount of effort**. If GalIMF contributes to a project that leads to a scientific publication, please acknowledge this work by citing the project. 
 
 When publishing results based on this software or parts of it (the executable and / or the source code) please cite the relevant publications with this the ready-made citation entry: 
-1. [Yan, Z., Jerabkova, T., Kroupa, P. (2017)](https://sites.google.com/view/galimf/citation) for the IGIMF model (galIMF.py);
-2. and Yan et al. (2019, in prepare) for the galaxy evolution model (galaxy_evol.py).
+1. [Yan, Z., Jerabkova, T., Kroupa, P. (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/exportcitation) for the IGIMF model (galIMF.py);
+2. and Yan et al. (2019, submitted) for the galaxy evolution model (galaxy_evol.py).
 
 
 
