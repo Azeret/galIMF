@@ -19,7 +19,7 @@ last update: 5.06.2019
      - [Other adjustable parameters](https://github.com/Azeret/galIMF#other-adjustable-parameters)
      - [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
  - [The galaxy evolution module](https://github.com/Azeret/galIMF#the-galaxy-evolution-module)
-   - [Overview](https://github.com/Azeret/galIMF#overview)
+   - [Main features](https://github.com/Azeret/galIMF#main-features)
    - [Inputs](https://github.com/Azeret/galIMF#inputs)
    - [Example](https://github.com/Azeret/galIMF#example)
  - [Additional information](https://github.com/Azeret/galIMF#additional-information)
@@ -244,7 +244,7 @@ normalization factor in the optimal sampling condition equation
 
 ## The galaxy evolution module
 
-### Overview
+### Main features
 
 A galaxy evolution model is developed (Yan et al. 2019, submitted) that can coupling the IGIMF theory or any other variable IMF theory. 
 
