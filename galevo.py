@@ -87,7 +87,7 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
         total_SF += SFH_input[i]
         (i) = (i + 1)
 
-    # Star Trasnformation Rate (STF)
+    # Star Trasnformation fraction (STF)
     total_star_formed = 10 ** 7 * total_SF
     original_gas_mass = total_star_formed / STF  # in solar mass unit
     # print("original_gas_mass =", math.log(original_gas_mass, 10))
