@@ -246,9 +246,9 @@ normalization factor in the optimal sampling condition equation
 
 ### Main features
 
-A galaxy evolution model is developed (Yan et al. 2019, submitted) that can coupling the IGIMF theory or any other variable IMF theory. 
+A galaxy evolution model is developed (See Yan et al. 2019, submitted for a detailed description of the model) that can coupling the IGIMF theory or any other variable IMF theory. 
 
-The current code designed for the monolithic collapse galaxy formation scenario that particularly applies to the central regions of giant ellipticals thus assumes no gas infall.
+The current code is designed for the monolithic collapse galaxy formation scenario, that particularly applies to the central regions of giant ellipticals, thus assumes no gas infall.
 
 The with this model, it is possible to vary the galaxy-wide IMF at each time step depending on the galaxy-wide star formation rate and the gas-phase metallicity at the time.
 
