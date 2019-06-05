@@ -3,7 +3,7 @@ import math
 import element_abundances_solar
 
 
-def simulate(imf, Log_SFR, SFEN, STR):
+def simulate(imf, Log_SFR, SFEN, STF):
     # generate SFH:
     SFH_shape = 'flat'
     location = 0
@@ -18,7 +18,7 @@ def simulate(imf, Log_SFR, SFEN, STR):
 
     galevo.galaxy_evol(
         imf=imf,
-        STR=STR,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
+        STF=STF,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
         SFEN=SFEN,
         Z_0=Z_0,
         Z_solar_table=Z_solar_table,
@@ -39,7 +39,7 @@ def simulate(imf, Log_SFR, SFEN, STR):
 
     log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
     file = open(
-        'simulation_results_from_galaxy_evol/imf:{}-STR:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STR, Log_SFR,
+        'simulation_results_from_galaxy_evol/imf:{}-STF:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STF, Log_SFR,
                                                                                                  SFEN, log_Z_0), 'r')
     data = file.readlines()
     file.close()
@@ -68,7 +68,7 @@ def simulate(imf, Log_SFR, SFEN, STR):
         imf__ = 1
     else:
         imf__ = imf
-    new_line = old_lines + "{} {} {} {} {} {} {} {} {} {} {} {}\n".format(imf__, Log_SFR, SFEN, STR,
+    new_line = old_lines + "{} {} {} {} {} {} {} {} {} {} {} {}\n".format(imf__, Log_SFR, SFEN, STF,
                             Alive_stellar_mass[0], dynamical_mass[0],
                             Mass_weighted_stellar_Mg_over_Fe[-1], Mass_weighted_stellar_Z_over_X[-1],
                             gas_Mg_over_Fe[-1], gas_Z_over_X[-1],
@@ -80,12 +80,12 @@ def simulate(imf, Log_SFR, SFEN, STR):
 
 if __name__ == '__main__':
     imf = 'igimf'
-    STR = 0.3
+    STF = 0.3
     Log_SFR = 0.0
     SFEN = 50
 
-    for SFEN in [20, 40]:
+    for SFEN in [20, 400]:
         for Log_SFR in [1.0, 3.0]:
             for STR in [0.2, 0.3]:
-                print("\n", imf, Log_SFR, SFEN, STR)
-                simulate(imf, Log_SFR, SFEN, STR)
+                print("\n", imf, Log_SFR, SFEN, STF)
+                simulate(imf, Log_SFR, SFEN, STF)
