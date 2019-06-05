@@ -20,7 +20,7 @@ last update: 5.06.2019
      - [Internal parameters of the theory](https://github.com/Azeret/galIMF#internal-parameters-of-the-theory)
  - [The galaxy evolution module](https://github.com/Azeret/galIMF#the-galaxy-evolution-module)
    - [Overview](https://github.com/Azeret/galIMF#overview)
-   - [Main inputs](https://github.com/Azeret/galIMF#main-inputs)
+   - [Inputs](https://github.com/Azeret/galIMF#inputs)
    - [Example](https://github.com/Azeret/galIMF#example)
  - [Additional information](https://github.com/Azeret/galIMF#additional-information)
    - [Versioning](https://github.com/Azeret/galIMF#versioning)
