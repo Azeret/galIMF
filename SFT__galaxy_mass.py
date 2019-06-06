@@ -13,15 +13,15 @@ def simulate(imf, Log_SFR, SFEN, STF):
     galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
 
     Z_0 = 0.00000001886
-    Z_solar_table = "Anders1989_mass"
-    Z_solar = element_abundances_solar.function_solar_element_abundances(Z_solar_table, 'Metal')
+    solar_mass_component = "Anders1989_mass"
+    Z_solar = element_abundances_solar.function_solar_element_abundances(solar_mass_component, 'Metal')
 
     galevo.galaxy_evol(
         imf=imf,
         STF=STF,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
         SFEN=SFEN,
         Z_0=Z_0,
-        Z_solar_table=Z_solar_table,
+        solar_mass_component=solar_mass_component,
         str_yield_table='portinari98',
         IMF_name='Kroupa',
         steller_mass_upper_bound=150,
