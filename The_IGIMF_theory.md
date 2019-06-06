@@ -40,20 +40,20 @@ Note that one should compare the galaxy-wide IMF with the recently formed stella
 [Kroupa & Weidner (2003)](https://ui.adsabs.harvard.edu/abs/2003ApJ...598.1076K/abstract) first point out that almost all star forms in a star cluster, thus *PREDICT*s that the galactic-field IMF is the summing up the stellar IMFs of all the star clusters.
 It also *SUGGEST*s that the most massive stellar mass in a star cluster, m<sub>max</sub>, is determined by the total mass of the embedded star cluster, M<sub>ecl</sub>, following a m<sub>max</sub>—M<sub>ecl</sub> relation.
 
-[Weidner et al. (2004)](http://adsabs.harvard.edu/abs/2004MNRAS.350.1503W) *DETERMINE*s a galaxy-wide star formation epoch of about 10 Myr and a star cluster population formed in the epoch with an embedded cluster mass function (ECMF) power-law-index, ß, of about 2.
+[Weidner et al. (2004)](https://ui.adsabs.harvard.edu/abs/2004MNRAS.350.1503W/abstract) *DETERMINE*s a galaxy-wide star formation epoch of about 10 Myr and a star cluster population formed in the epoch with an embedded cluster mass function (ECMF) power-law-index, ß, of about 2.
 
-[Weidner & Kroupa (2005)](http://adsabs.harvard.edu/abs/2005ApJ...625..754W) point out that the IGIMF theory is related to the observed M<sub>ecl,max</sub>—galaxy-wide-SFR relation 
+[Weidner & Kroupa (2005)](https://ui.adsabs.harvard.edu/abs/2005ApJ...625..754W/abstract) point out that the IGIMF theory is related to the observed M<sub>ecl,max</sub>—galaxy-wide-SFR relation 
 and the reduced number of supernovae per star observed in dwarf galaxies.
 
-[Weidner & Kroupa (2006)](http://adsabs.harvard.edu/abs/2006MNRAS.365.1333W); [Weidner et al. (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.401..275W); [(2013)](http://adsabs.harvard.edu/abs/2013MNRAS.434...84W); [(2014)](http://adsabs.harvard.edu/abs/2014MNRAS.441.3348W) **VERIFIED** the m<sub>max</sub>—M<sub>ecl</sub> relation;
+[Weidner & Kroupa (2006)](https://ui.adsabs.harvard.edu/abs/2006MNRAS.365.1333W/abstract); [Weidner et al. (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.401..275W); [(2013)](http://adsabs.harvard.edu/abs/2013MNRAS.434...84W); [(2014)](http://adsabs.harvard.edu/abs/2014MNRAS.441.3348W) **VERIFIED** the m<sub>max</sub>—M<sub>ecl</sub> relation;
 
-[Pflamm-Altenburg+ (2007)](http://adsabs.harvard.edu/abs/2007ApJ...671.1550P) *PREDICT*s the Hα depletion of low-SFR galaxies using the IGIMF theory.
+[Pflamm-Altenburg+ (2007)](https://ui.adsabs.harvard.edu/abs/2007ApJ...671.1550P/abstract) *PREDICT*s the Hα depletion of low-SFR galaxies using the IGIMF theory.
 
-[Hoversten & Glazebrook (2008)](http://adsabs.harvard.edu/abs/2008ApJ...675..163H) **VERIFIED** the top-light gwIMF of low-SFR galaxies using Hα—color signal;
+[Hoversten & Glazebrook (2008)](https://ui.adsabs.harvard.edu/abs/2008ApJ...675..163H/abstract) **VERIFIED** the top-light gwIMF of low-SFR galaxies using Hα—color signal;
 
-[Pflamm-Altenburg et al. (2009a)](http://adsabs.harvard.edu/abs/2009MNRAS.395..394P); [(2009b)](http://adsabs.harvard.edu/abs/2009ApJ...706..516P); [Lee et al. (2009)](http://adsabs.harvard.edu/abs/2009ApJ...706..599L) **VERIFIED** the top-light gwIMF of dwarf galaxies using Hα/UV signal;
+[Pflamm-Altenburg et al. (2009a)](https://ui.adsabs.harvard.edu/abs/2009MNRAS.395..394P/abstract); [(2009b)](http://adsabs.harvard.edu/abs/2009ApJ...706..516P); [Lee et al. (2009)](http://adsabs.harvard.edu/abs/2009ApJ...706..599L) **VERIFIED** the top-light gwIMF of dwarf galaxies using Hα/UV signal;
 
-[Pflamm-Altenburg & Kroupa (2010)](http://adsabs.harvard.edu/abs/2010MNRAS.404.1564P); [Gvaramadze et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.424.3037G); [Stephens et al. (2017)](http://adsabs.harvard.edu/abs/2017ApJ...834...94S) **VERIFIED** that the apparent isolated massive stars were born in star clusters.
+[Pflamm-Altenburg & Kroupa (2010)](https://ui.adsabs.harvard.edu/abs/2010MNRAS.404.1564P/abstract); [Gvaramadze et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.424.3037G); [Stephens et al. (2017)](http://adsabs.harvard.edu/abs/2017ApJ...834...94S) **VERIFIED** that the apparent isolated massive stars were born in star clusters.
 
 [Dabringhausen et al. (2009)](http://adsabs.harvard.edu/abs/2009MNRAS.394.1529D); [(2012)](http://adsabs.harvard.edu/abs/2012ApJ...747...72D); [Marks et al. (2012)](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M) *DETERMINE*s the α<sub>1 & 2 & 3</sub>—M<sub>ecl</sub> relation from an analysis of observed open and globular cluster and ultra-compact dwarf galaxies.
 
