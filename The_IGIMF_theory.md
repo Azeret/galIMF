@@ -2,7 +2,7 @@
 
 Last update: 6.6.2019
 
-The Integrated-Galactic-IMF (IGIMF) theory, originally formulated by [Pavel Kroupa](https://astro.uni-bonn.de/~pavel/) and Carsten Weidner, is the foundation of this work. Here we record the outline of the theory and related references for the reader.
+The Integrated-Galactic-IMF (IGIMF) theory, originally formulated by [Pavel Kroupa](https://astro.uni-bonn.de/~pavel/) and Carsten Weidner [(Kroupa & Weidner 2003)](https://ui.adsabs.harvard.edu/abs/2003ApJ...598.1076K/abstract), is the foundation of this work. Here we record the outline of the theory and related references for the reader.
 
 
 #### Contents
@@ -67,17 +67,17 @@ and the reduced number of supernovae per star observed in dwarf galaxies.
 
 [Kroupa et al. (2013)](http://adsabs.harvard.edu/abs/2013pss5.book..115K); [Schulz et al. (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S) develop the optimal sampling formulation.
 
-[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y); [Zhang et al. (2018)](http://adsabs.harvard.edu/abs/2018Natur.558..260Z): **VERIFIED** the systematic variation of the high-mass gwIMF slope;
+[Weidner et al. (2013)](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Yan et al. (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract); [Zhang et al. (2018)](http://adsabs.harvard.edu/abs/2018Natur.558..260Z): **VERIFIED** the systematic variation of the high-mass gwIMF slope;
 
-[Randriamanakoto et al. (2013)](http://adsabs.harvard.edu/abs/2013ApJ...775L..38R); [Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) **VERIFIED** the M<sub>ecl,max</sub>—gwSFR relation .
+[Randriamanakoto et al. (2013)](http://adsabs.harvard.edu/abs/2013ApJ...775L..38R); [Yan et al. (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract) **VERIFIED** the M<sub>ecl,max</sub>—gwSFR relation .
 
-[Yan et al. (2017)](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y) realise the optimal sampling of the entire galaxy; GalIMF open Python code;
+[Yan et al. (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract) realise the optimal sampling of the entire galaxy; GalIMF open Python code;
 
 [Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) *INCORPORATE* the α<sub>1 & 2</sub>—M<sub>ecl</sub> relation given by Marks+ (2012).
 
 [Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) point out that the suggested low-mass gwIMF variation may be explained by the IGIMF theory.
 
-Yan et al. (2019, in prepare) develop a galaxy evolution model coupling the IGIMF theory.
+Yan et al. (2019, submitted) develops a galaxy evolution model applying a variable IMF for each star formation event according to the IGIMF theory.
 
 
 
@@ -98,7 +98,7 @@ In addition, the spectra of the galaxy are influenced strongly by the star forma
 
 Knowing the above, it is extremely encouraging to see that the independent set of star cluster scale and galaxy-scale observations, 
 involving entirely different method and performed on different scales can be linked and explained consistently by integrating the star-cluster IMF to form the galaxy-wide IMF as formulated 
-by the IGIMF theory (see [Yan et al. 2017](http://adsabs.harvard.edu/abs/2017A%26A...607A.126Y)). 
+by the IGIMF theory (see [Yan et al. 2017](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract)). 
 
 
 ### Controversy
