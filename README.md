@@ -265,7 +265,7 @@ The main inputs are:
 2. IMF assumption: Can be the IGIMF (imf='igimf'), Kroupa-IMF, Salpeter-IMF or other given IMF defined in the folder "IMFs".
 3. STF: Star transformation fraction (STF) determines the initial gas mass. Higher mass of star formation (specified in the file "SFH.txt") and higher STF both leads to higher initial gas mass.
 
-Other (currently activate) input parameters include the settings of initial gas metallicity (Z_0), solar abundance mass fraction, i.e., X, Y, and Z (solar_abu_table_mass), stellar yield table (str_yield_table), possible mass of the most massive star (steller_mass_upper_bound), efficiency of the star formation (SFE, only activate when SFH_model='gas_mass_dependent'), type Ia supernova yield table (SNIa_yield_table), solar abundance table (solar_abu_table). 
+Other (currently activate) input parameters include the settings of initial gas metallicity (Z_0), solar abundance mass fraction, i.e., X, Y, and Z (solar_mass_component), stellar yield table (str_yield_table), possible mass of the most massive star (steller_mass_upper_bound), efficiency of the star formation (SFE, only activate when SFH_model='gas_mass_dependent'), type Ia supernova yield table (SNIa_yield_table), solar abundance table (solar_abu_table). 
 And the flags include whether to activate type Ia supernova (SNIa_ON), insert more time step (high_time_resolution), show the plots (plot_show), save the plots (plot_save), activate galactic wind (outflow), and use previously generated gwIMF (check_igimf).
 
 ### Example
