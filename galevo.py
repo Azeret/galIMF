@@ -25,7 +25,7 @@ from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 from yield_tables import SNIa_yield
 
 
-def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Anders1989_mass',
+def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table_mass='Anders1989_mass',
                 str_yield_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
@@ -232,8 +232,8 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
     SNII_energy_release_list = []
     SNII_number_list = []
     SNII_number_per_century = []
-    Z_solar = element_abundances_solar.function_solar_element_abundances(Z_solar_table, 'Metal')
-    X_solar = element_abundances_solar.function_solar_element_abundances(Z_solar_table, 'H')
+    Z_solar = element_abundances_solar.function_solar_element_abundances(Z_solar_table_mass, 'Metal')
+    X_solar = element_abundances_solar.function_solar_element_abundances(Z_solar_table_mass, 'H')
     primary_H_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(
         solar_abu_reference_name, "H", Z_0, Z_solar)
     primary_He_mass_fraction = element_abundances_primordial.function_element_mass_primary_fraction(
@@ -3876,7 +3876,7 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # SNIa_yield_table='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STF=0.3, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
+    galaxy_evol(imf='igimf', STF=0.3, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table_mass="Anders1989_mass",
                 str_yield_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, SNIa_yield_table='Seitenzahl2013',
