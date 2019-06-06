@@ -6,11 +6,11 @@ The Integrated-Galactic-IMF (IGIMF) theory, originally formulated by [Pavel Krou
 
 
 #### Contents
-- [Idea](https://github.com/Azeret/galIMF#idea)
-- [Method](https://github.com/Azeret/galIMF#method)
-- [Development](https://github.com/Azeret/galIMF#development)
-- [Validity](https://github.com/Azeret/galIMF#validity)
-- [Controversy](https://github.com/Azeret/galIMF#controversy)
+- [Idea](https://github.com/Azeret/galIMF/blob/master/The_IGIMF_theory.md#idea)
+- [Method](https://github.com/Azeret/galIMF/blob/master/The_IGIMF_theory.md#method)
+- [Development](https://github.com/Azeret/galIMF/blob/master/The_IGIMF_theory.md#development)
+- [Validity](https://github.com/Azeret/galIMF/blob/master/The_IGIMF_theory.md#validity)
+- [Controversy](https://github.com/Azeret/galIMF/blob/master/The_IGIMF_theory.md#controversy)
 
 
 ### Idea
@@ -98,7 +98,7 @@ In addition, the spectra of the galaxy are influenced strongly by the star forma
 
 Knowing the above, it is extremely encouraging to see that the independent set of star cluster scale and galaxy-scale observations, 
 involving entirely different method and performed on different scales can be linked and explained consistently by integrating the star-cluster IMF to form the galaxy-wide IMF as formulated 
-by the IGIMF theory (see [Yan et al. 2017](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract)). 
+by the IGIMF theory (see [Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Yan et al. 2017](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract)). 
 
 
 ### Controversy
