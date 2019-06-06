@@ -1,4 +1,4 @@
-# GalIMF version 1.1.3
+# GalIMF version 1.1.4
 
 last update: 5.06.2019
 
