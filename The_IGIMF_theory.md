@@ -32,7 +32,7 @@ Add assumption: The star-cluster-scale IMF, as well as its variation law, is uni
 
 4. Compare the galaxy-wide with the observation of star-forming galaxies.
 
-Note that one should compare the galaxy-wide IMF with the recently formed stellar population (luminosity dominated by massive stars). Old population (lower-mass stars) live for a long time and are a composition of multiple star formation event thus multiple galaxy-wide IMF. The comparison of low-mass stars can only be performed in galaxy evolution simulation taking into consideration of the star formation history.
+Note that one should compare the galaxy-wide IMF with the recently formed stellar population (e.g., [Yan et al. 2017](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract)). Old population (lower-mass stars) live for a long time and are a composition of multiple star-formation event thus multiple galaxy-wide IMF. The comparison for low-mass stars can only be performed in galaxy evolution simulation taking into consideration of the star formation history (e.g., Yan et al. 2019, submitted).
 
 
 ### Development
