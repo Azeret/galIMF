@@ -103,23 +103,25 @@ by the IGIMF theory (see [Yan et al. 2017](http://adsabs.harvard.edu/abs/2017A%2
 
 ### Controversy
 
-There are several controversies of the IGIMF theory. For example, one of the main objection comes from the seemingly isolated massive stars which have now been proved to be 
-dynamically ejected from the star clusters ([Pflamm-Altenburg & Kroupa 2010](http://adsabs.harvard.edu/abs/2010MNRAS.404.1564P); 
+There are several controversies of the IGIMF theory. 
+
+1. One of the main concern comes from the seemingly isolated massive stars. It has now been proved that these stars 
+are dynamically ejected from their parent star clusters ([Pflamm-Altenburg & Kroupa 2010](http://adsabs.harvard.edu/abs/2010MNRAS.404.1564P); 
 [Gvaramadze et al. 2012](http://adsabs.harvard.edu/abs/2012MNRAS.424.3037G); 
-[Stephens et al. 2017](http://adsabs.harvard.edu/abs/2017ApJ...834...94S)). 
-Here we mention two other apparent falsifications of the IGIMF theory in publications and explain why they are incorrect.
-    
-The current formulation of the IGIMF theory consider the observed m<sub>max</sub>—M<sub>ecl</sub> relation as one of the indications that the star formation process is highly self-regulated and 
+[Stephens et al. 2017](http://adsabs.harvard.edu/abs/2017ApJ...834...94S)). Thus the conventional wisdom that "stars do not form from no where" remains to be correct.
+
+
+2. The current formulation of the IGIMF theory consider the observed m<sub>max</sub>—M<sub>ecl</sub> relation as one of the indications that the star formation process is highly self-regulated and 
 the mass distribution of a stellar population closely follows the IMF with an intrinsic variation far smaller than a 
 random sampling procedure would give [(Kroupa et al. 2013)](http://adsabs.harvard.edu/abs/2013pss5.book..115K). This suggests that all the less massive stars are likely to also follow closely with the IMF and thus the M<sub>ecl</sub> as a summation of them. Then the observed 
 m<sub>max</sub>—M<sub>ecl</sub> relation is nothing but a representative of the second most massive star—M<sub>ecl</sub> 
 relation, third most massive star—M<sub>ecl</sub> relation and so on and so forth to the lowest mass star—M<sub>ecl</sub> 
-relation. Thus it is possible to assert the initial mass of every star in a star cluster according to the IMF without going into the random sampling procedure for the stellar masses and achieving a better result. This sampling method is the optimal sampling. With this interpretation, the stellar mass of every star is determined once we know the M<sub>ecl</sub>. It happens that some studies 
-take the m<sub>max</sub>—M<sub>ecl</sub> relation as an upper limit of the stellar mass in a star cluster with given mass 
-and then apply a m<sub>max</sub> limited random sampling to form the stellar masses of all the stars. This would only result in a lower m<sub>max</sub> for a given star cluster than the observed value and is inconsistent with the IGIMF theory.
+relation. Thus it is possible to assert the initial mass of every star in a star cluster according to the IMF without going into the random sampling procedure for the stellar masses and achieving a better result. This sampling method is the optimal sampling. With this interpretation, the stellar mass of every star is determined once we know the M<sub>ecl</sub>. 
 
-Another test has been performed on the IGIMF theory is the [Fe/H] distribution of the stars in comparison with the observed distribution of giants in the Galactic bulge and solar neighbors. An apparent mismatch was found by 
-[Ballero et al. (2007)](http://adsabs.harvard.edu/abs/2007A%26A...467..117B) but it does not stand as a falsify of the IGIMF theory for two reasons. Firstly, 
+    It happens that some publications take the m<sub>max</sub>—M<sub>ecl</sub> relation as an upper limit of the stellar mass in a star cluster with given mass and then apply a m<sub>max</sub> limited random sampling to form the stellar masses of all the stars. This would only result in a lower m<sub>max</sub> for a given star cluster than the observed value and is inconsistent with the IGIMF theory. In short, the empirical m<sub>max</sub>—M<sub>ecl</sub> relation is not the IGIMF theory, not even an axiom of the IGIMF theory, but a consequence of the IGIMF theory which already include the sampling of all stellar masses.
+
+3. A test performed on the IGIMF theory is the [Fe/H] distribution of the stars in comparison with the observed distribution of giants in the Galactic bulge and solar neighbors. An apparent mismatch was found by 
+[Ballero et al. (2007)](http://adsabs.harvard.edu/abs/2007A%26A...467..117B). It does not stand as a falsify of the IGIMF theory for two reasons. Firstly, 
 the employed IGIMF formulation is an early version where the top-heavy IMF was not in place. 
 The massive stars from a top-heavy IMF could already contribute a decent portion of the iron production thus the development of the IGIMF formulation could not be ignored without a detailed examination. Second but more importantly, the simulation performed is not fully self-consistent. When considering different environments that are able to cause different integrated IMFs, the IMF variation is no longer the only variable in the chemical evolution model since the vast difference in the stellar density should also lead to a 
 difference in the SNIa rate. This variation is omitted when applying, e.g., the description of the SNIa rate in 
