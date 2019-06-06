@@ -1,6 +1,8 @@
 ## The IGIMF theory
 
-The Integrated-Galactic-IMF (IGIMF) theory is the foundation of this work. Here we record the outline of the theory and related references for the reader.
+Last update: 6.6.2019
+
+The Integrated-Galactic-IMF (IGIMF) theory, originally formulated by [Pavel Kroupa](https://astro.uni-bonn.de/~pavel/) and Carsten Weidner, is the foundation of this work. Here we record the outline of the theory and related references for the reader.
 
 
 #### Contents
@@ -35,7 +37,7 @@ Note that one should compare the galaxy-wide IMF with the recently formed stella
 
 ### Development
 
-[Kroupa & Weidner (2003)](http://adsabs.harvard.edu/abs/2003ApJ...598.1076K) first point out that almost all star forms in a star cluster, thus *PREDICT*s that the galactic-field IMF is the summing up the stellar IMFs of all the star clusters.
+[Kroupa & Weidner (2003)](https://ui.adsabs.harvard.edu/abs/2003ApJ...598.1076K/abstract) first point out that almost all star forms in a star cluster, thus *PREDICT*s that the galactic-field IMF is the summing up the stellar IMFs of all the star clusters.
 It also *SUGGEST*s that the most massive stellar mass in a star cluster, m<sub>max</sub>, is determined by the total mass of the embedded star cluster, M<sub>ecl</sub>, following a m<sub>max</sub>—M<sub>ecl</sub> relation.
 
 [Weidner et al. (2004)](http://adsabs.harvard.edu/abs/2004MNRAS.350.1503W) *DETERMINE*s a galaxy-wide star formation epoch of about 10 Myr and a star cluster population formed in the epoch with an embedded cluster mass function (ECMF) power-law-index, ß, of about 2.
