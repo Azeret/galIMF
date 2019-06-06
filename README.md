@@ -269,7 +269,7 @@ Other inputs include the choice of stellar yield table, initial gas metal abunda
 
 ### Example
 
-An example is given in file "example_galaxy_evolution.py".
+An example is given in file "example_galaxy_evolution.py", which calls "galevo.py", goes through the set up of the main input parameters, and shows the resulting plots.
 
 
 
