@@ -22,7 +22,7 @@ def simulate(imf, Log_SFR, SFEN, STF):
         SFEN=SFEN,
         Z_0=Z_0,
         Z_solar_table=Z_solar_table,
-        str_evo_table='portinari98',
+        str_yield_table='portinari98',
         IMF_name='Kroupa',
         steller_mass_upper_bound=150,
         time_resolution_in_Myr=1,

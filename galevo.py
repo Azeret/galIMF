@@ -26,7 +26,7 @@ from yield_tables import SNIa_yield
 
 
 def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Anders1989_mass',
-                str_evo_table='portinari98',
+                str_yield_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.05,
@@ -75,7 +75,7 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
     Warning_galaxy_mass_ejected_gas_mass = False
 
     # get all avaliable metallicity from stellar evolution table
-    (Z_list, Z_list_2, Z_list_3) = function_get_avaliable_Z(str_evo_table)
+    (Z_list, Z_list_2, Z_list_3) = function_get_avaliable_Z(str_yield_table)
 
     # read in SFH
     SFH_input = np.loadtxt('SFH.txt')
@@ -558,29 +558,29 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
                     # Choose the closest metallicity
                     Z_select_in_table = function_select_metal(Z_gas_this_time_step, Z_list)
                     Z_select_in_table_2 = function_select_metal(Z_gas_this_time_step, Z_list_2)
-                    if str_evo_table != "portinari98":
+                    if str_yield_table != "portinari98":
                         Z_select_in_table_3 = function_select_metal(Z_gas_this_time_step, Z_list_3)
                     else:
                         Z_select_in_table_3 = None
                     # read in interpolated stellar lifetime table
-                    (mass_1, mass, lifetime_table) = function_read_lifetime(str_evo_table, Z_select_in_table)
+                    (mass_1, mass, lifetime_table) = function_read_lifetime(str_yield_table, Z_select_in_table)
                     # read in interpolated stellar final mass
-                    (mass_12, Mfinal_table) = function_read_Mfinal(str_evo_table, Z_select_in_table)
+                    (mass_12, Mfinal_table) = function_read_Mfinal(str_yield_table, Z_select_in_table)
                     # read in interpolated stellar ejected metal mass
-                    (mass_2, mass2, Mmetal_table) = function_read_Mmetal(str_evo_table, Z_select_in_table_2,
+                    (mass_2, mass2, Mmetal_table) = function_read_Mmetal(str_yield_table, Z_select_in_table_2,
                                                                          Z_select_in_table_3)
                     # read in interpolated stellar ejected elements mass
-                    MH_table = function_read_M_element("H", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MHe_table = function_read_M_element("He", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MC_table = function_read_M_element("C", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MN_table = function_read_M_element("N", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MO_table = function_read_M_element("O", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MMg_table = function_read_M_element("Mg", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MNe_table = function_read_M_element("Ne", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MSi_table = function_read_M_element("Si", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MS_table = function_read_M_element("S", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MCa_table = function_read_M_element("Ca", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
-                    MFe_table = function_read_M_element("Fe", str_evo_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MH_table = function_read_M_element("H", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MHe_table = function_read_M_element("He", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MC_table = function_read_M_element("C", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MN_table = function_read_M_element("N", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MO_table = function_read_M_element("O", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MMg_table = function_read_M_element("Mg", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MNe_table = function_read_M_element("Ne", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MSi_table = function_read_M_element("Si", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MS_table = function_read_M_element("S", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MCa_table = function_read_M_element("Ca", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
+                    MFe_table = function_read_M_element("Fe", str_yield_table, Z_select_in_table_2, Z_select_in_table_3)
                     M_element_table = [MH_table, MHe_table, MC_table, MN_table, MO_table, MMg_table, MNe_table,
                                        MSi_table, MS_table, MCa_table, MFe_table]
 
@@ -1415,7 +1415,7 @@ def function_SNIa_DTD(delay_time):
     return number
 
 
-def function_read_lifetime(str_evo_table, Z_select_in_table):
+def function_read_lifetime(str_yield_table, Z_select_in_table):
     #### if apply instantaneous recycling approximation ####
     global instantaneous_recycling
     if instantaneous_recycling == True:
@@ -1436,7 +1436,7 @@ def function_read_lifetime(str_evo_table, Z_select_in_table):
     return (mass_1, mass, lifetime_table)
 
 
-def function_read_Mfinal(str_evo_table, Z_select_in_table):
+def function_read_Mfinal(str_yield_table, Z_select_in_table):
     file_final_mass = open(
         "yield_tables/rearranged/setllar_final_mass_from_portinari98/portinari98_Z={}.txt".format(Z_select_in_table),
         'r')
@@ -1489,11 +1489,11 @@ def lindexsplit(List, *lindex):
     return templist2
 
 
-def function_read_Mmetal(str_evo_table, Z_select_in_table_2, Z_select_in_table_3):
+def function_read_Mmetal(str_yield_table, Z_select_in_table_2, Z_select_in_table_3):
     global mm, zz
-    if str_evo_table == "portinari98":
+    if str_yield_table == "portinari98":
         file_Metal_eject = open(
-            'yield_tables/rearranged/setllar_Metal_eject_mass_from_{}/{}_Z={}.txt'.format(str_evo_table, str_evo_table,
+            'yield_tables/rearranged/setllar_Metal_eject_mass_from_{}/{}_Z={}.txt'.format(str_yield_table, str_yield_table,
                                                                                           Z_select_in_table_2),
             'r')
         data = file_Metal_eject.readlines()
@@ -1503,9 +1503,9 @@ def function_read_Mmetal(str_evo_table, Z_select_in_table_2, Z_select_in_table_3
         file_Metal_eject.close()
         mass = [float(x) for x in mass_2.split()]
         Metal_eject_table = [float(x) for x in Metal_eject_.split()]
-    elif str_evo_table == "WW95":
+    elif str_yield_table == "WW95":
         file_Metal_eject = open(
-            'yield_tables/rearranged/setllar_Metal_eject_mass_from_{}/{}_Z={}.txt'.format(str_evo_table, str_evo_table,
+            'yield_tables/rearranged/setllar_Metal_eject_mass_from_{}/{}_Z={}.txt'.format(str_yield_table, str_yield_table,
                                                                                           Z_select_in_table_2),
             'r')
         data = file_Metal_eject.readlines()
@@ -1535,8 +1535,8 @@ def function_read_Mmetal(str_evo_table, Z_select_in_table_2, Z_select_in_table_3
     return (mass_2, mass, Metal_eject_table)
 
 
-def function_read_M_element(element, str_evo_table, Z_select_in_table_2, Z_select_in_table_3):
-    if str_evo_table == "portinari98":
+def function_read_M_element(element, str_yield_table, Z_select_in_table_2, Z_select_in_table_3):
+    if str_yield_table == "portinari98":
         if element == "H":
             file_M_eject = open(
                 'yield_tables/rearranged/setllar_H_eject_mass_from_portinari98/portinari98_Z={}.txt'.format(
@@ -1599,7 +1599,7 @@ def function_read_M_element(element, str_evo_table, Z_select_in_table_2, Z_selec
         M_eject_ = data[5]
         file_M_eject.close()
         M_eject_table = [float(x) for x in M_eject_.split()]
-    elif str_evo_table == "WW95":
+    elif str_yield_table == "WW95":
         if element == "H":
             file_M_eject = open(
                 'yield_tables/rearranged/setllar_H_eject_mass_from_WW95/WW95_Z={}.txt'.format(Z_select_in_table_2),
@@ -2197,7 +2197,7 @@ def function_element_abundunce(solar_abu_reference_name, element_1_name, element
     return metal_1_over_2
 
 
-def function_get_avaliable_Z(str_evo_table):
+def function_get_avaliable_Z(str_yield_table):
     # extract avalible metallicity in the given grid table
     # stellar life-time table and metal production tables have different avalible metal grid.
     import os
@@ -2210,10 +2210,10 @@ def function_get_avaliable_Z(str_evo_table):
             yield_path = cwd + '/galIMF/yield_tables'
 
     # list 1
-    file_names_setllar_lifetime_from_str_evo_table = os.listdir(
+    file_names_setllar_lifetime_from_str_yield_table = os.listdir(
         yield_path + '/rearranged/setllar_lifetime_from_portinari98')
     Z_list = []
-    for name in file_names_setllar_lifetime_from_str_evo_table:
+    for name in file_names_setllar_lifetime_from_str_yield_table:
         length_file_name = len(name)
         i = 0
         i_start = 0
@@ -2232,10 +2232,10 @@ def function_get_avaliable_Z(str_evo_table):
         Z_list += [float(Z)]
     sorted_Z_list = sorted(Z_list)
     # list 2
-    file_names_setllar_lifetime_from_str_evo_table = os.listdir(
-        yield_path + '/rearranged/setllar_Metal_eject_mass_from_{}'.format(str_evo_table))
+    file_names_setllar_lifetime_from_str_yield_table = os.listdir(
+        yield_path + '/rearranged/setllar_Metal_eject_mass_from_{}'.format(str_yield_table))
     Z_list_2 = []
-    for name in file_names_setllar_lifetime_from_str_evo_table:
+    for name in file_names_setllar_lifetime_from_str_yield_table:
         length_file_name = len(name)
         i = 0
         i_start = 0
@@ -2253,12 +2253,12 @@ def function_get_avaliable_Z(str_evo_table):
             (i) = (i + 1)
         Z_list_2 += [float(Z)]
     sorted_Z_list_2 = sorted(Z_list_2)
-    if str_evo_table != "portinari98":
+    if str_yield_table != "portinari98":
         # list 3
-        file_names_setllar_lifetime_from_str_evo_table = os.listdir(
+        file_names_setllar_lifetime_from_str_yield_table = os.listdir(
             yield_path + '/rearranged/setllar_Metal_eject_mass_from_marigo01')
         Z_list_3 = []
-        for name in file_names_setllar_lifetime_from_str_evo_table:
+        for name in file_names_setllar_lifetime_from_str_yield_table:
             length_file_name = len(name)
             i = 0
             i_start = 0
@@ -3868,7 +3868,7 @@ if __name__ == '__main__':
 
     ####################################
 
-    # str_evo_table='WW95' or 'portinari98', specify the stellar evolution table
+    # str_yield_table='WW95' or 'portinari98', specify the stellar evolution table
     # imf='igimf' or 'Kroupa' or 'Salpeter'...(see line 460 above), specify galaxy IMF model.
     # SFH_model='provided' or 'gas_mass_dependent' specify the star formation history.
     # The 'provided' SFH is given in SFH.txt;
@@ -3877,7 +3877,7 @@ if __name__ == '__main__':
     # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
     galaxy_evol(imf='igimf', STF=0.3, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
-                str_evo_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
+                str_yield_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
                 solar_abu_reference_name='Anders1989',
