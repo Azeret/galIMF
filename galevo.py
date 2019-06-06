@@ -30,7 +30,7 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.05,
-                SNIa_ON=True, yield_reference_name='Thielemann1993', solar_abu_reference_name='Anders1989',
+                SNIa_ON=True, SNIa_yield_table='Thielemann1993', solar_abu_reference_name='Anders1989',
                 high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
     start_time = time.time()
 
@@ -786,12 +786,12 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, Z_solar_table='Ande
                 # if consider SNIa
                 if SNIa_ON == True:
                     # read in SNIa yield table
-                    Fe_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Fe')
-                    Si_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Si')
-                    O_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'O')
-                    S_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'S')
-                    Mg_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Mg')
-                    Ne_mass_eject = SNIa_yield.function_mass_ejected(yield_reference_name, 'Ne')
+                    Fe_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Fe')
+                    Si_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Si')
+                    O_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'O')
+                    S_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'S')
+                    Mg_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Mg')
+                    Ne_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Ne')
                     total_mass_eject_per_SNIa = Fe_mass_eject + Si_mass_eject + O_mass_eject + S_mass_eject + Mg_mass_eject + Ne_mass_eject
                     Chandrasekhar_mass = 1.44
                     pre_SNIa_NS_mass = 1
@@ -3874,12 +3874,12 @@ if __name__ == '__main__':
     # The 'provided' SFH is given in SFH.txt;
     # The 'gas_mass_dependent' use SFH.txt to setup the initial condition
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
-    # yield_reference_name='Thielemann1993' or 'Seitenzahl2013'
+    # SNIa_yield_table='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_reference_name='Anders1989' or 'Asplund2009'
     galaxy_evol(imf='igimf', STF=0.3, SFEN=SFEN, Z_0=0.00000001886, Z_solar_table="Anders1989_mass",
                 str_yield_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='provided', SFE=0.013, SNIa_ON=True, yield_reference_name='Seitenzahl2013',
+                SFH_model='provided', SFE=0.013, SNIa_ON=True, SNIa_yield_table='Seitenzahl2013',
                 solar_abu_reference_name='Anders1989',
                 high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=True)
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
