@@ -79,13 +79,10 @@ def simulate(imf, Log_SFR, SFEN, STF):
 
 
 if __name__ == '__main__':
-    imf = 'igimf'
-    STF = 0.3
-    Log_SFR = 0.0
-    SFEN = 50
 
-    for SFEN in [20, 400]:
-        for Log_SFR in [1.0, 3.0]:
-            for STR in [0.2, 0.3]:
-                print("\n", imf, Log_SFR, SFEN, STF)
-                simulate(imf, Log_SFR, SFEN, STF)
+    for SFEN in [25, 50, 100, 200, 400, 800]:
+        for STF in [0.4, 0.3, 0.2]:
+            for Log_SFR in [-1.0, 0.0, 1.0, 2.0, 3.0]:
+                for imf in ['igimf', 'Kroupa']:
+                    print("\n", imf, Log_SFR, SFEN, STF)
+                    simulate(imf, Log_SFR, SFEN, STF)
