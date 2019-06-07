@@ -81,7 +81,7 @@ def simulate(imf, Log_SFR, SFEN, STF):
 if __name__ == '__main__':
 
     for SFEN in [25, 50, 100, 200, 400, 800]:
-        print('Start simulations for SFT={}!'.format(SFEN))
+        print('Start simulations with star formation timescale being {}0 Myr.'.format(SFEN))
         for STF in [0.4, 0.3, 0.2]:
             for Log_SFR in [-1.0, 0.0, 1.0, 2.0, 3.0]:
                 for imf in ['igimf', 'Kroupa']:
