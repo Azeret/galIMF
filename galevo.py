@@ -532,7 +532,7 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
 
                     def igimf_luminous_function(mass):
                         return igimf_of_this_epoch.custom_imf(mass, this_time) * \
-                               stellar_luminosity.stellar_luminosity_function(mass=mass)
+                               stellar_luminosity.stellar_luminosity_function(mass)
 
                     # integrated igimf_mass_function from 0.08 to steller_mass_upper_bound
                     integrate_igimf_mass = quad(igimf_mass_function, 0.08, steller_mass_upper_bound, limit=40)[0]
@@ -651,7 +651,7 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
                     return igimf_of_this_epoch.custom_imf(mass, this_time) * mass
                 def igimf_luminous_function(mass):
                     return igimf_of_this_epoch.custom_imf(mass, this_time) * \
-                           stellar_luminosity.stellar_luminosity_function(mass=mass)
+                           stellar_luminosity.stellar_luminosity_function(mass)
 
             if S_F_R_of_this_epoch > 0:
                 # get M_tot (total initial mass of all star ever formed)
@@ -674,38 +674,40 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
                     # print(m1 / m2)
 
                     integrate_star_mass = quad(igimf_mass_function, 0.08, mass_boundary, limit=40)[0]  # normalized mass
-                    integrate_star_luminosity = quad(igimf_luminous_function, 0.08, mass_boundary, limit=40)[0]
-                    current_stellar_mass_of_this_epoch = mass_calibration_factor * integrate_star_mass  # real mass
-                    current_stellar_luminosity_of_this_epoch = mass_calibration_factor * integrate_star_luminosity
+                    stellar_luminosity_of_a_epoch_at_a_time_step = quad(igimf_luminous_function, 0.08, mass_boundary, limit=40)[0]
+                    stellar_mass_of_a_epoch_at_a_time_step = mass_calibration_factor * integrate_star_mass  # real mass
 
                     # apprent metal mass (neglect stellar evolution, only account for the initial metal mass when SF):
-                    stellar_metal_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[0]
-                    stellar_H_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[1]
-                    stellar_He_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[2]
-                    # stellar_C_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[3]
-                    # stellar_N_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[4]
-                    stellar_O_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[5]
-                    stellar_Mg_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[6]
-                    # stellar_Ca_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[7]
-                    stellar_Fe_mass_of_this_epoch = current_stellar_mass_of_this_epoch * metal_in_gas[8]
+                    stellar_metal_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[0]
+                    stellar_H_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[1]
+                    stellar_He_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[2]
+                    # stellar_C_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[3]
+                    # stellar_N_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[4]
+                    stellar_O_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[5]
+                    stellar_Mg_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[6]
+                    # stellar_Ca_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[7]
+                    stellar_Fe_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[8]
 
-                    # apprent metal luminosity (neglect stellar evolution, only account for main-sequence stars):
-                    stellar_metal_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[0]
-                    stellar_H_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[1]
-                    stellar_He_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[2]
-                    # stellar_C_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[3]
-                    # stellar_N_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[4]
-                    stellar_O_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[5]
-                    stellar_Mg_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[6]
-                    # stellar_Ca_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[7]
-                    stellar_Fe_luminosity_of_this_epoch = current_stellar_luminosity_of_this_epoch * metal_in_gas[8]
+                    # The luminosity-weighted metallicity is in its exact form. However,
+                    # the luminosity-weighted element abundance, e.g., weighted-with-luminosity([Fe/H]) is approximated
+                    # by [the-number-of(weighted-with-luminosity(mass-fraction-of(Fe)))/the-number-of(weighted-with-luminosity(mass-fraction-of(H)))]
+                    # below is the first step to calculate the weighted-with-luminosity(mass-fraction-of(An-element))
+                    stellar_metal_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[0]
+                    stellar_H_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[1]
+                    stellar_He_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[2]
+                    # stellar_C_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[3]
+                    # stellar_N_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[4]
+                    stellar_O_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[5]
+                    stellar_Mg_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[6]
+                    # stellar_Ca_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[7]
+                    stellar_Fe_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[8]
                     #
                     BH_mass_of_this_epoch = get_BH_mass(mass_boundary, 1, 1, mass_calibration_factor,
                                                         steller_mass_upper_bound)
                     NS_mass_of_this_epoch = get_NS_mass(mass_boundary, 1, 1, mass_calibration_factor)
                     WD_mass_of_this_epoch = get_WD_mass(mass_boundary, 1, 1, mass_calibration_factor)
                     remnant_mass_of_this_epoch = WD_mass_of_this_epoch + NS_mass_of_this_epoch + BH_mass_of_this_epoch
-                    ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - current_stellar_mass_of_this_epoch - remnant_mass_of_this_epoch
+                    ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - stellar_mass_of_a_epoch_at_a_time_step - remnant_mass_of_this_epoch
                     if ejected_gas_mass_of_this_epoch < 0:
                         Warning_ejected_gas_mass_of_this_epoch = True
                         # Warning: ejected_gas_mass_of_this_epoch < 0 (integrate_star_mass > integrate_igimf_mass)
@@ -768,7 +770,7 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
 
                 else:
                     print("Error: integrate_igimf_mass == 0 while S_F_R_of_this_epoch != 0.")
-                    current_stellar_mass_of_this_epoch = 0
+                    stellar_mass_of_a_epoch_at_a_time_step = 0
                     BH_mass_of_this_epoch = 0
                     NS_mass_of_this_epoch = 0
                     WD_mass_of_this_epoch = 0
@@ -833,7 +835,7 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
                     SNIa_number_from_all_epoch += SNIa_number_from_this_epoch_till_this_time
                     SNIa_energy_release += SNIa_energy_release_per_event * SNIa_number_from_this_epoch_till_this_time
                 #
-                stellar_mass_at_this_time += current_stellar_mass_of_this_epoch
+                stellar_mass_at_this_time += stellar_mass_of_a_epoch_at_a_time_step
                 stellar_metal_mass_at_this_time += stellar_metal_mass_of_this_epoch
                 stellar_H_mass_at_this_time += stellar_H_mass_of_this_epoch
                 stellar_He_mass_at_this_time += stellar_He_mass_of_this_epoch
@@ -841,7 +843,9 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
                 stellar_Mg_mass_at_this_time += stellar_Mg_mass_of_this_epoch
                 stellar_Fe_mass_at_this_time += stellar_Fe_mass_of_this_epoch
                 #
-                stellar_luminosity_at_this_time += current_stellar_luminosity_of_this_epoch
+                # The luminosity-weighted element mass fraction is,
+                # e.g., stellar_Fe_luminosity_at_this_time / stellar_luminosity_at_this_time
+                stellar_luminosity_at_this_time += stellar_luminosity_of_a_epoch_at_a_time_step
                 stellar_metal_luminosity_at_this_time += stellar_metal_luminosity_of_this_epoch
                 stellar_H_luminosity_at_this_time += stellar_H_luminosity_of_this_epoch
                 stellar_He_luminosity_at_this_time += stellar_He_luminosity_of_this_epoch
@@ -1052,6 +1056,10 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
         ##### luminosity weighted abundances
         # (total metal in stars / total H in stars):
         luminosity_weighted_stellar_Y = stellar_He_luminosity_at_this_time / stellar_luminosity_at_this_time
+        # below the input shall be the luminosity-weighted element mass,
+        # e.g., stellar_O_luminosity_at_this_time / stellar_luminosity_at_this_time * total-stellar-mass-at-this-time,
+        # but since stellar_luminosity_at_this_time and total-stellar-mass-at-this-time are the same for both element,
+        # the constants cancel in function_element_abundunce.
         luminosity_weighted_stellar_O_over_H = function_element_abundunce(solar_abu_table, "O", "H",
                                                                           stellar_O_luminosity_at_this_time,
                                                                           stellar_H_luminosity_at_this_time)
@@ -2188,7 +2196,6 @@ def function_element_abundunce(solar_abu_table, element_1_name, element_2_name, 
                 solar_abu_table, element_1_name)
             solar_metal_2_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(
                 solar_abu_table, element_2_name)
-
             metal_1_element_weight = element_weight_table.function_element_weight(element_1_name)
             metal_2_element_weight = element_weight_table.function_element_weight(element_2_name)
 
