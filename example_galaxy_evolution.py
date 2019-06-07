@@ -55,15 +55,15 @@ galevo.galaxy_evol(
     STF=0.3,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
     SFEN=SFEN,
     Z_0=0.00000001886,
-    Z_solar_table="Anders1989_mass",
-    str_evo_table='portinari98',
+    solar_mass_component="Anders1989_mass",
+    str_yield_table='portinari98',
     IMF_name='Kroupa',
     steller_mass_upper_bound=150,
     time_resolution_in_Myr=1,
     mass_boundary_observe_low=1.5,
     mass_boundary_observe_up=8,
     SFH_model='provided',
-    SFE=0.013,
+    SFE=0.013,  # This parameter is not applied when SFH_model='provided'.
     SNIa_ON=True,
     high_time_resolution=None,
     plot_show=True,
