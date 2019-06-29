@@ -1,7 +1,8 @@
 import galevo
 import math
 import element_abundances_solar
-
+import multiprocessing as mp
+from time import time
 
 def simulate(imf, Log_SFR, SFEN, STF):
     # generate SFH:
@@ -79,15 +80,27 @@ def simulate(imf, Log_SFR, SFEN, STF):
 
 
 if __name__ == '__main__':
-    for SFEN in [100]:  # Star Formation Event Number is the star formation time scale t_sf in the unit of 10 Myr
-        print('Start simulations with star formation timescale being {}0 Myr.'.format(SFEN))
-        for STF in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5]:
-            for Log_SFR in [4.0]:
-            # for Log_SFR in [-0.5, 0.5, 1.5, 2.5, 3.5]:
-                for imf in ['igimf', 'Kroupa']:
-                    print("\n", SFEN, STF, Log_SFR, imf)
-                    simulate(imf, Log_SFR, SFEN, STF)
-#
+    start = time()
+
+    SFEN = 100
+    STF_list = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5]
+    Log_SFR = 4.0
+    imf = 'igimf'
+    imf = 'Kroupa'
+
+    # Parallelizing using Pool.map()
+    def a_pipeline(parameter):
+        STF = parameter
+        print("\n Start simulation for:", SFEN, STF, Log_SFR, imf)
+        simulate(imf, Log_SFR, SFEN, STF)
+        return
+    pool = mp.Pool(mp.cpu_count())
+    pool.map(a_pipeline, [STF for STF in STF_list])
+    pool.close()
+
+    end = time()
+    print("Run time:", end - start)
+
 # if __name__ == '__main__':
 #     for SFEN in [400]:  # Star Formation Event Number is the star formation time scale t_sf in the unit of 10 Myr
 #         print('Start simulations with star formation timescale being {}0 Myr.'.format(SFEN))
