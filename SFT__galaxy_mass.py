@@ -39,7 +39,7 @@ def simulate(imf, Log_SFR, SFEN, STF):
 
     log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
     file = open(
-        'simulation_results_from_galaxy_evol/imf:{}-STF:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STF, Log_SFR,
+        'simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0:{}.txt'.format(imf, STF, Log_SFR,
                                                                                                  SFEN, log_Z_0), 'r')
     data = file.readlines()
     file.close()
@@ -79,12 +79,21 @@ def simulate(imf, Log_SFR, SFEN, STF):
 
 
 if __name__ == '__main__':
-    #for SFEN in [25, 50, 100, 200, 400, 800]:
-    
-    SFEN = 25
-    print('Start simulations with star formation timescale being {}0 Myr.'.format(SFEN))
-    for STF in [0.4, 0.3, 0.2]:
-        for Log_SFR in [-1.0, 0.0, 1.0, 2.0, 3.0]:
-            for imf in ['igimf', 'Kroupa']:
-                print("\n", imf, Log_SFR, SFEN, STF)
-                simulate(imf, Log_SFR, SFEN, STF)
+    for SFEN in [100]:  # Star Formation Event Number is the star formation time scale t_sf in the unit of 10 Myr
+        print('Start simulations with star formation timescale being {}0 Myr.'.format(SFEN))
+        for STF in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5]:
+            for Log_SFR in [4.0]:
+            # for Log_SFR in [-0.5, 0.5, 1.5, 2.5, 3.5]:
+                for imf in ['igimf', 'Kroupa']:
+                    print("\n", SFEN, STF, Log_SFR, imf)
+                    simulate(imf, Log_SFR, SFEN, STF)
+#
+# if __name__ == '__main__':
+#     for SFEN in [400]:  # Star Formation Event Number is the star formation time scale t_sf in the unit of 10 Myr
+#         print('Start simulations with star formation timescale being {}0 Myr.'.format(SFEN))
+#         for STF in [0.9, 0.8, 0.7, 0.6, 0.5]:
+#             for Log_SFR in [-1.0, 0.0, 1.0, 2.0, 3.0, 4.0]:
+#             # for Log_SFR in [-0.5, 0.5, 1.5, 2.5, 3.5]:
+#                 for imf in ['igimf', 'Kroupa']:
+#                     print("\n", SFEN, STF, Log_SFR, imf)
+#                     simulate(imf, Log_SFR, SFEN, STF)
