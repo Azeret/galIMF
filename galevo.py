@@ -2368,7 +2368,7 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     global all_sf_imf
     number_of_sf_epoch = len(all_sf_imf)
 
-    # data = exec(open("simulation_results_from_galaxy_evol/imf:{}-SFE:{}-log_SFR:{}-SFEN:{}.txt".format(IMF, SFE[0], SFR[0], SFEN[0])).read())
+    # data = exec(open("simulation_results_from_galaxy_evol/imf{}SFE{}log_SFR{}SFEN{}.txt".format(IMF, SFE[0], SFR[0], SFEN[0])).read())
     #
     # print(data)
 
@@ -2478,11 +2478,11 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
 
     log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
     file = open(
-        'simulation_results_from_galaxy_evol/imf:{}-STF:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt'.format(imf, STF, SFR, SFEN,
+        'simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}.txt'.format(imf, STF, SFR, SFEN,
                                                                                                  log_Z_0), 'w')
 
     print("\nsimulation results saved in the file:\n"
-          "simulation_results_from_galaxy_evol/imf:{}-STF:{}-log_SFR:{}-SFEN:{}-Z_0:{}.txt".format(imf, STF, SFR, SFEN,
+          "simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}.txt".format(imf, STF, SFR, SFEN,
                                                                                                    log_Z_0))
 
     file.write("# Number of star formation event epoch (10^7 yr):\n")
