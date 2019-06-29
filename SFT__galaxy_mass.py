@@ -36,7 +36,7 @@ def simulate(imf, Log_SFR, SFEN, STF):
         plot_show=None,
         plot_save=None,
         outflow=None,
-        check_igimf=None)
+        check_igimf=True)
 
     log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
     file = open(
