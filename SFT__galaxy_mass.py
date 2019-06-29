@@ -40,7 +40,7 @@ def simulate(imf, Log_SFR, SFEN, STF):
 
     log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
     file = open(
-        'simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0:{}.txt'.format(imf, STF, Log_SFR,
+        'simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}.txt'.format(imf, STF, Log_SFR,
                                                                                                  SFEN, log_Z_0), 'r')
     data = file.readlines()
     file.close()
