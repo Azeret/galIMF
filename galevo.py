@@ -1894,7 +1894,7 @@ def function_get_igimf_for_this_epoch(SFR_input, Z_over_X, this_time, this_epoch
     # with igimf = function_get_igimf_for_every_epoch(SFH_input, Z, Z_solar),
     # the igimf can be called by: igimf.custom_imf(stellar_mass, this_time).
     function_generate_igimf_file(SFR=SFR_input, Z_over_X=Z_over_X, printout=None, sf_epoch=this_epoch,
-                                 check=check_igimf)
+                                 check_igimf=check_igimf)
     if SFR_input == 0:
         igimf_file_name = "igimf_SFR_Zero"
     else:
@@ -1916,7 +1916,7 @@ def function_get_igimf_for_this_epoch(SFR_input, Z_over_X, this_time, this_epoch
     return igimf
 
 
-def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epoch=0, check=False):
+def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epoch=0, check_igimf=False):
     # This funtion check if the parameter for generating a new IGIMF match an old one,
     # if not, the function generate a new IGIMF and add it to the generated-IGIMF list.
 
@@ -1938,44 +1938,57 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
     # check if the required IGIMF has already been generated
     # --------------------------------------------------------------------------------------------------------------------------------
 
-    Generated_IGIMFs_path = 'Generated_IGIMFs'
-    if os.path.isdir(Generated_IGIMFs_path) == False:
-        Generated_IGIMFs_path = '/galIMF/Generated_IGIMFs'
-        if os.path.isdir(Generated_IGIMFs_path) == False:
-            cwd = os.getcwd()
-            Generated_IGIMFs_path = cwd + '/galIMF/Generated_IGIMFs'
-
-    check_file = open(Generated_IGIMFs_path + '/all_igimf_list.txt', 'r')
-    igimf_list = check_file.readlines()
-    check_file.close()
 
     exist = 0
 
-    if check == True:
-        i = 0
-        while i < len(igimf_list):
-            data = [float(x) for x in igimf_list[i].split()]
-            if SFR == data[0] and Z_over_X == data[1]:
+    if check_igimf == True:
+
+        Generated_IGIMFs_path = 'Generated_IGIMFs'
+        if os.path.isdir(Generated_IGIMFs_path) == False:
+            Generated_IGIMFs_path = '/galIMF/Generated_IGIMFs'
+            if os.path.isdir(Generated_IGIMFs_path) == False:
+                cwd = os.getcwd()
+                Generated_IGIMFs_path = cwd + '/galIMF/Generated_IGIMFs'
+        file_name = '/igimf_SFR_{}_Fe_over_H_{}.py'.format(round(math.log(SFR, 10) * 100000),
+                                                                           round(Z_over_X * 100000))
+        file_path_and_name = Generated_IGIMFs_path + file_name
+
+        if os.path.isfile(file_path_and_name):
+            igimf_file_name = "igimf_SFR_{}_Fe_over_H_{}".format(round(math.log(SFR, 10) * 100000),
+                                                                 round(Z_over_X * 100000))
+            igimf_____ = __import__(igimf_file_name)
+            if hasattr(igimf_____, "custom_imf"):
+                print("find IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, round(Z_over_X, 2), SFR))
                 exist = 1
-                break
-            (i) = (i + 1)
+        # else:
+        #     print("{} is not a file".format(file_path_and_name))
 
-    if exist == 0:
+        # check_file = open(Generated_IGIMFs_path + '/all_igimf_list.txt', 'r')
+        # igimf_list_line = check_file.readlines()
+        # check_file.close()
+        # i = 0
+        # while i < len(igimf_list_line):
+        #     data = [float(a_block) for a_block in igimf_list_line[i].split()]
+        #     if SFR == data[0] and Z_over_X == data[1]:
+        #         exist = 1
+        #         break
+        #     (i) = (i + 1)
 
-        print("Generating new IGIMF...")
+    if exist == 0 and SFR != 0:
+        print("Generating new IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, round(Z_over_X, 2), SFR))
 
-        # --------------------------------------------------------------------------------------------------------------------------------
-        # add new headline into the list file -- all_igimf_list.txt:
-        # --------------------------------------------------------------------------------------------------------------------------------
-
-        check_file = open('Generated_IGIMFs/all_igimf_list.txt', 'r')
-        igimf_list = check_file.read()
-        check_file.close()
-
-        check_file = open('Generated_IGIMFs/all_igimf_list.txt', 'w')
-        new_headline = igimf_list + '{} {}\n'.format(SFR, Z_over_X)
-        check_file.write(new_headline)
-        check_file.close()
+        # # --------------------------------------------------------------------------------------------------------------------------------
+        # # add new headline into the list file -- all_igimf_list.txt:
+        # # --------------------------------------------------------------------------------------------------------------------------------
+        #
+        # check_file = open('Generated_IGIMFs/all_igimf_list.txt', 'r')
+        # igimf_list = check_file.read()
+        # check_file.close()
+        #
+        # check_file = open('Generated_IGIMFs/all_igimf_list.txt', 'w')
+        # new_headline = igimf_list + '{} {}\n'.format(SFR, Z_over_X)
+        # check_file.write(new_headline)
+        # check_file.close()
 
         # --------------------------------------------------------------------------------------------------------------------------------
         # Define code parameters necesarry for the computations:
@@ -2001,10 +2014,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         alpha2_model = 1  # see file 'galimf.py'
         alpha1_model = 1  # see file 'galimf.py'
         beta_model = 1
-        if Z_over_X is None:
-            Z_over_X = float(
-                input("\nPlease input the metallicity, [Z/X] = log(M_{metal}/M_{H})-log(M_{metal,sun}/M_{H,sun})"
-                      "\n\n[Z/X] = ..."))
+
         # ----------------------------------------------------------------
 
         # Parameters below are internal parameters of the theory.
