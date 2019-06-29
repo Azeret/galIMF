@@ -1934,25 +1934,24 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
     import sys
     import os
 
+    
+    Generated_IGIMFs_path = 'Generated_IGIMFs'
+    if os.path.isdir(Generated_IGIMFs_path) == False:
+        Generated_IGIMFs_path = '/galIMF/Generated_IGIMFs'
+        if os.path.isdir(Generated_IGIMFs_path) == False:
+            cwd = os.getcwd()
+            Generated_IGIMFs_path = cwd + '/galIMF/Generated_IGIMFs'
+    file_name = '/igimf_SFR_{}_Fe_over_H_{}.py'.format(round(math.log(SFR, 10) * 100000),
+                                                       round(Z_over_X * 100000))
+    file_path_and_name = Generated_IGIMFs_path + file_name
+
     # --------------------------------------------------------------------------------------------------------------------------------
     # check if the required IGIMF has already been generated
     # --------------------------------------------------------------------------------------------------------------------------------
 
-
     exist = 0
 
     if check_igimf == True:
-
-        Generated_IGIMFs_path = 'Generated_IGIMFs'
-        if os.path.isdir(Generated_IGIMFs_path) == False:
-            Generated_IGIMFs_path = '/galIMF/Generated_IGIMFs'
-            if os.path.isdir(Generated_IGIMFs_path) == False:
-                cwd = os.getcwd()
-                Generated_IGIMFs_path = cwd + '/galIMF/Generated_IGIMFs'
-        file_name = '/igimf_SFR_{}_Fe_over_H_{}.py'.format(round(math.log(SFR, 10) * 100000),
-                                                                           round(Z_over_X * 100000))
-        file_path_and_name = Generated_IGIMFs_path + file_name
-
         if os.path.isfile(file_path_and_name):
             igimf_file_name = "igimf_SFR_{}_Fe_over_H_{}".format(round(math.log(SFR, 10) * 100000),
                                                                  round(Z_over_X * 100000))
