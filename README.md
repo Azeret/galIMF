@@ -1,6 +1,6 @@
-# GalIMF version 1.1.4
+# GalIMF version 1.1.5
 
-last update: 6.06.2019
+last update: 30.06.2019
 
 ## Contents
  - [Overview](https://github.com/Azeret/galIMF#overview)
