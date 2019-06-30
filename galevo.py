@@ -2125,7 +2125,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
             global file, length_of_igimf
             while i < length_of_igimf - 1:
                 file.write("    elif mass < %s:\n" % masses[i + 1])
-                if masses[0] - masses[1] == 0:
+                if masses[i] - masses[i + 1] == 0:
                     k = 0
                     b = 0
                 else:
@@ -2152,8 +2152,12 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
                 file.write("    if mass < 0.08:\n")
                 file.write("        return 0\n")
                 file.write("    elif mass < %s:\n" % masses[1])
-                k = (igimf[0] - igimf[1]) / (masses[0] - masses[1])
-                b = igimf[0] - k * masses[0]
+                if masses[0] - masses[1] == 0:
+                    k = 0
+                    b = 0
+                else:
+                    k = (igimf[0] - igimf[1]) / (masses[0] - masses[1])
+                    b = igimf[0] - k * masses[0]
                 file.write("        return {} * mass + {}\n".format(k, b))
                 write_imf_input_middle2(1)
                 file.write("    else:\n")
