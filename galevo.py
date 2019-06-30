@@ -1925,16 +1925,11 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
     # --------------------------------------------------------------------------------------------------------------------------------
 
     import galimf  # galIMF containing IGIMF function and OSGIMF function and additional computational modules
-
-    import matplotlib.pyplot as plt  # matplotlib for plotting
     import numpy as np
-    from scipy.integrate import simps  # numpy and scipi for array operations
     import math
     import time
-    import sys
     import os
 
-    
     Generated_IGIMFs_path = 'Generated_IGIMFs'
     if os.path.isdir(Generated_IGIMFs_path) == False:
         Generated_IGIMFs_path = '/galIMF/Generated_IGIMFs'
@@ -1952,12 +1947,13 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
     exist = 0
 
     if check_igimf == True:
+
         if os.path.isfile(file_path_and_name):
             igimf_file_name = "igimf_SFR_{}_Fe_over_H_{}".format(round(math.log(SFR, 10) * 100000),
                                                                  round(Z_over_X * 100000))
             igimf_____ = __import__(igimf_file_name)
             if hasattr(igimf_____, "custom_imf"):
-                print("find IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, round(Z_over_X, 2), SFR))
+                # print("find IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, round(Z_over_X, 2), SFR))
                 exist = 1
         # else:
         #     print("{} is not a file".format(file_path_and_name))
@@ -1974,7 +1970,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         #     (i) = (i + 1)
 
     if exist == 0 and SFR != 0:
-        print("Generating new IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, round(Z_over_X, 2), SFR))
+        print("Generating new IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, Z_over_X, SFR))
 
         # # --------------------------------------------------------------------------------------------------------------------------------
         # # add new headline into the list file -- all_igimf_list.txt:
@@ -2112,8 +2108,12 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
                 file.write("    if mass < 0.08:\n")
                 file.write("        return 0\n")
                 file.write("    elif mass < %s:\n" % masses[1])
-                k = (igimf[0] - igimf[1]) / (masses[0] - masses[1])
-                b = igimf[0] - k * masses[0]
+                if masses[0] - masses[1] == 0:
+                    k = 0
+                    b = 0
+                else:
+                    k = (igimf[0] - igimf[1]) / (masses[0] - masses[1])
+                    b = igimf[0] - k * masses[0]
                 file.write("        return {} * mass + {}\n".format(k, b))
                 write_imf_input_middle2(1)
                 file.write("    else:\n")
@@ -2125,8 +2125,12 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
             global file, length_of_igimf
             while i < length_of_igimf - 1:
                 file.write("    elif mass < %s:\n" % masses[i + 1])
-                k = (igimf[i] - igimf[i + 1]) / (masses[i] - masses[i + 1])
-                b = igimf[i] - k * masses[i]
+                if masses[0] - masses[1] == 0:
+                    k = 0
+                    b = 0
+                else:
+                    k = (igimf[i] - igimf[i + 1]) / (masses[i] - masses[i + 1])
+                    b = igimf[i] - k * masses[i]
                 file.write("        return {} * mass + {}\n".format(k, b))
                 (i) = (i + 3)
             return
