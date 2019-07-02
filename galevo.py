@@ -1970,7 +1970,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         #     (i) = (i + 1)
 
     if exist == 0 and SFR != 0:
-        print("Generating new IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, Z_over_X, SFR))
+        # print("Generating new IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, Z_over_X, SFR))
 
         # # --------------------------------------------------------------------------------------------------------------------------------
         # # add new headline into the list file -- all_igimf_list.txt:
