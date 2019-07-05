@@ -16,6 +16,8 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import gc
 import sys
+import warnings
+warnings.filterwarnings("ignore")
 
 sys.path.insert(0, 'Generated_IGIMFs')
 sys.path.insert(0, 'IMFs')
