@@ -25,13 +25,13 @@ from IMFs import Kroupa_IMF, diet_Salpeter_IMF
 from yield_tables import SNIa_yield
 
 
-def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_component='Anders1989_mass',
+def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_component='Anders1989_mass',
                 str_yield_table='portinari98',
                 IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.05,
                 SNIa_ON=True, SNIa_yield_table='Thielemann1993', solar_abu_table='Anders1989',
-                high_time_resolution=True, plot_show=True, plot_save=None, outflow=None, check_igimf=False):
+                high_time_resolution=None, plot_show=None, plot_save=None, outflow=None, check_igimf=False):
     start_time = time.time()
 
     ######################
@@ -93,14 +93,14 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
     # print("original_gas_mass =", math.log(original_gas_mass, 10))
 
     # Create the time steps (x axis) for final output
-    time_axis = []
+    time_axis = [10**6]
     time_resolution = time_resolution_in_Myr * 10 ** 5 * 10
-    if True:  # high_time_resolution==True:
-        # for i in range(10 ** 7, 10 ** 8, time_resolution * 10):
-        #     time_axis += [i]
-        # for i in range(10 ** 8, 10 ** 9, time_resolution * 100):
-        #     time_axis += [i]
-        for i in range(10 ** 9, 15 * 10 ** 9, time_resolution * 1000):
+    for i in range(10 ** 9, 15 * 10 ** 9, time_resolution * 1000):
+        time_axis += [i]
+    if high_time_resolution==True:
+        for i in range(10 ** 7, 10 ** 8, time_resolution * 10):
+            time_axis += [i]
+        for i in range(10 ** 8, 10 ** 9, time_resolution * 100):
             time_axis += [i]
     else:
         plot_at_age = [5 * 10 ** 7, 1 * 10 ** 8, 5 * 10 ** 8, 1 * 10 ** 9, 9 * 10 ** 9, 10 * 10 ** 9, 11 * 10 ** 9]
@@ -148,12 +148,12 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
                 time_axis_for_SFH_input += [i * 10 ** 7 + 5 * 10 ** 9]
             else:
                 time_axis_for_SFH_input += [i * 10 ** 7]
-                time_axis_for_SFH_input += [i * 10 ** 7 + 9 * 10 ** 6]
+                # time_axis_for_SFH_input += [i * 10 ** 7 + 9 * 10 ** 6]
         (i) = (i + 1)
 
     # the final time axis is the sorted combination of the two
     time_axis = sorted(list(set(time_axis + time_axis_for_SFH_input)))
-    print("\nSimulation results will be give at galactic age [yr] =\n", time_axis)
+    # print("\nSimulation results will be give at galactic age [yr] =\n", time_axis)
     length_list_time_step = len(time_axis)
 
     ###################
@@ -1033,7 +1033,10 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
         # This raises errors from very low mass stars which are fully convective but may not be observationally important):
         ##### mass weighted abundances
         # (total metal in stars / total H in stars):
-        mass_weighted_stellar_Y = stellar_He_mass_at_this_time / stellar_mass_at_this_time
+        if stellar_mass_at_this_time > 0:
+            mass_weighted_stellar_Y = stellar_He_mass_at_this_time / stellar_mass_at_this_time
+        else:
+            mass_weighted_stellar_Y = 0
         mass_weighted_stellar_O_over_H = function_element_abundunce(solar_abu_table, "O", "H",
                                                                     stellar_O_mass_at_this_time,
                                                                     stellar_H_mass_at_this_time)
@@ -1055,8 +1058,11 @@ def galaxy_evol(imf='igimf', STF=1, SFEN=1, Z_0=0.000000134, solar_mass_componen
 
         ##### luminosity weighted abundances
         # (total metal in stars / total H in stars):
-        luminosity_weighted_stellar_Y = stellar_He_luminosity_at_this_time / stellar_luminosity_at_this_time
-        # below the input shall be the luminosity-weighted element mass,
+        if stellar_luminosity_at_this_time > 0:
+            luminosity_weighted_stellar_Y = stellar_He_luminosity_at_this_time / stellar_luminosity_at_this_time
+        else:
+            luminosity_weighted_stellar_Y = 0
+            # below the input shall be the luminosity-weighted element mass,
         # e.g., stellar_O_luminosity_at_this_time / stellar_luminosity_at_this_time * total-stellar-mass-at-this-time,
         # but since stellar_luminosity_at_this_time and total-stellar-mass-at-this-time are the same for both element,
         # the constants cancel in function_element_abundunce.
@@ -2568,7 +2574,7 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     file.write("\n")
 
     Mass_weighted_stellar_Mg_over_Fe = stellar_Mg_over_Fe_list[-1]
-    print("Mass-weighted stellar [Mg/Fe] at final time:", Mass_weighted_stellar_Mg_over_Fe)
+    # print("Mass-weighted stellar [Mg/Fe] at final time:", Mass_weighted_stellar_Mg_over_Fe)
 
     file.write("# Gas [O/Fe]:\n")
     i = 0
@@ -2627,7 +2633,7 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     file.write("\n")
 
     Mass_weighted_stellar_metallicity = stellar_Z_over_X_list[-1]
-    print("Mass-weighted stellar [Z/X] at final time:", Mass_weighted_stellar_metallicity)
+    # print("Mass-weighted stellar [Z/X] at final time:", Mass_weighted_stellar_metallicity)
 
     if SNIa_energy_release_list[-1] < 10 ** (-10):
         SNIa_energy_release_list[-1] = 10 ** (-10)
