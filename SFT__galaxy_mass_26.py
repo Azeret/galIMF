@@ -10,7 +10,6 @@ def simulate(imf, Log_SFR, SFEN, STF):
     solar_mass_component = "Anders1989_mass"
     Z_solar = element_abundances_solar.function_solar_element_abundances(solar_mass_component, 'Metal')
 
-    start_time = time()
     galevo.galaxy_evol(
         imf=imf,
         STF=STF,  # unrealistic results if more star are forming at a time step than the instantaneous gas mass
@@ -30,9 +29,8 @@ def simulate(imf, Log_SFR, SFEN, STF):
         plot_show=None,
         plot_save=None,
         outflow=None,
-        check_igimf=True)
+        check_igimf=None)
     end_time = time()
-    print("chemical simulation time:", end_time - start_time)  # Run time: 2387.1988406181335 without multiprocessing
 
     log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
     file = open(
@@ -49,6 +47,9 @@ def simulate(imf, Log_SFR, SFEN, STF):
     gas_Z_over_X = [float(x) for x in data[39].split()]
     Mass_weighted_stellar_Z_over_X = [float(x) for x in data[41].split()]
     luminosit_weighted_stellar_Z_over_X = [float(x) for x in data[61].split()]
+    gas_Fe_over_H = [float(x) for x in data[19].split()]
+    Mass_weighted_stellar_Fe_over_H = [float(x) for x in data[21].split()]
+    # luminosit_weighted_stellar_Fe_over_H = [float(x) for x in data[??].split()]
 
     file_name = 'Metal_mass_relation'
     if imf == 'igimf':
@@ -65,11 +66,12 @@ def simulate(imf, Log_SFR, SFEN, STF):
         imf__ = 1
     else:
         imf__ = imf
-    new_line = old_lines + "{} {} {} {} {} {} {} {} {} {} {} {}\n".format(imf__, Log_SFR, SFEN, STF,
+    new_line = old_lines + "{} {} {} {} {} {} {} {} {} {} {} {} {} {}\n".format(imf__, Log_SFR, SFEN, STF,
                             Alive_stellar_mass[0], dynamical_mass[0],
                             Mass_weighted_stellar_Mg_over_Fe[-1], Mass_weighted_stellar_Z_over_X[-1],
                             gas_Mg_over_Fe[-1], gas_Z_over_X[-1],
-                            luminosity_weighted_stellar_Mg_over_Fe[-1], luminosit_weighted_stellar_Z_over_X[-1])
+                            luminosity_weighted_stellar_Mg_over_Fe[-1], luminosit_weighted_stellar_Z_over_X[-1],
+                            gas_Fe_over_H[-1], Mass_weighted_stellar_Fe_over_H[-1])
     file.write(new_line)
     file.close()
     return
@@ -92,61 +94,25 @@ def a_pipeline_pair(parameters):
 
 if __name__ == '__main__':
     start = time()
-    # # single simulation
-    # # generate SFH:
-    # SFEN = 200  # Parallelizing only work for the same SFEN since SFH.txt file is the same!
-    # SFH_shape = 'flat'
-    # location = 0
-    # skewness = 10
-    # sfr_tail = 0
-    # Log_SFR = 1.0
-    # STF = 0.8
-    # imf = 'igimf'
-    # galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
-    # simulate(imf, Log_SFR, SFEN, STF)
-    #
-    # SFEN = 400  # Parallelizing only work for the same SFEN since SFH.txt file is the same!
-    # SFH_shape = 'flat'
-    # location = 0
-    # skewness = 10
-    # sfr_tail = 0
-    # Log_SFR = -1.0
-    # STF = 1.5
-    # imf = 'igimf'
-    # galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
-    # simulate(imf, Log_SFR, SFEN, STF)
-    #
-    # # simulation pool
-    # SFEN = 400  # Parallelizing only work for the same SFEN since SFH.txt file is the same!
-    # SFH_shape = 'flat'
-    # location = 0
-    # skewness = 10
-    # sfr_tail = 0
-    # # igimf  -1.0  0.0  1.0  2.0 3.0 100    1.0 1.4 1.5
-    # imf = 'igimf'
-    # Log_SFR_list = [0.0, 1.0, 2.0, 3.0]
-    # for Log_SFR in Log_SFR_list:
-    #     galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
-    #     # simulate for different star transformation fraction
-    #     STF_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]  # Run time: 2172.6556639671326
-    #     pool = mp.Pool(mp.cpu_count())
-    #     pool.map(a_pipeline, [STF for STF in STF_list])
-    #     pool.close()
-    #
-    SFEN = 400  # Parallelizing only work for the same SFEN since SFH.txt file is the same!
+
+    # Parallelizing only work for the same SFEN since SFH.txt file is the same!
     SFH_shape = 'flat'
     location = 0
     skewness = 10
     sfr_tail = 0
     imf = 'Kroupa'
-    Log_SFR_list = [0.0, 1.0, 2.0, 3.0]
-    for Log_SFR in Log_SFR_list:
-        galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
-        # simulate for different star transformation fraction
-        STF_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
-        pool = mp.Pool(mp.cpu_count())
-        pool.map(a_pipeline, [STF for STF in STF_list])
-        pool.close()
+    SFEN_list = [3, 5, 10, 25, 50, 100, 200, 400]
+    for SFEN in SFEN_list:
+        Log_SFR_list = [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        for Log_SFR in Log_SFR_list:
+            final_mass = Log_SFR + math.log(SFEN, 10) - 3 + 9
+            if 8.5 < final_mass < 13:
+                galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
+                # simulate for different star transformation fraction
+                STF_list = [0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
+                pool = mp.Pool(mp.cpu_count())
+                pool.map(a_pipeline, [STF for STF in STF_list])
+                pool.close()
 
     end = time()
     print("Run time:", end - start)
