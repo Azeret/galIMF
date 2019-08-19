@@ -77,7 +77,7 @@ and the reduced number of supernovae per star observed in dwarf galaxies.
 
 [Jerábková et al. (2018)](http://adsabs.harvard.edu/abs/2018A%26A...620A..39J) point out that the suggested low-mass gwIMF variation may be explained by the IGIMF theory.
 
-Yan et al. (2019, submitted) develops a galaxy evolution model applying a variable IMF for each star formation event according to the IGIMF theory.
+[Yan et al. (2019)](https://ui.adsabs.harvard.edu/abs/2019arXiv190710614Y/abstract) develops a galaxy evolution model applying a variable IMF for each star formation event according to the IGIMF theory.
 
 
 
