@@ -2518,7 +2518,7 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
         'simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/chemical_and_SN_evolution.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
 
     print("simulation results saved in the file: "
-          "simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/...txt".format(imf, STF, SFR, SFEN,
+          "simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/(plots/)...txt".format(imf, STF, SFR, SFEN,
                                                                                                    log_Z_0))
 
     file.write("# Number of star formation event epoch (10^7 yr):\n")
