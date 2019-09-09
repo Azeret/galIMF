@@ -100,19 +100,55 @@ if __name__ == '__main__':
     location = 0
     skewness = 10
     sfr_tail = 0
-    imf = 'Kroupa'
-    SFEN_list = [3, 5, 10, 25, 50, 100, 200, 400]
-    for SFEN in SFEN_list:
-        Log_SFR_list = [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-        for Log_SFR in Log_SFR_list:
-            final_mass = Log_SFR + math.log(SFEN, 10) - 3 + 9
-            if 8.5 < final_mass < 13:
-                galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
-                # simulate for different star transformation fraction
-                STF_list = [0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
-                pool = mp.Pool(mp.cpu_count())
-                pool.map(a_pipeline, [STF for STF in STF_list])
-                pool.close()
+    imf = 'igimf'
+    # SFEN_list = [100]
+    # for SFEN in SFEN_list:
+    #     Log_SFR_list = [5.0]
+    #     for Log_SFR in Log_SFR_list:
+    #         galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
+    #         STF_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
+    #         pool = mp.Pool(mp.cpu_count())
+    #         pool.map(a_pipeline, [STF for STF in STF_list])
+    #         pool.close()
 
+    SFEN_list = [50, 100, 200]
+    for SFEN in SFEN_list:
+        Log_SFR_list = [-0.5, 0.5, 1.5, 2.5]
+        for Log_SFR in Log_SFR_list:
+            galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
+            STF_list = [0.1, 0.2]
+            pool = mp.Pool(mp.cpu_count())
+            pool.map(a_pipeline, [STF for STF in STF_list])
+            pool.close()
+            STF_list = [0.3, 0.4]
+            pool = mp.Pool(mp.cpu_count())
+            pool.map(a_pipeline, [STF for STF in STF_list])
+            pool.close()
+            STF_list = [0.5, 0.6]
+            pool = mp.Pool(mp.cpu_count())
+            pool.map(a_pipeline, [STF for STF in STF_list])
+            pool.close()
+            STF_list = [0.7, 0.8, 0.9]
+            pool = mp.Pool(mp.cpu_count())
+            pool.map(a_pipeline, [STF for STF in STF_list])
+            pool.close()
+            STF_list = [1.0, 1.1, 1.2]
+            pool = mp.Pool(mp.cpu_count())
+            pool.map(a_pipeline, [STF for STF in STF_list])
+            pool.close()
+            STF_list = [1.3, 1.4, 1.5]
+            pool = mp.Pool(mp.cpu_count())
+            pool.map(a_pipeline, [STF for STF in STF_list])
+            pool.close()
+
+    # SFEN_list = [400]
+    # for SFEN in SFEN_list:
+    #     Log_SFR_list = [-2.0, 4.0]
+    #     for Log_SFR in Log_SFR_list:
+    #         galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
+    #         STF_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
+    #         pool = mp.Pool(mp.cpu_count())
+    #         pool.map(a_pipeline, [STF for STF in STF_list])
+    #         pool.close()
     end = time()
     print("Run time:", end - start)
