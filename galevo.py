@@ -1276,7 +1276,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     ######################
 
     if Warning_ejected_gas_mass_of_this_epoch == True:
-        print('\nWarning: ejected_gas_mass_of_this_epoch < 0. See comments in galevo.py')
+        print('Warning: ejected_gas_mass_of_this_epoch < 0. See comments in galevo.py')
 
     if Warning_WD_mass_till_this_time == True:
         print("Warning: WD_mass_till_this_time < 0. See comments in galevo.py")
