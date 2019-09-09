@@ -17,6 +17,8 @@ from matplotlib.font_manager import FontProperties
 import gc
 import sys
 import warnings
+import os
+import errno
 warnings.filterwarnings("ignore")
 
 sys.path.insert(0, 'Generated_IGIMFs')
@@ -790,6 +792,8 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                 # if consider SNIa
                 if SNIa_ON == True:
                     # read in SNIa yield table
+                    # (here only account for the most abandant element yields)
+                    # (but should account as long as the SNIa yield is comparable with SNII yield)
                     Fe_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Fe')
                     Si_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Si')
                     O_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'O')
@@ -810,7 +814,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     if age_of_this_epoch == 10 * 10 ** 9 - 1 * 10 ** 7:
                         # print(function_number_SNIa(0, 10 * 10 ** 9, 1, 0))
                         # print("SN number per star in range:", SNIa_number_from_this_epoch_till_this_time/number_in_SNIa_boundary)
-                        print("\nType Ia supernova (SNIa) is activated.\n"
+                        print("\nType Ia supernova activated. "
                               "Total SNIa number per solar mass of star formed at t = 10Gyr:",
                               SNIa_number_from_this_epoch_till_this_time / M_tot_of_this_epoch)
                     # update the element masses
@@ -1284,7 +1288,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     minutes, seconds = divmod(computation_time_seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    print("\n - Simulation complete. Computation time: {} d {} h {} m {} s -\n".format(days, hours, minutes, seconds))
+    print("- Simulation complete. Computation time: {} d {} h {} m {} s -".format(days, hours, minutes, seconds))
 
     ###################
     ### output data ###
@@ -1307,13 +1311,14 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
 
 
     ###################
-    ### output plot ###
+    ###    output   ###
     ###################
+    log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
 
-    text_output(imf, STF, round(math.log(max(SFH_input), 10), 1), SFEN, original_gas_mass, Z_0, Z_solar)
+    text_output(imf, STF, round(math.log(max(SFH_input), 10), 1), SFEN, original_gas_mass, log_Z_0)
 
     # if output plot applies
-    plot_output(plot_show, plot_save, imf, igimf)
+    plot_output(plot_show, plot_save, imf, igimf, round(math.log(max(SFH_input), 10), 1), SFEN, log_Z_0, STF)
 
     ###################
     ###     end     ###
@@ -2199,22 +2204,22 @@ def function_element_abundunce(solar_abu_table, element_1_name, element_2_name, 
         elif metal_1_mass > 0:
             metal_1_over_2 = None
         elif metal_1_mass < 0:
-            print("Warning: current {} mass < 0.".format(element_1_name))
+            print("Warning: current {} mass < 0. See galevo.py".format(element_1_name))
             metal_1_over_2 = -4
     elif metal_2_mass < 0:
-        print("Warning: current {} mass < 0.".format(element_2_name))
+        print("Warning: current {} mass < 0. See galevo.py".format(element_2_name))
         if metal_1_mass == 0:
             metal_1_over_2 = -4
         elif metal_1_mass > 0:
             metal_1_over_2 = -4
         elif metal_1_mass < 0:
-            print("Warning: current {} mass < 0.".format(element_1_name))
+            print("Warning: current {} mass < 0. See galevo.py".format(element_1_name))
             metal_1_over_2 = None
     else:
         if metal_1_mass == 0:
             metal_1_over_2 = None
         elif metal_1_mass < 0:
-            print("Warning: current {} mass < 0.".format(element_1_name))
+            print("Warning: current {} mass < 0. See galevo.py".format(element_1_name))
             metal_1_over_2 = None
         else:
             solar_metal_1_logarithmic_abundances = element_abundances_solar.function_solar_element_abundances(
@@ -2385,15 +2390,15 @@ def function_mass_Kroupa_IMF(mass):
     return m
 
 
-def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
-    print('\nGenerating txt output files. Result includes:\n')
+def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
+    print('Generating txt output files...')
     global time_axis
     # print("time:", time_axis)
 
     global all_sf_imf
     number_of_sf_epoch = len(all_sf_imf)
 
-    # data = exec(open("simulation_results_from_galaxy_evol/imf{}SFE{}log_SFR{}SFEN{}.txt".format(IMF, SFE[0], SFR[0], SFEN[0])).read())
+    # data = exec(open("simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/chemical_and_SN_evolution.txt".format(IMF, SFE[0], SFR[0], SFEN[0])).read())
     #
     # print(data)
 
@@ -2458,12 +2463,12 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
 
     global BH_mass_list, NS_mass_list, WD_mass_list, remnant_mass_list, stellar_mass_list, ejected_gas_mass_list
     stellar_mass = round(math.log(stellar_mass_list[-1], 10), 4)
-    print("Mass of all alive stars at final time: 10 ^", stellar_mass)
+    # print("Mass of all alive stars at final time: 10 ^", stellar_mass)
     downsizing_relation__star_formation_duration = round(10 ** (2.38 - 0.24 * stellar_mass), 4)  # Recchi 2009
     # print("star formation duration (downsizing relation):", downsizing_relation__star_formation_duration, "Gyr")
 
     stellar_and_remnant_mass = round(math.log(stellar_mass_list[-1] + remnant_mass_list[-1], 10), 4)
-    print("Mass of stars and remnants at final time: 10 ^", stellar_and_remnant_mass)
+    # print("Mass of stars and remnants at final time: 10 ^", stellar_and_remnant_mass)
 
     total_mas_in_box = original_gas_mass
 
@@ -2501,13 +2506,19 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     # print("Stellar metallicity:", round(stellar_Z_over_X_list[-1], 3))
     # print("Stellar [Z/H]:", round(stellar_Z_over_H_list[-1], 3))
 
-    log_Z_0 = round(math.log(Z_0 / Z_solar, 10), 2)
-    file = open(
-        'simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}.txt'.format(imf, STF, SFR, SFEN,
-                                                                                                 log_Z_0), 'w')
+    filename = "simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/chemical_and_SN_evolution.txt".format(imf, STF, SFR, SFEN, log_Z_0)
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
 
-    print("\nsimulation results saved in the file:\n"
-          "simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}.txt".format(imf, STF, SFR, SFEN,
+    file = open(
+        'simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/chemical_and_SN_evolution.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
+
+    print("simulation results saved in the file: "
+          "simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/...txt".format(imf, STF, SFR, SFEN,
                                                                                                    log_Z_0))
 
     file.write("# Number of star formation event epoch (10^7 yr):\n")
@@ -2715,7 +2726,7 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, Z_0, Z_solar):
     return
 
 
-def plot_output(plot_show, plot_save, imf, igimf):
+def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # SFR is the maximum SFR.
     if plot_show is True:
         print('\nGenerating plot outputs...\n')
     # plot SFH
@@ -2753,8 +2764,16 @@ def plot_output(plot_show, plot_save, imf, igimf):
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_SFH.pdf', dpi=250)
 
+    filename = "simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/SFH.txt".format(imf, STF, SFR, SFEN, log_Z_0)
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
     length_of_SFH_list = len(SFR_list)
-    file = open('simulation_results_from_galaxy_evol/plots/SFH.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/SFH.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# age_list\n")
     i = 0
     while i < length_of_SFH_list:
@@ -2851,7 +2870,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     while i < number_of_sf_epoch:
         time = round(all_sf_imf[i][2] / 10 ** 6)
         length_of_xi = len(mass_list)
-        file = open('simulation_results_from_galaxy_evol/plots/imf_at_time_{}_Myr.txt'.format(time), 'w')
+        file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/imf_at_time_{}_Myr.txt'.format(imf, STF, SFR, SFEN, log_Z_0, time), 'w')
         file.write("# mass_list\n")
         j = 0
         while j < length_of_xi:
@@ -2966,7 +2985,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_FeH_{}.pdf'.format(imf), dpi=250)
 
-    file = open('simulation_results_from_galaxy_evol/plots/Fe_over_H_time.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Fe_over_H_time.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# log_time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -2996,7 +3015,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-    file = open('simulation_results_from_galaxy_evol/plots/Fe_over_H_mass.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Fe_over_H_mass.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# gas_Fe_over_H\n")
     file.write("{} ".format(Fe_over_H_list[-1]))
     file.write("\n# stellar_Fe_over_H\n")
@@ -3072,7 +3091,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_Y_{}.pdf'.format(imf), dpi=250)
 
-    file = open('simulation_results_from_galaxy_evol/plots/Y_time.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Y_time.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# log_time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -3124,7 +3143,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
 
-    file = open('simulation_results_from_galaxy_evol/plots/Mg_over_Fe_time.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Mg_over_Fe_time.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# log_time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -3154,7 +3173,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-    file = open('simulation_results_from_galaxy_evol/plots/Mg_over_Fe_mass.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Mg_over_Fe_mass.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# gas_Mg_over_Fe\n")
     file.write("{} ".format(Mg_over_Fe_list[-1]))
     file.write("\n# stellar_Mg_over_Fe\n")
@@ -3265,7 +3284,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         if plot_save is True:
             plt.savefig('galaxy_evolution_SN_number.pdf'.format(imf), dpi=250)
 
-    file = open('simulation_results_from_galaxy_evol/plots/SN_number_evolution.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/SN_number_evolution.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -3357,7 +3376,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         plt.legend()
         plt.tight_layout()
 
-    file = open('simulation_results_from_galaxy_evol/plots/energy_evolution.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/energy_evolution.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -3401,7 +3420,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-    file = open('simulation_results_from_galaxy_evol/plots/energy_mass.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/energy_mass.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# final SN_energy_release\n")
     file.write("{}\n".format(total_energy_release_list[-1]))
     file.write("# final binding_energy\n")
@@ -3450,7 +3469,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     for i in range(length_of_time_axis):
         time_axis[i] = math.log(time_axis[i], 10)
 
-    file = open('simulation_results_from_galaxy_evol/plots/Z_over_X_time.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Z_over_X_time.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# log_time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -3474,7 +3493,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.write("\n")
     file.close()
 
-    file = open('simulation_results_from_galaxy_evol/plots/Z_over_X_mass.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Z_over_X_mass.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# gas_Z_over_X\n")
     file.write("{} ".format(gas_Z_over_X_list[-1]))
     file.write("\n# stellar_Z_over_X_list\n")
@@ -3526,7 +3545,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         # plt.ylim(6.4, 10.6)
         plt.tight_layout()
 
-    file = open('simulation_results_from_galaxy_evol/plots/mass_evolution.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/mass_evolution.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -3574,7 +3593,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     final_remnant_stellar_mass = remnant_mass_list[-1]
     final_alive_and_remnant_stellar_mass = math.log((10 ** final_alive_stellar_mass + 10 ** final_remnant_stellar_mass),
                                                     10)
-    file = open('simulation_results_from_galaxy_evol/plots/mass_ratio.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/mass_ratio.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# final alive stellar mass in log\n")
     file.write("{}\n".format(final_alive_stellar_mass))
     file.write("# final alive + remnant mass in log\n")
@@ -3584,7 +3603,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
     file.close()
 
     global total_star_formed
-    file = open('simulation_results_from_galaxy_evol/plots/SN_number_mass.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/SN_number_mass.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# final SNIa_number per stellar mass formed\n")
     file.write("{}\n".format(SNIa_number_list[-1] / total_star_formed))
     # print("total SNIa number per solar mass of star formed:", SNIa_number_list[-1]/total_star_formed)
@@ -3609,7 +3628,7 @@ def plot_output(plot_show, plot_save, imf, igimf):
         # plt.ylim(6, 12)
         plt.tight_layout()
 
-    file = open('simulation_results_from_galaxy_evol/plots/expansion_factor.txt', 'w')
+    file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/expansion_factor.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# time_axis\n")
     i = 0
     while i < length_of_time_axis:
@@ -3890,12 +3909,12 @@ if __name__ == '__main__':
 
     ### Generate a new SFH.txt file according to the following given parameters ###
 
-    SFEN = 10  # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
-    Log_SFR = 3  # logarithmic characteristic star formation rate
+    SFEN = 3  # the number of the 10 Myr star formation epoch (thus 10 stand for a star formation timescale of 100 Myr)
+    Log_SFR = 2  # logarithmic characteristic star formation rate
     location = 0  # SFH shape parameter
     skewness = 10  # SFH shape parameter
     sfr_tail = 0  # SFH shape parameter
-    # generate_SFH("flat", Log_SFR, SFEN, sfr_tail, skewness, location)
+    generate_SFH("flat", Log_SFR, SFEN, sfr_tail, skewness, location)
     # input "flat", "lognorm", or "skewnorm" to generate a boxy, lognormal, or skewnorm SFH, respectively.
 
     ####################################
@@ -3908,7 +3927,7 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # SNIa_yield_table='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_table='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STF=0.3, SFEN=SFEN, Z_0=0.00000001886, solar_mass_component="Anders1989_mass",
+    galaxy_evol(imf='igimf', STF=0.8, SFEN=SFEN, Z_0=0.00000001886, solar_mass_component="Anders1989_mass",
                 str_yield_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, SNIa_yield_table='Seitenzahl2013',
