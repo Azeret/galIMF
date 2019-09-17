@@ -37,7 +37,7 @@ GalIMF stands for the Galaxy-wide Initial Mass Function originated from the Inte
 
 GalIMF version 1.0 (with a companion paper [Yan, Jerabkova, Kroupa 2017](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract)). It is a Python 3 module that compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory ([Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)).
 
-GalIMF version 1.1 (with a companion paper [Yan et al. (2019)](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract)). It is a Python 3 module that couples the IGIMF theory with galaxy chemical evolution.
+GalIMF version 1.1 (with a companion paper [Yan et al. 2019](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract)). It is a Python 3 module that couples the IGIMF theory with galaxy chemical evolution.
 
 
 ## Scientific motivation
@@ -51,7 +51,7 @@ One possible way of doing so is to look at Galactic star forming regions and try
 And now here comes the question:
 
 1. If we take the locally constrained empirical laws and integrate them so we create this galaxy-wide IMF, will we get the same as the locally constrained stellar IMF? If yes, well it would be great and if not we can learn something more about the local IMF based on other galaxies. To help with exactly this problem we present this Python module GalIMF. And indeed, [Yan, Jerabkova, Kroupa (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract) demonstrated that the observations are consistent with prediction given by the IGIMF theory.
-2. Since the galaxy-wide IMF systematical vary with the galactic properties (see [Development](https://github.com/Azeret/galIMF#development) below),  the galaxy evolution history should be different from the estimates applying the canonical invariant IMF. What would be the influence of such a modification and what are the new implications? This is exactly what we are trying to answer in our new Yan et al. (2019, in prepare) paper.
+2. Since the galaxy-wide IMF systematical vary with the galactic properties (see [Development](https://github.com/Azeret/galIMF#development) below),  the galaxy evolution history should be different from the estimates applying the canonical invariant IMF. What would be the influence of such a modification and what are the new implications? This is exactly what we are trying to answer in [Yan, Zhiqiang; Jerabkova, Tereza; Kroupa, Pavel; Vazdekis, Alejandro (2019)](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract).
 
 
 ## The galaxy-wide IMF generator
@@ -246,7 +246,7 @@ normalization factor in the optimal sampling condition equation
 
 ### Main features
 
-A galaxy evolution model is developed (See [Yan et al. (2019)](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract) for a detailed description of the model) that can couple the IGIMF theory or any other variable IMF theory.
+A galaxy evolution model is developed (See [Yan et al. 2019](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract) for a detailed description of the model) that can couple the IGIMF theory or any other variable IMF theory.
 
 The current code is designed for the monolithic collapse galaxy formation scenario, that particularly applies to the central regions of giant ellipticals, thus assumes no gas infall.
 
