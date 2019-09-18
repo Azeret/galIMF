@@ -567,6 +567,7 @@ def function_draw_histogram():
 # the absolute resolution = resolution_star_absolute
 resolution_star_relative = 0.001
 resolution_star_absolute = 0.001
+mass_grid_index = 1.01
 
 list_m_str_i = []
 list_n_str_i = []
@@ -736,7 +737,7 @@ def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
 
 def function_get_n_new_str(m_i, k, alpha, m_i_plus_n, n_i, resolution_star_relative, resolution_star_absolute):
     while m_i - m_i_plus_n < max(resolution_star_relative * m_i, resolution_star_absolute):
-        n_new = round(n_i * 1.01 + 1)
+        n_new = round(n_i * mass_grid_index + 1)
         m_i_plus_n_new = (m_i ** (1 - alpha) - n_new * (1 - alpha) / k) ** (1 / (1 - alpha))
         (m_i_plus_n, n_i) = (m_i_plus_n_new, n_new)
     return m_i_plus_n, n_i
@@ -800,7 +801,7 @@ def cross_M_turn(k_before, k_after, M_cross, alpha_before, alpha_after, m_i, res
 
 def function_get_n_new_str_cross(m_i, m_after_cross, k, alpha, m_after_cross_plus_n, n_i, resolution_star_relative, resolution_star_absolute):
     while m_i - m_after_cross_plus_n < max(resolution_star_relative * m_i, resolution_star_absolute):
-        n_after_new = round(n_i * 1.01 + 1)
+        n_after_new = round(n_i * mass_grid_index + 1)
         m_after_cross_plus_n_new = (m_after_cross ** (1 - alpha) - n_after_new * (1 - alpha) / k) ** (1 / (1 - alpha))
         (m_after_cross_plus_n, n_i) = (m_after_cross_plus_n_new, n_after_new)
     return m_after_cross_plus_n, n_i
@@ -897,7 +898,6 @@ def function_draw_xi_str(M_str_L, M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M
     function_draw_xi_str_loop(M_str_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3)
     return
 
-mass_grid_index = 1.01
 def function_draw_xi_str_loop(M_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3):
     global x_IMF, y_IMF, k1, k2, k3, M_max, mass_grid_index
     while M_str < M_max:
@@ -1127,7 +1127,7 @@ def function_m_i_ecl(m_i, M_L, k, beta, n_i):  # equation 48
 
 def function_get_n_new_ecl(m_i, k, beta, m_i_plus_n, n_i):
     while m_i - m_i_plus_n < resolution_cluster_relative * m_i:
-        n_new = round(n_i * 1.01 + 1)
+        n_new = round(n_i * mass_grid_index + 1)
         m_i_plus_n_new = (m_i ** (1 - beta) - n_new * (1 - beta) / k) ** (1 / (1 - beta))
         (m_i_plus_n, n_i) = (m_i_plus_n_new, n_new)
     return m_i_plus_n, n_i
@@ -1188,7 +1188,7 @@ def function_draw_xi_ecl_loop(M_ecl, k, M_U, beta):
             x_ECMF += [M_ecl]
             xi = k * M_ecl ** (-beta)
             y_ECMF += [xi]
-            (M_ecl) = (1.01 * M_ecl)
+            (M_ecl) = (mass_grid_index * M_ecl)
         return
 
 
