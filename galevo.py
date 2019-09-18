@@ -46,22 +46,31 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     ######################
     global igimf_mass_function, mass_grid_table, mass_grid_table2, Mfinal_table, Mmetal_table, M_element_table
     global time_axis, gas_Z_over_X_list, total_star_formed, \
-        O_over_H_list, Mg_over_H_list, C_over_H_list, N_over_H_list, Ca_over_H_list, Fe_over_H_list, X_list, Y_list, Z_list, \
+        O_over_H_list, Mg_over_H_list, C_over_H_list, N_over_H_list, Ca_over_H_list, Fe_over_H_list, \
+        S_over_H_list, Si_over_H_list, Ne_over_H_list, \
+        S_over_H_list, Si_over_H_list, Ne_over_H_list, X_list, Y_list, Z_list, \
         ejected_O_mass_till_this_time_tot_list, ejected_O_mass_till_this_time_SNII_list, ejected_O_mass_till_this_time_SNIa_list, \
         ejected_Mg_mass_till_this_time_tot_list, ejected_Mg_mass_till_this_time_SNII_list, ejected_Mg_mass_till_this_time_SNIa_list, \
         ejected_Fe_mass_till_this_time_tot_list, ejected_Fe_mass_till_this_time_SNII_list, ejected_Fe_mass_till_this_time_SNIa_list, \
-        Mg_over_Fe_list, C_over_Fe_list, N_over_Fe_list, Ca_over_Fe_list, O_over_Fe_list, \
+        ejected_S_mass_till_this_time_tot_list, ejected_S_mass_till_this_time_SNII_list, ejected_S_mass_till_this_time_SNIa_list, \
+        ejected_Si_mass_till_this_time_tot_list, ejected_Si_mass_till_this_time_SNII_list, ejected_Si_mass_till_this_time_SNIa_list, \
+        ejected_Ne_mass_till_this_time_tot_list, ejected_Ne_mass_till_this_time_SNII_list, ejected_Ne_mass_till_this_time_SNIa_list, \
+        ejected_Ca_mass_till_this_time_tot_list, ejected_Ca_mass_till_this_time_SNII_list, ejected_Ca_mass_till_this_time_SNIa_list, \
+        Mg_over_Fe_list, C_over_Fe_list, N_over_Fe_list, Ca_over_Fe_list, O_over_Fe_list, S_over_Fe_list, Si_over_Fe_list, Ne_over_Fe_list, \
         stellar_O_over_H_list, stellar_Mg_over_H_list, stellar_C_over_H_list, stellar_N_over_H_list, \
-        stellar_Ca_over_H_list, stellar_X_list, stellar_Y_list, stellar_Z_list, stellar_Fe_over_H_list, \
+        stellar_Ca_over_H_list, stellar_Fe_over_H_list, stellar_Si_over_H_list, stellar_S_over_H_list, stellar_Ne_over_H_list, \
+        stellar_X_list, stellar_Y_list, stellar_Z_list, \
         stellar_Mg_over_Fe_list, stellar_C_over_Fe_list, stellar_N_over_Fe_list, stellar_Ca_over_Fe_list, \
+        stellar_S_over_Fe_list, stellar_Si_over_Fe_list, stellar_Ne_over_Fe_list, \
         stellar_O_over_Fe_list, stellar_Z_over_X_list, stellar_Z_over_H_list, \
         stellar_O_over_H_list_luminosity_weighted, stellar_Mg_over_H_list_luminosity_weighted, \
         stellar_C_over_H_list_luminosity_weighted, stellar_N_over_H_list_luminosity_weighted, \
-        stellar_Ca_over_H_list_luminosity_weighted, stellar_X_list_luminosity_weighted, \
-        stellar_Y_list_luminosity_weighted, stellar_Z_list_luminosity_weighted, \
+        stellar_Ca_over_H_list_luminosity_weighted, stellar_Ne_over_H_list_luminosity_weighted, stellar_Si_over_H_list_luminosity_weighted, stellar_S_over_H_list_luminosity_weighted, \
+        stellar_X_list_luminosity_weighted, stellar_Y_list_luminosity_weighted, stellar_Z_list_luminosity_weighted, \
         stellar_Fe_over_H_list_luminosity_weighted, stellar_Mg_over_Fe_list_luminosity_weighted, \
         stellar_C_over_Fe_list_luminosity_weighted, stellar_N_over_Fe_list_luminosity_weighted, \
         stellar_Ca_over_Fe_list_luminosity_weighted, stellar_O_over_Fe_list_luminosity_weighted, \
+        stellar_S_over_Fe_list_luminosity_weighted, stellar_Si_over_Fe_list_luminosity_weighted, stellar_Ne_over_Fe_list_luminosity_weighted, \
         stellar_Z_over_X_list_luminosity_weighted, stellar_Z_over_H_list_luminosity_weighted, \
         remnant_mass_list, total_gas_mass_list, stellar_mass_list, \
         ejected_gas_mass_list, ejected_metal_mass_list, \
@@ -192,6 +201,18 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     ejected_Fe_mass_till_this_time_tot_list = []
     ejected_Fe_mass_till_this_time_SNII_list = []
     ejected_Fe_mass_till_this_time_SNIa_list = []
+    ejected_Ca_mass_till_this_time_tot_list = []
+    ejected_Ca_mass_till_this_time_SNII_list = []
+    ejected_Ca_mass_till_this_time_SNIa_list = []
+    ejected_S_mass_till_this_time_tot_list = []
+    ejected_S_mass_till_this_time_SNII_list = []
+    ejected_S_mass_till_this_time_SNIa_list = []
+    ejected_Si_mass_till_this_time_tot_list = []
+    ejected_Si_mass_till_this_time_SNII_list = []
+    ejected_Si_mass_till_this_time_SNIa_list = []
+    ejected_Ne_mass_till_this_time_tot_list = []
+    ejected_Ne_mass_till_this_time_SNII_list = []
+    ejected_Ne_mass_till_this_time_SNIa_list = []
     X_list = []
     Y_list = []
     Z_list = []
@@ -199,25 +220,37 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     C_over_H_list = []
     N_over_H_list = []
     Ca_over_H_list = []
+    Ne_over_H_list = []
+    Si_over_H_list = []
+    S_over_H_list = []
     Fe_over_H_list = []
     Mg_over_Fe_list = []
     C_over_Fe_list = []
     N_over_Fe_list = []
     Ca_over_Fe_list = []
+    Ne_over_Fe_list = []
+    Si_over_Fe_list = []
+    S_over_Fe_list = []
     O_over_Fe_list = []
     stellar_O_over_H_list = []
     stellar_Mg_over_H_list = []
     stellar_C_over_H_list = []
     stellar_N_over_H_list = []
     stellar_Ca_over_H_list = []
+    stellar_Ne_over_H_list = []
+    stellar_Si_over_H_list = []
+    stellar_S_over_H_list = []
+    stellar_Fe_over_H_list = []
     stellar_X_list = []
     stellar_Y_list = []
     stellar_Z_list = []
-    stellar_Fe_over_H_list = []
     stellar_Mg_over_Fe_list = []
     stellar_C_over_Fe_list = []
     stellar_N_over_Fe_list = []
     stellar_Ca_over_Fe_list = []
+    stellar_Ne_over_Fe_list = []
+    stellar_Si_over_Fe_list = []
+    stellar_S_over_Fe_list = []
     stellar_O_over_Fe_list = []
     stellar_Z_over_X_list = []
     stellar_Z_over_H_list = []
@@ -226,6 +259,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     stellar_C_over_H_list_luminosity_weighted = []
     stellar_N_over_H_list_luminosity_weighted = []
     stellar_Ca_over_H_list_luminosity_weighted = []
+    stellar_Ne_over_H_list_luminosity_weighted = []
+    stellar_Si_over_H_list_luminosity_weighted = []
+    stellar_S_over_H_list_luminosity_weighted = []
     stellar_X_list_luminosity_weighted = []
     stellar_Y_list_luminosity_weighted = []
     stellar_Z_list_luminosity_weighted = []
@@ -234,6 +270,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     stellar_C_over_Fe_list_luminosity_weighted = []
     stellar_N_over_Fe_list_luminosity_weighted = []
     stellar_Ca_over_Fe_list_luminosity_weighted = []
+    stellar_Ne_over_Fe_list_luminosity_weighted = []
+    stellar_Si_over_Fe_list_luminosity_weighted = []
+    stellar_S_over_Fe_list_luminosity_weighted = []
     stellar_O_over_Fe_list_luminosity_weighted = []
     stellar_Z_over_X_list_luminosity_weighted = []
     stellar_Z_over_H_list_luminosity_weighted = []
@@ -292,6 +331,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             eject_O_mass = 0
             eject_Mg_mass = 0
             eject_Ca_mass = 0
+            eject_Ne_mass = 0
+            eject_Si_mass = 0
+            eject_S_mass = 0
             eject_Fe_mass = 0
             eject_metal_mass = 0
 
@@ -314,6 +356,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             ejected_O_mass_till_last_time = 0
             ejected_Mg_mass_till_last_time = 0
             ejected_Ca_mass_till_last_time = 0
+            ejected_Ne_mass_till_last_time = 0
+            ejected_Si_mass_till_last_time = 0
+            ejected_S_mass_till_last_time = 0
             ejected_Fe_mass_till_last_time = 0
 
             ejected_gas_mass_till_this_time = 0
@@ -325,6 +370,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             ejected_O_mass_till_this_time = 0
             ejected_Mg_mass_till_this_time = 0
             ejected_Ca_mass_till_this_time = 0
+            ejected_Ne_mass_till_this_time = 0
+            ejected_Si_mass_till_this_time = 0
+            ejected_S_mass_till_this_time = 0
             ejected_Fe_mass_till_this_time = 0
             BH_mass_till_this_time = 0
             NS_mass_till_this_time = 0
@@ -341,6 +389,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             total_O_mass_at_this_time = 0
             total_Mg_mass_at_this_time = 0
             total_Ca_mass_at_this_time = 0
+            total_Ne_mass_at_this_time = 0
+            total_Si_mass_at_this_time = 0
+            total_S_mass_at_this_time = 0
             total_Fe_mass_at_this_time = 0
 
             total_H_mass_at_last_time = original_gas_mass * primary_H_mass_fraction
@@ -356,6 +407,12 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                 solar_abu_table, "Mg", Z_0, Z_solar)
             total_Ca_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(
                 solar_abu_table, "Ca", Z_0, Z_solar)
+            total_Ne_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(
+                solar_abu_table, "Ne", Z_0, Z_solar)
+            total_Si_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(
+                solar_abu_table, "Si", Z_0, Z_solar)
+            total_S_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(
+                solar_abu_table, "S", Z_0, Z_solar)
             total_Fe_mass_at_last_time = original_gas_mass * element_abundances_primordial.function_element_mass_primary_fraction(
                 solar_abu_table, "Fe", Z_0, Z_solar)
             total_metal_mass_in_gas_at_last_time = original_gas_mass * Z_0
@@ -370,6 +427,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             stellar_Mg_mass_at_this_time = 0
             stellar_Ca_mass_at_this_time = 0
             stellar_Fe_mass_at_this_time = 0
+            stellar_Ne_mass_at_this_time = 0
+            stellar_Si_mass_at_this_time = 0
+            stellar_S_mass_at_this_time = 0
 
             stellar_metal_luminosity_at_this_time = 0
             stellar_H_luminosity_at_this_time = 0
@@ -380,6 +440,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             stellar_Mg_luminosity_at_this_time = 0
             stellar_Ca_luminosity_at_this_time = 0
             stellar_Fe_luminosity_at_this_time = 0
+            stellar_Ne_luminosity_at_this_time = 0
+            stellar_Si_luminosity_at_this_time = 0
+            stellar_S_luminosity_at_this_time = 0
 
             metal_mass_fraction_in_gas = [Z_gas_this_time_step, primary_H_mass_fraction, primary_He_mass_fraction,
                                           total_C_mass_at_last_time / original_gas_mass,
@@ -387,7 +450,11 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                           total_O_mass_at_last_time / original_gas_mass,
                                           total_Mg_mass_at_last_time / original_gas_mass,
                                           total_Ca_mass_at_last_time / original_gas_mass,
-                                          total_Fe_mass_at_last_time / original_gas_mass]  # H He C N O Mg Ca Fe
+                                          total_Fe_mass_at_last_time / original_gas_mass,
+                                          total_Ne_mass_at_last_time / original_gas_mass,
+                                          total_Si_mass_at_last_time / original_gas_mass,
+                                          total_S_mass_at_last_time / original_gas_mass]
+                                          # H He C N O Mg Ca Fe Ne Si S
         else:
             total_gas_mass_at_last_time = total_gas_mass_at_this_time
             # total_gas_mass_at_this_time is set in below
@@ -408,6 +475,12 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             total_Mg_mass_at_this_time = 0
             total_Ca_mass_at_last_time = total_Ca_mass_at_this_time
             total_Ca_mass_at_this_time = 0
+            total_Si_mass_at_last_time = total_Si_mass_at_this_time
+            total_Si_mass_at_this_time = 0
+            total_S_mass_at_last_time = total_S_mass_at_this_time
+            total_S_mass_at_this_time = 0
+            total_Ne_mass_at_last_time = total_Ne_mass_at_this_time
+            total_Ne_mass_at_this_time = 0
             total_Fe_mass_at_last_time = total_Fe_mass_at_this_time
             total_Fe_mass_at_this_time = 0
             M_tot_up_to_last_time = M_tot_up_to_this_time
@@ -428,6 +501,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             ejected_O_mass_till_last_time = ejected_O_mass_till_this_time
             ejected_Mg_mass_till_last_time = ejected_Mg_mass_till_this_time
             ejected_Ca_mass_till_last_time = ejected_Ca_mass_till_this_time
+            ejected_Ne_mass_till_last_time = ejected_Ne_mass_till_this_time
+            ejected_Si_mass_till_last_time = ejected_Si_mass_till_this_time
+            ejected_S_mass_till_last_time = ejected_S_mass_till_this_time
             ejected_Fe_mass_till_last_time = ejected_Fe_mass_till_this_time
             ejected_gas_mass_till_this_time = 0
             ejected_metal_mass_till_this_time = 0
@@ -438,6 +514,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             ejected_O_mass_till_this_time = 0
             ejected_Mg_mass_till_this_time = 0
             ejected_Ca_mass_till_this_time = 0
+            ejected_Ne_mass_till_this_time = 0
+            ejected_Si_mass_till_this_time = 0
+            ejected_S_mass_till_this_time = 0
             ejected_Fe_mass_till_this_time = 0
             ejected_metal_mass_at_last_time = ejected_metal_mass_at_this_time
             # Fe_H_mass_ratio_at_last_time = Fe_H_mass_ratio_at_this_time
@@ -450,7 +529,10 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                           total_O_mass_at_last_time / total_gas_mass_at_last_time,
                                           total_Mg_mass_at_last_time / total_gas_mass_at_last_time,
                                           total_Ca_mass_at_last_time / total_gas_mass_at_last_time,
-                                          total_Fe_mass_at_last_time / total_gas_mass_at_last_time]
+                                          total_Fe_mass_at_last_time / total_gas_mass_at_last_time,
+                                          total_Ne_mass_at_last_time / total_gas_mass_at_last_time,
+                                          total_Si_mass_at_last_time / total_gas_mass_at_last_time,
+                                          total_S_mass_at_last_time / total_gas_mass_at_last_time]
             stellar_metal_mass_at_this_time = 0
             stellar_H_mass_at_this_time = 0
             stellar_He_mass_at_this_time = 0
@@ -459,6 +541,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             stellar_O_mass_at_this_time = 0
             stellar_Mg_mass_at_this_time = 0
             stellar_Ca_mass_at_this_time = 0
+            stellar_Ne_mass_at_this_time = 0
+            stellar_Si_mass_at_this_time = 0
+            stellar_S_mass_at_this_time = 0
             stellar_Fe_mass_at_this_time = 0
 
             stellar_metal_luminosity_at_this_time = 0
@@ -470,10 +555,17 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             stellar_Mg_luminosity_at_this_time = 0
             stellar_Ca_luminosity_at_this_time = 0
             stellar_Fe_luminosity_at_this_time = 0
+            stellar_Ne_luminosity_at_this_time = 0
+            stellar_Si_luminosity_at_this_time = 0
+            stellar_S_luminosity_at_this_time = 0
         # add up metals contributed by SSP from each SF epoch
         # consider only the SF event (epoch) that had happend
         Fe_production_SNII = 0
         Mg_production_SNII = 0
+        Ca_production_SNII = 0
+        Ne_production_SNII = 0
+        Si_production_SNII = 0
+        S_production_SNII = 0
         O_production_SNII = 0
 
         epoch_index = 0
@@ -713,6 +805,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     stellar_Mg_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[6]
                     stellar_Ca_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[7]
                     stellar_Fe_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[8]
+                    stellar_Ne_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[9]
+                    stellar_Si_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[10]
+                    stellar_S_mass_of_this_epoch = stellar_mass_of_a_epoch_at_a_time_step * metal_in_gas[11]
 
                     # The luminosity-weighted metallicity is in its exact form. However,
                     # the luminosity-weighted element abundance, e.g., weighted-with-luminosity([Fe/H]) is approximated
@@ -727,6 +822,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     stellar_Mg_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[6]
                     stellar_Ca_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[7]
                     stellar_Fe_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[8]
+                    stellar_Ne_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[9]
+                    stellar_Si_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[10]
+                    stellar_S_luminosity_of_this_epoch = stellar_luminosity_of_a_epoch_at_a_time_step * metal_in_gas[11]
                     #
                     BH_mass_of_this_epoch = get_BH_mass(mass_boundary, 1, 1, mass_calibration_factor,
                                                         steller_mass_upper_bound)
@@ -775,16 +873,29 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                                                               2, "He", mass_calibration_factor)
                     ejected_gas_mass_of_this_epoch = H_mass_of_this_epoch + He_mass_of_this_epoch + \
                                                      metal_mass_of_this_epoch
-                    C_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound, 2, "C", mass_calibration_factor)
-                    N_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound, 2, "N", mass_calibration_factor)
-                    O_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound, 2,
-                                                                             "O", mass_calibration_factor)
+                    C_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
+                                                                             2, "C", mass_calibration_factor)
+                    N_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
+                                                                             2, "N", mass_calibration_factor)
+                    O_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
+                                                                             2, "O", mass_calibration_factor)
                     Mg_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
                                                                               2, "Mg", mass_calibration_factor)
-                    Ca_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound, 2, "Ca", mass_calibration_factor)
+                    Ca_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
+                                                                              2, "Ca", mass_calibration_factor)
+                    S_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
+                                                                              2, "S", mass_calibration_factor)
+                    Si_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
+                                                                              2, "Si", mass_calibration_factor)
+                    Ne_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
+                                                                              2, "Ne", mass_calibration_factor)
                     Fe_mass_of_this_epoch = function_get_target_mass_in_range(mass_boundary, steller_mass_upper_bound,
                                                                               2, "Fe", mass_calibration_factor)
                     Fe_production_SNII += Fe_mass_of_this_epoch
+                    Ca_production_SNII += Ca_mass_of_this_epoch
+                    Ne_production_SNII += Ne_mass_of_this_epoch
+                    Si_production_SNII += Si_mass_of_this_epoch
+                    S_production_SNII += S_mass_of_this_epoch
                     Mg_production_SNII += Mg_mass_of_this_epoch
                     O_production_SNII += O_mass_of_this_epoch
                     # if age_of_this_epoch == 1 * 10 ** 9:
@@ -811,6 +922,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     O_mass_of_this_epoch = 0
                     Mg_mass_of_this_epoch = 0
                     Ca_mass_of_this_epoch = 0
+                    Si_mass_of_this_epoch = 0
+                    S_mass_of_this_epoch = 0
+                    Ne_mass_of_this_epoch = 0
                     Fe_mass_of_this_epoch = 0
                 # if consider SNIa
                 if SNIa_ON == True:
@@ -825,6 +939,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     Ne_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Ne')
                     if SNIa_yield_table=='Seitenzahl2013':
                         Ca_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Ca')
+                        Ne_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Ne')
+                        S_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'S')
+                        Si_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'Si')
                         C_mass_eject = SNIa_yield.function_mass_ejected(SNIa_yield_table, 'C')
                     total_mass_eject_per_SNIa = Fe_mass_eject + Si_mass_eject + O_mass_eject + S_mass_eject + Mg_mass_eject + Ne_mass_eject
                     Chandrasekhar_mass = 1.44
@@ -857,6 +974,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     # Ne_mass_of_SNIa = Ne_mass_eject * SNIa_number_from_this_epoch_till_this_time
                     if SNIa_yield_table == 'Seitenzahl2013':
                         Ca_mass_of_SNIa = Ca_mass_eject * SNIa_number_from_this_epoch_till_this_time
+                        Si_mass_of_SNIa = Si_mass_eject * SNIa_number_from_this_epoch_till_this_time
+                        S_mass_of_SNIa = S_mass_eject * SNIa_number_from_this_epoch_till_this_time
+                        Ne_mass_of_SNIa = Ne_mass_eject * SNIa_number_from_this_epoch_till_this_time
                         C_mass_of_SNIa = C_mass_eject * SNIa_number_from_this_epoch_till_this_time
                     O_mass_of_this_epoch += O_mass_of_SNIa
                     Mg_mass_of_this_epoch += Mg_mass_of_SNIa
@@ -866,6 +986,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     # Ne_mass_of_this_epoch += Ne_mass_of_SNIa
                     if SNIa_yield_table == 'Seitenzahl2013':
                         Ca_mass_of_this_epoch += Ca_mass_of_SNIa
+                        Ne_mass_of_this_epoch += Ne_mass_of_SNIa
+                        S_mass_of_this_epoch += S_mass_of_SNIa
+                        Si_mass_of_this_epoch += Si_mass_of_SNIa
                         C_mass_of_this_epoch += C_mass_of_SNIa
                     remnant_mass_of_this_epoch -= pre_SNIa_NS_mass * SNIa_number_from_this_epoch_till_this_time
                     WD_mass_of_this_epoch -= pre_SNIa_NS_mass * SNIa_number_from_this_epoch_till_this_time
@@ -880,6 +1003,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                 stellar_C_mass_at_this_time += stellar_C_mass_of_this_epoch
                 stellar_N_mass_at_this_time += stellar_N_mass_of_this_epoch
                 stellar_Ca_mass_at_this_time += stellar_Ca_mass_of_this_epoch
+                stellar_Si_mass_at_this_time += stellar_Si_mass_of_this_epoch
+                stellar_S_mass_at_this_time += stellar_S_mass_of_this_epoch
+                stellar_Ne_mass_at_this_time += stellar_Ne_mass_of_this_epoch
                 stellar_Mg_mass_at_this_time += stellar_Mg_mass_of_this_epoch
                 stellar_Fe_mass_at_this_time += stellar_Fe_mass_of_this_epoch
                 #
@@ -893,6 +1019,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                 stellar_C_luminosity_at_this_time += stellar_C_luminosity_of_this_epoch
                 stellar_N_luminosity_at_this_time += stellar_N_luminosity_of_this_epoch
                 stellar_Ca_luminosity_at_this_time += stellar_Ca_luminosity_of_this_epoch
+                stellar_Ne_luminosity_at_this_time += stellar_Ne_luminosity_of_this_epoch
+                stellar_S_luminosity_at_this_time += stellar_S_luminosity_of_this_epoch
+                stellar_Si_luminosity_at_this_time += stellar_Si_luminosity_of_this_epoch
                 stellar_Mg_luminosity_at_this_time += stellar_Mg_luminosity_of_this_epoch
                 stellar_Fe_luminosity_at_this_time += stellar_Fe_luminosity_of_this_epoch
 
@@ -908,6 +1037,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                 ejected_C_mass_till_this_time += C_mass_of_this_epoch
                 ejected_N_mass_till_this_time += N_mass_of_this_epoch
                 ejected_Ca_mass_till_this_time += Ca_mass_of_this_epoch
+                ejected_Si_mass_till_this_time += Si_mass_of_this_epoch
+                ejected_S_mass_till_this_time += S_mass_of_this_epoch
+                ejected_Ne_mass_till_this_time += Ne_mass_of_this_epoch
                 ejected_Mg_mass_till_this_time += Mg_mass_of_this_epoch
                 ejected_Fe_mass_till_this_time += Fe_mass_of_this_epoch
             # Goes to the next SF epoch until all SF event before this time step is accounted:
@@ -925,6 +1057,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         ejected_O_mass_at_this_time = ejected_O_mass_till_this_time - ejected_O_mass_till_last_time
         ejected_Mg_mass_at_this_time = ejected_Mg_mass_till_this_time - ejected_Mg_mass_till_last_time
         ejected_Ca_mass_at_this_time = ejected_Ca_mass_till_this_time - ejected_Ca_mass_till_last_time
+        ejected_Ne_mass_at_this_time = ejected_Ne_mass_till_this_time - ejected_Ne_mass_till_last_time
+        ejected_S_mass_at_this_time = ejected_S_mass_till_this_time - ejected_S_mass_till_last_time
+        ejected_Si_mass_at_this_time = ejected_Si_mass_till_this_time - ejected_Si_mass_till_last_time
         ejected_Fe_mass_at_this_time = ejected_Fe_mass_till_this_time - ejected_Fe_mass_till_last_time
         ejected_gas_Mg_over_Fe_till_this_time = function_element_abundunce(solar_abu_table, "Mg", "Fe",
                                                                            ejected_Mg_mass_till_this_time,
@@ -996,6 +1131,18 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
             total_Ca_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Ca_mass_at_this_time
         if total_Ca_mass_at_this_time < 0.0001:
             total_Ca_mass_at_this_time = 0.0001
+        total_Ne_mass_at_this_time = total_Ne_mass_at_last_time - lockup_and_outflow_mass * (
+            total_Ne_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Ne_mass_at_this_time
+        if total_Ne_mass_at_this_time < 0.0001:
+            total_Ne_mass_at_this_time = 0.0001
+        total_Si_mass_at_this_time = total_Si_mass_at_last_time - lockup_and_outflow_mass * (
+            total_Si_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Si_mass_at_this_time
+        if total_Si_mass_at_this_time < 0.0001:
+            total_Si_mass_at_this_time = 0.0001
+        total_S_mass_at_this_time = total_S_mass_at_last_time - lockup_and_outflow_mass * (
+            total_S_mass_at_last_time / total_gas_mass_at_last_time) + ejected_S_mass_at_this_time
+        if total_S_mass_at_this_time < 0.0001:
+            total_S_mass_at_this_time = 0.0001
         total_Fe_mass_at_this_time = total_Fe_mass_at_last_time - lockup_and_outflow_mass * (
             total_Fe_mass_at_last_time / total_gas_mass_at_last_time) + ejected_Fe_mass_at_this_time
         if total_Fe_mass_at_this_time < 0.0001:
@@ -1069,6 +1216,12 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                                             total_N_mass_at_this_time, total_H_mass_at_this_time, False)
         Ca_over_H_number_ratio = function_element_abundunce(solar_abu_table, "Ca", "H",
                                                             total_Ca_mass_at_this_time, total_H_mass_at_this_time, False)
+        S_over_H_number_ratio = function_element_abundunce(solar_abu_table, "S", "H",
+                                                            total_S_mass_at_this_time, total_H_mass_at_this_time, False)
+        Si_over_H_number_ratio = function_element_abundunce(solar_abu_table, "Si", "H",
+                                                            total_Si_mass_at_this_time, total_H_mass_at_this_time, False)
+        Ne_over_H_number_ratio = function_element_abundunce(solar_abu_table, "Ne", "H",
+                                                            total_Ne_mass_at_this_time, total_H_mass_at_this_time, False)
         Fe_over_H_number_ratio = function_element_abundunce(solar_abu_table, "Fe", "H",
                                                             total_Fe_mass_at_this_time, total_H_mass_at_this_time, False)
         C_over_Fe_number_ratio = function_element_abundunce(solar_abu_table, "C", "Fe",
@@ -1081,6 +1234,12 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                                              total_Mg_mass_at_this_time, total_Fe_mass_at_this_time, False)
         Ca_over_Fe_number_ratio = function_element_abundunce(solar_abu_table, "Ca", "Fe",
                                                              total_Ca_mass_at_this_time, total_Fe_mass_at_this_time, False)
+        Ne_over_Fe_number_ratio = function_element_abundunce(solar_abu_table, "Ne", "Fe",
+                                                             total_Ne_mass_at_this_time, total_Fe_mass_at_this_time, False)
+        S_over_Fe_number_ratio = function_element_abundunce(solar_abu_table, "S", "Fe",
+                                                             total_S_mass_at_this_time, total_Fe_mass_at_this_time, False)
+        Si_over_Fe_number_ratio = function_element_abundunce(solar_abu_table, "Si", "Fe",
+                                                             total_Si_mass_at_this_time, total_Fe_mass_at_this_time, False)
 
         ### Element abundances in of stars (consider only the metal of stellar surface, i.e., neglect stellar evolution
         # This raises errors from very low mass stars which are fully convective but may not be observationally important):
@@ -1113,6 +1272,15 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         mass_weighted_stellar_Ca_over_H = function_element_abundunce(solar_abu_table, "Ca", "H",
                                                                      stellar_Ca_mass_at_this_time,
                                                                      stellar_H_mass_at_this_time, False)
+        mass_weighted_stellar_Si_over_H = function_element_abundunce(solar_abu_table, "Si", "H",
+                                                                     stellar_Si_mass_at_this_time,
+                                                                     stellar_H_mass_at_this_time, False)
+        mass_weighted_stellar_S_over_H = function_element_abundunce(solar_abu_table, "S", "H",
+                                                                     stellar_S_mass_at_this_time,
+                                                                     stellar_H_mass_at_this_time, False)
+        mass_weighted_stellar_Ne_over_H = function_element_abundunce(solar_abu_table, "Ne", "H",
+                                                                     stellar_Ne_mass_at_this_time,
+                                                                     stellar_H_mass_at_this_time, False)
         mass_weighted_stellar_Fe_over_H = function_element_abundunce(solar_abu_table, "Fe", "H",
                                                                      stellar_Fe_mass_at_this_time,
                                                                      stellar_H_mass_at_this_time, False)
@@ -1130,6 +1298,15 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                                                       stellar_Fe_mass_at_this_time, False)
         mass_weighted_stellar_Ca_over_Fe = function_element_abundunce(solar_abu_table, "Ca", "Fe",
                                                                       stellar_Ca_mass_at_this_time,
+                                                                      stellar_Fe_mass_at_this_time, False)
+        mass_weighted_stellar_Ne_over_Fe = function_element_abundunce(solar_abu_table, "Ne", "Fe",
+                                                                      stellar_Ne_mass_at_this_time,
+                                                                      stellar_Fe_mass_at_this_time, False)
+        mass_weighted_stellar_S_over_Fe = function_element_abundunce(solar_abu_table, "S", "Fe",
+                                                                      stellar_S_mass_at_this_time,
+                                                                      stellar_Fe_mass_at_this_time, False)
+        mass_weighted_stellar_Si_over_Fe = function_element_abundunce(solar_abu_table, "Si", "Fe",
+                                                                      stellar_Si_mass_at_this_time,
                                                                       stellar_Fe_mass_at_this_time, False)
         ##### luminosity weighted abundances
         # (total metal in stars / total H in stars):
@@ -1164,6 +1341,15 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         luminosity_weighted_stellar_Ca_over_H = function_element_abundunce(solar_abu_table, "Ca", "H",
                                                                            stellar_Ca_luminosity_at_this_time,
                                                                            stellar_H_luminosity_at_this_time, False)
+        luminosity_weighted_stellar_Si_over_H = function_element_abundunce(solar_abu_table, "Si", "H",
+                                                                           stellar_Si_luminosity_at_this_time,
+                                                                           stellar_H_luminosity_at_this_time, False)
+        luminosity_weighted_stellar_S_over_H = function_element_abundunce(solar_abu_table, "S", "H",
+                                                                           stellar_S_luminosity_at_this_time,
+                                                                           stellar_H_luminosity_at_this_time, False)
+        luminosity_weighted_stellar_Ne_over_H = function_element_abundunce(solar_abu_table, "Ne", "H",
+                                                                           stellar_Ne_luminosity_at_this_time,
+                                                                           stellar_H_luminosity_at_this_time, False)
         luminosity_weighted_stellar_Fe_over_H = function_element_abundunce(solar_abu_table, "Fe", "H",
                                                                            stellar_Fe_luminosity_at_this_time,
                                                                            stellar_H_luminosity_at_this_time, False)
@@ -1181,6 +1367,15 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                                                             stellar_Fe_luminosity_at_this_time, False)
         luminosity_weighted_stellar_Ca_over_Fe = function_element_abundunce(solar_abu_table, "Ca", "Fe",
                                                                             stellar_Ca_luminosity_at_this_time,
+                                                                            stellar_Fe_luminosity_at_this_time, False)
+        luminosity_weighted_stellar_Ne_over_Fe = function_element_abundunce(solar_abu_table, "Ne", "Fe",
+                                                                            stellar_Ne_luminosity_at_this_time,
+                                                                            stellar_Fe_luminosity_at_this_time, False)
+        luminosity_weighted_stellar_S_over_Fe = function_element_abundunce(solar_abu_table, "S", "Fe",
+                                                                            stellar_S_luminosity_at_this_time,
+                                                                            stellar_Fe_luminosity_at_this_time, False)
+        luminosity_weighted_stellar_Si_over_Fe = function_element_abundunce(solar_abu_table, "Si", "Fe",
+                                                                            stellar_Si_luminosity_at_this_time,
                                                                             stellar_Fe_luminosity_at_this_time, False)
 
 
@@ -1242,6 +1437,22 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         ejected_Fe_mass_till_this_time_SNII_list += [Fe_production_SNII]
         ejected_Fe_mass_till_this_time_SNIa_list += [ejected_Fe_mass_till_this_time - Fe_production_SNII]
 
+        ejected_Ca_mass_till_this_time_tot_list += [ejected_Ca_mass_till_this_time]
+        ejected_Ca_mass_till_this_time_SNII_list += [Ca_production_SNII]
+        ejected_Ca_mass_till_this_time_SNIa_list += [ejected_Ca_mass_till_this_time - Ca_production_SNII]
+
+        ejected_S_mass_till_this_time_tot_list += [ejected_S_mass_till_this_time]
+        ejected_S_mass_till_this_time_SNII_list += [S_production_SNII]
+        ejected_S_mass_till_this_time_SNIa_list += [ejected_S_mass_till_this_time - S_production_SNII]
+
+        ejected_Si_mass_till_this_time_tot_list += [ejected_Si_mass_till_this_time]
+        ejected_Si_mass_till_this_time_SNII_list += [Si_production_SNII]
+        ejected_Si_mass_till_this_time_SNIa_list += [ejected_Si_mass_till_this_time - Si_production_SNII]
+
+        ejected_Ne_mass_till_this_time_tot_list += [ejected_Ne_mass_till_this_time]
+        ejected_Ne_mass_till_this_time_SNII_list += [Ne_production_SNII]
+        ejected_Ne_mass_till_this_time_SNIa_list += [ejected_Ne_mass_till_this_time - Ne_production_SNII]
+
         X_list += [gas_X_at_this_time]
         Y_list += [gas_Y_at_this_time]
         Z_list += [gas_Z_at_this_time]
@@ -1250,18 +1461,27 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         C_over_H_list += [C_over_H_number_ratio]
         N_over_H_list += [N_over_H_number_ratio]
         Ca_over_H_list += [Ca_over_H_number_ratio]
+        Si_over_H_list += [Si_over_H_number_ratio]
+        S_over_H_list += [S_over_H_number_ratio]
+        Ne_over_H_list += [Ne_over_H_number_ratio]
         Fe_over_H_list += [Fe_over_H_number_ratio]
         C_over_Fe_list += [C_over_Fe_number_ratio]
         N_over_Fe_list += [N_over_Fe_number_ratio]
         O_over_Fe_list += [O_over_Fe_number_ratio]
         Mg_over_Fe_list += [Mg_over_Fe_number_ratio]
         Ca_over_Fe_list += [Ca_over_Fe_number_ratio]
+        Ne_over_Fe_list += [Ne_over_Fe_number_ratio]
+        S_over_Fe_list += [S_over_Fe_number_ratio]
+        Si_over_Fe_list += [Si_over_Fe_number_ratio]
 
         stellar_O_over_H_list += [mass_weighted_stellar_O_over_H]
         stellar_Mg_over_H_list += [mass_weighted_stellar_Mg_over_H]
         stellar_C_over_H_list += [mass_weighted_stellar_C_over_H]
         stellar_N_over_H_list += [mass_weighted_stellar_N_over_H]
         stellar_Ca_over_H_list += [mass_weighted_stellar_Ca_over_H]
+        stellar_Si_over_H_list += [mass_weighted_stellar_Si_over_H]
+        stellar_S_over_H_list += [mass_weighted_stellar_S_over_H]
+        stellar_Ne_over_H_list += [mass_weighted_stellar_Ne_over_H]
         stellar_X_list += [mass_weighted_stellar_X]
         stellar_Y_list += [mass_weighted_stellar_Y]
         stellar_Z_list += [mass_weighted_stellar_Z]
@@ -1271,6 +1491,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         stellar_O_over_Fe_list += [mass_weighted_stellar_O_over_Fe]
         stellar_Mg_over_Fe_list += [mass_weighted_stellar_Mg_over_Fe]
         stellar_Ca_over_Fe_list += [mass_weighted_stellar_Ca_over_Fe]
+        stellar_Ne_over_Fe_list += [mass_weighted_stellar_Ne_over_Fe]
+        stellar_S_over_Fe_list += [mass_weighted_stellar_S_over_Fe]
+        stellar_Si_over_Fe_list += [mass_weighted_stellar_Si_over_Fe]
         stellar_Z_over_X_list += [mass_weighted_stellar_Z_over_X]
         stellar_Z_over_H_list += [mass_weighted_stellar_Z_over_H]
 
@@ -1279,6 +1502,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         stellar_C_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_C_over_H]
         stellar_N_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_N_over_H]
         stellar_Ca_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_Ca_over_H]
+        stellar_Si_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_Si_over_H]
+        stellar_S_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_S_over_H]
+        stellar_Ne_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_Ne_over_H]
         stellar_X_list_luminosity_weighted += [luminosity_weighted_stellar_X]
         stellar_Y_list_luminosity_weighted += [luminosity_weighted_stellar_Y]
         stellar_Z_list_luminosity_weighted += [luminosity_weighted_stellar_Z]
@@ -1288,6 +1514,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         stellar_O_over_Fe_list_luminosity_weighted += [luminosity_weighted_stellar_O_over_Fe]
         stellar_Mg_over_Fe_list_luminosity_weighted += [luminosity_weighted_stellar_Mg_over_Fe]
         stellar_Ca_over_Fe_list_luminosity_weighted += [luminosity_weighted_stellar_Ca_over_Fe]
+        stellar_Ne_over_Fe_list_luminosity_weighted += [luminosity_weighted_stellar_Ne_over_Fe]
+        stellar_S_over_Fe_list_luminosity_weighted += [luminosity_weighted_stellar_S_over_Fe]
+        stellar_Si_over_Fe_list_luminosity_weighted += [luminosity_weighted_stellar_Si_over_Fe]
         stellar_Z_over_X_list_luminosity_weighted += [luminosity_weighted_stellar_Z_over_X]
         stellar_Z_over_H_list_luminosity_weighted += [luminosity_weighted_stellar_Z_over_H]
 
@@ -2203,7 +2432,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         #######################################################
         # generated igimf is normalized by default to a total mass formed in 10 Myr given the SFR,
         # i.e., total stellar mass.
-        # to change the normalization, follow the below commented part:
+        # to change the normalization, uncomment the below commented part:
         #######################################################
         # Norm = simps(igimf*masses,masses) #- normalization to a total mass
         # Norm = simps(igimf,masses) #- normalization to number of stars
@@ -2615,6 +2844,9 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
     global C_over_H_list, stellar_C_over_H_list, stellar_C_over_H_list_luminosity_weighted
     global N_over_H_list, stellar_N_over_H_list, stellar_N_over_H_list_luminosity_weighted
     global Ca_over_H_list, stellar_Ca_over_H_list, stellar_Ca_over_H_list_luminosity_weighted
+    global Si_over_H_list, stellar_Si_over_H_list, stellar_Si_over_H_list_luminosity_weighted
+    global S_over_H_list, stellar_S_over_H_list, stellar_S_over_H_list_luminosity_weighted
+    global Ne_over_H_list, stellar_Ne_over_H_list, stellar_Ne_over_H_list_luminosity_weighted
     # print("Gas [Mg/H]:", round(Mg_over_H_list[-1], 3))
     # print("Stellar [Mg/H]:", round(stellar_Mg_over_H_list[-1], 3))
 
@@ -2665,7 +2897,7 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
 
     length_of_time_axis = len(time_axis)
 
-    file.write("# Time step list:\n")
+    file.write("# time step list:\n")
     i = 0
     while i < length_of_time_axis:
         file.write("%s " % time_axis[i])
@@ -2752,6 +2984,27 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
         (i) = (i + 1)
     file.write("\n")
 
+    file.write("# Gas [Ne/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % Ne_over_H_list[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Gas [Si/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % Si_over_H_list[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Gas [S/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % S_over_H_list[i])
+        (i) = (i + 1)
+    file.write("\n")
+
     file.write("# Stellar mass-weighted [Mg/H]:\n")
     i = 0
     while i < length_of_time_axis:
@@ -2777,6 +3030,27 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
     i = 0
     while i < length_of_time_axis:
         file.write("%s " % stellar_Ca_over_H_list[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Stellar mass-weighted [Ne/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_Ne_over_H_list[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Stellar mass-weighted [Si/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_Si_over_H_list[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Stellar mass-weighted [S/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_S_over_H_list[i])
         (i) = (i + 1)
     file.write("\n")
 
@@ -2912,6 +3186,27 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
         (i) = (i + 1)
     file.write("\n")
 
+    file.write("# Stellar luminosity-weighted [Ne/Fe]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_Ne_over_Fe_list_luminosity_weighted[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Stellar luminosity-weighted [Si/Fe]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_Si_over_Fe_list_luminosity_weighted[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Stellar luminosity-weighted [S/Fe]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_S_over_Fe_list_luminosity_weighted[i])
+        (i) = (i + 1)
+    file.write("\n")
+
     file.write("# Stellar luminosity-weighted [C/H]:\n")
     i = 0
     while i < length_of_time_axis:
@@ -2954,9 +3249,26 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
         (i) = (i + 1)
     file.write("\n")
 
-    global X_list, stellar_X_list, stellar_X_list_luminosity_weighted
-    global Y_list, stellar_Y_list, stellar_Y_list_luminosity_weighted
-    global Z_list, stellar_Z_list, stellar_Z_list_luminosity_weighted
+    file.write("# Stellar luminosity-weighted [Ne/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_Ne_over_H_list_luminosity_weighted[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Stellar luminosity-weighted [Si/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_Si_over_H_list_luminosity_weighted[i])
+        (i) = (i + 1)
+    file.write("\n")
+
+    file.write("# Stellar luminosity-weighted [S/H]:\n")
+    i = 0
+    while i < length_of_time_axis:
+        file.write("%s " % stellar_S_over_H_list_luminosity_weighted[i])
+        (i) = (i + 1)
+    file.write("\n")
 
     file.write("# X_list:\n")
     i = 0
@@ -3054,7 +3366,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         fig = plt.figure(0, figsize=(6, 5))
         fig.add_subplot(1, 1, 1)
         plt.plot(age_list, SFR_list)
-        plt.xlabel('Time [Gyr]')
+        plt.xlabel('time [Gyr]')
         plt.ylabel(r'log$_{10}({\rm SFR} [{\rm M}_\odot$/yr])')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
         # plt.ylim(-5, 1)
@@ -3214,16 +3526,19 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         fig = plt.figure(1, figsize=(6, 5))
         fig.add_subplot(1, 1, 1)
         plt.plot(mass_list, xi_Kroupa, linestyle='dashed', color='r', label='Kroupa IMF')
-        # i = 0
-        # while i < number_of_sf_epoch:
-        #     time = round(all_sf_imf[i][2] / 10**6)
-        #     plt.plot(mass_list, xi_each_time_log[i], label='IMF at {} Myr'.format(time))
-        #     (i) = (i + 1)
-        plt.plot(mass_list, xi_observe, label='IGIMF')
+        i = 0
+        while i < number_of_sf_epoch:
+            time = round(all_sf_imf[i][2] / 10**6)
+            if i < 3:
+                plt.plot(mass_list, xi_each_time_log[i], label='TIgwIMF at {} Myr'.format(time))
+            else:
+                plt.plot(mass_list, xi_each_time_log[i])
+            (i) = (i + 1)
+        plt.plot(mass_list, xi_observe, label='final TIgwIMF')
         plt.xlabel(r'log$_{10}(M_\star [M_\odot$])')
         plt.ylabel(r'log$_{10}(\xi_\star)$')
         # plt.ylim(0, 11)
-        plt.title('Time integrated galaxy-wide IMF')
+        plt.title('Time Integrated galaxy-wide IMF')
         plt.legend()
         plt.tight_layout()
         #
@@ -3235,16 +3550,20 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(mass_list, xi_Kroupa, linestyle='dashed', color='r', label='Kroupa IMF')
         i = 0
         while i < number_of_sf_epoch:
-            plt.plot(mass_list, xi_each_epoch[i], label='SF epoch {}'.format(i))
+            if i < 3:
+                plt.plot(mass_list, xi_each_epoch[i], label='epoch {}'.format(i))
+            else:
+                plt.plot(mass_list, xi_each_epoch[i])
             (i) = (i + 1)
-        plt.plot(mass_list, xi_observe, label='final observed IMF')
+        plt.plot(mass_list, xi_observe, label='final TIgwIMF')
         plt.xlabel(r'log$_{10}(M_\star)$ [M$_{\odot}$]')
         plt.ylabel(r'$\log_(\xi_\star)$')
-        plt.title('Galaxy-wide IMF of each star formation epoch')
+        plt.title('galaxy-wide IMF of each star formation epoch')
         plt.legend()
         plt.tight_layout()
 
-    #
+
+    ################# evolution plots #################
     global time_axis
     length_of_time_axis = len(time_axis)
     log_time_axis = []
@@ -3253,6 +3572,41 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
             log_time_axis += [math.log((time_axis[i]), 10)]
         else:
             log_time_axis += [0]
+
+    global X_list, stellar_X_list, stellar_X_list_luminosity_weighted
+    global Y_list, stellar_Y_list, stellar_Y_list_luminosity_weighted
+    global Z_list, stellar_Z_list, stellar_Z_list_luminosity_weighted
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(61, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.stackplot(log_time_axis, Y_list, X_list, Z_list, labels=["Y", "X", "Z"])
+        plt.title('gas-phase H, He, and metal mass fraction')
+        plt.xlim(7, log_time_axis[-1])
+        plt.ylim(0, 1)
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('stacked mass fraction')
+        plt.legend(loc='lower left')
+        fig = plt.figure(62, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.stackplot(log_time_axis, stellar_Y_list, stellar_X_list, stellar_Z_list, labels=["Y", "X", "Z"])
+        plt.title('stellar H, He, and metal mass fraction')
+        plt.xlim(7, log_time_axis[-1])
+        plt.ylim(0, 1)
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('stacked mass fraction')
+        plt.legend(loc='lower left')
+        fig = plt.figure(63, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.stackplot(log_time_axis, stellar_Y_list_luminosity_weighted, stellar_X_list_luminosity_weighted, stellar_Z_list_luminosity_weighted, labels=["Y", "X", "Z"])
+        plt.title('stellar luminosity-weighted H, He, and metal mass fraction')
+        plt.xlim(7, log_time_axis[-1])
+        plt.ylim(0, 1)
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('stacked mass fraction')
+        plt.legend(loc='lower left')
 
     # global mm, zz
     # fig = plt.figure(0, figsize=(6, 5))
@@ -3270,7 +3624,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_Fe_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Fe_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[Fe/H]')
         plt.title('Element abundance evolution')
         # if imf == 'igimf':
@@ -3336,7 +3690,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_O_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_O_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[O/H]')
         plt.title('Element abundance evolution')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
@@ -3358,7 +3712,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_Mg_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Mg_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[Mg/H]')
         plt.title('Element abundance evolution')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
@@ -3379,7 +3733,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_C_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_C_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[C/H]')
         plt.title('Element abundance evolution')
         # if imf == 'igimf':
@@ -3405,7 +3759,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_N_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_N_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[N/H]')
         plt.title('Element abundance evolution')
         # if imf == 'igimf':
@@ -3431,7 +3785,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_Ca_over_H_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Ca_over_H_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[Ca/H]')
         plt.title('Element abundance evolution')
         # if imf == 'igimf':
@@ -3445,8 +3799,85 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.tight_layout()
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_CaH_{}.pdf'.format(imf), dpi=250)
+    #
+    global Ne_over_H_list, stellar_Ne_over_H_list, stellar_Ne_over_H_list_luminosity_weighted
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(331, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, Ne_over_H_list, label='gas')
+        plt.plot(log_time_axis, stellar_Ne_over_H_list, label='stellar MW')
+        plt.plot(log_time_axis, stellar_Ne_over_H_list_luminosity_weighted, label='stellar LW')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('[Ne/H]')
+        plt.title('Element abundance evolution')
+        # if imf == 'igimf':
+        #     plt.title('IGIMF')
+        # elif imf == 'Kroupa':
+        #     plt.title('Kroupa IMF')
+        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+        # plt.ylim(-5, 1)
+        plt.legend()
+        plt.tight_layout()
+        if plot_save is True:
+            plt.savefig('galaxy_evolution_fig_NeH_{}.pdf'.format(imf), dpi=250)
+    #
+    global Si_over_H_list, stellar_Si_over_H_list, stellar_Si_over_H_list_luminosity_weighted
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(332, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, Si_over_H_list, label='gas')
+        plt.plot(log_time_axis, stellar_Si_over_H_list, label='stellar MW')
+        plt.plot(log_time_axis, stellar_Si_over_H_list_luminosity_weighted, label='stellar LW')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('[Si/H]')
+        plt.title('Element abundance evolution')
+        # if imf == 'igimf':
+        #     plt.title('IGIMF')
+        # elif imf == 'Kroupa':
+        #     plt.title('Kroupa IMF')
+        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+        # plt.ylim(-5, 1)
+        plt.legend()
+        plt.tight_layout()
+        if plot_save is True:
+            plt.savefig('galaxy_evolution_fig_SiH_{}.pdf'.format(imf), dpi=250)
+    #
+    global S_over_H_list, stellar_S_over_H_list, stellar_S_over_H_list_luminosity_weighted
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(333, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, S_over_H_list, label='gas')
+        plt.plot(log_time_axis, stellar_S_over_H_list, label='stellar MW')
+        plt.plot(log_time_axis, stellar_S_over_H_list_luminosity_weighted, label='stellar LW')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('[S/H]')
+        plt.title('Element abundance evolution')
+        # if imf == 'igimf':
+        #     plt.title('IGIMF')
+        # elif imf == 'Kroupa':
+        #     plt.title('Kroupa IMF')
+        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+        # plt.ylim(-5, 1)
+        plt.legend()
+        plt.tight_layout()
+        if plot_save is True:
+            plt.savefig('galaxy_evolution_fig_SH_{}.pdf'.format(imf), dpi=250)
     ###
-    global stellar_Y_list, Y_list, stellar_Y_list_luminosity_weighted
     solar_helium_abundance = 0.275
     # Reference: Serenelli & Basu 2010, Determining the Initial Helium Abundance of the Sun, DOI: 10.1088/0004-637X/719/1/865
     if plot_show is True or plot_save is True:
@@ -3460,39 +3891,13 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_Y_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [solar_helium_abundance, solar_helium_abundance], color='red',
                  ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('Y')
         plt.title('Helium mass fraction evolution')
         plt.legend()
         plt.tight_layout()
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_Y_{}.pdf'.format(imf), dpi=250)
-
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(61, figsize=(6, 5))
-        fig.add_subplot(1, 1, 1)
-        plt.stackplot(log_time_axis, X_list, Y_list, Z_list, labels=["X", "Y", "Z"])
-        plt.title('gas-phase H, He, and metal mass fraction')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
-        plt.ylabel('stacked mass fraction')
-        plt.legend()
-        fig = plt.figure(62, figsize=(6, 5))
-        fig.add_subplot(1, 1, 1)
-        plt.stackplot(log_time_axis, stellar_X_list, stellar_Y_list, stellar_Z_list, labels=["X", "Y", "Z"])
-        plt.title('stellar H, He, and metal mass fraction')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
-        plt.ylabel('stacked mass fraction')
-        plt.legend()
-        fig = plt.figure(63, figsize=(6, 5))
-        fig.add_subplot(1, 1, 1)
-        plt.stackplot(log_time_axis, stellar_X_list_luminosity_weighted, stellar_Y_list_luminosity_weighted, stellar_Z_list_luminosity_weighted, labels=["X", "Y", "Z"])
-        plt.title('stellar luminosity-weighted H, He, and metal mass fraction')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
-        plt.ylabel('stacked mass fraction')
-        plt.legend()
 
     file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Y_time.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# log_time_axis\n")
@@ -3536,7 +3941,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_Mg_over_Fe_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Mg_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[Mg/Fe]')
         plt.title('Element number ratio evolution')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
@@ -3598,7 +4003,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_O_over_Fe_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_O_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[O/Fe]')
         plt.title('Element number ratio evolution')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
@@ -3619,7 +4024,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_Ca_over_Fe_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_Ca_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[Ca/Fe]')
         plt.title('Element number ratio evolution')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
@@ -3628,6 +4033,69 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.tight_layout()
         if plot_save is True:
             plt.savefig('galaxy_evolution_fig_CaFe_{}.pdf'.format(imf), dpi=250)
+    #
+    global Ne_over_Fe_list, stellar_Ne_over_Fe_list, stellar_Ne_over_Fe_list_luminosity_weighted
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(811, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, Ne_over_Fe_list, label='gas')
+        plt.plot(log_time_axis, stellar_Ne_over_Fe_list, label='stellar MW')
+        plt.plot(log_time_axis, stellar_Ne_over_Fe_list_luminosity_weighted, label='stellar LW')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('[Ne/Fe]')
+        plt.title('Element number ratio evolution')
+        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+        # plt.ylim(-1, 3.5)
+        plt.legend()
+        plt.tight_layout()
+        if plot_save is True:
+            plt.savefig('galaxy_evolution_fig_NeFe_{}.pdf'.format(imf), dpi=250)
+    #
+    global Si_over_Fe_list, stellar_Si_over_Fe_list, stellar_Si_over_Fe_list_luminosity_weighted
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(812, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, Si_over_Fe_list, label='gas')
+        plt.plot(log_time_axis, stellar_Si_over_Fe_list, label='stellar MW')
+        plt.plot(log_time_axis, stellar_Si_over_Fe_list_luminosity_weighted, label='stellar LW')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('[Si/Fe]')
+        plt.title('Element number ratio evolution')
+        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+        # plt.ylim(-1, 3.5)
+        plt.legend()
+        plt.tight_layout()
+        if plot_save is True:
+            plt.savefig('galaxy_evolution_fig_SiFe_{}.pdf'.format(imf), dpi=250)
+    #
+    global S_over_Fe_list, stellar_S_over_Fe_list, stellar_S_over_Fe_list_luminosity_weighted
+    if plot_show is True or plot_save is True:
+        plt.rc('font', family='serif')
+        plt.rc('xtick', labelsize='x-small')
+        plt.rc('ytick', labelsize='x-small')
+        fig = plt.figure(813, figsize=(6, 5))
+        fig.add_subplot(1, 1, 1)
+        plt.plot(log_time_axis, S_over_Fe_list, label='gas')
+        plt.plot(log_time_axis, stellar_S_over_Fe_list, label='stellar MW')
+        plt.plot(log_time_axis, stellar_S_over_Fe_list_luminosity_weighted, label='stellar LW')
+        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+        plt.xlabel(r'log$_{10}$(time [yr])')
+        plt.ylabel('[S/Fe]')
+        plt.title('Element number ratio evolution')
+        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+        # plt.ylim(-1, 3.5)
+        plt.legend()
+        plt.tight_layout()
+        if plot_save is True:
+            plt.savefig('galaxy_evolution_fig_SFe_{}.pdf'.format(imf), dpi=250)
     #
     global C_over_Fe_list, stellar_C_over_Fe_list, stellar_C_over_Fe_list_luminosity_weighted
     if plot_show is True or plot_save is True:
@@ -3640,7 +4108,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_C_over_Fe_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_C_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[C/Fe]')
         plt.title('Element number ratio evolution')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
@@ -3661,7 +4129,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(log_time_axis, stellar_N_over_Fe_list, label='stellar MW')
         plt.plot(log_time_axis, stellar_N_over_Fe_list_luminosity_weighted, label='stellar LW')
         plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel('[N/Fe]')
         plt.title('Element number ratio evolution')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
@@ -3834,7 +4302,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.loglog(time_axis, total_energy_release_list, ls="dotted", label='tot SNIa+II')
         plt.loglog(time_axis, binding_energy_list, label='binding')
         plt.loglog(time_axis, total_gas_kinetic_energy_list, label='gas kinetic')
-        plt.xlabel(r'Time [yr]')
+        plt.xlabel(r'time [yr]')
         plt.ylabel(r'Energy')
         plt.title('Energy produced by supernovae (within a crossing time)')
         # plt.xlim(6, 1.01 * log_time_axis[-1])
@@ -4085,7 +4553,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.plot(time_axis, expansion_factor_instantaneous_list, label='instantaneous')
         plt.plot(time_axis, expansion_factor_adiabat_list, label='slow')
         plt.plot(time_axis, expansion_factor_list, label='average')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel(r'expansion_factor')
         plt.legend()
         plt.title('Galaxy size evolution')
@@ -4124,7 +4592,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, ejected_gas_Mg_over_Fe_list, label='total')
         plt.plot(time_axis, instant_ejected_gas_Mg_over_Fe_list, label='instant')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel(r'[Mg/Fe]')
         # plt.xlim(6.4, 1.01 * time_axis[-1])
         # plt.ylim(7.3, 12.2)
@@ -4138,7 +4606,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         fig = plt.figure(17, figsize=(6, 5))
         fig.add_subplot(1, 1, 1)
         plt.plot(time_axis, ejected_metal_mass_list, label='total')
-        plt.xlabel(r'log$_{10}$(time) [yr]')
+        plt.xlabel(r'log$_{10}$(time [yr])')
         plt.ylabel(r'ejected metal mass')
         # plt.xlim(6.4, 1.01 * time_axis[-1])
         # plt.ylim(7.3, 12.2)
@@ -4158,7 +4626,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
             plt.plot(log_time_axis, ejected_O_mass_till_this_time_tot_list, label='tot')
             plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNIa_list, label='from SNIa')
             plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time) [yr]')
+            plt.xlabel(r'log$_{10}$(time [yr])')
             plt.ylabel(r'ejected O [M$_\odot$]')
             plt.title('IMF averaged yield')
             plt.legend()
@@ -4174,7 +4642,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
             plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_tot_list, label='tot')
             plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNIa_list, label='from SNIa')
             plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time) [yr]')
+            plt.xlabel(r'log$_{10}$(time [yr])')
             plt.ylabel(r'ejected Mg [M$_\odot$]')
             plt.title('IMF averaged yield from different type of SN')
             plt.legend()
@@ -4190,13 +4658,85 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
             plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_tot_list, label='tot')
             plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNIa_list, label='from SNIa')
             plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time) [yr]')
+            plt.xlabel(r'log$_{10}$(time [yr])')
             plt.ylabel(r'ejected Fe [M$_\odot$]')
             plt.title('IMF averaged yield from different type of SN')
             plt.legend()
             plt.tight_layout()
             if plot_save is True:
                 plt.savefig('Fe_production.pdf', dpi=250)
+
+        global ejected_Ca_mass_till_this_time_tot_list, ejected_Ca_mass_till_this_time_SNIa_list, ejected_Ca_mass_till_this_time_SNII_list
+        if plot_show is True or plot_save is True:
+            plt.rc('font', family='serif')
+            plt.rc('xtick', labelsize='x-small')
+            plt.rc('ytick', labelsize='x-small')
+            fig = plt.figure(24, figsize=(6, 5))
+            fig.add_subplot(1, 1, 1)
+            plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_tot_list, label='tot')
+            plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_SNIa_list, label='from SNIa')
+            plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_SNII_list, label='from SNII')
+            plt.xlabel(r'log$_{10}$(time [yr])')
+            plt.ylabel(r'ejected Ca [M$_\odot$]')
+            plt.title('IMF averaged yield from different type of SN')
+            plt.legend()
+            plt.tight_layout()
+            if plot_save is True:
+                plt.savefig('Ca_production.pdf', dpi=250)
+
+        global ejected_S_mass_till_this_time_tot_list, ejected_S_mass_till_this_time_SNIa_list, ejected_S_mass_till_this_time_SNII_list
+        if plot_show is True or plot_save is True:
+            plt.rc('font', family='serif')
+            plt.rc('xtick', labelsize='x-small')
+            plt.rc('ytick', labelsize='x-small')
+            fig = plt.figure(25, figsize=(6, 5))
+            fig.add_subplot(1, 1, 1)
+            plt.plot(log_time_axis, ejected_S_mass_till_this_time_tot_list, label='tot')
+            plt.plot(log_time_axis, ejected_S_mass_till_this_time_SNIa_list, label='from SNIa')
+            plt.plot(log_time_axis, ejected_S_mass_till_this_time_SNII_list, label='from SNII')
+            plt.xlabel(r'log$_{10}$(time [yr])')
+            plt.ylabel(r'ejected S [M$_\odot$]')
+            plt.title('IMF averaged yield from different type of SN')
+            plt.legend()
+            plt.tight_layout()
+            if plot_save is True:
+                plt.savefig('S_production.pdf', dpi=250)
+
+        global ejected_Si_mass_till_this_time_tot_list, ejected_Si_mass_till_this_time_SNIa_list, ejected_Si_mass_till_this_time_SNII_list
+        if plot_show is True or plot_save is True:
+            plt.rc('font', family='serif')
+            plt.rc('xtick', labelsize='x-small')
+            plt.rc('ytick', labelsize='x-small')
+            fig = plt.figure(26, figsize=(6, 5))
+            fig.add_subplot(1, 1, 1)
+            plt.plot(log_time_axis, ejected_Si_mass_till_this_time_tot_list, label='tot')
+            plt.plot(log_time_axis, ejected_Si_mass_till_this_time_SNIa_list, label='from SNIa')
+            plt.plot(log_time_axis, ejected_Si_mass_till_this_time_SNII_list, label='from SNII')
+            plt.xlabel(r'log$_{10}$(time [yr])')
+            plt.ylabel(r'ejected Si [M$_\odot$]')
+            plt.title('IMF averaged yield from different type of SN')
+            plt.legend()
+            plt.tight_layout()
+            if plot_save is True:
+                plt.savefig('Si_production.pdf', dpi=250)
+
+        global ejected_Ne_mass_till_this_time_tot_list, ejected_Ne_mass_till_this_time_SNIa_list, ejected_Ne_mass_till_this_time_SNII_list
+        if plot_show is True or plot_save is True:
+            plt.rc('font', family='serif')
+            plt.rc('xtick', labelsize='x-small')
+            plt.rc('ytick', labelsize='x-small')
+            fig = plt.figure(27, figsize=(6, 5))
+            fig.add_subplot(1, 1, 1)
+            plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_tot_list, label='tot')
+            plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_SNIa_list, label='from SNIa')
+            plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_SNII_list, label='from SNII')
+            plt.xlabel(r'log$_{10}$(time [yr])')
+            plt.ylabel(r'ejected Ne [M$_\odot$]')
+            plt.title('IMF averaged yield from different type of SN')
+            plt.legend()
+            plt.tight_layout()
+            if plot_save is True:
+                plt.savefig('Ne_production.pdf', dpi=250)
 
     if plot_show is True:
         plt.show()
@@ -4343,7 +4883,7 @@ def generate_sfh_lognorm(Log_SFR, SFEN):
     file.close()
 
     # plt.plot(time_list, star_formation_rate, label='lognorm SFH')
-    # plt.xlabel('Time step')
+    # plt.xlabel('time step')
     # plt.ylabel(r'SFR [solar mass/year]')
     # plt.show()
 
@@ -4381,7 +4921,7 @@ if __name__ == '__main__':
     # skewness = 10  # SFH shape parameter
     # sfr_tail = 0  # SFH shape parameter
     # generate_SFH("flat", Log_SFR, SFEN, sfr_tail, skewness, location)
-    ### input "flat", "lognorm", or "skewnorm" to generate a boxy, lognormal, or skewnorm SFH, respectively.
+    # ## input "flat", "lognorm", or "skewnorm" to generate a boxy, lognormal, or skewnorm SFH, respectively.
 
     ####################################
 
@@ -4393,7 +4933,7 @@ if __name__ == '__main__':
     # then recalculate SFR at each timestep, resulting a SFH similar to SFH.txt but gas mass dependent.
     # SNIa_yield_table='Thielemann1993' or 'Seitenzahl2013'
     # solar_abu_table='Anders1989' or 'Asplund2009'
-    galaxy_evol(imf='igimf', STF=0.9, SFEN=SFEN, Z_0=0.00000001886, solar_mass_component="Anders1989_mass",
+    galaxy_evol(imf='igimf', STF=0.5, SFEN=SFEN, Z_0=0.00000001886, solar_mass_component="Anders1989_mass",
                 str_yield_table='portinari98', IMF_name='Kroupa', steller_mass_upper_bound=150,
                 time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
                 SFH_model='provided', SFE=0.013, SNIa_ON=True, SNIa_yield_table='Seitenzahl2013',
