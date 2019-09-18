@@ -652,21 +652,21 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                stellar_luminosity.stellar_luminosity_function(mass)
 
                     # integrated igimf_mass_function from 0.08 to steller_mass_upper_bound
-                    integrate_igimf_mass = quad(igimf_mass_function, 0.08, steller_mass_upper_bound, limit=40)[0]
+                    integrate_igimf_mass = quad(igimf_mass_function, 0.08, steller_mass_upper_bound, limit=50)[0]
                     # as the integration of the IGIMF always has a small (at least for low SFRs) computational error,
                     # it need to be fixed by mutiplying a calibration factor which is close to 1:
                     mass_calibration_factor = M_tot_of_this_epoch / integrate_igimf_mass
-                    # print("mass_calibration_factor:", mass_calibration_factor)
+                    # print("mass_calibration_factor:", mass_calibration_factor)  # the calibration factor is about 1%
 
                     # integrate_igimf_mass_l = quad(igimf_mass_function, 0.08, 3, limit=40)[0]
-                    # integrate_igimf_mass_h = quad(igimf_mass_function, 8, steller_mass_upper_bound, limit=40)[0]
+                    # integrate_igimf_mass_h = quad(igimf_mass_function, 8, steller_mass_upper_bound, limit=50)[0]
                     # integrate_igimf_mass_m = quad(igimf_mass_function, 1.5, 8, limit=40)[0]
                     # print("high mass star mass ratio:", integrate_igimf_mass_h/integrate_igimf_mass)
                     # print("middle mass star mass ratio:", integrate_igimf_mass_m/integrate_igimf_mass)
                     # print("Low mass star mass ratio:", integrate_igimf_mass_l/integrate_igimf_mass)
-                    # integrate_igimf_number = quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=40)[0]
+                    # integrate_igimf_number = quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=50)[0]
                     # integrate_igimf_number_l = quad(igimf_xi_function, 0.08, 3, limit=40)[0]
-                    # integrate_igimf_number_h = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=40)[0]
+                    # integrate_igimf_number_h = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=50)[0]
                     # integrate_igimf_number_m = quad(igimf_xi_function, 1.5, 8, limit=40)[0]
                     # print("high mass star number ratio:", integrate_igimf_number_h/integrate_igimf_number)
                     # print("middle mass star number ratio:", integrate_igimf_number_m/integrate_igimf_number)
@@ -717,10 +717,10 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     last_time_age = age_of_this_epoch
                     number_in_SNIa_boundary = mass_calibration_factor * quad(igimf_xi_function, 1.5, 8, limit=40)[
                         0]  # see function_number_SNIa below
-                    number_all = quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=40)[
+                    number_all = quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=50)[
                         0]  # see function_number_SNIa below
                     # number_low = quad(igimf_xi_function, 0.08, 2, limit=40)[0]  # see function_number_SNIa below
-                    # number_up = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=40)[0]  # see function_number_SNIa below
+                    # number_up = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=50)[0]  # see function_number_SNIa below
                     # print("up", number_up/number_all)
 
                     # SNIa_number_prob = number_in_SNIa_boundary**2 / number_all * 10**2 * 0.61
@@ -790,8 +790,9 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     # print(m2)
                     # print(m1 / m2)
 
-                    integrate_star_mass = quad(igimf_mass_function, 0.08, mass_boundary, limit=40)[0]  # normalized mass
-                    stellar_luminosity_of_a_epoch_at_a_time_step = quad(igimf_luminous_function, 0.08, mass_boundary, limit=40)[0]
+                    inte_limit = max(round((math.log(mass_boundary, 10)+1) / (math.log(steller_mass_upper_bound, 10)+1) * 50), 20)
+                    integrate_star_mass = quad(igimf_mass_function, 0.08, mass_boundary, limit=inte_limit)[0]  # normalized mass
+                    stellar_luminosity_of_a_epoch_at_a_time_step = quad(igimf_luminous_function, 0.08, mass_boundary, limit=inte_limit)[0]
                     stellar_mass_of_a_epoch_at_a_time_step = mass_calibration_factor * integrate_star_mass  # real mass
 
                     # apprent metal mass (neglect stellar evolution, only account for the initial metal mass when SF):
@@ -840,25 +841,25 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     #
                     # # consider direct black hole as in Heger et al. (2003) (maybe not self-consistant with the stellar evolution table)
                     # if mass_boundary > 100:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=40)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
                     #     SNII_number_of_this_epoch_2 = 0
                     # elif mass_boundary > 40:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=40)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=50)[0]
                     #     SNII_number_of_this_epoch_2 = 0
                     # elif mass_boundary > 8:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=40)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=50)[0]
                     #     SNII_number_of_this_epoch_2 = quad(igimf_mass_function, mass_boundary, 40, limit=40)[0]
                     # else:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=40)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=50)[0]
                     #     SNII_number_of_this_epoch_2 = quad(igimf_mass_function, 8, 40, limit=40)[0]
                     # SNII_number_of_this_epoch = (SNII_number_of_this_epoch_1 + SNII_number_of_this_epoch_2) * mass_calibration_factor
                     if mass_boundary > 8:
                         SNII_number_of_this_epoch = \
-                        quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=40)[0]
+                        quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
                         SNII_ejected_mass_of_this_epoch = \
-                        quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=40)[0]
+                        quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
                     else:
-                        SNII_number_of_this_epoch = quad(igimf_mass_function, 8, steller_mass_upper_bound, limit=40)[0]
+                        SNII_number_of_this_epoch = quad(igimf_mass_function, 8, steller_mass_upper_bound, limit=50)[0]
                     SNII_number_of_this_epoch = SNII_number_of_this_epoch * mass_calibration_factor
                     SNII_energy_release_per_event = 10 ** 51
                     SNII_number += SNII_number_of_this_epoch
@@ -1684,8 +1685,8 @@ def function_mass_diet_Salpeter_IMF(mass):
     return m
 
 
-integrate_all_for_function_mass_SNIa = quad(function_mass_diet_Salpeter_IMF, 0.1, 100, limit=40)[0]
-integrate_28_for_function_number_SNIa = quad(function_xi_diet_Salpeter_IMF, 1.5, 8, limit=40)[0]
+integrate_all_for_function_mass_SNIa = quad(function_mass_diet_Salpeter_IMF, 0.1, 100, limit=50)[0]
+integrate_28_for_function_number_SNIa = quad(function_xi_diet_Salpeter_IMF, 1.5, 8, limit=30)[0]
 diet_Salpeter_mass_to_number_ratio = integrate_all_for_function_mass_SNIa / integrate_28_for_function_number_SNIa
 
 
@@ -2231,7 +2232,7 @@ def function_get_target_mass(initial_mass, mass_grid_table_number, Mtarget_table
     # # estimated total mass with Kroupa IMF =
     # M_tot_est_list = []
     # IMF = __import__(imf_file_name)
-    # a = quad(IMF.imf, 0.08, steller_mass_upper_bound, limit=40)[0]
+    # a = quad(IMF.imf, 0.08, steller_mass_upper_bound, limit=50)[0]
     # b = quad(IMF.imf, mass_boundary_observe[0], mass_boundary_observe[1], limit=40)[0]
     # for mass_in_range in M_in_range_list:
     #     est_mass = mass_in_range * a / b
