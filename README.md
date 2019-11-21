@@ -1,4 +1,4 @@
-# GalIMF version 1.1.6
+# GalIMF version 1.1.7
 
 last update: 18.Sep.2019
 
@@ -300,6 +300,7 @@ The major updates include:
 5. The approximated stellar luminosity weighted results is now available. The "stellar luminosity" adopted are the luminosity of the star during its main-sequence stage and do not consider any stellar evolution, i.e., the luminosity is only a function the stellar initial mass but not its age or metallicity. (10.02.2019)
 6. An uniform outflow (uniform in the sense that the element ratios are the same as the well-mixed gas phase) that is proportional to the stellar mass formed is added. It has a minor effect on the final total gas mass (roughly 0.3 dex) and the metal abundances (roughly 0.1 dex) and a negligible effect on the galaxy final metal abundance ratios (roughly 0.05 dex).
 7. Correct file "galevo.py". The calculation of ejected gas mass has been corrected from "ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - stellar_mass_of_a_epoch_at_a_time_step - remnant_mass_of_this_epoch" to "ejected_gas_mass_of_this_epoch = H_mass_of_this_epoch + He_mass_of_this_epoch + metal_mass_of_this_epoch". The previous equation was wrong since the remnant_mass_of_this_epoch is a spline fitted value of the stellar yield table instead of the original value given by the yield table. (update to version 1.1.6 on 17 Sep 2019)
+8. The integrated number of type II supernovae in the model was wrong. Version 1.1.7 correct this (21.11.2019).
 
 
 ### Authors
