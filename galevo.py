@@ -841,25 +841,25 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     #
                     # # consider direct black hole as in Heger et al. (2003) (maybe not self-consistant with the stellar evolution table)
                     # if mass_boundary > 100:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_xi_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
                     #     SNII_number_of_this_epoch_2 = 0
                     # elif mass_boundary > 40:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=50)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_xi_function, 100, steller_mass_upper_bound, limit=50)[0]
                     #     SNII_number_of_this_epoch_2 = 0
                     # elif mass_boundary > 8:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=50)[0]
-                    #     SNII_number_of_this_epoch_2 = quad(igimf_mass_function, mass_boundary, 40, limit=40)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_xi_function, 100, steller_mass_upper_bound, limit=50)[0]
+                    #     SNII_number_of_this_epoch_2 = quad(igimf_xi_function, mass_boundary, 40, limit=40)[0]
                     # else:
-                    #     SNII_number_of_this_epoch_1 = quad(igimf_mass_function, 100, steller_mass_upper_bound, limit=50)[0]
-                    #     SNII_number_of_this_epoch_2 = quad(igimf_mass_function, 8, 40, limit=40)[0]
+                    #     SNII_number_of_this_epoch_1 = quad(igimf_xi_function, 100, steller_mass_upper_bound, limit=50)[0]
+                    #     SNII_number_of_this_epoch_2 = quad(igimf_xi_function, 8, 40, limit=40)[0]
                     # SNII_number_of_this_epoch = (SNII_number_of_this_epoch_1 + SNII_number_of_this_epoch_2) * mass_calibration_factor
                     if mass_boundary > 8:
                         SNII_number_of_this_epoch = \
-                        quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
+                        quad(igimf_xi_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
                         SNII_ejected_mass_of_this_epoch = \
-                        quad(igimf_mass_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
+                        quad(igimf_xi_function, mass_boundary, steller_mass_upper_bound, limit=50)[0]
                     else:
-                        SNII_number_of_this_epoch = quad(igimf_mass_function, 8, steller_mass_upper_bound, limit=50)[0]
+                        SNII_number_of_this_epoch = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=50)[0]
                     SNII_number_of_this_epoch = SNII_number_of_this_epoch * mass_calibration_factor
                     SNII_energy_release_per_event = 10 ** 51
                     SNII_number += SNII_number_of_this_epoch
