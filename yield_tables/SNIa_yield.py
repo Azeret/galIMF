@@ -50,6 +50,35 @@ def function_mass_ejected(yield_reference_name, element_name):
             mass_ejected = 0.065  # +-0.010
         else:
             mass_ejected = 0
+    elif yield_reference_name == 'Iwamoto1999':
+        # Reference: https://ui.adsabs.harvard.edu/abs/1999ApJS..125..439I/abstract
+        # Below adopt the main isotope of W70 model # the mean value of all models (W, WDD, CDD) in their table 3
+        if element_name == "C":
+            mass_ejected = 0.0508  #
+        elif element_name == "O":
+            mass_ejected = 0.133  #
+        elif element_name == "Ne":
+            mass_ejected = 0.00229  #
+        elif element_name == "Mg":
+            mass_ejected = 0.0158  # 0.00727  # (8.5+15.8+7.55+4.47+2.62+7.72+4.2)/7
+        elif element_name == "Si":
+            mass_ejected = 0.142  # 0.201  # (1.54+1.42+2.72+2.06+1.58+2.77+1.98)/7
+        elif element_name == "S":
+            mass_ejected = 0.0914  #
+        elif element_name == "Ar":
+            mass_ejected = 0.0191  #
+        elif element_name == "Ca":
+            mass_ejected = 0.0181  # 0.0228  # (1.19+1.81+3.1+2.43+1.88+3.18+2.38)/7
+        elif element_name == "Cr":
+            mass_ejected = 0.00773  #
+        elif element_name == "Mn":
+            mass_ejected = 0.00666  #
+        elif element_name == "Fe":
+            mass_ejected = 0.68  # 0.675  # (6.26+6.8+5.87+7.13+7.95+5.65+7.57)/7
+        elif element_name == "Ni":
+            mass_ejected = 0.0834  #
+        else:
+            mass_ejected = 0
     else:
         print('input wrong yield_reference_name')
     return mass_ejected
