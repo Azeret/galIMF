@@ -302,7 +302,7 @@ The major updates include:
 7. Correct file "galevo.py". The calculation of ejected gas mass has been corrected from "ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - stellar_mass_of_a_epoch_at_a_time_step - remnant_mass_of_this_epoch" to "ejected_gas_mass_of_this_epoch = H_mass_of_this_epoch + He_mass_of_this_epoch + metal_mass_of_this_epoch". The previous equation was wrong since the remnant_mass_of_this_epoch is a spline fitted value of the stellar yield table instead of the original value given by the yield table. (update to version 1.1.6 on 17 Sep 2019)
 8. The integrated number of type II supernovae in the model was wrong. Version 1.1.7 correct this (21.11.2019).
 
-9. # GalIMF version 1.2.0 is modified specifically for the publication: Zhiqiang Yan, Tereza Jerabkova1, and Pavel Kroupa (2020) Chemical evolution of ultra-faint dwarf galaxies in theself-consistently calculated IGIMF theory. The modifications are made to follow a very similar set of assumptions applied by Lacchin et al. (2019).
+9. GalIMF version 1.2.0 is modified specifically for the publication: Zhiqiang Yan, Tereza Jerabkova1, and Pavel Kroupa (2020) Chemical evolution of ultra-faint dwarf galaxies in theself-consistently calculated IGIMF theory. The modifications are made to follow a very similar set of assumptions applied by Lacchin et al. (2019).
 9.1 Apply a gas-mass-dependent SFR.
 9.2 Apply a uniform galactic wind and add the calculation of gas binding energy following Bradamante et al. (1998, their eq. 21 to 23).
 9.3 Apply a new set of stellar yield table of massive stars and SNIa follow Lacchin et al. (2019).
