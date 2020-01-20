@@ -87,6 +87,7 @@ print("\n    Calculating galaxy-wide IMF......")
 start_time = time.time()
 galimf.function_galimf(
     "I",  # IorS ### "I" for IGIMF; "OS" for OSGIMF
+    'IGIMF',  # 'R14'
     SFR,  # Star Formation Rate [solar mass / yr]
     alpha3_model,  # IMF high-mass-end power-index model, see file 'galimf.py'
     delta_t,  # star formation epoch [Myr]
@@ -141,6 +142,7 @@ if OSrequest == "y" or OSrequest == "Y" or OSrequest == "yes" or OSrequest == "Y
     start_time = time.time()
     galimf.function_galimf(
         "OS",  # IorS ### "I" for IGIMF; "OS" for OSGIMF
+        'IGIMF',  # 'R14'
         SFR,  # Star Formation Rate [solar mass / yr]
         alpha3_model,  # IMF high-mass-end power-index model, see file 'galimf.py'
         delta_t,  # star formation epoch [Myr]
