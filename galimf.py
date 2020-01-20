@@ -24,11 +24,11 @@ resolution_histogram_relative = 0.01  # The star mass resolution of histogram, s
 
 
 # function_galimf takes in I/OS-GMF parameters and create output files
-def function_galimf(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L, beta_model,
+def function_galimf(IorS, IGIMF, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_str_U, printout=False):
     if IorS == "I":
         global List_xi, List_M_str_for_xi_str
-        function_draw_igimf(SFR, alpha3_model, beta_model, delta_t, M_over_H,
+        function_draw_igimf(IGIMF, SFR, alpha3_model, beta_model, delta_t, M_over_H,
                                                I_ecl, M_ecl_U, M_ecl_L, I_str, M_str_L, alpha_1, alpha1_model,
                                                M_turn, alpha_2, alpha2_model, M_turn2, M_str_U)
         if printout is True:
@@ -43,7 +43,7 @@ def function_galimf(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, 
         return
     elif IorS == "OS":
         global mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number
-        sample_for_one_epoch(SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
+        sample_for_one_epoch(IGIMF, SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_over_H, M_str_U)
         function_draw(SFR, M_str_L, M_str_U, M_ecl_L, resolution_histogram_relative)
         function_make_drop_line()
@@ -63,9 +63,6 @@ def function_galimf(IorS, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, 
     else:
         print("Input wrong parameter for 'IorS'!")
     return
-
-
-
 
 
 
@@ -101,11 +98,11 @@ List_xi = []
 # List_M_str_for_xi_str list of stellar masses for stellar IMF in Msun units
 # List_xi_L logarithmic IGIMF (xi_IGIMF_L = dN/d log_10 m)
 # List_Log_M_str - natural logarithm
-def function_draw_igimf(SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L,
+def function_draw_igimf(IGIMF, SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L,
                         I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_str_U):
     if SFR != 0:
         global List_M_ecl_for_xi_ecl, List_xi, List_M_str_for_xi_str, List_xi_L, List_Log_M_str, x_IMF, y_IMF, List_xi_str
-        function_ecmf(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H)
+        function_ecmf(IGIMF, SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H)
         x_IMF = []
         y_IMF = []
         alpha_1_change = function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
@@ -145,12 +142,15 @@ def function_draw_igimf(SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl,
 # The assumed shape of ECMF is single powerlaw with slope beta (function of SFR)
 # the empyrical lower limit for star cluster mass if 50 Msun
 # the hypotetical upper mass limit is 10^9 Msun, but the M_ecl^max is computed, eq (12) in Yan et al. 2017
-def function_ecmf(SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
+def function_ecmf(IGIMF, SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
     global List_M_ecl_for_xi_ecl, List_xi_ecl, x_ECMF, y_ECMF
     x_ECMF = []
     y_ECMF = []
-    beta_change = function_beta_change(beta_model, SFR, M_over_H)
-    function_draw_xi_ecl(M_ecl_L, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    if IGIMF == 'R14':
+        beta_change = 2
+    else:
+        beta_change = function_beta_change(beta_model, SFR, M_over_H)
+    function_draw_xi_ecl(IGIMF, M_ecl_L, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     List_M_ecl_for_xi_ecl = x_ECMF
     del List_M_ecl_for_xi_ecl[0]
     del List_M_ecl_for_xi_ecl[-1]
@@ -232,11 +232,11 @@ List_star_number_in_mass_grid = []
 
 # This function gives the stellar masses in entire galaxy in unsorted manner
 # i.e. the stars are grouped in parent clusters
-def sample_for_one_epoch(SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
+def sample_for_one_epoch(IGIMF, SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_over_H, M_str_U):
     global List_M_str_all_i, List_n_str_all_i, list_M_ecl_i
     beta_change = function_beta_change(beta_model, SFR, M_over_H)
-    function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    function_sample_cluster(IGIMF, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     len_of_M_ecl_list = len(list_M_ecl_i)
     List_M_str_all_i = []
     List_n_str_all_i = []
@@ -246,13 +246,13 @@ def sample_for_one_epoch(SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, be
 
 
 # Masses of formed clusters
-def function_sample_cluster(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
+def function_sample_cluster(IGIMF, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
     global list_m_ecl_i, list_n_ecl_i, list_M_ecl_i, M_max_ecl
     list_m_ecl_i = []
     list_n_ecl_i = []
     list_M_ecl_i = []
     M_max_ecl = 0
-    function_sample_from_ecmf(SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    function_sample_from_ecmf(IGIMF, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     return
 
 
@@ -940,6 +940,12 @@ def function_alpha_1_change(alpha_1, alpha1_model, M_over_H):
     elif (alpha1_model == 1):
         alpha_1_change = alpha_1 + 0.5 * M_over_H
         return alpha_1_change
+    elif (alpha1_model == 'IGIMF2.5'):
+        alpha_1_change = alpha_1 + 0.12 * M_over_H
+        return alpha_1_change
+    elif (alpha1_model == 'Z'):
+        alpha_1_change = alpha_1 + 35 * (10**M_over_H - 1) * 0.02
+        return alpha_1_change
     else:
         print("alpha1_model: %s, do not exist.\nCheck file 'alpha1.py'" % (alpha1_model))
         return
@@ -950,6 +956,15 @@ def function_alpha_2_change(alpha_2, alpha2_model, M_over_H):
         return alpha_2
     elif (alpha2_model == 1):
         alpha_2_change = alpha_2 + 0.5 * M_over_H
+        return alpha_2_change
+    elif (alpha2_model == 'Z'):
+        alpha_2_change = alpha_2 + 35 * (10**M_over_H - 1) * 0.02
+        return alpha_2_change
+    elif (alpha2_model == 'IGIMF2.5'):
+        alpha_2_change = alpha_2 + 0.12 * M_over_H
+        return alpha_2_change
+    elif (alpha2_model == 'R14'):
+        alpha_2_change = 2.3 + 0.0572 * M_over_H
         return alpha_2_change
     else:
         print("alpha2_model: %s, do not exist.\nCheck file 'alpha2.py'" % (alpha2_model))
@@ -979,6 +994,9 @@ def function_alpha_3_change(alpha3_model, M_ecl, M_over_H):
         else:
             alpha_3_change = -0.41 * x + 1.94
         # print("Notification in file 'alpha3_model' uncompleted")
+        return alpha_3_change
+    elif (alpha3_model == 'R14'):
+        alpha_3_change = 2.3 + 0.0572 * M_over_H
         return alpha_3_change
     else:
         # print("alpha_3 is set to be a constant: %s, as this is the input value of parameter 'alpha3_model'.\nFor more options regarding alpha_3 variation, please check file 'alpha3.py'" % (alpha3_model))
@@ -1038,29 +1056,40 @@ list_M_ecl_i = []
 M_max_ecl = 0
 
 
-def function_sample_from_ecmf(SFR, delta_t, I_ecl, M_U, M_L, beta):
+def function_sample_from_ecmf(IGIMF, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global list_m_ecl_i, list_n_ecl_i, list_M_ecl_i, M_max_ecl, resolution_cluster_relative
     M_tot = SFR * delta_t * 10**6  # units in Myr
-    if beta == 2:
-        M_max_ecl = 0
-        function_M_max_ecl_2(M_tot, I_ecl, M_U, M_L, 10**8, 10**7, -1)  # equation 44
-        k = I_ecl/(1/M_max_ecl-1/M_U)  # equation 41
+    if IGIMF == 'R14':
+        M_max_ecl = 10**(4.83+0.75*math.log(SFR, 10))
+        k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 41
         list_m_ecl_i = [M_max_ecl]
         list_n_ecl_i = []
+        beta = 2
         function_m_i_ecl(M_max_ecl, M_L, k, beta, 1)  # equation 48
         list_M_ecl_i = []
         length_n = len(list_n_ecl_i)
         function_M_i_2(k, 0, length_n)  # equation 50
     else:
-        M_max_ecl = 0
-        function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, 10**8, 10**7, -1)  # equation 40
-        k = I_ecl * (1 - beta) / (M_U ** (1 - beta) - M_max_ecl ** (1 - beta))  # equation 37
-        list_m_ecl_i = [M_max_ecl]
-        list_n_ecl_i = []
-        function_m_i_ecl(M_max_ecl, M_L, k, beta, 1)  # equation 48
-        list_M_ecl_i = []
-        length_n = len(list_n_ecl_i)
-        function_M_i_not_2(k, beta, 0, length_n)  # equation 49
+        if beta == 2:
+            M_max_ecl = 0
+            function_M_max_ecl_2(M_tot, I_ecl, M_U, M_L, 10**8, 10**7, -1)  # equation 44
+            k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 41
+            list_m_ecl_i = [M_max_ecl]
+            list_n_ecl_i = []
+            function_m_i_ecl(M_max_ecl, M_L, k, beta, 1)  # equation 48
+            list_M_ecl_i = []
+            length_n = len(list_n_ecl_i)
+            function_M_i_2(k, 0, length_n)  # equation 50
+        else:
+            M_max_ecl = 0
+            function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, 10**8, 10**7, -1)  # equation 40
+            k = I_ecl * (1 - beta) / (M_U ** (1 - beta) - M_max_ecl ** (1 - beta))  # equation 37
+            list_m_ecl_i = [M_max_ecl]
+            list_n_ecl_i = []
+            function_m_i_ecl(M_max_ecl, M_L, k, beta, 1)  # equation 48
+            list_M_ecl_i = []
+            length_n = len(list_n_ecl_i)
+            function_M_i_not_2(k, beta, 0, length_n)  # equation 49
     return
 
 
@@ -1153,17 +1182,23 @@ def function_M_i_not_2(k, beta, i, length_n):  # equation 49
 
 ################### draw ECMF without sampling #####################
 
-def k_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
+def k_ecl(IGIMF, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global M_max_ecl
     M_tot = SFR * delta_t * 10 ** 6  # units in Myr
-    if beta == 2:
-        M_max_ecl = 0
-        function_M_max_ecl_2(M_tot, I_ecl, M_U, M_L, 10**8, 10**7, -1)  # equation 44
-        k = I_ecl/(1/M_max_ecl-1/M_U)  # equation 41
+    if IGIMF == 'R14':
+        M_max_ecl = 10 ** (4.83 + 0.75 * math.log(SFR, 10))
+        if M_max_ecl < 5:
+            M_max_ecl = 5
+        k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 41
     else:
-        M_max_ecl = 0
-        function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, M_U/10, M_U/100, -1)  # equation 40
-        k = I_ecl * (1 - beta) / (M_U ** (1 - beta) - M_max_ecl ** (1 - beta))  # equation 37
+        if beta == 2:
+            M_max_ecl = 0
+            function_M_max_ecl_2(M_tot, I_ecl, M_U, M_L, 10**8, 10**7, -1)  # equation 44
+            k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 41
+        else:
+            M_max_ecl = 0
+            function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, M_U/10, M_U/100, -1)  # equation 40
+            k = I_ecl * (1 - beta) / (M_U ** (1 - beta) - M_max_ecl ** (1 - beta))  # equation 37
     return k
 
 
@@ -1171,9 +1206,9 @@ x_ECMF = []
 y_ECMF = []
 
 
-def function_draw_xi_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
+def function_draw_xi_ecl(IGIMF, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global x_ECMF, y_ECMF
-    k = k_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta)
+    k = k_ecl(IGIMF, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta)
     function_draw_xi_ecl_loop(M_ecl, k, M_U, beta)
     x_ECMF = [x_ECMF[0]] + x_ECMF
     x_ECMF += [x_ECMF[-1]]
@@ -1183,8 +1218,8 @@ def function_draw_xi_ecl(M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
 
 
 def function_draw_xi_ecl_loop(M_ecl, k, M_U, beta):
+        global x_ECMF, y_ECMF, M_max_ecl
         while M_ecl < M_max_ecl:
-            global x_ECMF, y_ECMF
             x_ECMF += [M_ecl]
             xi = k * M_ecl ** (-beta)
             y_ECMF += [xi]
