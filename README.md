@@ -1,4 +1,4 @@
-# GalIMF version 1.1.5
+# GalIMF version 1.1.6
 
 last update: 30.06.2019
 
@@ -30,33 +30,33 @@ last update: 30.06.2019
    - [Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
 
 
- 
+
 ## Overview
 
 GalIMF stands for the Galaxy-wide Initial Mass Function originated from the Integrated-Galactic-IMF (IGIMF) theory [Kroupa & Weidner (2003)](https://ui.adsabs.harvard.edu/abs/2003ApJ...598.1076K/abstract).
 
 GalIMF version 1.0 (with a companion paper [Yan, Jerabkova, Kroupa 2017](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract)). It is a Python 3 module that compute galaxy-wide initial stellar mass functions based on locally derived empirical constraints following the IGIMF theory ([Weidner et al. 2013](http://adsabs.harvard.edu/abs/2013MNRAS.436.3309W); [Kroupa et al. 2013](http://adsabs.harvard.edu/abs/2013pss5.book..115K)).
 
-GalIMF version 1.1 (with a companion paper Yan et al. 2019, submitted). It is a Python 3 module that couples the IGIMF theory with galaxy chemical evolution.
+GalIMF version 1.1 (with a companion paper [Yan et al. 2019](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract)). It is a Python 3 module that couples the IGIMF theory with galaxy chemical evolution.
 
 
 ## Scientific motivation
 
-The initial stellar mass function (IMF) can be defined as a mass distribution of stars formed during one star formation event in a region of approximately the size of 1 pc. The stellar IMF, therefore, dictates the number of supernova explosions, the chemical enrichment, how bright the stellar population and unresolved objects are and many other issues which affect directly or indirectly a vast majority of astrophysical fields. 
+The initial stellar mass function (IMF) can be defined as a mass distribution of stars formed during one star formation event in a region of approximately the size of 1 pc. The stellar IMF, therefore, dictates the number of supernova explosions, the chemical enrichment, how bright the stellar population and unresolved objects are and many other issues which affect directly or indirectly a vast majority of astrophysical fields.
 
-Despite ongoing research, we still cannot formulate and predict the IMF self-consistently. Therefore it is necessary to look at the empirical evidence which might help us to understand the IMF. 
+Despite ongoing research, we still cannot formulate and predict the IMF self-consistently. Therefore it is necessary to look at the empirical evidence which might help us to understand the IMF.
 
 One possible way of doing so is to look at Galactic star forming regions and try to estimate the shape of the IMF as is done by [Marks et al. (2012)](https://ui.adsabs.harvard.edu/abs/2012MNRAS.422.2246M/abstract). Then we can look at whole galaxies which can have very different chemical compositions and very different densities and other physical parameters. For a galaxy, we can measure the emitted light and we can try to constrain the total mass and deduce the composite galaxy-wide IMF. For example, one could use the Hα EW and galaxy color as in [Hoversten & Glazebrook (2008)](http://adsabs.harvard.edu/abs/2008ApJ...675..163H) or the ratio between Hα and UV luminosity as in [Lee et al. (2009)](http://adsabs.harvard.edu/abs/2009ApJ...706..599L).
 
-And now here comes the question: 
+And now here comes the question:
 
 1. If we take the locally constrained empirical laws and integrate them so we create this galaxy-wide IMF, will we get the same as the locally constrained stellar IMF? If yes, well it would be great and if not we can learn something more about the local IMF based on other galaxies. To help with exactly this problem we present this Python module GalIMF. And indeed, [Yan, Jerabkova, Kroupa (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract) demonstrated that the observations are consistent with prediction given by the IGIMF theory.
-2. Since the galaxy-wide IMF systematical vary with the galactic properties (see [Development](https://github.com/Azeret/galIMF#development) below),  the galaxy evolution history should be different from the estimates applying the canonical invariant IMF. What would be the influence of such a modification and what are the new implications? This is exactly what we are trying to answer in our new Yan et al. (2019, in prepare) paper.
+2. Since the galaxy-wide IMF systematical vary with the galactic properties (see [Development](https://github.com/Azeret/galIMF#development) below),  the galaxy evolution history should be different from the estimates applying the canonical invariant IMF. What would be the influence of such a modification and what are the new implications? This is exactly what we are trying to answer in [Yan, Zhiqiang; Jerabkova, Tereza; Kroupa, Pavel; Vazdekis, Alejandro (2019)](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract).
 
 
 ## The galaxy-wide IMF generator
 
-The module calculating the galaxy-wide IMF is described here while more detailed comments can be found in the source code 
+The module calculating the galaxy-wide IMF is described here while more detailed comments can be found in the source code
 together with the support PDF file ([supplementary-document-galimf.pdf](https://github.com/Azeret/galIMF/blob/master/supplementary-document-galimf.pdf)), where all equations are derived in detail and labeled in a consistent way with the source code [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
 
 An example file, [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py), is provided for a quick test and also serve as an easy entrance for the most basic usage of [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py).
@@ -64,7 +64,7 @@ An example file, [example_galaxy.py](https://github.com/Azeret/galIMF/blob/maste
 GalIMF is also able to optimally sample not an entire galaxy, but only one embedded star cluster with given mass and metallicity. This is demonstrated in [example_star_cluster.py](https://github.com/Azeret/galIMF/blob/master/example_star_cluster.py).
 
 
-GalIMF represents a Python 3 module which allows computing galaxy-wide IMFs under various assumptions. With the module, we distribute an example script where we use the invariant two-part power-law canonical IMF (Kroupa 2001) as a benchmark and the grid of Salpeter slopes (2.3) drawn into the figures is used for demonstration of IMF variations. 
+GalIMF represents a Python 3 module which allows computing galaxy-wide IMFs under various assumptions. With the module, we distribute an example script where we use the invariant two-part power-law canonical IMF (Kroupa 2001) as a benchmark and the grid of Salpeter slopes (2.3) drawn into the figures is used for demonstration of IMF variations.
 
 For the computational details, please, look at [Yan, Jerabkova, Kroupa (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract) and [Schulz, Pflamm-Altenburg & Kroupa (2015)](https://ui.adsabs.harvard.edu/abs/2015A%26A...582A..93S/abstract).
 
@@ -79,7 +79,7 @@ The code can generate a galaxy-wide IMF, i.e., IGIMF. It can also generate all t
 
 Based on a local IMF (can be the fixed universal Kroupa IMF or the systematically varying IMF based on [Marks et al. 2012](http://adsabs.harvard.edu/abs/2012MNRAS.422.2246M)), GalIMF will produce the galaxy-wide IMF in a data file with contents: stellar mass [Msun] vs. IGIMF values [number of stars Msun^(-1)] normalized to the total mass of a stellar population (see [Yan, Jerabkova, Kroupa 2017](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/abstract) for details).
 
-* OSGIMF 
+* OSGIMF
 
 The optimally sampled galaxy-wide IMF is based on the same local assumptions as the IGIMF above, however, it represents a discrete formulation of the IMF. That is, its output is in the form of the number of stars in mass bins. The optimal sampling methodology implemented here is from [Schulz, Pflamm-Altenburg & Kroupa (2015)](http://adsabs.harvard.edu/abs/2015A%26A...582A..93S) which generates stars from the IMF without Poison noise (therefore "optimal sampling"). This method presents a probe which is capable of testing the nature of star formation as an alternative to random / stochastic sampling of the IMF.
 
@@ -95,7 +95,7 @@ This script needs two input values: SFR (the star formation rate, in Msun/yr) an
 
 ### Deployment
 
-For users without any experience with Python, we recommend using [Anaconda](https://www.continuum.io/) to install Python 3 and all required packages. 
+For users without any experience with Python, we recommend using [Anaconda](https://www.continuum.io/) to install Python 3 and all required packages.
 
 For users who already have installed Python 3, we recommend using [pip](https://pip.pypa.io/en/stable/) to install all required packages. An instruction can be found [here](https://www.scipy.org/install.html).
 
@@ -105,13 +105,13 @@ For users having both Python 2 and Python 3 installed, your two Python interpret
 
 ### Getting Started
 
-In the following subsections, we describe how to install and set up the module. We tested this on MACOSX, Linux and Windows platforms. 
+In the following subsections, we describe how to install and set up the module. We tested this on MACOSX, Linux and Windows platforms.
 
 #### Prerequisites
 
-The GalIMF module is written in Python 3, therefore you need to install [Python 3](https://www.python.org/download/releases/3.0/) and the following packages: 
+The GalIMF module is written in Python 3, therefore you need to install [Python 3](https://www.python.org/download/releases/3.0/) and the following packages:
 
-For analyzing and visualize the results as our example script [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py) does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/). 
+For analyzing and visualize the results as our example script [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py) does, one needs [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), [matplotlib](https://matplotlib.org/).
 
 
 
@@ -135,7 +135,7 @@ The [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_gal
 
 You can download the GalIMF repository and call the [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) module based on the placement in your computer.
 
-If the Module directory is in the same directory as your own Python script (this is the case of the presented example [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py)) you will import [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) as: 
+If the Module directory is in the same directory as your own Python script (this is the case of the presented example [example_galaxy.py](https://github.com/Azeret/galIMF/blob/master/example_galaxy.py)) you will import [galIMF.py](https://github.com/Azeret/galIMF/blob/master/galIMF.py) as:
 ```python
 import galIMF
 ```
@@ -148,7 +148,7 @@ The third option is to put [galIMF.py](https://github.com/Azeret/galIMF/blob/mas
 import galIMF
 ```
 
-To do that open Python interpreter and run: 
+To do that open Python interpreter and run:
 ```python
 import sys
 sys.path
@@ -217,10 +217,10 @@ beta_model = 1:
 see Function_beta_change
 
 M_ecl_U = 10^9:
-upper limit of the embedded cluster mass in stars [Solar mass] 
+upper limit of the embedded cluster mass in stars [Solar mass]
 
 M_ecl_L = 5:
-lower limit of the embedded cluster mass in stars [Solar mass] 
+lower limit of the embedded cluster mass in stars [Solar mass]
 
 
 #### Internal parameters of the theory
@@ -235,10 +235,10 @@ duration of star formation epoch [Myr] (the time-scale on which the ISM forms mo
 * Optimal sampling rule
 
 I_ecl = 1:
-normalization factor in the optimal sampling condition equation 
+normalization factor in the optimal sampling condition equation
 
 I_str = 1:
-normalization factor in the optimal sampling condition equation 
+normalization factor in the optimal sampling condition equation
 
 
 
@@ -246,7 +246,7 @@ normalization factor in the optimal sampling condition equation
 
 ### Main features
 
-A galaxy evolution model is developed (See Yan et al. 2019, submitted for a detailed description of the model) that can couple the IGIMF theory or any other variable IMF theory.
+A galaxy evolution model is developed (See [Yan et al. 2019](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract) for a detailed description of the model) that can couple the IGIMF theory or any other variable IMF theory.
 
 The current code is designed for the monolithic collapse galaxy formation scenario, that particularly applies to the central regions of giant ellipticals, thus assumes no gas infall.
 
@@ -260,12 +260,12 @@ Setup the parameters for the main function of galevo.py, run it to start a galax
 
 ### Inputs
 
-The main inputs are: 
+The main inputs are:
 1. SFH: The star formation history (SFH) of a simulation need to be specified in the file "SFH.txt", if SFH_model='provided', where the number in each line of the "SFH.txt" stands for the star formation rate (solar mass per year) at time t (t = line number * 10 Myr). The SFH.txt can be automatically generated by the function "generate_SFH" where the shape of the SFH, e.g., flat or lognorm; peak star formation rate (Log_SFR), and star formation duration (SFEN) need to be set up.
 2. IMF assumption: Can be the IGIMF (imf='igimf'), Kroupa-IMF, Salpeter-IMF or other given IMF defined in the folder "IMFs".
 3. STF: Star transformation fraction (STF) determines the initial gas mass. Higher mass of star formation (specified in the file "SFH.txt") and higher STF both leads to higher initial gas mass.
 
-Other (currently activate) input parameters include the settings of initial gas metallicity (Z_0), solar abundance mass fraction, i.e., X, Y, and Z (solar_mass_component), stellar yield table (str_yield_table), possible mass of the most massive star (steller_mass_upper_bound), efficiency of the star formation (SFE, only activate when SFH_model='gas_mass_dependent'), type Ia supernova yield table (SNIa_yield_table), solar abundance table (solar_abu_table). 
+Other (currently activate) input parameters include the settings of initial gas metallicity (Z_0), solar abundance mass fraction, i.e., X, Y, and Z (solar_mass_component), stellar yield table (str_yield_table), possible mass of the most massive star (steller_mass_upper_bound), efficiency of the star formation (SFE, only activate when SFH_model='gas_mass_dependent'), type Ia supernova yield table (SNIa_yield_table), solar abundance table (solar_abu_table).
 And the flags include whether to activate type Ia supernova (SNIa_ON), insert more time step (high_time_resolution), show the plots (plot_show), save the plots (plot_save), activate galactic wind (outflow), and use previously generated gwIMF (check_igimf).
 
 ### Example
@@ -280,7 +280,7 @@ An example is given in file "example_galaxy_evolution.py", which calls "galevo.p
 
 This site always keep the newest GalIMF version and the old version used in our publications.
 
-We use [SemVer](http://semver.org/) for versioning. That is, 
+We use [SemVer](http://semver.org/) for versioning. That is,
 
 1. the first digits stand for MAJOR update that is incompatible with the earlier version;
 2. the second digits indicate MINOR update when new features or function is added in a backwards-compatible manner;
@@ -299,7 +299,7 @@ The major updates include:
 4. Add the galaxy evolution model, galaxy_evol.py, and corresponding supporting data files. The new model adopt the galaxy-wide IMF for a single 10 Myr star formation epoch calculated by galIMF.py to the galaxy formation and evolution in a 10 Gyr timescale. (01.01.2019)
 5. The approximated stellar luminosity weighted results is now available. The "stellar luminosity" adopted are the luminosity of the star during its main-sequence stage and do not consider any stellar evolution, i.e., the luminosity is only a function the stellar initial mass but not its age or metallicity. (10.02.2019)
 6. An uniform outflow (uniform in the sense that the element ratios are the same as the well-mixed gas phase) that is proportional to the stellar mass formed is added. It has a minor effect on the final total gas mass (roughly 0.3 dex) and the metal abundances (roughly 0.1 dex) and a negligible effect on the galaxy final metal abundance ratios (roughly 0.05 dex).
-
+7. The calculation of ejected gas mass has been corrected from "ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - stellar_mass_of_a_epoch_at_a_time_step - remnant_mass_of_this_epoch" to "ejected_gas_mass_of_this_epoch = H_mass_of_this_epoch + He_mass_of_this_epoch + metal_mass_of_this_epoch". The previous equation was wrong since the remnant_mass_of_this_epoch is a spline fitted value of the stellar yield table instead of the original value given by the yield table. (for version 1.1.6 on 17 Sep 2019)
 
 
 ### Authors
@@ -328,11 +328,11 @@ This program is free software. You can redistribute it and/or modify it. However
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [LICENSE](https://github.com/Azeret/galIMF/blob/master/LICENSE) file for details.
 
-GalIMF is developed by our group with **a large amount of effort**. If GalIMF contributes to a project that leads to a scientific publication, please acknowledge this work by citing the project. 
+GalIMF is developed by our group with **a large amount of effort**. If GalIMF contributes to a project that leads to a scientific publication, please acknowledge this work by citing the project.
 
-When publishing results based on this software or parts of it (the executable and / or the source code) please cite the relevant publications with this the ready-made citation entry: 
+When publishing results based on this software or parts of it (the executable and / or the source code) please cite the relevant publications with this the ready-made citation entry:
 1. [Yan, Z., Jerabkova, T., Kroupa, P. (2017)](https://ui.adsabs.harvard.edu/abs/2017A%26A...607A.126Y/exportcitation) for the IGIMF model (galIMF.py);
-2. and Yan et al. (2019, submitted) for the galaxy evolution model (galaxy_evol.py).
+2. and [Yan, Zhiqiang; Jerabkova, Tereza; Kroupa, Pavel; Vazdekis, Alejandro (2019)](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A..93Y/abstract) for the galaxy evolution model (galaxy_evol.py).
 
 
 

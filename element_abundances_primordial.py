@@ -2,14 +2,14 @@ import element_weight_table, element_abundances_solar
 
 H_weight = element_weight_table.function_element_weight("H")
 
-primary_H_mass_fraction_roughly = 0.7381  # Corrected in below
 primary_He_mass_fraction = 0.247
+primary_H_mass_fraction_roughly = 1 - primary_He_mass_fraction  # Corrected in below
 primary_D_mass_fraction = primary_H_mass_fraction_roughly * 2.58 * 10**-5
 primary_He3_mass_fraction = primary_H_mass_fraction_roughly * 10**-4
 primary_L_mass_fraction = primary_H_mass_fraction_roughly * 5 * 10**-10
 # Reference: Cyburt+ 2016, Big bang nucleosynthesis: Present status, DOI: 10.1103/RevModPhys.88.015004
 
-Z_0 = 10**-15
+Z_0 = 10**-6
 primary_H_mass_fraction = 1 - primary_He_mass_fraction - primary_D_mass_fraction - primary_He3_mass_fraction\
                           - primary_L_mass_fraction - Z_0
 

@@ -8,11 +8,13 @@ import element_abundances_solar
 reference_name = 'Anders1989'
 H_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'H')
 # He_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'He')
-# C_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'C')
+C_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'C')
 # N_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'N')
 O_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'O')
 Mg_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'Mg')
 Fe_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'Fe')
+Si_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'Si')
+Ca_abundances_solar = element_abundances_solar.function_solar_element_abundances(reference_name, 'Ca')
 
 
 def plot_lifetime_and_finalmass():
@@ -44,9 +46,9 @@ def plot_lifetime_and_finalmass():
     for i in range(len(list_fin_mass)):
         ZZZ = list_fin_mass[i][0]
         Z_box = math.log(ZZZ, 10) - math.log(0.01886, 10)
-        color_list_.append(round((Z_box + 6) / 7 * 1000))
+        color_list_.append(round(((Z_box+7)**4.001 - (-6.001 + 7) ** 4.001) / ((1 + 7) ** 4.001 - (-6.001 + 7) ** 4.001) * 1000))
 
-    colors = plt.cm.rainbow(np.linspace(0, 1, 1000))
+    colors = plt.cm.hsv_r(np.linspace(0, 1, 1000))
 
     # plt.rc('font', family='serif')
     # plt.rc('xtick', labelsize='x-small')
@@ -59,9 +61,9 @@ def plot_lifetime_and_finalmass():
     #     plt.plot(list_ini_mass, list_fin_mass[i][1], label='Z={}'.format(list_fin_mass[i][0]))
     #     (i) = (i - 1)
     # plt.plot([-2, 3], [-2, 3], ls='dashed', c='k', lw=0.7)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$ [M$_\odot$])')
-    # plt.ylabel(r'log$_{10}$(M$_{\rm *, final}$ [M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$ [$M_\odot$])')
+    # plt.ylabel(r'log$_{10}$($M_{\rm *, final}$ [$M_\odot$])')
     # plt.tight_layout()
     # plt.savefig('Interpolated_stellar_final_mass.pdf', dpi=250)
 
@@ -91,8 +93,8 @@ def plot_lifetime_and_finalmass():
     #     plt.plot(list_ini_mass, list_lifetime[i][1], label='Z={}'.format(list_fin_mass[i][0]))
     #     (i) = (i - 1)
     # # plt.plot([-2, 3], [-2, 3], ls='dashed', c='k', lw=0.7)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$ [M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$ [$M_\odot$])')
     # plt.ylabel(r'log$_{10}$(life time [yr])')
     # plt.tight_layout()
     # plt.savefig('Interpolated_stellar_lifetime.pdf', dpi=250)
@@ -164,10 +166,12 @@ def plot_lifetime_and_finalmass():
     # while i > -1:
     #     axs[0].scatter(log_Mass, log_Age[i], s=3, marker='*', edgecolors='w', linewidth='0.1', zorder=10)
     #     (i) = (i - 1)
-    axs[0].set_yticks(np.arange(6, 16, 2))
+    axs[0].plot([-1, 2], [7, 7])
+    axs[0].plot([math.log(17, 10), math.log(17, 10)], [6, 15])
+    # axs[0].set_yticks(np.arange(6, 16, 2))
     axs[0].set_ylim(6, 15)
     axs[0].set_ylabel(r'log$_{10}$(life time [yr])')
-    axs[0].legend(prop={'size': 7}, loc='best')
+    axs[0].legend(prop={'size': 6}, loc='best')
 
     Mass = [
         [9, 12, 15, 20, 30, 40, 60, 100, 120],
@@ -248,8 +252,8 @@ def plot_lifetime_and_finalmass():
     # #     (i) = (i - 1)
     axs[1].set_yticks(np.arange(-2, 2, 1))
     axs[1].set_ylim(-1.5, 1.5)
-    axs[1].set_ylabel(r'log$_{10}(M_{\rm *, final}$ [M$_\odot$])')
-    axs[1].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [M$_\odot$])')
+    axs[1].set_ylabel(r'log$_{10}(M_{\rm *, final}$ [$M_\odot$])')
+    axs[1].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [$M_\odot$])')
 
     plt.tight_layout()
     # Remove horizontal space between axes
@@ -276,6 +280,13 @@ def function_read_file(yield_table_name):
         # Yield set ID M01P98 in Ritter et al. 2017.
         # References: Marigo et al. 2001, http://ukads.nottingham.ac.uk/abs/2001A%26A...370..194M
         #		      Portinari et al. 1998, http://ukads.nottingham.ac.uk/abs/1998A%26A...334..505P
+        data = file_yield.readlines()
+        file_yield.close()
+    elif yield_table_name == "Kobayashi06":
+        file_yield = open(
+            'yield_tables/agb_and_massive_stars_Kobayashi06_marigo01_gce_totalyields.txt', 'r')
+        # Use net yields of Woosley S. E., Weaver T. A., 1995, ApJS, 101, 181 (WW95)
+        # Use WW95 model B which has the highest [Mg/Fe].
         data = file_yield.readlines()
         file_yield.close()
     elif yield_table_name == "WW95":
@@ -311,7 +322,8 @@ def function_read_file(yield_table_name):
     global M_list, Z_list, eject_mass_list, H_eject_mass_list, He_eject_mass_list, C_eject_mass_list, \
         N_eject_mass_list, O_eject_mass_list, Ne_eject_mass_list, Mg_eject_mass_list, Si_eject_mass_list, \
         S_eject_mass_list, Ca_eject_mass_list,  Fe_eject_mass_list, Metal_eject_mass_list
-    global O_over_Mg_list, Mg_over_Fe_list, Mg_over_H_list, Fe_over_H_list, O_over_H_list, Z_over_H_list, \
+    global O_over_Mg_list, Mg_over_Fe_list, Ca_over_Fe_list, Si_over_Fe_list, C_over_H_list, Mg_over_H_list, \
+        Si_over_H_list, Fe_over_H_list, O_over_H_list, Z_over_H_list, \
         Z_over_X_list, Z_over_Z0_list, XXX_list, YYY_list, ZZZ_list, O_over_Fe_list
     #
     i = len(data)-1
@@ -356,9 +368,13 @@ def function_read_file(yield_table_name):
             Metal_num = C_num+N_num+O_num+Ne_num+Mg_num+Si_num+S_num+Ca_num+Fe_num
             O_over_Mg = math.log(O_num/Mg_num, 10) - O_abundances_solar + Mg_abundances_solar
             Mg_over_H = math.log(Mg_num/H_num, 10) - Mg_abundances_solar + H_abundances_solar
+            Si_over_H = math.log(Si_num/H_num, 10) - Si_abundances_solar + H_abundances_solar
+            C_over_H = math.log(C_num/H_num, 10) - C_abundances_solar + H_abundances_solar
             Fe_over_H = math.log(Fe_num/H_num, 10) - Fe_abundances_solar + H_abundances_solar
             O_over_H = math.log(O_num/H_num, 10) - O_abundances_solar + H_abundances_solar
             Mg_over_Fe = math.log(Mg_num/Fe_num, 10) - Mg_abundances_solar + Fe_abundances_solar
+            Ca_over_Fe = math.log(Ca_num/Fe_num, 10) - Ca_abundances_solar + Fe_abundances_solar
+            Si_over_Fe = math.log(Si_num/Fe_num, 10) - Si_abundances_solar + Fe_abundances_solar
             O_over_Fe = math.log(O_num/Fe_num, 10) - O_abundances_solar + Fe_abundances_solar
             Metal_mass = round((ejecta_mass - H_mass - He_mass), 5)  ####################
             # Metal_mass = round((C_mass+N_mass+O_mass+Ne_mass+Mg_mass+Si_mass+S_mass+Ca_mass+Fe_mass), 5)  ###### the same ######
@@ -397,7 +413,11 @@ def function_read_file(yield_table_name):
                 ZZZ_list.append([])
                 O_over_Mg_list.append([])
                 Mg_over_Fe_list.append([])
+                Si_over_Fe_list.append([])
+                Ca_over_Fe_list.append([])
                 Mg_over_H_list.append([])
+                Si_over_H_list.append([])
+                C_over_H_list.append([])
                 Fe_over_H_list.append([])
                 O_over_H_list.append([])
                 O_over_Fe_list.append([])
@@ -420,7 +440,11 @@ def function_read_file(yield_table_name):
                 Metal_eject_mass_list.append([])
                 O_over_Mg_list.append([])
                 Mg_over_Fe_list.append([])
+                Ca_over_Fe_list.append([])
+                Si_over_Fe_list.append([])
                 Mg_over_H_list.append([])
+                Si_over_H_list.append([])
+                C_over_H_list.append([])
                 Fe_over_H_list.append([])
                 O_over_H_list.append([])
                 Z_over_H_list.append([])
@@ -446,7 +470,11 @@ def function_read_file(yield_table_name):
             Metal_eject_mass_list[Z_n].append(Metal_mass)
             O_over_Mg_list[Z_n].append(O_over_Mg)
             Mg_over_Fe_list[Z_n].append(Mg_over_Fe)
+            Ca_over_Fe_list[Z_n].append(Ca_over_Fe)
+            Si_over_Fe_list[Z_n].append(Si_over_Fe)
             Mg_over_H_list[Z_n].append(Mg_over_H)
+            Si_over_H_list[Z_n].append(Si_over_H)
+            C_over_H_list[Z_n].append(C_over_H)
             O_over_H_list[Z_n].append(O_over_H)
             Z_over_H_list[Z_n].append(Z_over_H)
             Z_over_X_list[Z_n].append(Z_over_X)
@@ -528,15 +556,18 @@ def function_get_Z_M(M_Z_string):
     return (Z, M)
 
 def funtion_plot_yields():
-    global O_over_Mg_list, Mg_over_Fe_list, Mg_over_H_list, Fe_over_H_list, O_over_H_list, Z_over_X_list, Z_over_Z0_list, \
+    global O_over_Mg_list, Mg_over_Fe_list, C_over_H_list, Mg_over_H_list, Si_over_H_list, Fe_over_H_list, O_over_H_list, Z_over_X_list, Z_over_Z0_list, \
         Z_over_H_list, O_over_Fe_list, M_list, Z_list, XXX_list, YYY_list, ZZZ_list
     color_list_ = []
     for i in range(len(Z_list)):
         ZZZ = Z_list[i]
-        Z_box = math.log(ZZZ, 10) - math.log(0.01886, 10)
-        color_list_.append(round((Z_box + 6) / 7 * 1000))
+        if ZZZ > 0:
+            Z_box = math.log(ZZZ, 10) - math.log(0.01886, 10)
+        else:
+            Z_box = -6
+        color_list_.append(round(((Z_box+7)**4.001 - (-6.001 + 7) ** 4.001) / ((1 + 7) ** 4.001 - (-6.001 + 7) ** 4.001) * 1000))
 
-    colors = plt.cm.rainbow(np.linspace(0, 1, 1000))
+    colors = plt.cm.hsv_r(np.linspace(0, 1, 1000))
 
 
     j = 0
@@ -552,7 +583,7 @@ def funtion_plot_yields():
     # plt.rc('ytick', labelsize='x-small')
     # fig = plt.figure(1, figsize=(4, 3.5))
     # plt.xlim(-0.5, 2.2)
-    # plt.ylim(0, 2)
+    # # plt.ylim(0, 2)
     # i = len(M_list) - 1
     # while i > -1:
     #     plt.plot(M_list[i], O_over_Mg_list[i], label='Z={}'.format(Z_list[i]))
@@ -563,12 +594,12 @@ def funtion_plot_yields():
     # Mg_num = Mg_mass_eject_SNIa / 24.305
     # O_over_Mg_SNIa = math.log(O_num / Mg_num, 10) - O_abundances_solar + Mg_abundances_solar
     # plt.plot([-0.3, 0.9], [O_over_Mg_SNIa, O_over_Mg_SNIa], ls="--", lw=2, label="SNIa")
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel(r'[O/Mg]')
     # plt.tight_layout()
-    #
-    #
+
+
     # plt.rc('font', family='serif')
     # plt.rc('xtick', labelsize='x-small')
     # plt.rc('ytick', labelsize='x-small')
@@ -577,17 +608,23 @@ def funtion_plot_yields():
     # while i > -1:
     #     plt.plot(M_list[i], Mg_over_Fe_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
-    Mg_mass_eject_SNIa = 0.009  # TNH93 0.148 i99CDD1 0.09, i99CDD2 0.06, i99W7 0.14, ivo12/13 0.09-0.1, t03 0.14, t86 0.13
-    Fe_mass_eject_SNIa = 0.372  #0.63 # Recchi2009 halfed to 0.372  # TNH93 0.744 i99CDD1 0.56, i99CDD2 0.76, i99W7 0.63, ivo12/13 0.62-0.67, t03 0.74, t86 0.63
+    Mg_mass_eject_SNIa = 0.0158  # TNH93 0.148 i99CDD1 0.09, i99CDD2 0.06, i99W7 0.14, ivo12/13 0.09-0.1, t03 0.14, t86 0.13
+    Fe_mass_eject_SNIa = 0.68  #0.63 # Recchi2009 halfed to 0.372  # TNH93 0.744 i99CDD1 0.56, i99CDD2 0.76, i99W7 0.63, ivo12/13 0.62-0.67, t03 0.74, t86 0.63
+    Ca_mass_eject_SNIa = 0.0181
+    Si_mass_eject_SNIa = 0.142
+    Ca_num = Ca_mass_eject_SNIa / 40.078
+    Si_num = Si_mass_eject_SNIa / 28.085
     Mg_num = Mg_mass_eject_SNIa / 24.305
     Fe_num = Fe_mass_eject_SNIa / 55.845
     Mg_over_Fe_SNIa = math.log(Mg_num / Fe_num, 10) - Mg_abundances_solar + Fe_abundances_solar
+    Si_over_Fe_SNIa = math.log(Si_num / Fe_num, 10) - Si_abundances_solar + Fe_abundances_solar
+    Ca_over_Fe_SNIa = math.log(Ca_num / Fe_num, 10) - Ca_abundances_solar + Fe_abundances_solar
     # plt.plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=2, label="SNIa")
     # plt.plot([-2, 3], [0, 0], lw=0.5, ls='dotted')
     # plt.xlim(-0.5, 2.2)
     # plt.ylim(-2, 3.5)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$ [M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$ [$M_\odot$])')
     # plt.ylabel(r'[Mg/Fe]')
     # plt.tight_layout()
     # plt.savefig('steller_yield_Mg_over_Fe.pdf', dpi=250)
@@ -605,11 +642,11 @@ def funtion_plot_yields():
     #     (i) = (i - 1)
     # O_over_Fe_SNIa = math.log(O_num / Fe_num, 10) - O_abundances_solar + Fe_abundances_solar
     # plt.plot([-0.3, 0.9], [O_over_Fe_SNIa, O_over_Fe_SNIa], ls="--", lw=2, label="SNIa")
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel(r'[O/Fe]')
     # plt.tight_layout()
-    #
+    # #
     # plt.rc('font', family='serif')
     # plt.rc('xtick', labelsize='x-small')
     # plt.rc('ytick', labelsize='x-small')
@@ -621,11 +658,43 @@ def funtion_plot_yields():
     #     plt.plot(M_list[i], Mg_over_H_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
     # plt.plot([-2, 3], [0, 0], lw=0.1)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel(r'[Mg/H]')
     # plt.tight_layout()
-    # # plt.savefig('steller_yield_Mg.pdf', dpi=250)
+    # #
+    # plt.rc('font', family='serif')
+    # plt.rc('xtick', labelsize='x-small')
+    # plt.rc('ytick', labelsize='x-small')
+    # fig = plt.figure(42, figsize=(4, 3.5))
+    # plt.xlim(-0.5, 2.2)
+    # plt.ylim(-2, 2)
+    # i = len(M_list) - 1
+    # while i > -1:
+    #     plt.plot(M_list[i], Si_over_H_list[i], label='Z={}'.format(Z_list[i]))
+    #     (i) = (i - 1)
+    # plt.plot([-2, 3], [0, 0], lw=0.1)
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
+    # plt.ylabel(r'[Si/H]')
+    # plt.tight_layout()
+    # #
+    # plt.rc('font', family='serif')
+    # plt.rc('xtick', labelsize='x-small')
+    # plt.rc('ytick', labelsize='x-small')
+    # fig = plt.figure(41, figsize=(4, 3.5))
+    # plt.xlim(-0.5, 2.2)
+    # # plt.ylim(-2, 2)
+    # i = len(M_list) - 1
+    # while i > -1:
+    #     plt.plot(M_list[i], C_over_H_list[i], label='Z={}'.format(Z_list[i]))
+    #     (i) = (i - 1)
+    # plt.plot([-2, 3], [0, 0], lw=0.1)
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
+    # plt.ylabel(r'[C/H]')
+    # plt.tight_layout()
+    # plt.savefig('steller_yield_Mg.pdf', dpi=250)
     #
     # plt.rc('font', family='serif')
     # plt.rc('xtick', labelsize='x-small')
@@ -638,8 +707,8 @@ def funtion_plot_yields():
     #     plt.plot(M_list[i], O_over_H_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
     # plt.plot([-2, 3], [0, 0], lw=0.1)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel(r'[O/H]')
     # plt.tight_layout()
     # # plt.savefig('steller_yield_O.pdf', dpi=250)
@@ -655,8 +724,8 @@ def funtion_plot_yields():
     #     plt.plot(M_list[i], Fe_over_H_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
     # plt.plot([-2, 3], [0, 0], lw=0.1)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel(r'[Fe/H]')
     # plt.tight_layout()
     # # plt.savefig('steller_yield_Fe.pdf', dpi=250)
@@ -672,8 +741,8 @@ def funtion_plot_yields():
     #     plt.plot(M_list[i], Z_over_H_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
     # plt.plot([-2, 3], [0, 0], lw=0.1)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel(r'[Z/H]')
     # plt.title("Number ratio")
     # plt.tight_layout()
@@ -689,8 +758,8 @@ def funtion_plot_yields():
     #     plt.plot(M_list[i], Z_over_X_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
     # plt.plot([-2, 3], [0, 0], lw=0.1)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel(r'[Z/X]')
     # plt.title("Mass ratio")
     # plt.tight_layout()
@@ -706,55 +775,93 @@ def funtion_plot_yields():
     #     plt.plot(M_list[i], YYY_list[i], label='Z={}'.format(Z_list[i]))
     #     (i) = (i - 1)
     # # plt.plot([-2, 3], [0.25, 0.25], lw=0.5)
-    # plt.legend(prop={'size': 7}, loc='best')
-    # plt.xlabel(r'log$_{10}$(M$_{\rm *, initial}$/[M$_\odot$])')
+    # plt.legend(prop={'size': 6}, loc='best')
+    # plt.xlabel(r'log$_{10}$($M_{\rm *, initial}$/[$M_\odot$])')
     # plt.ylabel('Y')
     # plt.tight_layout()
     # # plt.savefig('steller_yield_Y.pdf', dpi=250)
 
 
     ##########
-    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(4, 5))
+    fig, axs = plt.subplots(3, 1, sharex=True, figsize=(3, 4))
 
-    i = len(M_list) - 1
-    while i > -1:
-        axs[0].plot(M_list[i], Z_over_Z0_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
-        (i) = (i - 1)
-    axs[0].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
-    axs[0].set_yticks(np.arange(-1, 2.1, 1))
-    axs[0].set_ylim(-2, 1.6)
-    axs[0].set_ylabel(r'[Z]')
+    # i = len(M_list) - 1
+    # while i > -1:
+    #     axs[0].plot(M_list[i], Z_over_Z0_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
+    #     (i) = (i - 1)
+    # axs[0].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
+    # # axs[0].set_yticks(np.arange(-1, 2.1, 1))
+    # axs[0].set_ylim(-2, 1.6)
+    # axs[0].set_ylabel(r'[Z]')
+    # 
+    # i = len(M_list) - 1
+    # while i > -1:
+    #     # axs[1].plot(M_list[i], XXX_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
+    #     axs[1].plot(M_list[i], YYY_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
+    #     # axs[1].plot(M_list[i], ZZZ_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
+    #     (i) = (i - 1)
+    # axs[1].plot([-2, 3], [0.273, 0.273], lw=0.7, ls='dotted')
+    # # axs[1].set_yticks(np.arange(0.2, 0.61, 0.1))
+    # axs[1].set_ylim(0.24, 0.605)
+    # axs[1].set_xlim(-0.5, 2.2)
+    # axs[1].set_ylabel('Y')
 
-    i = len(M_list) - 1
-    while i > -1:
-        # axs[1].plot(M_list[i], XXX_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
-        axs[1].plot(M_list[i], YYY_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
-        # axs[1].plot(M_list[i], ZZZ_list[i], lw=(i+2)/2, color=colors[color_list_[i]])
-        (i) = (i - 1)
-    axs[1].plot([-2, 3], [0.273, 0.273], lw=0.7, ls='dotted')
-    axs[1].set_yticks(np.arange(0.2, 0.61, 0.1))
-    axs[1].set_ylim(0.24, 0.605)
-    axs[1].set_xlim(-0.5, 2.2)
-    axs[1].set_ylabel('Y')
-
+    # axs[0].plot([1.3073, 1.3073], [-0.1, 1.7], lw=0.2)
+    axs[0].axvspan(1.3073, 3, alpha=0.2, color='red')
     i = len(M_list) - 1
     while i > -1:
         ZZZ = Z_list[i]
-        Z_box = round(math.log(ZZZ, 10) - math.log(0.01886, 10), 2)
-        axs[2].plot(M_list[i], Mg_over_Fe_list[i], lw=(i+2)/2, label='Z={}, [Z]={}'.format(ZZZ, Z_box), color=colors[color_list_[i]])
+        if ZZZ > 0:
+            Z_box = round(math.log(ZZZ, 10) - math.log(0.01886, 10), 2)
+        else:
+            Z_box = -6
+        M_list[i].insert(0, math.log(150, 10))
+        Mg_over_Fe_list[i].insert(0, Mg_over_Fe_list[i][0])
+        axs[0].plot(M_list[i], Mg_over_Fe_list[i], lw=2**i*0.7, label=r'$Z={}$'.format(ZZZ), color='k', ls=['-', 'dashed', 'dotted'][i])
         (i) = (i - 1)
-    axs[2].plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
-    axs[2].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
-    axs[2].set_yticks(np.arange(-2, 2.1, 2))
-    axs[2].set_ylim(-2, 3.5)
-    axs[2].set_ylabel(r'[Mg/Fe]')
-    axs[2].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [M$_\odot$])')
-    axs[2].legend(prop={'size': 7}, loc='best')
+    # axs[0].plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
+    # axs[0].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
+    # axs[0].set_yticks(np.arange(-2, 2.1, 2))
+    axs[0].set_xlim(0.7, 1.7)
+    axs[0].set_ylim(-0.1, 1.7)
+    axs[0].set_ylabel(r'[Mg/Fe]')
+    axs[0].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [$M_\odot$])')
+    axs[0].legend(prop={'size': 6}, loc='best')
+
+    axs[1].axvspan(1.3073, 3, alpha=0.2, color='red')
+    i = len(M_list) - 1
+    while i > -1:
+        Si_over_Fe_list[i].insert(0, Si_over_Fe_list[i][0])
+        axs[1].plot(M_list[i], Si_over_Fe_list[i], lw=2**i*0.7, label=r'$Z={}$'.format(ZZZ),
+                    color='k', ls=['-', 'dashed', 'dotted'][i])
+        (i) = (i - 1)
+    # axs[1].plot([-0.3, 0.9], [Si_over_Fe_SNIa, Si_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
+    # axs[1].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
+    # axs[1].set_yticks(np.arange(-2, 2.1, 2))
+    axs[1].set_ylim(-0.1, 1.7)
+    axs[1].set_ylabel(r'[Si/Fe]')
+    axs[1].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [$M_\odot$])')
+    # axs[1].legend(prop={'size': 6}, loc='best')
+
+    axs[2].axvspan(1.3073, 3, alpha=0.2, color='red')
+    i = len(M_list) - 1
+    while i > -1:
+        Ca_over_Fe_list[i].insert(0, Ca_over_Fe_list[i][0])
+        axs[2].plot(M_list[i], Ca_over_Fe_list[i], lw=2**i*0.7, label=r'$Z={}$'.format(ZZZ),
+                    color='k', ls=['-', 'dashed', 'dotted'][i])
+        (i) = (i - 1)
+    # axs[2].plot([-0.3, 0.9], [Ca_over_Fe_SNIa, Ca_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
+    # axs[2].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
+    # axs[2].set_yticks(np.arange(-2, 2.1, 2))
+    axs[2].set_ylim(-0.1, 1.7)
+    axs[2].set_ylabel(r'[Ca/Fe]')
+    axs[2].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [$M_\odot$])')
+    # axs[2].legend(prop={'size': 6}, loc='best')
 
     plt.tight_layout()
     # Remove horizontal space between axes
     fig.subplots_adjust(hspace=0)
-    plt.savefig('steller_yields.pdf', dpi=250)
+    plt.savefig('stellar_yields.pdf', dpi=250)
 
 
 
@@ -782,6 +889,8 @@ if __name__ == '__main__':
     Metal_eject_mass_list = []
     O_over_Mg_list = []
     Mg_over_H_list = []
+    Si_over_H_list = []
+    C_over_H_list = []
     Fe_over_H_list = []
     O_over_H_list = []
     Z_over_H_list = []
@@ -791,8 +900,10 @@ if __name__ == '__main__':
     YYY_list = []
     ZZZ_list = []
     Mg_over_Fe_list = []
+    Si_over_Fe_list = []
+    Ca_over_Fe_list = []
     O_over_Fe_list = []
-    yield_table_name = "portinari98" # being "WW95" or "portinari98" or "marigo01"
+    yield_table_name = "Kobayashi06" # being "WW95" or "portinari98" or "marigo01"
     function_read_file(yield_table_name)
     funtion_plot_yields()
 

@@ -69,6 +69,26 @@ def function_solar_element_abundances(reference_name, element_name):
         else:
             print("Wrong/unknown element name for function_solar_element_abundances; Anders1989_mass")
             solar_element_abundances = None
+    elif reference_name == 'Anders1989_mass_according_to_Asplund2009':
+        if element_name == "H":
+            solar_element_abundances = 0.7096
+        elif element_name == "He":
+            solar_element_abundances = 0.2691
+        elif element_name == "Metal":
+            solar_element_abundances = 0.0213
+        else:
+            print("Wrong/unknown element name for function_solar_element_abundances; Anders1989_mass_according_to_Asplund2009")
+            solar_element_abundances = None
+    elif reference_name == 'Asplund2009_mass':
+        if element_name == "H":
+            solar_element_abundances = 0.7154
+        elif element_name == "He":
+            solar_element_abundances = 0.2703
+        elif element_name == "Metal":
+            solar_element_abundances = 0.0142
+        else:
+            print("Wrong/unknown element name for function_solar_element_abundances; Asplund2009_mass")
+            solar_element_abundances = None
     else:
         print('Wrong input reference_name for element_abundances_solar.function_solar_element_abundances.')
         solar_element_abundances = None
