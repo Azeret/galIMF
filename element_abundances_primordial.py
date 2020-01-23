@@ -59,11 +59,3 @@ def function_element_mass_primary_fraction(solar_abu_reference_name, element_nam
         print("Wrong element name for function_element_mass_primary_fraction")
         element_mass_fraction = None
     return element_mass_fraction
-
-
-# def function_element_mass_primary_fraction(element_name, Z_0, Z_solar):
-#     if element_name == "H":
-#         element_mass_fraction = 1 - 10**-4
-#     else:
-#         element_mass_fraction = 10**-7
-#     return element_mass_fraction
