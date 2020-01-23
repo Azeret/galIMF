@@ -3772,29 +3772,29 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
             #     xi_Kroupa[i] = math.log(xi_Kroupa[i], 10)
 
     if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(1, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        # i = 0
-        # while i < number_of_sf_epoch:
-        #     time = round(all_sf_imf[i][2] / 10**6)
-        #     if i < 3:
-        #         plt.plot(mass_list, xi_each_time_log[i], label='TIgwIMF at {} Myr'.format(time))
-        #     else:
-        #         plt.plot(mass_list, xi_each_time_log[i])
-        #     (i) = (i + 1)
-        # plt.plot(mass_list, xi_observe, label='final TIgwIMF')
-        plt.plot(mass_list, xi_observe, color='k', label='IGIMF', lw=0.9)
-        plt.plot(mass_list, xi_Salpeter, linestyle='dashed', color='r', label='Salpeter IMF')
-        plt.plot(mass_list, xi_Kroupa, linestyle='dotted', color='b', label='Kroupa IMF', lw=1.5)
-        plt.xlabel(r'log$_{10}(M_\star$ [$M_\odot$])')
-        plt.ylabel(r'log$_{10}(\xi_\star)$')
-        plt.ylim(-4, 8)
-        # plt.title('Time Integrated galaxy-wide IMF', fontsize=10)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
+        # plt.rc('font', family='serif')
+        # plt.rc('xtick', labelsize='x-small')
+        # plt.rc('ytick', labelsize='x-small')
+        # fig = plt.figure(1, figsize=(3, 2.5))
+        # fig.add_subplot(1, 1, 1)
+        # # i = 0
+        # # while i < number_of_sf_epoch:
+        # #     time = round(all_sf_imf[i][2] / 10**6)
+        # #     if i < 3:
+        # #         plt.plot(mass_list, xi_each_time_log[i], label='TIgwIMF at {} Myr'.format(time))
+        # #     else:
+        # #         plt.plot(mass_list, xi_each_time_log[i])
+        # #     (i) = (i + 1)
+        # # plt.plot(mass_list, xi_observe, label='final TIgwIMF')
+        # plt.plot(mass_list, xi_observe, color='k', label='IGIMF', lw=0.9)
+        # plt.plot(mass_list, xi_Salpeter, linestyle='dashed', color='r', label='Salpeter IMF')
+        # plt.plot(mass_list, xi_Kroupa, linestyle='dotted', color='b', label='Kroupa IMF', lw=1.5)
+        # plt.xlabel(r'log$_{10}(M_\star$ [$M_\odot$])')
+        # plt.ylabel(r'log$_{10}(\xi_\star)$')
+        # plt.ylim(-4, 8)
+        # # plt.title('Time Integrated galaxy-wide IMF', fontsize=10)
+        # plt.legend(prop={'size': 7})
+        # plt.tight_layout()
         #
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
@@ -3851,49 +3851,49 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
     # print(stellar_Z_list)
     # print(stellar_DY_over_Z_list)
 
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(61, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.stackplot(log_time_axis, Y_list, X_list, Z_list, labels=["Y", "X", "Z"])
-        if plot_save is not True:
-            plt.title('gas-phase H, He, and metal mass fraction', fontsize=10)
-        plt.xlim(7, log_time_axis[-1])
-        plt.ylim(0, 1)
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('stacked mass fraction')
-        plt.legend(loc='lower left', prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('XYZ_gas_phase.pdf', dpi=250)
-        fig = plt.figure(62, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.stackplot(log_time_axis, stellar_Y_list, stellar_X_list, stellar_Z_list, labels=["Y", "X", "Z"])
-        if plot_save is not True:
-            plt.title('stellar H, He, and metal mass fraction', fontsize=10)
-        plt.xlim(7, log_time_axis[-1])
-        plt.ylim(0, 1)
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('stacked mass fraction')
-        plt.legend(loc='lower left', prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('XYZ_star_MW.pdf', dpi=250)
-        fig = plt.figure(63, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.stackplot(log_time_axis, stellar_Y_list_luminosity_weighted, stellar_X_list_luminosity_weighted, stellar_Z_list_luminosity_weighted, labels=["Y", "X", "Z"])
-        if plot_save is not True:
-            plt.title('stellar luminosity-weighted H, He, and metal mass fraction', fontsize=10)
-        plt.xlim(7, log_time_axis[-1])
-        plt.ylim(0, 1)
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('stacked mass fraction')
-        plt.legend(loc='lower left', prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('XYZ_star_LW.pdf', dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(61, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.stackplot(log_time_axis, Y_list, X_list, Z_list, labels=["Y", "X", "Z"])
+    #     if plot_save is not True:
+    #         plt.title('gas-phase H, He, and metal mass fraction', fontsize=10)
+    #     plt.xlim(7, log_time_axis[-1])
+    #     plt.ylim(0, 1)
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('stacked mass fraction')
+    #     plt.legend(loc='lower left', prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('XYZ_gas_phase.pdf', dpi=250)
+    #     fig = plt.figure(62, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.stackplot(log_time_axis, stellar_Y_list, stellar_X_list, stellar_Z_list, labels=["Y", "X", "Z"])
+    #     if plot_save is not True:
+    #         plt.title('stellar H, He, and metal mass fraction', fontsize=10)
+    #     plt.xlim(7, log_time_axis[-1])
+    #     plt.ylim(0, 1)
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('stacked mass fraction')
+    #     plt.legend(loc='lower left', prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('XYZ_star_MW.pdf', dpi=250)
+    #     fig = plt.figure(63, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.stackplot(log_time_axis, stellar_Y_list_luminosity_weighted, stellar_X_list_luminosity_weighted, stellar_Z_list_luminosity_weighted, labels=["Y", "X", "Z"])
+    #     if plot_save is not True:
+    #         plt.title('stellar luminosity-weighted H, He, and metal mass fraction', fontsize=10)
+    #     plt.xlim(7, log_time_axis[-1])
+    #     plt.ylim(0, 1)
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('stacked mass fraction')
+    #     plt.legend(loc='lower left', prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('XYZ_star_LW.pdf', dpi=250)
 
     # global mm, zz
     # fig = plt.figure(0, figsize=(3, 2.5))
@@ -3903,30 +3903,30 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
 
     print('plot stellar_Fe_over_H final', stellar_Fe_over_H_list[-1])
 
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(3, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Fe_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_Fe_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Fe_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Fe/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_FeH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(3, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Fe_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Fe_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Fe_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Fe/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_FeH_{}.pdf'.format(imf), dpi=250)
 
     file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Fe_over_H_time.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# log_time_axis\n")
@@ -3969,223 +3969,223 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
     file.close()
     #
     global O_over_H_list, stellar_O_over_H_list, stellar_O_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(4, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, O_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_O_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_O_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[O/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_OH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(4, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, O_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_O_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_O_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[O/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_OH_{}.pdf'.format(imf), dpi=250)
     #
     global Mg_over_H_list, stellar_Mg_over_H_list, stellar_Mg_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(5, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Mg_over_H_list, label='gas')
-        # print(stellar_Mg_over_H_list)
-        plt.plot(log_time_axis, stellar_Mg_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Mg_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Mg/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_MgH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(5, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Mg_over_H_list, label='gas')
+    #     # print(stellar_Mg_over_H_list)
+    #     plt.plot(log_time_axis, stellar_Mg_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Mg_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Mg/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_MgH_{}.pdf'.format(imf), dpi=250)
     ###
     global C_over_H_list, stellar_C_over_H_list, stellar_C_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(31, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, C_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_C_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_C_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[C/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_CH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(31, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, C_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_C_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_C_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[C/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_CH_{}.pdf'.format(imf), dpi=250)
     #
     global N_over_H_list, stellar_N_over_H_list, stellar_N_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(32, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, N_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_N_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_N_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[N/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_NH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(32, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, N_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_N_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_N_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[N/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_NH_{}.pdf'.format(imf), dpi=250)
     #
     global Ca_over_H_list, stellar_Ca_over_H_list, stellar_Ca_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(33, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Ca_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_Ca_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Ca_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Ca/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_CaH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(33, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Ca_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Ca_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Ca_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Ca/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_CaH_{}.pdf'.format(imf), dpi=250)
     #
     global Ne_over_H_list, stellar_Ne_over_H_list, stellar_Ne_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(331, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Ne_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_Ne_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Ne_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Ne/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_NeH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(331, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Ne_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Ne_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Ne_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Ne/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_NeH_{}.pdf'.format(imf), dpi=250)
     #
     global Si_over_H_list, stellar_Si_over_H_list, stellar_Si_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(332, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Si_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_Si_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Si_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Si/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_SiH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(332, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Si_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Si_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Si_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Si/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_SiH_{}.pdf'.format(imf), dpi=250)
     #
     global S_over_H_list, stellar_S_over_H_list, stellar_S_over_H_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(333, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, S_over_H_list, label='gas')
-        plt.plot(log_time_axis, stellar_S_over_H_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_S_over_H_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[S/H]')
-        plt.title('Element abundance evolution', fontsize=10)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-5, 1)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_SH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(333, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, S_over_H_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_S_over_H_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_S_over_H_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[S/H]')
+    #     plt.title('Element abundance evolution', fontsize=10)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7}, ncol=2)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-5, 1)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_SH_{}.pdf'.format(imf), dpi=250)
     ###
     # Reference: Serenelli & Basu 2010, Determining the Initial Helium Abundance of the Sun, DOI: 10.1088/0004-637X/719/1/865
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(64, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Y_list, label='gas')
-        plt.plot(log_time_axis, stellar_Y_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Y_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [Y_solar, Y_solar], color='red',
-                 ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('Y')
-        plt.title('Helium mass fraction evolution', fontsize=10)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_Y_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(64, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Y_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Y_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Y_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [Y_solar, Y_solar], color='red',
+    #              ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('Y')
+    #     plt.title('Helium mass fraction evolution', fontsize=10)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_Y_{}.pdf'.format(imf), dpi=250)
 
     # if True: # plot_show is True or plot_save is True:
     #     plt.rc('font', family='serif')
@@ -4310,25 +4310,25 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
 
     #
     global Mg_over_Fe_list, stellar_Mg_over_Fe_list, stellar_Mg_over_Fe_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(7, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Mg_over_Fe_list, label='gas')
-        plt.plot(log_time_axis, stellar_Mg_over_Fe_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Mg_over_Fe_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Mg/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(7, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Mg_over_Fe_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Mg_over_Fe_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Mg_over_Fe_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Mg/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
 
     file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/Mg_over_Fe_time.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# log_time_axis\n")
@@ -4372,151 +4372,151 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
 
     #
     global O_over_Fe_list, stellar_O_over_Fe_list, stellar_O_over_Fe_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(8, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, O_over_Fe_list, label='gas')
-        plt.plot(log_time_axis, stellar_O_over_Fe_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_O_over_Fe_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[O/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(8, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, O_over_Fe_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_O_over_Fe_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_O_over_Fe_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[O/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_MgFe_{}.pdf'.format(imf), dpi=250)
     #
     global Ca_over_Fe_list, stellar_Ca_over_Fe_list, stellar_Ca_over_Fe_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(81, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Ca_over_Fe_list, label='gas')
-        plt.plot(log_time_axis, stellar_Ca_over_Fe_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Ca_over_Fe_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Ca/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_CaFe_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(81, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Ca_over_Fe_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Ca_over_Fe_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Ca_over_Fe_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Ca/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_CaFe_{}.pdf'.format(imf), dpi=250)
     #
     global Ne_over_Fe_list, stellar_Ne_over_Fe_list, stellar_Ne_over_Fe_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(811, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Ne_over_Fe_list, label='gas')
-        plt.plot(log_time_axis, stellar_Ne_over_Fe_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Ne_over_Fe_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Ne/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_NeFe_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(811, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Ne_over_Fe_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Ne_over_Fe_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Ne_over_Fe_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Ne/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_NeFe_{}.pdf'.format(imf), dpi=250)
     #
     global Si_over_Fe_list, stellar_Si_over_Fe_list, stellar_Si_over_Fe_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(812, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, Si_over_Fe_list, label='gas')
-        plt.plot(log_time_axis, stellar_Si_over_Fe_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Si_over_Fe_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[Si/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_SiFe_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(812, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, Si_over_Fe_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Si_over_Fe_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Si_over_Fe_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[Si/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_SiFe_{}.pdf'.format(imf), dpi=250)
     #
     global S_over_Fe_list, stellar_S_over_Fe_list, stellar_S_over_Fe_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(813, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, S_over_Fe_list, label='gas')
-        plt.plot(log_time_axis, stellar_S_over_Fe_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_S_over_Fe_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[S/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_SFe_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(813, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, S_over_Fe_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_S_over_Fe_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_S_over_Fe_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[S/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_SFe_{}.pdf'.format(imf), dpi=250)
     #
     global C_over_Fe_list, stellar_C_over_Fe_list, stellar_C_over_Fe_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(82, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, C_over_Fe_list, label='gas')
-        plt.plot(log_time_axis, stellar_C_over_Fe_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_C_over_Fe_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[C/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_CFe_{}.pdf'.format(imf), dpi=250)
-    #
-    global N_over_O_list, stellar_N_over_O_list, stellar_N_over_O_list_luminosity_weighted
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(83, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(log_time_axis, N_over_O_list, label='gas')
-        plt.plot(log_time_axis, stellar_N_over_O_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_N_over_O_list_luminosity_weighted, label='stellar LW')
-        plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel('[N/Fe]')
-        plt.title('Element number ratio evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_NFe_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(82, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, C_over_Fe_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_C_over_Fe_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_C_over_Fe_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[C/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_CFe_{}.pdf'.format(imf), dpi=250)
+    # #
+    # global N_over_O_list, stellar_N_over_O_list, stellar_N_over_O_list_luminosity_weighted
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(83, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(log_time_axis, N_over_O_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_N_over_O_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_N_over_O_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([log_time_axis[0], log_time_axis[-1]], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel('[N/Fe]')
+    #     plt.title('Element number ratio evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * log_time_axis[-1])
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_NFe_{}.pdf'.format(imf), dpi=250)
     #
     del stellar_Fe_over_H_list[0]
     del stellar_Fe_over_H_list_luminosity_weighted[0]
@@ -4529,146 +4529,146 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
     del stellar_Ca_over_Fe_list[0]
     del stellar_Ca_over_Fe_list_luminosity_weighted[0]
 
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(9, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        Fe_over_H_list[0] = -99
-        stellar_Fe_over_H_list[0] = -99
-        stellar_Fe_over_H_list_luminosity_weighted[0] = -99
-        plt.plot(Fe_over_H_list, Mg_over_Fe_list, label='gas')
-        # plt.scatter(Fe_over_H_list, Mg_over_Fe_list, alpha=0.5, s=10)
-        plt.plot(stellar_Fe_over_H_list, stellar_Mg_over_Fe_list, label='stellar MW')
-        plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_Mg_over_Fe_list_luminosity_weighted,
-                 label='stellar LW')
-        plt.plot([-4, -0.6], [-0.8, -0.8], color='red', label='Lacchin2019', lw=0.5)
-        plt.plot([-4, -0.6], [1, 1], color='red', lw=0.5)
-        plt.plot([-4, -4], [-0.8, 1], color='red', lw=0.5)
-        plt.plot([-0.6, -0.6], [-0.8, 1], color='red', lw=0.5)
-        plt.plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.44, 0.445, 0.45, 0.44, 0.37, 0.17, -0.14, -0.44], color='red', ls='dashed')
-        plt.scatter([-3.7, -3.2, -2.92, -2.7, -2.5, -2.3, -2.3, -2.2, -2.05, -1.9, -1.8],
-                    [0.47, 0.4, 0.65, 0.15, 0.2, 0.32, 0.35, 0.35, 0.3, 0.2, 0.48], color='k', alpha=0.5)
-        with open('Mg_Lacchin.txt') as f:
-            lines = f.readlines()
-            time_Mg_Lacchin_igimf = [float(line.split()[0]) for line in lines]
-            Mg_Lacchin_igimf = [float(line.split()[1]) for line in lines]
-        plt.plot(time_Mg_Lacchin_igimf, Mg_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed')
-        plt.xlabel('[Fe/H]')
-        plt.ylabel('[Mg/Fe]')
-        plt.xlim(-4.5, 0)
-        plt.ylim(-1, 1.5)
-        plt.legend(loc='lower left', prop={'size': 6})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_MgFe-FeH_{}.pdf'.format(imf), dpi=250)
-
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(91, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(O_over_H_list, N_over_O_list, label='gas')
-        plt.plot(stellar_O_over_H_list, stellar_N_over_O_list, label='stellar MW')
-        plt.plot(stellar_O_over_H_list_luminosity_weighted, stellar_N_over_O_list_luminosity_weighted,
-                 label='stellar LW')
-        plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
-        plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
-        plt.xlabel('[O/H]')
-        plt.ylabel('[N/O]')
-        # plt.xlim(-5, 1)
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_NO-OH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(9, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     Fe_over_H_list[0] = -99
+    #     stellar_Fe_over_H_list[0] = -99
+    #     stellar_Fe_over_H_list_luminosity_weighted[0] = -99
+    #     plt.plot(Fe_over_H_list, Mg_over_Fe_list, label='gas')
+    #     # plt.scatter(Fe_over_H_list, Mg_over_Fe_list, alpha=0.5, s=10)
+    #     plt.plot(stellar_Fe_over_H_list, stellar_Mg_over_Fe_list, label='stellar MW')
+    #     plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_Mg_over_Fe_list_luminosity_weighted,
+    #              label='stellar LW')
+    #     plt.plot([-4, -0.6], [-0.8, -0.8], color='red', label='Lacchin2019', lw=0.5)
+    #     plt.plot([-4, -0.6], [1, 1], color='red', lw=0.5)
+    #     plt.plot([-4, -4], [-0.8, 1], color='red', lw=0.5)
+    #     plt.plot([-0.6, -0.6], [-0.8, 1], color='red', lw=0.5)
+    #     plt.plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.44, 0.445, 0.45, 0.44, 0.37, 0.17, -0.14, -0.44], color='red', ls='dashed')
+    #     plt.scatter([-3.7, -3.2, -2.92, -2.7, -2.5, -2.3, -2.3, -2.2, -2.05, -1.9, -1.8],
+    #                 [0.47, 0.4, 0.65, 0.15, 0.2, 0.32, 0.35, 0.35, 0.3, 0.2, 0.48], color='k', alpha=0.5)
+    #     with open('Mg_Lacchin.txt') as f:
+    #         lines = f.readlines()
+    #         time_Mg_Lacchin_igimf = [float(line.split()[0]) for line in lines]
+    #         Mg_Lacchin_igimf = [float(line.split()[1]) for line in lines]
+    #     plt.plot(time_Mg_Lacchin_igimf, Mg_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed')
+    #     plt.xlabel('[Fe/H]')
+    #     plt.ylabel('[Mg/Fe]')
+    #     plt.xlim(-4.5, 0)
+    #     plt.ylim(-1, 1.5)
+    #     plt.legend(loc='lower left', prop={'size': 6})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_MgFe-FeH_{}.pdf'.format(imf), dpi=250)
     #
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(92, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(O_over_H_list, C_over_H_list, label='gas')
-        plt.plot(stellar_O_over_H_list, stellar_C_over_H_list, label='stellar MW')
-        plt.plot(stellar_O_over_H_list_luminosity_weighted, stellar_C_over_H_list_luminosity_weighted,
-                 label='stellar LW')
-        plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
-        plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
-        plt.xlabel('[O/H]')
-        plt.ylabel('[C/H]')
-        # plt.xlim(-5, 1)
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_CH-OH_{}.pdf'.format(imf), dpi=250)
-    #
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(93, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(Fe_over_H_list, Si_over_Fe_list, label='gas')
-        # plt.scatter(Fe_over_H_list, Si_over_Fe_list, alpha=0.5, s=10)
-        plt.plot(stellar_Fe_over_H_list, stellar_Si_over_Fe_list, label='stellar MW')
-        plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_Si_over_Fe_list_luminosity_weighted,
-                 label='stellar LW')
-        plt.plot([-4, -0.6], [-0.5, -0.5], color='red', label='Lacchin2019', lw=0.5)
-        plt.plot([-4, -0.6], [1, 1], color='red', lw=0.5)
-        plt.plot([-4, -4], [-0.5, 1], color='red', lw=0.5)
-        plt.plot([-0.6, -0.6], [-0.5, 1], color='red', lw=0.5)
-        plt.plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.68, 0.64, 0.6, 0.56, 0.5, 0.33, 0.1, -0.07], color='red', ls='dashed')
-        plt.scatter([-3.68, -2.05, -1.93],
-                    [0.77, 0.1, 0.13], color='k', alpha=0.5)
-        with open('Si_Lacchin.txt') as f:
-            lines = f.readlines()
-            time_Si_Lacchin_igimf = [float(line.split()[0]) for line in lines]
-            Si_Lacchin_igimf = [float(line.split()[1]) for line in lines]
-        plt.plot(time_Si_Lacchin_igimf, Si_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed')
-        plt.xlabel('[Fe/H]')
-        plt.ylabel('[Si/Fe]')
-        plt.xlim(-4.5, 0)
-        plt.ylim(-1, 1.5)
-        plt.legend(loc='lower left', prop={'size': 6})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_SiFe-FeH_{}.pdf'.format(imf), dpi=250)
-    #
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(94, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(Fe_over_H_list, Ca_over_Fe_list, label='gas')
-        # plt.scatter(Fe_over_H_list, Ca_over_Fe_list, alpha=0.5, s=10)
-        plt.plot(stellar_Fe_over_H_list, stellar_Ca_over_Fe_list, label='stellar MW')
-        plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_Ca_over_Fe_list_luminosity_weighted,
-                 label='stellar LW')
-        plt.plot([-4, -0.6], [-0.5, -0.5], color='red', label='Lacchin2019', lw=0.5)
-        plt.plot([-4, -0.6], [0.7, 0.7], color='red', lw=0.5)
-        plt.plot([-4, -4], [-0.5, 0.7], color='red', lw=0.5)
-        plt.plot([-0.6, -0.6], [-0.5, 0.7], color='red', lw=0.5)
-        plt.plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.3, 0.27, 0.22, 0.19, 0.14, 0.01, -0.15, -0.26], color='red', ls='dashed')
-        plt.xlabel('[Fe/H]')
-        plt.ylabel('[Ca/Fe]')
-        plt.scatter([-3.68, -3.2, -2.91, -2.7, -2.5, -2.28, -2.28, -2.2, -2.06, -1.94, -1.8],
-                    [0.52, 0.46, 0.32, 0.18, 0.24, 0.28, 0.32, -0.01, 0.15, 0.1, 0.22], color='k', alpha=0.5)
-        with open('Ca_Lacchin.txt') as f:
-            lines = f.readlines()
-            time_Ca_Lacchin_igimf = [float(line.split()[0]) for line in lines]
-            Ca_Lacchin_igimf = [float(line.split()[1]) for line in lines]
-        plt.plot(time_Ca_Lacchin_igimf, Ca_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed')
-        plt.xlim(-4.5, 0)
-        plt.ylim(-1, 1.5)
-        plt.legend(loc='lower left', prop={'size': 6})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_CaFe-FeH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(91, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(O_over_H_list, N_over_O_list, label='gas')
+    #     plt.plot(stellar_O_over_H_list, stellar_N_over_O_list, label='stellar MW')
+    #     plt.plot(stellar_O_over_H_list_luminosity_weighted, stellar_N_over_O_list_luminosity_weighted,
+    #              label='stellar LW')
+    #     plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
+    #     plt.xlabel('[O/H]')
+    #     plt.ylabel('[N/O]')
+    #     # plt.xlim(-5, 1)
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_NO-OH_{}.pdf'.format(imf), dpi=250)
+    # #
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(92, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(O_over_H_list, C_over_H_list, label='gas')
+    #     plt.plot(stellar_O_over_H_list, stellar_C_over_H_list, label='stellar MW')
+    #     plt.plot(stellar_O_over_H_list_luminosity_weighted, stellar_C_over_H_list_luminosity_weighted,
+    #              label='stellar LW')
+    #     plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
+    #     plt.xlabel('[O/H]')
+    #     plt.ylabel('[C/H]')
+    #     # plt.xlim(-5, 1)
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_CH-OH_{}.pdf'.format(imf), dpi=250)
+    # #
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(93, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(Fe_over_H_list, Si_over_Fe_list, label='gas')
+    #     # plt.scatter(Fe_over_H_list, Si_over_Fe_list, alpha=0.5, s=10)
+    #     plt.plot(stellar_Fe_over_H_list, stellar_Si_over_Fe_list, label='stellar MW')
+    #     plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_Si_over_Fe_list_luminosity_weighted,
+    #              label='stellar LW')
+    #     plt.plot([-4, -0.6], [-0.5, -0.5], color='red', label='Lacchin2019', lw=0.5)
+    #     plt.plot([-4, -0.6], [1, 1], color='red', lw=0.5)
+    #     plt.plot([-4, -4], [-0.5, 1], color='red', lw=0.5)
+    #     plt.plot([-0.6, -0.6], [-0.5, 1], color='red', lw=0.5)
+    #     plt.plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.68, 0.64, 0.6, 0.56, 0.5, 0.33, 0.1, -0.07], color='red', ls='dashed')
+    #     plt.scatter([-3.68, -2.05, -1.93],
+    #                 [0.77, 0.1, 0.13], color='k', alpha=0.5)
+    #     with open('Si_Lacchin.txt') as f:
+    #         lines = f.readlines()
+    #         time_Si_Lacchin_igimf = [float(line.split()[0]) for line in lines]
+    #         Si_Lacchin_igimf = [float(line.split()[1]) for line in lines]
+    #     plt.plot(time_Si_Lacchin_igimf, Si_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed')
+    #     plt.xlabel('[Fe/H]')
+    #     plt.ylabel('[Si/Fe]')
+    #     plt.xlim(-4.5, 0)
+    #     plt.ylim(-1, 1.5)
+    #     plt.legend(loc='lower left', prop={'size': 6})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_SiFe-FeH_{}.pdf'.format(imf), dpi=250)
+    # #
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(94, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(Fe_over_H_list, Ca_over_Fe_list, label='gas')
+    #     # plt.scatter(Fe_over_H_list, Ca_over_Fe_list, alpha=0.5, s=10)
+    #     plt.plot(stellar_Fe_over_H_list, stellar_Ca_over_Fe_list, label='stellar MW')
+    #     plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_Ca_over_Fe_list_luminosity_weighted,
+    #              label='stellar LW')
+    #     plt.plot([-4, -0.6], [-0.5, -0.5], color='red', label='Lacchin2019', lw=0.5)
+    #     plt.plot([-4, -0.6], [0.7, 0.7], color='red', lw=0.5)
+    #     plt.plot([-4, -4], [-0.5, 0.7], color='red', lw=0.5)
+    #     plt.plot([-0.6, -0.6], [-0.5, 0.7], color='red', lw=0.5)
+    #     plt.plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.3, 0.27, 0.22, 0.19, 0.14, 0.01, -0.15, -0.26], color='red', ls='dashed')
+    #     plt.xlabel('[Fe/H]')
+    #     plt.ylabel('[Ca/Fe]')
+    #     plt.scatter([-3.68, -3.2, -2.91, -2.7, -2.5, -2.28, -2.28, -2.2, -2.06, -1.94, -1.8],
+    #                 [0.52, 0.46, 0.32, 0.18, 0.24, 0.28, 0.32, -0.01, 0.15, 0.1, 0.22], color='k', alpha=0.5)
+    #     with open('Ca_Lacchin.txt') as f:
+    #         lines = f.readlines()
+    #         time_Ca_Lacchin_igimf = [float(line.split()[0]) for line in lines]
+    #         Ca_Lacchin_igimf = [float(line.split()[1]) for line in lines]
+    #     plt.plot(time_Ca_Lacchin_igimf, Ca_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed')
+    #     plt.xlim(-4.5, 0)
+    #     plt.ylim(-1, 1.5)
+    #     plt.legend(loc='lower left', prop={'size': 6})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_CaFe-FeH_{}.pdf'.format(imf), dpi=250)
     #
     #
     #
@@ -4763,51 +4763,49 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.savefig('MgSiCa.pdf', dpi=250)
     #
     #
-    #
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(10, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(Fe_over_H_list, O_over_Fe_list, label='gas')
-        plt.plot(stellar_Fe_over_H_list, stellar_O_over_Fe_list, label='stellar MW')
-        plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_O_over_Fe_list_luminosity_weighted,
-                 label='stellar LW')
-        plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
-        plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
-        plt.xlabel('[Fe/H]')
-        plt.ylabel('[O/Fe]')
-        # plt.xlim(-5, 1)
-        # plt.ylim(-1, 3.5)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_OFe-FeH_{}.pdf'.format(imf), dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(10, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(Fe_over_H_list, O_over_Fe_list, label='gas')
+    #     plt.plot(stellar_Fe_over_H_list, stellar_O_over_Fe_list, label='stellar MW')
+    #     plt.plot(stellar_Fe_over_H_list_luminosity_weighted, stellar_O_over_Fe_list_luminosity_weighted,
+    #              label='stellar LW')
+    #     plt.plot([-5, 1], [0, 0], color='red', ls='dashed', label='solar')
+    #     plt.plot([0, 0], [-1, 3.5], color='red', ls='dashed')
+    #     plt.xlabel('[Fe/H]')
+    #     plt.ylabel('[O/Fe]')
+    #     # plt.xlim(-5, 1)
+    #     # plt.ylim(-1, 3.5)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_OFe-FeH_{}.pdf'.format(imf), dpi=250)
     #
     global SNIa_number_per_century, SNII_number_per_century
     # if plot_show is True or plot_save is True:
-    if True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(11, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.loglog(time_axis, SNIa_number_per_century, label='SNIa', color="tab:orange",
-                   ls='dotted')  # Number per century
-        plt.loglog(time_axis, SNII_number_per_century, label='SNII', color="tab:orange")  # Number per century
-        # plt.loglog(time_axis, SN_number_per_century, ls="dotted", label='total')
-        plt.xlabel(r'time [yr]')
-        plt.ylabel(r'# of SN per century')
-        plt.title('Supernova rate evolution', fontsize=10)
-        plt.xlim(10 ** 7, 14 * 10 ** 9)
-        # plt.ylim(1e-2, 1e6)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_SN_number.pdf'.format(imf), dpi=250)
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(11, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.loglog(time_axis, SNIa_number_per_century, label='SNIa', color="tab:orange",
+    #                ls='dotted')  # Number per century
+    #     plt.loglog(time_axis, SNII_number_per_century, label='SNII', color="tab:orange")  # Number per century
+    #     # plt.loglog(time_axis, SN_number_per_century, ls="dotted", label='total')
+    #     plt.xlabel(r'time [yr]')
+    #     plt.ylabel(r'# of SN per century')
+    #     plt.title('Supernova rate evolution', fontsize=10)
+    #     plt.xlim(10 ** 7, 14 * 10 ** 9)
+    #     # plt.ylim(1e-2, 1e6)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_SN_number.pdf'.format(imf), dpi=250)
     #
-    if True:  # plot_show is True or plot_save is True:
+    if plot_show is True or plot_save is True:
         plt.rc('font', family='serif')
         plt.rc('xtick', labelsize='x-small')
         plt.rc('ytick', labelsize='x-small')
@@ -5017,41 +5015,41 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
     file.write("{}\n".format(total_gas_kinetic_energy_list[-1]))
     file.close()
 
-    #
-    if plot_show is True or plot_save is True:
-        plt.rc('font', family='serif')
-        plt.rc('xtick', labelsize='x-small')
-        plt.rc('ytick', labelsize='x-small')
-        fig = plt.figure(13, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        # time_axis[0] = 1
-        # time_axis_G = [0]*length_of_time_axis
-        # for i in range(length_of_time_axis):
-        #     time_axis_G[i] = time_axis[i]/10**9
-        # gas_Z_over_X_list[i]=math.log(gas_Z_over_X_list[i], 10)
-        plt.plot(log_time_axis, gas_Z_over_X_list, label='gas')
-        plt.plot(log_time_axis, stellar_Z_over_X_list, label='stellar MW')
-        plt.plot(log_time_axis, stellar_Z_over_X_list_luminosity_weighted, label='stellar LW')
-        plt.plot([6, 11], [0, 0], color='red', ls='dashed', label='solar')
-        # The [Z/X]s where the applied portinari98 stellar yield table will be changed for Z=0.0127, 0.008, 0.004, 0.0004.
-        plt.plot([6, 11], [-1.173, -1.173], color='red', ls='dotted', lw=0.5)
-        plt.plot([6, 11], [-0.523, -0.523], color='red', ls='dotted', lw=0.5)
-        plt.plot([6, 11], [-0.272, -0.272], color='red', ls='dotted', lw=0.5)
-        plt.xlabel(r'log(time [Gyr])')
-        plt.ylabel('[Z/X]')
-        plt.title('Metallicity evolution', fontsize=10)
-        # plt.ylim(-2, 1)
-        # if imf == 'igimf':
-        #     plt.title('IGIMF')
-        # elif imf == 'Kroupa':
-        #     plt.title('Kroupa IMF')
-        # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7.5}, ncol=2)
-        # plt.xlim(6.4, 1.01*time_axis[-1])
-        # plt.ylim(-0.4, 0.2)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
-        if plot_save is True:
-            plt.savefig('galaxy_evolution_fig_Z_{}.pdf'.format(imf), dpi=250)
+    # #
+    # if plot_show is True or plot_save is True:
+    #     plt.rc('font', family='serif')
+    #     plt.rc('xtick', labelsize='x-small')
+    #     plt.rc('ytick', labelsize='x-small')
+    #     fig = plt.figure(13, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     # time_axis[0] = 1
+    #     # time_axis_G = [0]*length_of_time_axis
+    #     # for i in range(length_of_time_axis):
+    #     #     time_axis_G[i] = time_axis[i]/10**9
+    #     # gas_Z_over_X_list[i]=math.log(gas_Z_over_X_list[i], 10)
+    #     plt.plot(log_time_axis, gas_Z_over_X_list, label='gas')
+    #     plt.plot(log_time_axis, stellar_Z_over_X_list, label='stellar MW')
+    #     plt.plot(log_time_axis, stellar_Z_over_X_list_luminosity_weighted, label='stellar LW')
+    #     plt.plot([6, 11], [0, 0], color='red', ls='dashed', label='solar')
+    #     # The [Z/X]s where the applied portinari98 stellar yield table will be changed for Z=0.0127, 0.008, 0.004, 0.0004.
+    #     plt.plot([6, 11], [-1.173, -1.173], color='red', ls='dotted', lw=0.5)
+    #     plt.plot([6, 11], [-0.523, -0.523], color='red', ls='dotted', lw=0.5)
+    #     plt.plot([6, 11], [-0.272, -0.272], color='red', ls='dotted', lw=0.5)
+    #     plt.xlabel(r'log(time [Gyr])')
+    #     plt.ylabel('[Z/X]')
+    #     plt.title('Metallicity evolution', fontsize=10)
+    #     # plt.ylim(-2, 1)
+    #     # if imf == 'igimf':
+    #     #     plt.title('IGIMF')
+    #     # elif imf == 'Kroupa':
+    #     #     plt.title('Kroupa IMF')
+    #     # plt.legend(scatterpoints=1, numpoints=1, loc=0, prop={'size': 7.5}, ncol=2)
+    #     # plt.xlim(6.4, 1.01*time_axis[-1])
+    #     # plt.ylim(-0.4, 0.2)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
+    #     if plot_save is True:
+    #         plt.savefig('galaxy_evolution_fig_Z_{}.pdf'.format(imf), dpi=250)
 
     for i in range(length_of_time_axis):
         time_axis[i] = math.log(time_axis[i], 10)
@@ -5206,21 +5204,21 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
     file.close()
 
 
-    global expansion_factor_instantaneous_list, expansion_factor_adiabat_list
-    if plot_show is True or plot_save is True:
-        fig = plt.figure(15, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(time_axis, expansion_factor_instantaneous_list, label='instantaneous')
-        plt.plot(time_axis, expansion_factor_adiabat_list, label='slow')
-        plt.plot(time_axis, expansion_factor_list, label='average')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel(r'expansion factor')
-        plt.legend(prop={'size': 7})
-        plt.title('Galaxy size evolution', fontsize=10)
-        # plt.xlim(6.4, 1.01 * time_axis[-1])
-        # plt.ylim(7.3, 12.2)
-        # plt.ylim(6, 12)
-        plt.tight_layout()
+    # global expansion_factor_instantaneous_list, expansion_factor_adiabat_list
+    # if plot_show is True or plot_save is True:
+    #     fig = plt.figure(15, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(time_axis, expansion_factor_instantaneous_list, label='instantaneous')
+    #     plt.plot(time_axis, expansion_factor_adiabat_list, label='slow')
+    #     plt.plot(time_axis, expansion_factor_list, label='average')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel(r'expansion factor')
+    #     plt.legend(prop={'size': 7})
+    #     plt.title('Galaxy size evolution', fontsize=10)
+    #     # plt.xlim(6.4, 1.01 * time_axis[-1])
+    #     # plt.ylim(7.3, 12.2)
+    #     # plt.ylim(6, 12)
+    #     plt.tight_layout()
 
     file = open('simulation_results_from_galaxy_evol/imf{}STF{}log_SFR{}SFEN{}Z_0{}/plots/expansion_factor.txt'.format(imf, STF, SFR, SFEN, log_Z_0), 'w')
     file.write("# time_axis\n")
@@ -5246,157 +5244,157 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
     file.write("\n")
     file.close()
 
-    global ejected_gas_Mg_over_Fe_list, instant_ejected_gas_Mg_over_Fe_list
-    if plot_show is True or plot_save is True:
-        fig = plt.figure(16, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(time_axis, ejected_gas_Mg_over_Fe_list, label='total')
-        plt.plot(time_axis, instant_ejected_gas_Mg_over_Fe_list, label='instant')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel(r'[Mg/Fe]')
-        # plt.xlim(6.4, 1.01 * time_axis[-1])
-        # plt.ylim(7.3, 12.2)
-        # plt.ylim(6, 12)
-        plt.legend(prop={'size': 7})
-        plt.title('[Mg/Fe] of the ejected gas at different time', fontsize=10)
-        plt.tight_layout()
-
-    global ejected_metal_mass_list
-    if plot_show is True or plot_save is True:
-        fig = plt.figure(17, figsize=(3, 2.5))
-        fig.add_subplot(1, 1, 1)
-        plt.plot(time_axis, ejected_metal_mass_list, label='total')
-        plt.xlabel(r'log$_{10}$(time [yr])')
-        plt.ylabel(r'ejected metal mass')
-        # plt.xlim(6.4, 1.01 * time_axis[-1])
-        # plt.ylim(7.3, 12.2)
-        # plt.ylim(6, 12)
-        plt.title('IMF averaged yield at different time', fontsize=10)
-        plt.legend(prop={'size': 7})
-        plt.tight_layout()
+    # global ejected_gas_Mg_over_Fe_list, instant_ejected_gas_Mg_over_Fe_list
+    # if plot_show is True or plot_save is True:
+    #     fig = plt.figure(16, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(time_axis, ejected_gas_Mg_over_Fe_list, label='total')
+    #     plt.plot(time_axis, instant_ejected_gas_Mg_over_Fe_list, label='instant')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel(r'[Mg/Fe]')
+    #     # plt.xlim(6.4, 1.01 * time_axis[-1])
+    #     # plt.ylim(7.3, 12.2)
+    #     # plt.ylim(6, 12)
+    #     plt.legend(prop={'size': 7})
+    #     plt.title('[Mg/Fe] of the ejected gas at different time', fontsize=10)
+    #     plt.tight_layout()
+    #
+    # global ejected_metal_mass_list
+    # if plot_show is True or plot_save is True:
+    #     fig = plt.figure(17, figsize=(3, 2.5))
+    #     fig.add_subplot(1, 1, 1)
+    #     plt.plot(time_axis, ejected_metal_mass_list, label='total')
+    #     plt.xlabel(r'log$_{10}$(time [yr])')
+    #     plt.ylabel(r'ejected metal mass')
+    #     # plt.xlim(6.4, 1.01 * time_axis[-1])
+    #     # plt.ylim(7.3, 12.2)
+    #     # plt.ylim(6, 12)
+    #     plt.title('IMF averaged yield at different time', fontsize=10)
+    #     plt.legend(prop={'size': 7})
+    #     plt.tight_layout()
 
         #
-        global ejected_O_mass_till_this_time_tot_list, ejected_O_mass_till_this_time_SNIa_list, ejected_O_mass_till_this_time_SNII_list
-        if plot_show is True or plot_save is True:
-            plt.rc('font', family='serif')
-            plt.rc('xtick', labelsize='x-small')
-            plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(21, figsize=(3, 2.5))
-            fig.add_subplot(1, 1, 1)
-            plt.plot(log_time_axis, ejected_O_mass_till_this_time_tot_list, label='tot')
-            plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNIa_list, label='from SNIa')
-            plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time [yr])')
-            plt.ylabel(r'ejected O [$M_\odot$]')
-            plt.title('IMF averaged yield', fontsize=10)
-            plt.legend(prop={'size': 7})
-            plt.tight_layout()
-
-        global ejected_Mg_mass_till_this_time_tot_list, ejected_Mg_mass_till_this_time_SNIa_list, ejected_Mg_mass_till_this_time_SNII_list
-        if plot_show is True or plot_save is True:
-            plt.rc('font', family='serif')
-            plt.rc('xtick', labelsize='x-small')
-            plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(22, figsize=(3, 2.5))
-            fig.add_subplot(1, 1, 1)
-            plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_tot_list, label='tot')
-            plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNIa_list, label='from SNIa')
-            plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time [yr])')
-            plt.ylabel(r'ejected Mg [$M_\odot$]')
-            plt.title('IMF averaged yield from different type of SN', fontsize=10)
-            plt.legend(prop={'size': 7})
-            plt.tight_layout()
-
-        global ejected_Fe_mass_till_this_time_tot_list, ejected_Fe_mass_till_this_time_SNIa_list, ejected_Fe_mass_till_this_time_SNII_list
-        if plot_show is True or plot_save is True:
-            plt.rc('font', family='serif')
-            plt.rc('xtick', labelsize='x-small')
-            plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(23, figsize=(3, 2.5))
-            fig.add_subplot(1, 1, 1)
-            plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_tot_list, label='tot')
-            plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNIa_list, label='from SNIa')
-            plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time [yr])')
-            plt.ylabel(r'ejected Fe [$M_\odot$]')
-            plt.title('IMF averaged yield from different type of SN', fontsize=10)
-            plt.legend(prop={'size': 7})
-            plt.tight_layout()
-            if plot_save is True:
-                plt.savefig('Fe_production.pdf', dpi=250)
-
-        global ejected_Ca_mass_till_this_time_tot_list, ejected_Ca_mass_till_this_time_SNIa_list, ejected_Ca_mass_till_this_time_SNII_list
-        if plot_show is True or plot_save is True:
-            plt.rc('font', family='serif')
-            plt.rc('xtick', labelsize='x-small')
-            plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(24, figsize=(3, 2.5))
-            fig.add_subplot(1, 1, 1)
-            plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_tot_list, label='tot')
-            plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_SNIa_list, label='from SNIa')
-            plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time [yr])')
-            plt.ylabel(r'ejected Ca [$M_\odot$]')
-            plt.title('IMF averaged yield from different type of SN', fontsize=10)
-            plt.legend(prop={'size': 7})
-            plt.tight_layout()
-            if plot_save is True:
-                plt.savefig('Ca_production.pdf', dpi=250)
-
-        global ejected_S_mass_till_this_time_tot_list, ejected_S_mass_till_this_time_SNIa_list, ejected_S_mass_till_this_time_SNII_list
-        if plot_show is True or plot_save is True:
-            plt.rc('font', family='serif')
-            plt.rc('xtick', labelsize='x-small')
-            plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(25, figsize=(3, 2.5))
-            fig.add_subplot(1, 1, 1)
-            plt.plot(log_time_axis, ejected_S_mass_till_this_time_tot_list, label='tot')
-            plt.plot(log_time_axis, ejected_S_mass_till_this_time_SNIa_list, label='from SNIa')
-            plt.plot(log_time_axis, ejected_S_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time [yr])')
-            plt.ylabel(r'ejected S [$M_\odot$]')
-            plt.title('IMF averaged yield from different type of SN', fontsize=10)
-            plt.legend(prop={'size': 7})
-            plt.tight_layout()
-            if plot_save is True:
-                plt.savefig('S_production.pdf', dpi=250)
-
-        global ejected_Si_mass_till_this_time_tot_list, ejected_Si_mass_till_this_time_SNIa_list, ejected_Si_mass_till_this_time_SNII_list
-        if plot_show is True or plot_save is True:
-            plt.rc('font', family='serif')
-            plt.rc('xtick', labelsize='x-small')
-            plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(26, figsize=(3, 2.5))
-            fig.add_subplot(1, 1, 1)
-            plt.plot(log_time_axis, ejected_Si_mass_till_this_time_tot_list, label='tot')
-            plt.plot(log_time_axis, ejected_Si_mass_till_this_time_SNIa_list, label='from SNIa')
-            plt.plot(log_time_axis, ejected_Si_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time [yr])')
-            plt.ylabel(r'ejected Si [$M_\odot$]')
-            plt.title('IMF averaged yield from different type of SN', fontsize=10)
-            plt.legend(prop={'size': 7})
-            plt.tight_layout()
-            if plot_save is True:
-                plt.savefig('Si_production.pdf', dpi=250)
-
-        global ejected_Ne_mass_till_this_time_tot_list, ejected_Ne_mass_till_this_time_SNIa_list, ejected_Ne_mass_till_this_time_SNII_list
-        if plot_show is True or plot_save is True:
-            plt.rc('font', family='serif')
-            plt.rc('xtick', labelsize='x-small')
-            plt.rc('ytick', labelsize='x-small')
-            fig = plt.figure(27, figsize=(3, 2.5))
-            fig.add_subplot(1, 1, 1)
-            plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_tot_list, label='tot')
-            plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_SNIa_list, label='from SNIa')
-            plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_SNII_list, label='from SNII')
-            plt.xlabel(r'log$_{10}$(time [yr])')
-            plt.ylabel(r'ejected Ne [$M_\odot$]')
-            plt.title('IMF averaged yield from different type of SN', fontsize=10)
-            plt.legend(prop={'size': 7})
-            plt.tight_layout()
-            if plot_save is True:
-                plt.savefig('Ne_production.pdf', dpi=250)
+        # global ejected_O_mass_till_this_time_tot_list, ejected_O_mass_till_this_time_SNIa_list, ejected_O_mass_till_this_time_SNII_list
+        # if plot_show is True or plot_save is True:
+        #     plt.rc('font', family='serif')
+        #     plt.rc('xtick', labelsize='x-small')
+        #     plt.rc('ytick', labelsize='x-small')
+        #     fig = plt.figure(21, figsize=(3, 2.5))
+        #     fig.add_subplot(1, 1, 1)
+        #     plt.plot(log_time_axis, ejected_O_mass_till_this_time_tot_list, label='tot')
+        #     plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNIa_list, label='from SNIa')
+        #     plt.plot(log_time_axis, ejected_O_mass_till_this_time_SNII_list, label='from SNII')
+        #     plt.xlabel(r'log$_{10}$(time [yr])')
+        #     plt.ylabel(r'ejected O [$M_\odot$]')
+        #     plt.title('IMF averaged yield', fontsize=10)
+        #     plt.legend(prop={'size': 7})
+        #     plt.tight_layout()
+        #
+        # global ejected_Mg_mass_till_this_time_tot_list, ejected_Mg_mass_till_this_time_SNIa_list, ejected_Mg_mass_till_this_time_SNII_list
+        # if plot_show is True or plot_save is True:
+        #     plt.rc('font', family='serif')
+        #     plt.rc('xtick', labelsize='x-small')
+        #     plt.rc('ytick', labelsize='x-small')
+        #     fig = plt.figure(22, figsize=(3, 2.5))
+        #     fig.add_subplot(1, 1, 1)
+        #     plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_tot_list, label='tot')
+        #     plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNIa_list, label='from SNIa')
+        #     plt.plot(log_time_axis, ejected_Mg_mass_till_this_time_SNII_list, label='from SNII')
+        #     plt.xlabel(r'log$_{10}$(time [yr])')
+        #     plt.ylabel(r'ejected Mg [$M_\odot$]')
+        #     plt.title('IMF averaged yield from different type of SN', fontsize=10)
+        #     plt.legend(prop={'size': 7})
+        #     plt.tight_layout()
+        #
+        # global ejected_Fe_mass_till_this_time_tot_list, ejected_Fe_mass_till_this_time_SNIa_list, ejected_Fe_mass_till_this_time_SNII_list
+        # if plot_show is True or plot_save is True:
+        #     plt.rc('font', family='serif')
+        #     plt.rc('xtick', labelsize='x-small')
+        #     plt.rc('ytick', labelsize='x-small')
+        #     fig = plt.figure(23, figsize=(3, 2.5))
+        #     fig.add_subplot(1, 1, 1)
+        #     plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_tot_list, label='tot')
+        #     plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNIa_list, label='from SNIa')
+        #     plt.plot(log_time_axis, ejected_Fe_mass_till_this_time_SNII_list, label='from SNII')
+        #     plt.xlabel(r'log$_{10}$(time [yr])')
+        #     plt.ylabel(r'ejected Fe [$M_\odot$]')
+        #     plt.title('IMF averaged yield from different type of SN', fontsize=10)
+        #     plt.legend(prop={'size': 7})
+        #     plt.tight_layout()
+        #     if plot_save is True:
+        #         plt.savefig('Fe_production.pdf', dpi=250)
+        #
+        # global ejected_Ca_mass_till_this_time_tot_list, ejected_Ca_mass_till_this_time_SNIa_list, ejected_Ca_mass_till_this_time_SNII_list
+        # if plot_show is True or plot_save is True:
+        #     plt.rc('font', family='serif')
+        #     plt.rc('xtick', labelsize='x-small')
+        #     plt.rc('ytick', labelsize='x-small')
+        #     fig = plt.figure(24, figsize=(3, 2.5))
+        #     fig.add_subplot(1, 1, 1)
+        #     plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_tot_list, label='tot')
+        #     plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_SNIa_list, label='from SNIa')
+        #     plt.plot(log_time_axis, ejected_Ca_mass_till_this_time_SNII_list, label='from SNII')
+        #     plt.xlabel(r'log$_{10}$(time [yr])')
+        #     plt.ylabel(r'ejected Ca [$M_\odot$]')
+        #     plt.title('IMF averaged yield from different type of SN', fontsize=10)
+        #     plt.legend(prop={'size': 7})
+        #     plt.tight_layout()
+        #     if plot_save is True:
+        #         plt.savefig('Ca_production.pdf', dpi=250)
+        #
+        # global ejected_S_mass_till_this_time_tot_list, ejected_S_mass_till_this_time_SNIa_list, ejected_S_mass_till_this_time_SNII_list
+        # if plot_show is True or plot_save is True:
+        #     plt.rc('font', family='serif')
+        #     plt.rc('xtick', labelsize='x-small')
+        #     plt.rc('ytick', labelsize='x-small')
+        #     fig = plt.figure(25, figsize=(3, 2.5))
+        #     fig.add_subplot(1, 1, 1)
+        #     plt.plot(log_time_axis, ejected_S_mass_till_this_time_tot_list, label='tot')
+        #     plt.plot(log_time_axis, ejected_S_mass_till_this_time_SNIa_list, label='from SNIa')
+        #     plt.plot(log_time_axis, ejected_S_mass_till_this_time_SNII_list, label='from SNII')
+        #     plt.xlabel(r'log$_{10}$(time [yr])')
+        #     plt.ylabel(r'ejected S [$M_\odot$]')
+        #     plt.title('IMF averaged yield from different type of SN', fontsize=10)
+        #     plt.legend(prop={'size': 7})
+        #     plt.tight_layout()
+        #     if plot_save is True:
+        #         plt.savefig('S_production.pdf', dpi=250)
+        #
+        # global ejected_Si_mass_till_this_time_tot_list, ejected_Si_mass_till_this_time_SNIa_list, ejected_Si_mass_till_this_time_SNII_list
+        # if plot_show is True or plot_save is True:
+        #     plt.rc('font', family='serif')
+        #     plt.rc('xtick', labelsize='x-small')
+        #     plt.rc('ytick', labelsize='x-small')
+        #     fig = plt.figure(26, figsize=(3, 2.5))
+        #     fig.add_subplot(1, 1, 1)
+        #     plt.plot(log_time_axis, ejected_Si_mass_till_this_time_tot_list, label='tot')
+        #     plt.plot(log_time_axis, ejected_Si_mass_till_this_time_SNIa_list, label='from SNIa')
+        #     plt.plot(log_time_axis, ejected_Si_mass_till_this_time_SNII_list, label='from SNII')
+        #     plt.xlabel(r'log$_{10}$(time [yr])')
+        #     plt.ylabel(r'ejected Si [$M_\odot$]')
+        #     plt.title('IMF averaged yield from different type of SN', fontsize=10)
+        #     plt.legend(prop={'size': 7})
+        #     plt.tight_layout()
+        #     if plot_save is True:
+        #         plt.savefig('Si_production.pdf', dpi=250)
+        #
+        # global ejected_Ne_mass_till_this_time_tot_list, ejected_Ne_mass_till_this_time_SNIa_list, ejected_Ne_mass_till_this_time_SNII_list
+        # if plot_show is True or plot_save is True:
+        #     plt.rc('font', family='serif')
+        #     plt.rc('xtick', labelsize='x-small')
+        #     plt.rc('ytick', labelsize='x-small')
+        #     fig = plt.figure(27, figsize=(3, 2.5))
+        #     fig.add_subplot(1, 1, 1)
+        #     plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_tot_list, label='tot')
+        #     plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_SNIa_list, label='from SNIa')
+        #     plt.plot(log_time_axis, ejected_Ne_mass_till_this_time_SNII_list, label='from SNII')
+        #     plt.xlabel(r'log$_{10}$(time [yr])')
+        #     plt.ylabel(r'ejected Ne [$M_\odot$]')
+        #     plt.title('IMF averaged yield from different type of SN', fontsize=10)
+        #     plt.legend(prop={'size': 7})
+        #     plt.tight_layout()
+        #     if plot_save is True:
+        #         plt.savefig('Ne_production.pdf', dpi=250)
 
     if True: # plot_show is True:
         plt.show()
