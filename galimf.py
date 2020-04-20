@@ -24,11 +24,11 @@ resolution_histogram_relative = 0.01  # The star mass resolution of histogram, s
 
 
 # function_galimf takes in I/OS-GMF parameters and create output files
-def function_galimf(IorS, IGIMF, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L, beta_model,
+def function_galimf(IorS, R14orNOT, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_str_U, printout=False):
     if IorS == "I":
         global List_xi, List_M_str_for_xi_str
-        function_draw_igimf(IGIMF, SFR, alpha3_model, beta_model, delta_t, M_over_H,
+        function_draw_igimf(R14orNOT, SFR, alpha3_model, beta_model, delta_t, M_over_H,
                                                I_ecl, M_ecl_U, M_ecl_L, I_str, M_str_L, alpha_1, alpha1_model,
                                                M_turn, alpha_2, alpha2_model, M_turn2, M_str_U)
         if printout is True:
@@ -43,7 +43,7 @@ def function_galimf(IorS, IGIMF, SFR, alpha3_model, delta_t, M_over_H, I_ecl, M_
         return
     elif IorS == "OS":
         global mass_range_center, mass_range, mass_range_upper_limit, mass_range_lower_limit, star_number
-        sample_for_one_epoch(IGIMF, SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
+        sample_for_one_epoch(R14orNOT, SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_over_H, M_str_U)
         function_draw(SFR, M_str_L, M_str_U, M_ecl_L, resolution_histogram_relative)
         function_make_drop_line()
@@ -98,11 +98,11 @@ List_xi = []
 # List_M_str_for_xi_str list of stellar masses for stellar IMF in Msun units
 # List_xi_L logarithmic IGIMF (xi_IGIMF_L = dN/d log_10 m)
 # List_Log_M_str - natural logarithm
-def function_draw_igimf(IGIMF, SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L,
+def function_draw_igimf(R14orNOT, SFR, alpha3_model, beta_model, delta_t, M_over_H, I_ecl, M_ecl_U, M_ecl_L,
                         I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_str_U):
     if SFR != 0:
         global List_M_ecl_for_xi_ecl, List_xi, List_M_str_for_xi_str, List_xi_L, List_Log_M_str, x_IMF, y_IMF, List_xi_str
-        function_ecmf(IGIMF, SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H)
+        function_ecmf(R14orNOT, SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H)
         x_IMF = []
         y_IMF = []
         alpha_1_change = function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
@@ -142,15 +142,15 @@ def function_draw_igimf(IGIMF, SFR, alpha3_model, beta_model, delta_t, M_over_H,
 # The assumed shape of ECMF is single powerlaw with slope beta (function of SFR)
 # the empyrical lower limit for star cluster mass if 50 Msun
 # the hypotetical upper mass limit is 10^9 Msun, but the M_ecl^max is computed, eq (12) in Yan et al. 2017
-def function_ecmf(IGIMF, SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
+def function_ecmf(R14orNOT, SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
     global List_M_ecl_for_xi_ecl, List_xi_ecl, x_ECMF, y_ECMF
     x_ECMF = []
     y_ECMF = []
-    if IGIMF == 'R14':
+    if R14orNOT == True:
         beta_change = 2
     else:
         beta_change = function_beta_change(beta_model, SFR, M_over_H)
-    function_draw_xi_ecl(IGIMF, M_ecl_L, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    function_draw_xi_ecl(R14orNOT, M_ecl_L, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     List_M_ecl_for_xi_ecl = x_ECMF
     del List_M_ecl_for_xi_ecl[0]
     del List_M_ecl_for_xi_ecl[-1]
@@ -232,11 +232,11 @@ List_star_number_in_mass_grid = []
 
 # This function gives the stellar masses in entire galaxy in unsorted manner
 # i.e. the stars are grouped in parent clusters
-def sample_for_one_epoch(IGIMF, SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
+def sample_for_one_epoch(R14orNOT, SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_model,
                          I_str, M_str_L, alpha_1, alpha1_model, M_turn, alpha_2, alpha2_model, M_turn2, M_over_H, M_str_U):
     global List_M_str_all_i, List_n_str_all_i, list_M_ecl_i
     beta_change = function_beta_change(beta_model, SFR, M_over_H)
-    function_sample_cluster(IGIMF, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    function_sample_cluster(R14orNOT, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     len_of_M_ecl_list = len(list_M_ecl_i)
     List_M_str_all_i = []
     List_n_str_all_i = []
@@ -246,13 +246,13 @@ def sample_for_one_epoch(IGIMF, SFR, alpha3_model, delta_t, I_ecl, M_ecl_U, M_ec
 
 
 # Masses of formed clusters
-def function_sample_cluster(IGIMF, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
+def function_sample_cluster(R14orNOT, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change):
     global list_m_ecl_i, list_n_ecl_i, list_M_ecl_i, M_max_ecl
     list_m_ecl_i = []
     list_n_ecl_i = []
     list_M_ecl_i = []
     M_max_ecl = 0
-    function_sample_from_ecmf(IGIMF, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
+    function_sample_from_ecmf(R14orNOT, SFR, delta_t, I_ecl, M_ecl_U, M_ecl_L, beta_change)
     return
 
 
@@ -565,8 +565,8 @@ def function_draw_histogram():
 # The star mass resolution is the lower resolution among "relative resolution" and "absolute resolution" where
 # the relative resolution = star mass * resolution_star_relative
 # the absolute resolution = resolution_star_absolute
-resolution_star_relative = 0.001
-resolution_star_absolute = 0.001
+resolution_star_relative = 0.01
+resolution_star_absolute = 0.01
 mass_grid_index = 1.01
 
 list_m_str_i = []
@@ -585,10 +585,10 @@ def function_sample_from_imf(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn
     function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U)
     list_m_str_i = []
     list_n_str_i = []
-    function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute)  # equation 16
+    function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute)  # equation 18
     list_M_str_i = []
     length_n = len(list_n_str_i)
-    function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U, length_n)  # equation 18
+    function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U, length_n)  # equation 20
     del list_n_str_i[0]
     return
 
@@ -599,16 +599,16 @@ def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
     M_constant = M_ecl * M_U ** (1 - alpha_3) / I_str / (1 - alpha_3) - M_turn2 ** (alpha_2 - alpha_3) * M_turn ** (
     alpha_1 - alpha_2) * (M_turn ** (2 - alpha_1) - M_L ** (2 - alpha_1)) / (2 - alpha_1) - M_turn2 ** (
     alpha_2 - alpha_3) * (M_turn2 ** (2 - alpha_2) - M_turn ** (
-        2 - alpha_2)) / (2 - alpha_2) + M_turn2 ** (2 - alpha_3) / (2 - alpha_3)  # equation 14
-    function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, 100, 10, -1)  # equation 14
+        2 - alpha_2)) / (2 - alpha_2) + M_turn2 ** (2 - alpha_3) / (2 - alpha_3)  # equation 16
+    function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, 100, 10, -1)  # equation 16
     M_max_function = 1
     if M_max < M_turn2:
         M_constant2 = M_ecl * M_turn2 ** (1 - alpha_2) / I_str / (1 - alpha_2) + M_ecl * M_turn2 ** (
         alpha_3 - alpha_2) * (M_U ** (
             1 - alpha_3) - M_turn2 ** (1 - alpha_3)) / I_str / (1 - alpha_3) - M_turn ** (alpha_1 - alpha_2) * (
         M_turn ** (2 - alpha_1) - M_L ** (
-            2 - alpha_1)) / (2 - alpha_1) + M_turn ** (2 - alpha_2) / (2 - alpha_2)  # equation 23
-        function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, 0.75, 0.1, -1)  # equation 23
+            2 - alpha_1)) / (2 - alpha_1) + M_turn ** (2 - alpha_2) / (2 - alpha_2)  # equation 25
+        function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, 0.75, 0.1, -1)  # equation 25
         M_max_function = 2
     if M_max < M_turn:
         M_constant3 = M_ecl * M_turn ** (1 - alpha_1) / I_str / (1 - alpha_1) + M_ecl * M_turn ** (
@@ -616,9 +616,8 @@ def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
             1 - alpha_2) - M_turn ** (1 - alpha_2)) / I_str / (1 - alpha_2) + M_ecl * M_turn2 ** (
         alpha_3 - alpha_2) * M_turn ** (
             alpha_2 - alpha_1) * (M_U ** (1 - alpha_3) - M_turn2 ** (1 - alpha_3)) / I_str / (1 - alpha_3) + M_L ** (
-        2 - alpha_1) / (2 - alpha_1)
-        # equation 27
-        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, 100, 10, -1)  # equation 27
+        2 - alpha_1) / (2 - alpha_1)  # equation 29
+        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, 100, 10, -1)  # equation 29
         M_max_function = 3
     if M_max < M_L:
         M_max_function = 0
@@ -630,16 +629,16 @@ def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global M_max_function, k3, k2, k1, M_max
     if M_max_function == 1:
         k3 = I_str*(1-alpha_3)/(M_U**(1-alpha_3)-M_max**(1-alpha_3))
-        # equation 12
+        # equation 14
     elif M_max_function == 2:
         k3 = I_str/(M_turn2**(alpha_2-alpha_3)*(M_turn2**(1-alpha_2)-M_max**(1-alpha_2))/(1-alpha_2) + (
             M_U**(1-alpha_3)-M_turn2**(1-alpha_3))/(1-alpha_3))
-        # equation 21
+        # equation 23
     elif M_max_function == 3:
         k3 = I_str/(M_turn2**(alpha_2-alpha_3) * M_turn**(alpha_1-alpha_2) * (M_turn**(1-alpha_1)-M_max**(1-alpha_1)) / (
             1-alpha_1) + M_turn2**(alpha_2-alpha_3)*(M_turn2**(1-alpha_2)-M_turn**(1-alpha_2))/(1-alpha_2) + (M_U**(
             1-alpha_3)-M_turn2**(1-alpha_3))/(1-alpha_3))
-        # equation 25
+        # equation 27
     else:
         print("function_M_max went wrong")
         return
@@ -648,64 +647,84 @@ def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     return
 
 
-def function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step, pm):  # equation 14
+def function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step, pm):  # equation 16
     m_1 = round(m_1, 10)  # round
     M_x = m_1**(2-alpha_3)/(2-alpha_3) + M_ecl*m_1**(1-alpha_3)/I_str/(1-alpha_3)
-    if abs(M_x-M_constant) < abs(M_constant) * 10 ** (-7):
-        global M_max
-        M_max = m_1
-    elif m_1 - step <= M_L or m_1 + step >= M_U:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step / 2, pm)
-    elif M_x > M_constant and pm == -1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 - step, step, -1)
-    elif M_x > M_constant and pm == 1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 - step / 2, step / 2, -1)
-    elif M_x < M_constant and pm == 1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 + step, step, 1)
-    elif M_x < M_constant and pm == -1:
-        function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1 + step / 2, step / 2, 1)
+    while abs(M_x-M_constant) > abs(M_constant) * 10 ** (-7) and m_1 > 1 and step > 0.005:
+        if m_1 - step <= M_L or m_1 + step >= M_U:
+            step = step / 2
+        elif M_x > M_constant and pm == -1:
+            m_1 = m_1 - step
+            pm = -1
+            M_x = m_1 ** (2 - alpha_3) / (2 - alpha_3) + M_ecl * m_1 ** (1 - alpha_3) / I_str / (1 - alpha_3)
+        elif M_x > M_constant and pm == 1:
+            m_1 = m_1 - step / 2
+            step = step / 2
+            pm = -1
+            M_x = m_1 ** (2 - alpha_3) / (2 - alpha_3) + M_ecl * m_1 ** (1 - alpha_3) / I_str / (1 - alpha_3)
+        elif M_x < M_constant and pm == 1:
+            m_1 = m_1 + step
+            pm = 1
+            M_x = m_1 ** (2 - alpha_3) / (2 - alpha_3) + M_ecl * m_1 ** (1 - alpha_3) / I_str / (1 - alpha_3)
+        elif M_x < M_constant and pm == -1:
+            m_1 = m_1 + step / 2
+            step = step / 2
+            pm = 1
+            M_x = m_1 ** (2 - alpha_3) / (2 - alpha_3) + M_ecl * m_1 ** (1 - alpha_3) / I_str / (1 - alpha_3)
+    global M_max
+    M_max = m_1
     return
 
 
-def function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1, step, pm):  # equation 23
+def function_M_max_2(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1, step, pm):  # equation 25
     m_1 = round(m_1, 10)  # round
     M_x = m_1 ** (2 - alpha_2) / (2 - alpha_2) + M_ecl * m_1 ** (1 - alpha_2) / I_str / (1 - alpha_2)
-    if abs(M_x - M_constant2) < abs(M_constant2) * 10 ** (-7):
-        global M_max
-        M_max = m_1
-    elif m_1 - step <= M_L or m_1 + step >= M_U:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1, step / 2, pm)
-    elif M_x > M_constant2 and pm == -1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 - step, step, -1)
-    elif M_x > M_constant2 and pm == 1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 - step / 2, step / 2, -1)
-    elif M_x < M_constant2 and pm == 1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 + step, step, 1)
-    elif M_x < M_constant2 and pm == -1:
-        function_M_max_1(M_constant2, M_ecl, I_str, alpha_2, M_U, M_L, m_1 + step / 2, step / 2, 1)
+    while abs(M_x-M_constant2) > abs(M_constant2) * 10 ** (-7) and m_1 > 0.5 and step > 0.002:
+        if m_1 - step <= M_L or m_1 + step >= M_U:
+            step = step / 2
+        elif M_x > M_constant2 and pm == -1:
+            m_1 = m_1 - step
+            pm = -1
+            M_x = m_1 ** (2 - alpha_2) / (2 - alpha_2) + M_ecl * m_1 ** (1 - alpha_2) / I_str / (1 - alpha_2)
+        elif M_x > M_constant2 and pm == 1:
+            m_1 = m_1 - step / 2
+            step = step / 2
+            pm = -1
+            M_x = m_1 ** (2 - alpha_2) / (2 - alpha_2) + M_ecl * m_1 ** (1 - alpha_2) / I_str / (1 - alpha_2)
+        elif M_x < M_constant2 and pm == 1:
+            m_1 = m_1 + step
+            pm = 1
+            M_x = m_1 ** (2 - alpha_2) / (2 - alpha_2) + M_ecl * m_1 ** (1 - alpha_2) / I_str / (1 - alpha_2)
+        elif M_x < M_constant2 and pm == -1:
+            m_1 = m_1 + step / 2
+            step = step / 2
+            pm = 1
+            M_x = m_1 ** (2 - alpha_2) / (2 - alpha_2) + M_ecl * m_1 ** (1 - alpha_2) / I_str / (1 - alpha_2)
+    global M_max
+    M_max = m_1
     return
 
 
-def function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step, pm):  # equation 27
+def function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step, pm):  # equation 29
     m_1 = round(m_1, 10)  # round
     M_x = m_1 ** (2 - alpha_1) / (2 - alpha_1) + M_ecl * m_1 ** (1 - alpha_1) / I_str / (1 - alpha_1)
-    if abs(M_x-M_constant3) < abs(M_constant3) * 10 ** (-7):
+    if abs(M_x-M_constant3) < abs(M_constant3) * 10 ** (-7) or step < 0.001:
         global M_max
         M_max = m_1
     elif m_1 - step <= M_L or m_1 + step >= M_U:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step / 2, pm)
+        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1, step / 2, pm)
     elif M_x > M_constant3 and pm == -1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 - step, step, -1)
+        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 - step, step, -1)
     elif M_x > M_constant3 and pm == 1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 - step / 2, step / 2, -1)
+        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 - step / 2, step / 2, -1)
     elif M_x < M_constant3 and pm == 1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 + step, step, 1)
+        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 + step, step, 1)
     elif M_x < M_constant3 and pm == -1:
-        function_M_max_1(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 + step / 2, step / 2, 1)
+        function_M_max_3(M_constant3, M_ecl, I_str, alpha_1, M_U, M_L, m_1 + step / 2, step / 2, 1)
     return
 
 
-def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute):  # equation 16
+def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_max, resolution_star_relative, resolution_star_absolute):  # equation 18
     global list_m_str_i
     if M_max > 100:
         loop_m_i_first_three(k3, M_turn2, alpha_3, M_max, 0, resolution_star_relative, resolution_star_absolute, 0)
@@ -807,7 +826,7 @@ def function_get_n_new_str_cross(m_i, m_after_cross, k, alpha, m_after_cross_plu
     return m_after_cross_plus_n, n_i
 
 
-def cross_M_L(k_1, M_L, alpha_1, m_i):  # equation 19
+def cross_M_L(k_1, M_L, alpha_1, m_i):  # equation 21
     global list_m_str_i, list_n_str_i
     n_i = int(k_1 / (1 - alpha_1) * (m_i ** (1 - alpha_1) - M_L ** (1 - alpha_1)))
     list_m_str_i += [M_L]
@@ -815,7 +834,7 @@ def cross_M_L(k_1, M_L, alpha_1, m_i):  # equation 19
     return
 
 
-def function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U, length_n):  # equation 18
+def function_M_i(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U, length_n):  # equation 20
     global list_m_str_i, new_i, list_M_str_i, M_max, list_n_str_i
     new_i = 0
     if M_max > M_turn2:
@@ -1049,17 +1068,17 @@ def function_alpha_3_change(alpha3_model, M_ecl, M_over_H):
 
 ################### sample cluster from ECMF #####################
 
-resolution_cluster_relative = 0.001 # The mass resolution of a embedded cluster with mass M is: M * resolution_cluster_relative.
+resolution_cluster_relative = 0.01 # The mass resolution of a embedded cluster with mass M is: M * resolution_cluster_relative.
 list_m_ecl_i = []
 list_n_ecl_i = []
 list_M_ecl_i = []
 M_max_ecl = 0
 
 
-def function_sample_from_ecmf(IGIMF, SFR, delta_t, I_ecl, M_U, M_L, beta):
+def function_sample_from_ecmf(R14orNOT, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global list_m_ecl_i, list_n_ecl_i, list_M_ecl_i, M_max_ecl, resolution_cluster_relative
     M_tot = SFR * delta_t * 10**6  # units in Myr
-    if IGIMF == 'R14':
+    if R14orNOT == True:
         M_max_ecl = 10**(4.83+0.75*math.log(SFR, 10))
         k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 41
         list_m_ecl_i = [M_max_ecl]
@@ -1182,10 +1201,10 @@ def function_M_i_not_2(k, beta, i, length_n):  # equation 49
 
 ################### draw ECMF without sampling #####################
 
-def k_ecl(IGIMF, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
+def k_ecl(R14orNOT, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global M_max_ecl
     M_tot = SFR * delta_t * 10 ** 6  # units in Myr
-    if IGIMF == 'R14':
+    if R14orNOT == True:
         M_max_ecl = 10 ** (4.83 + 0.75 * math.log(SFR, 10))
         if M_max_ecl < 5:
             M_max_ecl = 5
@@ -1206,9 +1225,9 @@ x_ECMF = []
 y_ECMF = []
 
 
-def function_draw_xi_ecl(IGIMF, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
+def function_draw_xi_ecl(R14orNOT, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global x_ECMF, y_ECMF
-    k = k_ecl(IGIMF, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta)
+    k = k_ecl(R14orNOT, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta)
     function_draw_xi_ecl_loop(M_ecl, k, M_U, beta)
     x_ECMF = [x_ECMF[0]] + x_ECMF
     x_ECMF += [x_ECMF[-1]]
