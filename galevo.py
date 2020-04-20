@@ -1698,6 +1698,10 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
     minutes, seconds = divmod(computation_time_seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
+    days = int(days)
+    hours = int(hours)
+    minutes = int(minutes)
+    seconds = round(seconds, 4)
     print("- Simulation complete. Computation time: {} d {} h {} m {} s -".format(days, hours, minutes, seconds))
 
     ###################
@@ -2545,16 +2549,16 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         # alpha2_model = 1  # 1  # see file 'galimf.py'
         # alpha1_model = 1 # 0 # see file 'galimf.py'
         # beta_model = 1
-        # IGIMF = 'J18'
+        # R14orNOT = False
 
-        # # IGIMF-Z
-        # alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
-        # alpha_2 = 2.3  # IMF middle-mass power-index
-        # alpha_1 = 1.3  # IMF low-mass-end power-index
-        # alpha2_model = 'Z'  # 1  # see file 'galimf.py'
-        # alpha1_model = 'Z' # 0 # see file 'galimf.py'
-        # beta_model = 1
-        # IGIMF = 'J18'
+        # IGIMF-Z
+        alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+        alpha_2 = 2.3  # IMF middle-mass power-index
+        alpha_1 = 1.3  # IMF low-mass-end power-index
+        alpha2_model = 'Z'  # 1  # see file 'galimf.py'
+        alpha1_model = 'Z' # 0 # see file 'galimf.py'
+        beta_model = 1
+        R14orNOT = False
 
         # # IGIMF2.5
         # alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
@@ -2563,7 +2567,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         # alpha2_model = 'IGIMF2.5'  # 1  # see file 'galimf.py'
         # alpha1_model = 'IGIMF2.5' # 0 # see file 'galimf.py'
         # beta_model = 1
-        # IGIMF = 'Y20'
+        # R14orNOT = False
 
         # # IGIMF2
         # alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
@@ -2572,16 +2576,16 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         # alpha2_model = 0  # 1  # see file 'galimf.py'
         # alpha1_model = 0  # 0 # see file 'galimf.py'
         # beta_model = 1
-        # IGIMF = 'Y17'
+        # R14orNOT = False
 
-        # IGIMF-R14
-        alpha3_model = 'R14' # 'R14'  # 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
-        alpha_2 = 2.3  # IMF middle-mass power-index
-        alpha_1 = 1.3  # IMF low-mass-end power-index
-        alpha2_model = 'R14' # 'R14'  # 1  # see file 'galimf.py'
-        alpha1_model = 0 # 0 # see file 'galimf.py'
-        beta_model = 0
-        IGIMF = 'R14'
+        # # IGIMF-R14
+        # alpha3_model = 'R14' # 'R14'  # 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+        # alpha_2 = 2.3  # IMF middle-mass power-index
+        # alpha_1 = 1.3  # IMF low-mass-end power-index
+        # alpha2_model = 'R14' # 'R14'  # 1  # see file 'galimf.py'
+        # alpha1_model = 0 # 0 # see file 'galimf.py'
+        # beta_model = 0
+        # R14orNOT = True
 
         # ----------------------------------------------------------------
 
@@ -2612,7 +2616,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
 
         galimf.function_galimf(
             "I",  # IorS ### "I" for IGIMF; "OS" for OSGIMF
-            IGIMF, # R14 or not?
+            R14orNOT, # True or False
             SFR,  # Star Formation Rate [solar mass / yr]
             alpha3_model,  # IMF high-mass-end power-index model, see file 'alpha3.py'
             delta_t,  # star formation epoch [Myr]
@@ -3599,21 +3603,21 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         fig = plt.figure(0, figsize=(3, 2.5))
         fig.add_subplot(1, 1, 1)
         plt.plot(age_list, SFR_list, color="k", lw=0.8)
-        with open('SFH_Lacchin.txt') as f:
-            lines = f.readlines()
-            time_Lacchin = [float(line.split()[0]) for line in lines]
-            SFH_Lacchin = [float(line.split()[1]) for line in lines]
-        with open('SFH_Lacchin_igimf.txt') as f:
-            lines = f.readlines()
-            time_Lacchin_igimf = [float(line.split()[0]) for line in lines]
-            SFH_Lacchin_igimf = [float(line.split()[1]) for line in lines]
-        # plt.plot(time_Lacchin, SFH_Lacchin, color="tab:red", label='Lacchin2019 Salpeter', ls='dashed', lw=0.7)
-        plt.plot(time_Lacchin_igimf, SFH_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed', lw=0.7)
+        # with open('SFH_Lacchin.txt') as f:
+        #     lines = f.readlines()
+        #     time_Lacchin = [float(line.split()[0]) for line in lines]
+        #     SFH_Lacchin = [float(line.split()[1]) for line in lines]
+        # with open('SFH_Lacchin_igimf.txt') as f:
+        #     lines = f.readlines()
+        #     time_Lacchin_igimf = [float(line.split()[0]) for line in lines]
+        #     SFH_Lacchin_igimf = [float(line.split()[1]) for line in lines]
+        # # plt.plot(time_Lacchin, SFH_Lacchin, color="tab:red", label='Lacchin2019 Salpeter', ls='dashed', lw=0.7)
+        # plt.plot(time_Lacchin_igimf, SFH_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed', lw=0.7)
         plt.xlabel('time [Gyr]')
         plt.ylabel(r'log$_{10}(SFR [M_\odot$/yr])')
         # plt.xlim(6.4, 1.01 * log_time_axis[-1])
-        plt.xlim(-0.1, 1.1)
-        plt.ylim(-7, -2.5)
+        # plt.xlim(-0.1, 1.1)
+        # plt.ylim(-7, -2.5)
         # plt.title('Star formation history', fontsize=10)
         plt.tight_layout()
         # plt.legend(prop={'size': 7})
@@ -3811,7 +3815,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.xlabel(r'log$_{10}(M_\star)$ [$M_{\odot}$]')
         plt.ylabel(r'log$_{10}(\xi_\star)$')
         # plt.title('galaxy-wide IMF of each star formation epoch', fontsize=10)
-        plt.ylim(-4, 7)
+        # plt.ylim(-4, 7)
         plt.legend(prop={'size': 7})
         plt.tight_layout()
         if plot_save is True:
@@ -4672,95 +4676,95 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
     #
     #
     #
-    if plot_show is True or plot_save is True:
-        fig, axs = plt.subplots(3, 1, sharex=True, figsize=(3, 5))
-        axs[0].plot(Fe_over_H_list, Mg_over_Fe_list, color='k')
-        with open('Mg_Lacchin_best.txt') as f:
-            lines = f.readlines()
-            time_Mg_Lacchin_best = [float(line.split()[0]) for line in lines]
-            Mg_Lacchin_best = [float(line.split()[1]) for line in lines]
-        Lai2011_Fe_H = [-2.34 - 0.05, -2.37 - 0.05, -3.09 - 0.05, -2.39 - 0.05, -2.89 - 0.05, -2.2 - 0.05, -2.49 - 0.05,
-                        -2.48 - 0.05, -2.65 - 0.05, -2.43 - 0.05, -2.48 - 0.05, -2.49 - 0.05, -2.57 - 0.05, -2.89 - 0.05,
-                        -2.51 - 0.05, -3.29 - 0.05, -2.42 - 0.05, -3.79 - 0.05, -2.87 - 0.05, -2.9 - 0.05, -1.65 - 0.05,
-                        -2.76 - 0.05, -2.31 - 0.05, -1.86 - 0.05]
-        Lai2011_Mg_Fe = [0.12 + 0.05, 0.28 + 0.05, 0.43 + 0.05, 0.35 + 0.05, 0.05 + 0.05, 0.32 + 0.05, 0.16 + 0.05,
-                         0.18 + 0.05, 0.37 + 0.05, 0.05 + 0.05, 0.04 + 0.05, 0.23 + 0.05, 0.34 + 0.05, 0.3 + 0.05, 0.13 + 0.05,
-                         0.28 + 0.05, 0.13 + 0.05, 0.27 + 0.05, 0.12 + 0.05, 0.16 + 0.05, 0.46 + 0.05, 0.25 + 0.05,
-                         0.06 + 0.05, 0.51 + 0.05]
-        Lai2011_Fe_H_error = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
-                              0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
-        Lai2011_Mg_Fe_error = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
-                               0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
-        Lacchin2019_Fe_H = [-3.6613, -3.2003, -2.9075, -2.7063, -2.5025, -2.2810, -2.2810, -2.1969, -2.0492, -1.9219, -1.8048]
-        Lacchin2019_Mg_Fe = [0.47409, 0.39382, 0.63630, 0.13418, 0.20614, 0.35587, 0.32298, 0.35595, 0.30228, 0.20672, 0.47594]
-        Lacchin2019_Fe_H_error = [0.1, 0.15, 0.15, 0.15, 0.15, 0.3, 0.15, 0.15, 0.15, 0.15, 0.15]
-        Lacchin2019_Mg_Fe_error = [0.1, 0.05, 0.12, 0.135, 0.2, 0.23, 0.235, 0.13, 0.23, 0.14, 0.24]
-        # axs[0].errorbar(Lai2011_Fe_H, Lai2011_Mg_Fe, xerr=Lai2011_Fe_H_error, yerr=Lai2011_Mg_Fe_error, markersize=0,
-        #                 ecolor='k', ls='none', elinewidth=0.5, alpha=0.4)
-        axs[0].errorbar(Lacchin2019_Fe_H, Lacchin2019_Mg_Fe, xerr=Lacchin2019_Fe_H_error, yerr=Lacchin2019_Mg_Fe_error, markersize=0,
-                        ecolor='tab:blue', ls='none', elinewidth=0.5, alpha=0.4)
-        if imf == 'igimf':
-            axs[0].plot(time_Mg_Lacchin_igimf, Mg_Lacchin_igimf, color='tab:blue', ls='dashed', lw=0.7)
-            axs[0].plot(time_Mg_Lacchin_best, Mg_Lacchin_best, color='tab:blue', ls='-.', lw=0.7)
-        elif imf == 'Salpeter':
-            axs[0].plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.44, 0.445, 0.45, 0.44, 0.37, 0.17, -0.14, -0.44],
-                     color='red', ls='dashed', lw=0.7)
-        axs[0].scatter(Lacchin2019_Fe_H, Lacchin2019_Mg_Fe, color='tab:blue', alpha=0.5, label='Lacchin2019', s=20)
-        # axs[0].scatter(Lai2011_Fe_H, Lai2011_Mg_Fe, color='k', alpha=0.5, marker='*', s=20, label='Lai2011')
-        axs[0].set_xlabel('[Fe/H]')
-        axs[0].set_ylabel('[Mg/Fe]')
-        axs[0].set_xlim(-4, -0.6)
-        axs[0].set_ylim(-0.8, 1)
-        # axs[0].legend(prop={'size': 6}, loc='lower left')
-
-        with open('Si_Lacchin_best.txt') as f:
-            lines = f.readlines()
-            time_Si_Lacchin_best = [float(line.split()[0]) for line in lines]
-            Si_Lacchin_best = [float(line.split()[1]) for line in lines]
-        Lacchin2019_Fe_H = [-3.6624, -2.0549, -1.9241]
-        Lacchin2019_Si_Fe = [0.77012, 0.10533, 0.13018]
-        Lacchin2019_Fe_H_error = [0.11, 0.15, 0.15]
-        Lacchin2019_Si_Fe_error = [0.15, 0.26, 0.23]
-        axs[1].plot(Fe_over_H_list, Si_over_Fe_list, color='k')
-        axs[1].errorbar(Lacchin2019_Fe_H, Lacchin2019_Si_Fe, xerr=Lacchin2019_Fe_H_error, yerr=Lacchin2019_Si_Fe_error,
-                        markersize=0, ecolor='tab:blue', ls='none', elinewidth=0.5, alpha=0.4)
-        if imf == 'igimf':
-            axs[1].plot(time_Si_Lacchin_best, Si_Lacchin_best, color='tab:blue', ls='-.', lw=0.7)
-            axs[1].plot(time_Si_Lacchin_igimf, Si_Lacchin_igimf, color='tab:blue', ls='dashed', lw=0.7)
-        elif imf == 'Salpeter':
-            axs[1].plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.68, 0.64, 0.6, 0.56, 0.5, 0.33, 0.1, -0.07],
-                        color='red', ls='dashed', lw=0.7)
-        axs[1].scatter(Lacchin2019_Fe_H, Lacchin2019_Si_Fe, color='tab:blue', alpha=0.5, label='Lacchin2019', s=20)
-        axs[1].set_xlabel('[Fe/H]')
-        axs[1].set_ylabel('[Si/Fe]')
-        axs[1].set_xlim(-4, -0.6)
-        axs[1].set_ylim(-0.5, 1)
-
-        with open('Ca_Lacchin_best.txt') as f:
-            lines = f.readlines()
-            time_Ca_Lacchin_best = [float(line.split()[0]) for line in lines]
-            Ca_Lacchin_best = [float(line.split()[1]) for line in lines]
-        Lacchin2019_Fe_H = [-3.6584, -3.1993, -2.9072, -2.7045, -2.5011, -2.2812, -2.2813, -2.2820, -2.1992, -2.0522, -1.9244, -1.8019, ]
-        Lacchin2019_Ca_Fe = [0.52167, 0.45923, 0.32191, 0.18145, 0.23876, 0.31201, 0.28968, 0.13178, -0.010205, 0.14921, 0.098101, 0.22084]
-        Lacchin2019_Fe_H_error = [0.11, 0.15, 0.16, 0.16, 0.16, 0.11, 0.3, 0.16, 0.16, 0.16, 0.16, 0.16]
-        Lacchin2019_Ca_Fe_error = [0.1, 0.05, 0.05, 0.05, 0.08, 0.05, 0.28, 0.05, 0.11, 0.07, 0.05, 0.06]
-        axs[2].plot(Fe_over_H_list, Ca_over_Fe_list, color='k')
-        axs[2].errorbar(Lacchin2019_Fe_H, Lacchin2019_Ca_Fe, xerr=Lacchin2019_Fe_H_error, yerr=Lacchin2019_Ca_Fe_error,
-                        markersize=0, ecolor='tab:blue', ls='none', elinewidth=0.5, alpha=0.4)
-        if imf == 'igimf':
-            axs[2].plot(time_Ca_Lacchin_best, Ca_Lacchin_best, color='tab:blue', ls='-.', lw=0.7)
-            axs[2].plot(time_Ca_Lacchin_igimf, Ca_Lacchin_igimf, color='tab:blue', ls='dashed', lw=0.7)
-        elif imf == 'Salpeter':
-            axs[2].plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.3, 0.27, 0.22, 0.19, 0.14, 0.01, -0.15, -0.26], color='red', ls='dashed', lw=0.7)
-        axs[2].scatter(Lacchin2019_Fe_H, Lacchin2019_Ca_Fe, color='tab:blue', alpha=0.5, label='Lacchin2019', s=20)
-        axs[2].set_xlabel('[Fe/H]')
-        axs[2].set_ylabel('[Ca/Fe]')
-        axs[2].set_xlim(-4, -0.6)
-        axs[2].set_ylim(-0.5, 0.7)
-
-        plt.tight_layout()
-        fig.subplots_adjust(hspace=0)  # Remove horizontal space between axes
-        plt.savefig('MgSiCa.pdf', dpi=250)
+    # if plot_show is True or plot_save is True:
+    #     fig, axs = plt.subplots(3, 1, sharex=True, figsize=(3, 5))
+    #     axs[0].plot(Fe_over_H_list, Mg_over_Fe_list, color='k')
+    #     with open('Mg_Lacchin_best.txt') as f:
+    #         lines = f.readlines()
+    #         time_Mg_Lacchin_best = [float(line.split()[0]) for line in lines]
+    #         Mg_Lacchin_best = [float(line.split()[1]) for line in lines]
+    #     Lai2011_Fe_H = [-2.34 - 0.05, -2.37 - 0.05, -3.09 - 0.05, -2.39 - 0.05, -2.89 - 0.05, -2.2 - 0.05, -2.49 - 0.05,
+    #                     -2.48 - 0.05, -2.65 - 0.05, -2.43 - 0.05, -2.48 - 0.05, -2.49 - 0.05, -2.57 - 0.05, -2.89 - 0.05,
+    #                     -2.51 - 0.05, -3.29 - 0.05, -2.42 - 0.05, -3.79 - 0.05, -2.87 - 0.05, -2.9 - 0.05, -1.65 - 0.05,
+    #                     -2.76 - 0.05, -2.31 - 0.05, -1.86 - 0.05]
+    #     Lai2011_Mg_Fe = [0.12 + 0.05, 0.28 + 0.05, 0.43 + 0.05, 0.35 + 0.05, 0.05 + 0.05, 0.32 + 0.05, 0.16 + 0.05,
+    #                      0.18 + 0.05, 0.37 + 0.05, 0.05 + 0.05, 0.04 + 0.05, 0.23 + 0.05, 0.34 + 0.05, 0.3 + 0.05, 0.13 + 0.05,
+    #                      0.28 + 0.05, 0.13 + 0.05, 0.27 + 0.05, 0.12 + 0.05, 0.16 + 0.05, 0.46 + 0.05, 0.25 + 0.05,
+    #                      0.06 + 0.05, 0.51 + 0.05]
+    #     Lai2011_Fe_H_error = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+    #                           0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
+    #     Lai2011_Mg_Fe_error = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
+    #                            0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    #     Lacchin2019_Fe_H = [-3.6613, -3.2003, -2.9075, -2.7063, -2.5025, -2.2810, -2.2810, -2.1969, -2.0492, -1.9219, -1.8048]
+    #     Lacchin2019_Mg_Fe = [0.47409, 0.39382, 0.63630, 0.13418, 0.20614, 0.35587, 0.32298, 0.35595, 0.30228, 0.20672, 0.47594]
+    #     Lacchin2019_Fe_H_error = [0.1, 0.15, 0.15, 0.15, 0.15, 0.3, 0.15, 0.15, 0.15, 0.15, 0.15]
+    #     Lacchin2019_Mg_Fe_error = [0.1, 0.05, 0.12, 0.135, 0.2, 0.23, 0.235, 0.13, 0.23, 0.14, 0.24]
+    #     # axs[0].errorbar(Lai2011_Fe_H, Lai2011_Mg_Fe, xerr=Lai2011_Fe_H_error, yerr=Lai2011_Mg_Fe_error, markersize=0,
+    #     #                 ecolor='k', ls='none', elinewidth=0.5, alpha=0.4)
+    #     axs[0].errorbar(Lacchin2019_Fe_H, Lacchin2019_Mg_Fe, xerr=Lacchin2019_Fe_H_error, yerr=Lacchin2019_Mg_Fe_error, markersize=0,
+    #                     ecolor='tab:blue', ls='none', elinewidth=0.5, alpha=0.4)
+    #     if imf == 'igimf':
+    #         axs[0].plot(time_Mg_Lacchin_igimf, Mg_Lacchin_igimf, color='tab:blue', ls='dashed', lw=0.7)
+    #         axs[0].plot(time_Mg_Lacchin_best, Mg_Lacchin_best, color='tab:blue', ls='-.', lw=0.7)
+    #     elif imf == 'Salpeter':
+    #         axs[0].plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.44, 0.445, 0.45, 0.44, 0.37, 0.17, -0.14, -0.44],
+    #                  color='red', ls='dashed', lw=0.7)
+    #     axs[0].scatter(Lacchin2019_Fe_H, Lacchin2019_Mg_Fe, color='tab:blue', alpha=0.5, label='Lacchin2019', s=20)
+    #     # axs[0].scatter(Lai2011_Fe_H, Lai2011_Mg_Fe, color='k', alpha=0.5, marker='*', s=20, label='Lai2011')
+    #     axs[0].set_xlabel('[Fe/H]')
+    #     axs[0].set_ylabel('[Mg/Fe]')
+    #     axs[0].set_xlim(-4, -0.6)
+    #     axs[0].set_ylim(-0.8, 1)
+    #     # axs[0].legend(prop={'size': 6}, loc='lower left')
+    #
+    #     with open('Si_Lacchin_best.txt') as f:
+    #         lines = f.readlines()
+    #         time_Si_Lacchin_best = [float(line.split()[0]) for line in lines]
+    #         Si_Lacchin_best = [float(line.split()[1]) for line in lines]
+    #     Lacchin2019_Fe_H = [-3.6624, -2.0549, -1.9241]
+    #     Lacchin2019_Si_Fe = [0.77012, 0.10533, 0.13018]
+    #     Lacchin2019_Fe_H_error = [0.11, 0.15, 0.15]
+    #     Lacchin2019_Si_Fe_error = [0.15, 0.26, 0.23]
+    #     axs[1].plot(Fe_over_H_list, Si_over_Fe_list, color='k')
+    #     axs[1].errorbar(Lacchin2019_Fe_H, Lacchin2019_Si_Fe, xerr=Lacchin2019_Fe_H_error, yerr=Lacchin2019_Si_Fe_error,
+    #                     markersize=0, ecolor='tab:blue', ls='none', elinewidth=0.5, alpha=0.4)
+    #     if imf == 'igimf':
+    #         axs[1].plot(time_Si_Lacchin_best, Si_Lacchin_best, color='tab:blue', ls='-.', lw=0.7)
+    #         axs[1].plot(time_Si_Lacchin_igimf, Si_Lacchin_igimf, color='tab:blue', ls='dashed', lw=0.7)
+    #     elif imf == 'Salpeter':
+    #         axs[1].plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.68, 0.64, 0.6, 0.56, 0.5, 0.33, 0.1, -0.07],
+    #                     color='red', ls='dashed', lw=0.7)
+    #     axs[1].scatter(Lacchin2019_Fe_H, Lacchin2019_Si_Fe, color='tab:blue', alpha=0.5, label='Lacchin2019', s=20)
+    #     axs[1].set_xlabel('[Fe/H]')
+    #     axs[1].set_ylabel('[Si/Fe]')
+    #     axs[1].set_xlim(-4, -0.6)
+    #     axs[1].set_ylim(-0.5, 1)
+    #
+    #     with open('Ca_Lacchin_best.txt') as f:
+    #         lines = f.readlines()
+    #         time_Ca_Lacchin_best = [float(line.split()[0]) for line in lines]
+    #         Ca_Lacchin_best = [float(line.split()[1]) for line in lines]
+    #     Lacchin2019_Fe_H = [-3.6584, -3.1993, -2.9072, -2.7045, -2.5011, -2.2812, -2.2813, -2.2820, -2.1992, -2.0522, -1.9244, -1.8019, ]
+    #     Lacchin2019_Ca_Fe = [0.52167, 0.45923, 0.32191, 0.18145, 0.23876, 0.31201, 0.28968, 0.13178, -0.010205, 0.14921, 0.098101, 0.22084]
+    #     Lacchin2019_Fe_H_error = [0.11, 0.15, 0.16, 0.16, 0.16, 0.11, 0.3, 0.16, 0.16, 0.16, 0.16, 0.16]
+    #     Lacchin2019_Ca_Fe_error = [0.1, 0.05, 0.05, 0.05, 0.08, 0.05, 0.28, 0.05, 0.11, 0.07, 0.05, 0.06]
+    #     axs[2].plot(Fe_over_H_list, Ca_over_Fe_list, color='k')
+    #     axs[2].errorbar(Lacchin2019_Fe_H, Lacchin2019_Ca_Fe, xerr=Lacchin2019_Fe_H_error, yerr=Lacchin2019_Ca_Fe_error,
+    #                     markersize=0, ecolor='tab:blue', ls='none', elinewidth=0.5, alpha=0.4)
+    #     if imf == 'igimf':
+    #         axs[2].plot(time_Ca_Lacchin_best, Ca_Lacchin_best, color='tab:blue', ls='-.', lw=0.7)
+    #         axs[2].plot(time_Ca_Lacchin_igimf, Ca_Lacchin_igimf, color='tab:blue', ls='dashed', lw=0.7)
+    #     elif imf == 'Salpeter':
+    #         axs[2].plot([-4, -3.5, -3, -2.5, -2, -1.5, -1, -0.6], [0.3, 0.27, 0.22, 0.19, 0.14, 0.01, -0.15, -0.26], color='red', ls='dashed', lw=0.7)
+    #     axs[2].scatter(Lacchin2019_Fe_H, Lacchin2019_Ca_Fe, color='tab:blue', alpha=0.5, label='Lacchin2019', s=20)
+    #     axs[2].set_xlabel('[Fe/H]')
+    #     axs[2].set_ylabel('[Ca/Fe]')
+    #     axs[2].set_xlim(-4, -0.6)
+    #     axs[2].set_ylim(-0.5, 0.7)
+    #
+    #     plt.tight_layout()
+    #     fig.subplots_adjust(hspace=0)  # Remove horizontal space between axes
+    #     plt.savefig('MgSiCa.pdf', dpi=250)
     #
     #
     # if plot_show is True or plot_save is True:
@@ -4814,20 +4818,20 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         SNIa_number_per_yr = [x / 100 for x in SNIa_number_per_century]
         time_in_Gyr = [x / 10**9 for x in time_axis]
         plt.plot(time_in_Gyr, SNIa_number_per_yr, color="k", lw=0.8)
-        with open('SNIa_Lacchin.txt') as f:
-            lines = f.readlines()
-            time_Lacchin = [float(line.split()[0]) for line in lines]
-            SNIa_Lacchin = [10 ** float(line.split()[1]) for line in lines]
-        with open('SNIa_Lacchin_igimf.txt') as f:
-            lines = f.readlines()
-            time_Lacchin_igimf = [float(line.split()[0]) for line in lines]
-            SNIa_Lacchin_igimf = [10 ** float(line.split()[1]) for line in lines]
-        # plt.plot(time_Lacchin, SNIa_Lacchin, color="tab:red", label='Lacchin2019 Salpeter', ls='dashed', lw=0.7)
-        plt.plot(time_Lacchin_igimf, SNIa_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed', lw=0.7)
+        # with open('SNIa_Lacchin.txt') as f:
+        #     lines = f.readlines()
+        #     time_Lacchin = [float(line.split()[0]) for line in lines]
+        #     SNIa_Lacchin = [10 ** float(line.split()[1]) for line in lines]
+        # with open('SNIa_Lacchin_igimf.txt') as f:
+        #     lines = f.readlines()
+        #     time_Lacchin_igimf = [float(line.split()[0]) for line in lines]
+        #     SNIa_Lacchin_igimf = [10 ** float(line.split()[1]) for line in lines]
+        # # plt.plot(time_Lacchin, SNIa_Lacchin, color="tab:red", label='Lacchin2019 Salpeter', ls='dashed', lw=0.7)
+        # plt.plot(time_Lacchin_igimf, SNIa_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed', lw=0.7)
         plt.yscale('log')
         plt.xlabel(r'time [Gyr]')
         plt.ylabel(r'# of SNIa per yr')
-        plt.xlim(0, 14)
+        # plt.xlim(0, 14)
         # plt.ylim(4e-10, 5e-7)
         # plt.ylim(1e-9, 1e-6)
         # plt.legend(prop={'size': 7})
@@ -4844,21 +4848,21 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         SNII_number_per_yr = [x / 100 for x in SNII_number_per_century]
         time_in_Gyr = [x / 10**9 for x in time_axis]
         plt.plot(time_in_Gyr, SNII_number_per_yr, color="k", lw=0.8)
-        with open('SNII_Lacchin.txt') as f:
-            lines = f.readlines()
-            time_Lacchin = [float(line.split()[0]) for line in lines]
-            SNII_Lacchin = [10**float(line.split()[1]) for line in lines]
-        with open('SNII_Lacchin_igimf.txt') as f:
-            lines = f.readlines()
-            time_Lacchin_igimf = [float(line.split()[0]) for line in lines]
-            SNII_Lacchin_igimf = [10**float(line.split()[1]) for line in lines]
-        # plt.plot(time_Lacchin, SNII_Lacchin, color="tab:red", label='Lacchin2019 Salpeter', ls='dashed', lw=0.7)
-        plt.plot(time_Lacchin_igimf, SNII_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed', lw=0.7)
+        # with open('SNII_Lacchin.txt') as f:
+        #     lines = f.readlines()
+        #     time_Lacchin = [float(line.split()[0]) for line in lines]
+        #     SNII_Lacchin = [10**float(line.split()[1]) for line in lines]
+        # with open('SNII_Lacchin_igimf.txt') as f:
+        #     lines = f.readlines()
+        #     time_Lacchin_igimf = [float(line.split()[0]) for line in lines]
+        #     SNII_Lacchin_igimf = [10**float(line.split()[1]) for line in lines]
+        # # plt.plot(time_Lacchin, SNII_Lacchin, color="tab:red", label='Lacchin2019 Salpeter', ls='dashed', lw=0.7)
+        # plt.plot(time_Lacchin_igimf, SNII_Lacchin_igimf, color="tab:blue", label='Lacchin2019 IGIMF', ls='dashed', lw=0.7)
         plt.yscale('log')
         plt.xlabel(r'time [Gyr]')
         plt.ylabel(r'# of SNII per yr')
-        plt.xlim(0, 1)
-        plt.ylim(1e-9, 1e-5)
+        # plt.xlim(0, 1)
+        # plt.ylim(1e-9, 1e-5)
         # plt.legend(prop={'size': 7})
         plt.tight_layout()
         if plot_save is True:
@@ -5132,7 +5136,7 @@ def plot_output(plot_show, plot_save, imf, igimf, SFR, SFEN, log_Z_0, STF):  # S
         plt.legend(prop={'size': 7})
         # plt.xlim(6.4, 1.01 * time_axis[-1])
         plt.xlim(6.4, 10.1)
-        plt.ylim(0, 7)
+        # plt.ylim(0, 7)
         plt.tight_layout()
         if plot_save is True:
             plt.savefig('mass_evolution.pdf'.format(imf), dpi=250)
@@ -5674,13 +5678,13 @@ if __name__ == '__main__':
     # SNIa_yield_table='Thielemann1993' or 'Seitenzahl2013' or 'Iwamoto1999'
     # solar_abu_table='Anders1989' or 'Asplund2009'
 
-    # galaxy_evol(imf='igimf', STF=0.0218, SFEN=SFEN, Z_0=0.02*1e-16, solar_mass_component="Asplund2009_mass",
-    #             str_yield_table='Kobayashi06', IMF_name='Kroupa', steller_mass_upper_bound=150,
-    #             time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-    #             SFH_model='gas_mass_dependent', SFE=0.004, SNIa_ON=True, SNIa_yield_table='Iwamoto1999',
-    #             solar_abu_table='Asplund2009',
-    #             high_time_resolution=None, plot_show=True, plot_save=True, outflow=100, check_igimf=True)
-
+    galaxy_evol(imf='igimf', STF=0.05, SFEN=SFEN, Z_0=0.015*1e-16, solar_mass_component="Asplund2009_mass",
+                str_yield_table='Kobayashi06', IMF_name='Kroupa', steller_mass_upper_bound=150,
+                time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
+                SFH_model='provided', SFE=0.004, SNIa_ON=True, SNIa_yield_table='Iwamoto1999',
+                solar_abu_table='Asplund2009',
+                high_time_resolution=None, plot_show=None, plot_save=None, outflow=100, check_igimf=None)
+    
     # Use plot_show=True on persenal computer to view the simualtion result immidiately after the computation
     # Use plot_show=None if running on a computer cluster to avoid possible issues.
     # In both cases, the simulation results are saved as txt files.
@@ -5719,16 +5723,16 @@ if __name__ == '__main__':
     #             high_time_resolution=None, plot_show=True, plot_save=True, outflow=105, check_igimf=None)
 
 
-    # Model IGIMF-R14
-    # R14 change galimf.py line 1050, 1053, 1063;   1166, 1169, 1173
-    # SFH with 0.7, 0.9... to line 48
-    # line 1801
-    galaxy_evol(imf='igimf', STF=0.042, SFEN=SFEN, Z_0=0.02 * 1e-7, solar_mass_component="Asplund2009_mass",
-                str_yield_table='Kobayashi06', IMF_name='Kroupa', steller_mass_upper_bound=150,
-                time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
-                SFH_model='gas_mass_dependent', SFE=0.0017, SNIa_ON=True, SNIa_yield_table='Iwamoto1999',
-                solar_abu_table='Asplund2009',
-                high_time_resolution=None, plot_show=True, plot_save=True, outflow=100, check_igimf=None)
+    # # Model IGIMF-R14
+    # # R14 change galimf.py line 1050, 1053, 1063;   1166, 1169, 1173
+    # # SFH with 0.7, 0.9... to line 48
+    # # line 1801
+    # galaxy_evol(imf='igimf', STF=0.042, SFEN=SFEN, Z_0=0.02 * 1e-7, solar_mass_component="Asplund2009_mass",
+    #             str_yield_table='Kobayashi06', IMF_name='Kroupa', steller_mass_upper_bound=150,
+    #             time_resolution_in_Myr=1, mass_boundary_observe_low=1.5, mass_boundary_observe_up=8,
+    #             SFH_model='gas_mass_dependent', SFE=0.0017, SNIa_ON=True, SNIa_yield_table='Iwamoto1999',
+    #             solar_abu_table='Asplund2009',
+    #             high_time_resolution=None, plot_show=True, plot_save=True, outflow=100, check_igimf=None)
 
 
     # # #
