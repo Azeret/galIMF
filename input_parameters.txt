@@ -1,0 +1,10 @@
+1 0 IGIMF_Z 0 0.08 150
+
+Instruction:
+All the input parameters are in the first line, divided by a space. The parameters are, from left to right:
+1. SFR [Msun/yr]. A typical input SFR is from 0.0001 to 10000 (You can input 1e-4 as 0.0001)
+2. Metallicity, [M/H]. A typical input is from -4 to 1.
+3. gwIMF model. It can be: IGIMF2, IGIMF2, IGIMF2d5, IGIMF_Z, IGIMF_R14
+4. OSGIMF 0-do not calculate, 1-calculate
+5. Lowest stellar mass [Msun]
+6. Highest stellar mass [Msun]
