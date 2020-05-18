@@ -172,9 +172,9 @@ def function_IMF(alpha3_model, M_over_H, I_str, M_str_L, alpha_1_change, M_turn,
         # Here only alpha_3_change is recalculated as alpha1(2)_change do not depend on M_ecl thus do not change.
         function_draw_xi_str(M_str_L, M_ecl, I_str, M_str_L, alpha_1_change, M_turn, alpha_2_change, M_turn2,
                              alpha_3_change, M_str_U)
-        for qqq in range(len(x_IMF)):
+        for qqq in range(min(len(x_IMF), len(List_M_str_for_xi_str))):
             List_M_str_for_xi_str[qqq] = x_IMF[qqq]
-        for www in range(len(y_IMF)):
+        for www in range(min(len(y_IMF), len(List_xi_str))):
             List_xi_str[www] = y_IMF[www]
         number_of_str = len(List_M_str_for_xi_str)
         function_update_list_xi(i, number_of_str, 0)
