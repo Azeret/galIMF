@@ -43,24 +43,24 @@ elif len(sys.argv) < 7:
           "If there are no input parameters, the program will look for the input from file.\n")
 else:
     print("Input parameters:")
-    if sys.argv[1] == "D":
+        if sys.argv[1] == "D" or sys.argv[1] == "d":
         SFR = 1
     else:
         SFR = float(sys.argv[1])
-    if sys.argv[2] == "D":
+    if sys.argv[2] == "D" or sys.argv[2] == "d":
         M_over_H = 0
     else:
         M_over_H = float(sys.argv[2])
-    if sys.argv[3] == "D":
+    if sys.argv[3] == "D" or sys.argv[3] == "d":
         gwIMF_model = "IGIMF_Z"
     else:
         gwIMF_model = sys.argv[3]
     OSrequest = sys.argv[4]
-    if sys.argv[5] == "D":
+    if sys.argv[5] == "D" or sys.argv[5] == "d":
         M_str_L = 0.08
     else:
         M_str_L = float(sys.argv[5])
-    if sys.argv[6] == "D":
+    if sys.argv[6] == "D" or sys.argv[6] == "d":
         M_str_U = 150
     else:
         M_str_U = float(sys.argv[6])
