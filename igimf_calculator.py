@@ -43,7 +43,7 @@ elif len(sys.argv) < 7:
           "If there are no input parameters, the program will look for the input from file.\n")
 else:
     print("Input parameters:")
-        if sys.argv[1] == "D" or sys.argv[1] == "d":
+    if sys.argv[1] == "D" or sys.argv[1] == "d":
         SFR = 1
     else:
         SFR = float(sys.argv[1])
