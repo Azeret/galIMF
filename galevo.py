@@ -749,13 +749,15 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     last_time_age = age_of_this_epoch
                     number_in_SNIa_boundary = mass_calibration_factor * quad(igimf_xi_function, 1.5, 8, limit=50)[
                         0]  # see function_number_SNIa below
-                    if imf == 'diet_Salpeter':
-                        number_all = quad(igimf_xi_function, 0.1, 100, limit=50)[0]  # see function_number_SNIa below
+                    if imf == 'diet_Salpeter' or imf == 'Salpeter':
+                        number_all = mass_calibration_factor * quad(igimf_xi_function, 0.1, 100, limit=50)[0]  # see function_number_SNIa below
                     else:
-                        number_all = quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=50)[0]  # see function_number_SNIa below
+                        number_all = mass_calibration_factor * quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=50)[0]  # see function_number_SNIa below
                     # number_low = quad(igimf_xi_function, 0.08, 2, limit=40)[0]  # see function_number_SNIa below
                     # number_up = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=50)[0]  # see function_number_SNIa below
                     # print("up", number_up/number_all)
+
+                    SNIa_number_prob = number_in_SNIa_boundary ** 2 / number_all / M_tot_of_this_epoch
 
                     # SNIa_number_prob = number_in_SNIa_boundary**2 / number_all * 10**2 * 0.61
                     # number_in_SNIa_boundary = SNIa_number_prob
@@ -773,7 +775,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     epoch_info.append(
                         [S_F_R_of_this_epoch, M_tot_of_this_epoch, igimf_of_this_epoch, integrate_igimf_mass,
                          mass_grid_table, lifetime_table, Mfinal_table, mass_grid_table2, Mmetal_table, M_element_table,
-                         last_time_age, number_in_SNIa_boundary, metal_mass_fraction_in_gas, mass_calibration_factor])
+                         last_time_age, SNIa_number_prob, metal_mass_fraction_in_gas, mass_calibration_factor])
                     metal_in_gas = metal_mass_fraction_in_gas
                 else:  # if SFR == 0
                     time_of_the_epoch_in_Gyr = epoch_index / 100
@@ -793,7 +795,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                 M_element_table = epoch_info[epoch_index][9]
                 last_time_age = epoch_info[epoch_index][10]
                 epoch_info[epoch_index][10] = age_of_this_epoch
-                number_in_SNIa_boundary = epoch_info[epoch_index][11]
+                SNIa_number_prob = epoch_info[epoch_index][11]
                 metal_in_gas = epoch_info[epoch_index][12]
                 mass_calibration_factor = epoch_info[epoch_index][13]
                 def igimf_xi_function(mass):
@@ -1008,7 +1010,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                         # print(SNIa_number_from_this_epoch_till_this_time)
                     elif SNIa_ON == True or 'power-law':
                         SNIa_number_from_this_epoch_till_this_time = function_number_SNIa_power_law(0, age_of_this_epoch,
-                                                                                          number_in_SNIa_boundary,
+                                                                                          SNIa_number_prob,
                                                                                           S_F_R_of_this_epoch)
 
                     # the following should result in 0.0022+-50% for a SSP,
@@ -1745,26 +1747,46 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
 #     return
 
 
-# # calculate the diet_Salpeter_mass_to_number_ratio:
-# Bell & de Jong (2001). Salpeter IMF x = 1.35 with a flat x = 0 slope below 0.35
-def function_xi_diet_Salpeter_IMF(mass):
-    # integrate this function's output xi result in the number of stars in mass limits.
-    xi = diet_Salpeter_IMF.custom_imf(mass, 0)
-    return xi
+# # # calculate the diet_Salpeter_mass_to_number_ratio:
+# # Bell & de Jong (2001). Salpeter IMF x = 1.35 with a flat x = 0 slope below 0.35
+# def function_xi_diet_Salpeter_IMF(mass):
+#     # integrate this function's output xi result in the number of stars in mass limits.
+#     xi = diet_Salpeter_IMF.custom_imf(mass, 0)
+#     return xi
 
 
-def function_mass_diet_Salpeter_IMF(mass):
+# def function_mass_diet_Salpeter_IMF(mass):
+#     # integrate this function's output m result in the total stellar mass for stars in mass limits.
+#     m = mass * diet_Salpeter_IMF.custom_imf(mass, 0)
+#     return m
+
+
+# integrate_all_for_function_mass_SNIa = quad(function_mass_diet_Salpeter_IMF, 0.1, 100, limit=50)[0]
+# integrate_28_for_function_number_SNIa = quad(function_xi_diet_Salpeter_IMF, 1.5, 8, limit=50)[0]
+# diet_Salpeter_mass_to_number_ratio = integrate_all_for_function_mass_SNIa / integrate_28_for_function_number_SNIa
+
+def function_xi_Kroupa_IMF(mass):  # there is no time dependence for Kroupa IMF
+    if mass < 0.08:
+        return 0
+    elif mass < 0.5:
+        return 2*mass**(-1.3)
+    elif mass < 150:
+        return mass**(-2.3)
+    else:
+        return 0
+
+def function_mass_Kroupa_IMF(mass):
     # integrate this function's output m result in the total stellar mass for stars in mass limits.
-    m = mass * diet_Salpeter_IMF.custom_imf(mass, 0)
+    m = mass * function_xi_Kroupa_IMF(mass)
     return m
 
+integrate_all_for_function_mass_SNIa = quad(function_mass_Kroupa_IMF, 0.08, 150, limit=50)[0]
+integrate_total_number_SNIa = quad(function_xi_Kroupa_IMF, 0.08, 150, limit=50)[0]
+integrate_28_for_function_number_SNIa = quad(function_xi_Kroupa_IMF, 1.5, 8, limit=50)[0]
+SNIa_number_prob_Kroupa = integrate_28_for_function_number_SNIa ** 2 / integrate_total_number_SNIa /integrate_all_for_function_mass_SNIa
 
-integrate_all_for_function_mass_SNIa = quad(function_mass_diet_Salpeter_IMF, 0.1, 100, limit=50)[0]
-integrate_28_for_function_number_SNIa = quad(function_xi_diet_Salpeter_IMF, 1.5, 8, limit=50)[0]
-diet_Salpeter_mass_to_number_ratio = integrate_all_for_function_mass_SNIa / integrate_28_for_function_number_SNIa
 
-
-def function_number_SNIa_power_law(last_delay_time, this_delay_time, stellar_number_in_SNIa_boundary, S_F_R_of_this_epoch):
+def function_number_SNIa_power_law(last_delay_time, this_delay_time, SNIa_number_prob__, S_F_R_of_this_epoch):
     # This function calculate the number of SNIa between last_delay_time and this_delay_time
 
     # It is commonly assumed that the maximum stellar mass able to produce a degenerate C–O white dwarf is 8 M⊙,
@@ -1780,13 +1802,8 @@ def function_number_SNIa_power_law(last_delay_time, this_delay_time, stellar_num
     # integrate SNIa number from last_delay_time to this_delay_time using observationally determined DTD assuming diet-Salpeter IMF
     diet_Salpeter_SNIa_number_per_solar_mass = quad(function_SNIa_DTD, last_delay_time, this_delay_time, limit=40)[0]
     # calculate actual SNIa event number
-    SNIa_number = stellar_number_in_SNIa_boundary * SNIa_normalization_parameter * diet_Salpeter_SNIa_number_per_solar_mass * diet_Salpeter_mass_to_number_ratio
-    # if this_delay_time == 1 * 10 ** 9:
-    #     print("stellar_number_in_SNIa_boundary ===", stellar_number_in_SNIa_boundary)
-    #     print("diet_Salpeter_SNIa_number_per_solar_mass", diet_Salpeter_SNIa_number_per_solar_mass)
-    #     print("SNIa_number ===", SNIa_number)
-
-    # SNIa_number = S_F_R_of_this_epoch * 10**7 * 0.0023 * diet_Salpeter_SNIa_number_per_solar_mass / quad(function_SNIa_DTD, 0, 10**10, limit=40)[0]
+    # SNIa_number = stellar_number_in_SNIa_boundary * SNIa_normalization_parameter * diet_Salpeter_SNIa_number_per_solar_mass * diet_Salpeter_mass_to_number_ratio
+    SNIa_number = S_F_R_of_this_epoch * 10**7 * SNIa_number_per_solar_mass / SNIa_number_prob_Kroupa * SNIa_number_prob__ * SNIa_normalization_parameter
     return SNIa_number
 
 def function_number_SNIa_SD(mass_boundary, igimf_xi_function, mass_calibration_factor):
@@ -1798,7 +1815,7 @@ def function_number_SNIa_SD(mass_boundary, igimf_xi_function, mass_calibration_f
     else:
         M2min = max(mass_boundary, 0.8)
         M2max = 8
-        A_SNIa_Matteucci01 = 0.006 * 14
+        A_SNIa_Matteucci01 = 0.006 * 14 / 0.0024077124353644908 * 0.002
         SNIa_number = mass_calibration_factor * A_SNIa_Matteucci01 * quad(function_SNIa_SD_xi_2, M2min, M2max, args=(igimf_xi_function))[0]
     # print(SNIa_number)
     return SNIa_number
@@ -1828,19 +1845,17 @@ def funtion_SNIa_DTD_normalization_parameter(SFR):
     # this modification on the SNIa rate is to honor the fact that the number of SNIa should
     # not only depends on the number of potential progenitor but also the density of the stellar system
     # as is expected by the dynamical encounter rate.
-    SFR = 0.0001  # *** comment *** this line to enable the renormalizaion of SNIa number as a function of SFR
-    x = 2
-    SFRmatter = SFR + x
-    logSFR = math.log(SFRmatter, 10)
-    gamma_DTD = 2
-    SNIa_normalization_parameter = 1 * (logSFR ** gamma_DTD + 4)  # =4.090632132000734 for SFR=0.0001
+    # x = 0.95
+    # xplusSFR = SFR / 16 + x
+    # gamma_DTD = 0.8 / (0.5 + math.log(xplusSFR, 10))
+    # output = xplusSFR ** gamma_DTD
+    output = 1
     # This is a toy model relation. Roughly keep the SNIa-rate/stellar-mass-formed unchanged for different SFRs (IMFs).
     # When SFR is high, top-heavy IMF reduce the number possible SNIa progenitor within mass range 1.5-8 solar mass.
     # the dense stellar region pump the SNIa rate as the stars have a larger chance to meet with another star.
     # The lower SFR do not further reduce the SNIa number as the low SFR happens after the star burst epoch
     # thus the newly formed star can still meet with stars formed at ealier epochs regredless of its current SFR.
-    return SNIa_normalization_parameter / 4.090632132000734 * 4 / 2.20819393104 * 2
-
+    return output
 
 ####### the following code is for test, showing the renormalization function of SNIa# #######
 
@@ -1877,15 +1892,15 @@ def function_SNIa_DTD(delay_time):
     if delay_time < gaptime:  # [yr] #  2.3 * 10 ** 7 for a burst of star formation from Greggio 1983
         number = 0
     else:
-        number = 10 ** (-4) * delay_time ** (powerindex) / (gaptime)**(powerindex) * (gaptime)**(-1)  # DTD of Maoz2012
-        # Normalized such that the DTD integral over 10Gyr for diet-Salpeter is N_SN/M_sun = 2* 10^-3 (M_sun^-1)
+        number = 4 * 10 ** (-4) * delay_time ** (powerindex) / (gaptime)**(powerindex) * (gaptime)**(-1)  # DTD of Maoz2012
+        # Normalized such that the DTD integral over 10Gyr for diet-Salpeter is N_SN/M_sun = 2 * 10^-3 (M_sun^-1)
         # number = 0.16288551211 * 10 ** (-4) / 10**(delay_time/(5*10**9)) / 10**(gaptime/(5*10**9)) * (gaptime)**(-1)  # DTD of Lacchin19
-        # Normalized such that the DTD integral over 10Gyr for diet-Salpeter is N_SN/M_sun = 2* 10^-3 (M_sun^-1)
+        # Normalized such that the DTD integral over 10Gyr for diet-Salpeter is N_SN/M_sun = 2 * 10^-3 (M_sun^-1)
 
         # number = 0.50986652089 * 10 ** (-4) / 10**(delay_time/(5*10**9)) / 10**(gaptime/(5*10**9)) * (gaptime)**(-1)  # DTD of Lacchin19
         # Normalized such that the SNIa rate at 10 Gyr is the same as the Maoz2012's DTD.
 
-        # Normalized such that the DTD integral over 10Gyr for diet-Salpeter is N_SN/M_sun = 2* 10^-3 (M_sun^-1)
+        # Normalized such that the DTD integral over 10Gyr for diet-Salpeter is N_SN/M_sun = 2 * 10^-3 (M_sun^-1)
         # This value changes with igimf where top-heavy and bottom-heavy IGIMF will have lower number of SNIa
         # as the number of stars within the mass range 3.0001 to 8 solar mass is smaller.
         # The observational uncertainty being +-50%. See Maoz & Mannucci 2012 their Table 1
@@ -2542,50 +2557,48 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
             bindw = galimf.resolution_histogram_relative = 10 ** (max((0 - math.log(SFR, 10)), 0) ** (0.2) - 1.9)
         # will change the resolution of histogram for optimall sampling automatically addjusted with SFR value.
 
-        # # IGIMF3
-        # alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
-        # alpha_2 = 2.3  # IMF middle-mass power-index
-        # alpha_1 = 1.3  # IMF low-mass-end power-index
-        # alpha2_model = 1  # 1  # see file 'galimf.py'
-        # alpha1_model = 1 # 0 # see file 'galimf.py'
-        # beta_model = 1
-        # R14orNOT = False
+        gwIMF_model = "IGIMF_Z"
 
-        # IGIMF-Z
-        alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
-        alpha_2 = 2.3  # IMF middle-mass power-index
-        alpha_1 = 1.3  # IMF low-mass-end power-index
-        alpha2_model = 'Z'  # 1  # see file 'galimf.py'
-        alpha1_model = 'Z' # 0 # see file 'galimf.py'
-        beta_model = 1
-        R14orNOT = False
-
-        # # IGIMF2.5
-        # alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
-        # alpha_2 = 2.3  # IMF middle-mass power-index
-        # alpha_1 = 1.3  # IMF low-mass-end power-index
-        # alpha2_model = 'IGIMF2.5'  # 1  # see file 'galimf.py'
-        # alpha1_model = 'IGIMF2.5' # 0 # see file 'galimf.py'
-        # beta_model = 1
-        # R14orNOT = False
-
-        # # IGIMF2
-        # alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
-        # alpha_2 = 2.3  # IMF middle-mass power-index
-        # alpha_1 = 1.3  # IMF low-mass-end power-index
-        # alpha2_model = 0  # 1  # see file 'galimf.py'
-        # alpha1_model = 0  # 0 # see file 'galimf.py'
-        # beta_model = 1
-        # R14orNOT = False
-
-        # # IGIMF-R14
-        # alpha3_model = 'R14' # 'R14'  # 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
-        # alpha_2 = 2.3  # IMF middle-mass power-index
-        # alpha_1 = 1.3  # IMF low-mass-end power-index
-        # alpha2_model = 'R14' # 'R14'  # 1  # see file 'galimf.py'
-        # alpha1_model = 0 # 0 # see file 'galimf.py'
-        # beta_model = 0
-        # R14orNOT = True
+        if gwIMF_model == "IGIMF3":
+            alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+            alpha_2 = 2.3  # IMF middle-mass power-index
+            alpha_1 = 1.3  # IMF low-mass-end power-index
+            alpha2_model = 1  # 1  # see file 'galimf.py'
+            alpha1_model = 1  # 0 # see file 'galimf.py'
+            beta_model = 1
+            R14orNOT = False
+        elif gwIMF_model == "IGIMF_Z":
+            alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+            alpha_2 = 2.3  # IMF middle-mass power-index
+            alpha_1 = 1.3  # IMF low-mass-end power-index
+            alpha2_model = 'Z'  # 1  # see file 'galimf.py'
+            alpha1_model = 'Z'  # 0 # see file 'galimf.py'
+            beta_model = 1
+            R14orNOT = False
+        elif gwIMF_model == "IGIMF2d5":
+            alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+            alpha_2 = 2.3  # IMF middle-mass power-index
+            alpha_1 = 1.3  # IMF low-mass-end power-index
+            alpha2_model = 'IGIMF2.5'  # 1  # see file 'galimf.py'
+            alpha1_model = 'IGIMF2.5' # 0 # see file 'galimf.py'
+            beta_model = 1
+            R14orNOT = False
+        elif gwIMF_model == "IGIMF2":
+            alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+            alpha_2 = 2.3  # IMF middle-mass power-index
+            alpha_1 = 1.3  # IMF low-mass-end power-index
+            alpha2_model = 0  # 1  # see file 'galimf.py'
+            alpha1_model = 0  # 0 # see file 'galimf.py'
+            beta_model = 1
+            R14orNOT = False
+        elif gwIMF_model == "IGIMF_R14":
+            alpha3_model = 'R14' # 'R14'  # 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+            alpha_2 = 2.3  # IMF middle-mass power-index
+            alpha_1 = 1.3  # IMF low-mass-end power-index
+            alpha2_model = 'R14' # 'R14'  # 1  # see file 'galimf.py'
+            alpha1_model = 0 # 0 # see file 'galimf.py'
+            beta_model = 0
+            R14orNOT = True
 
         # ----------------------------------------------------------------
 
@@ -2620,7 +2633,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
             SFR,  # Star Formation Rate [solar mass / yr]
             alpha3_model,  # IMF high-mass-end power-index model, see file 'alpha3.py'
             delta_t,  # star formation epoch [Myr]
-            Z_over_X,
+            Z_over_X,  # M_over_H
             I_ecl,  # normalization factor in the Optimal Sampling condition equation
             M_ecl_U,  # embedded cluster mass upper limit [solar mass]
             M_ecl_L,  # embedded cluster mass lower limit [solar mass]
@@ -2962,16 +2975,16 @@ def fucntion_mass_boundary(time, mass_grid_for_lifetime, lifetime):
 #     return observed_mass
 
 
-def function_xi_Kroupa_IMF(mass):
-    # integrate this function's output xi result in the number of stars in mass limits.
-    xi = Kroupa_IMF.custom_imf(mass, 0)
-    return xi
+# def function_xi_Kroupa_IMF(mass):
+#     # integrate this function's output xi result in the number of stars in mass limits.
+#     xi = Kroupa_IMF.custom_imf(mass, 0)
+#     return xi
 
 
-def function_mass_Kroupa_IMF(mass):
-    # integrate this function's output m result in the total stellar mass for stars in mass limits.
-    m = mass * Kroupa_IMF.custom_imf(mass, 0)
-    return m
+# def function_mass_Kroupa_IMF(mass):
+#     # integrate this function's output m result in the total stellar mass for stars in mass limits.
+#     m = mass * Kroupa_IMF.custom_imf(mass, 0)
+#     return m
 
 
 def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
