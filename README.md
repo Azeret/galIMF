@@ -307,13 +307,13 @@ The major updates include:
 
 The main author of the Python program is:
 
-* [Yan Zhiqiang (闫智强)](https://orcid.org/0000-0001-7395-1198),
+* [Yan Zhiqiang (闫智强)](https://sirrah.troja.mff.cuni.cz/~zhiqiang/yan.html),
 University of Bonn, Charles University,
 yan(at)astro.uni-bonn.de
 
 Other members of this project include:
 
-* [Tereza Jeřábková](http://sirrah.troja.mff.cuni.cz/~tereza/index.html),
+* [Tereza Jeřábková](https://sites.google.com/view/tereza-jerabkova/home),
 Charles University, European Southern Observatory
 tereza(at)sirrah.troja.mff.cuni.cz
 
