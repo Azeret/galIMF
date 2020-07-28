@@ -6,8 +6,8 @@ from time import time
 
 
 def simulate(imf, Log_SFR, SFEN, STF):
-    Z_0 = 0.00000001886
-    solar_mass_component = "Anders1989_mass"
+    Z_0 = 0.0000000142
+    solar_mass_component = "Asplund2009_mass"
     Z_solar = element_abundances_solar.function_solar_element_abundances(solar_mass_component, 'Metal')
 
     galevo.galaxy_evol(
@@ -16,7 +16,7 @@ def simulate(imf, Log_SFR, SFEN, STF):
         SFEN=SFEN,
         Z_0=Z_0,
         solar_mass_component=solar_mass_component,
-        str_yield_table='portinari98',
+        str_yield_table='Kobayashi06',
         IMF_name='Kroupa',
         steller_mass_upper_bound=150,
         time_resolution_in_Myr=1,
@@ -25,6 +25,8 @@ def simulate(imf, Log_SFR, SFEN, STF):
         SFH_model='provided',
         SFE=0.013,  # This parameter is not applied when SFH_model='provided'.
         SNIa_ON=True,
+        SNIa_yield_table='Iwamoto1999',
+        solar_abu_table='Asplund2009',
         high_time_resolution=None,
         plot_show=None,
         plot_save=None,
@@ -100,7 +102,7 @@ if __name__ == '__main__':
     location = 0
     skewness = 10
     sfr_tail = 0
-    imf = 'igimf'
+    imf = 'Kroupa'
     # SFEN_list = [100]
     # for SFEN in SFEN_list:
     #     Log_SFR_list = [5.0]
@@ -111,12 +113,12 @@ if __name__ == '__main__':
     #         pool.map(a_pipeline, [STF for STF in STF_list])
     #         pool.close()
 
-    SFEN_list = [10, 50, 100, 150, 200, 250, 300, 350, 400]
+    SFEN_list = [2, 5, 10, 20, 50, 100, 150, 200, 250, 300, 350, 400]
     for SFEN in SFEN_list:
         Log_SFR_list = [-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0, 3.0, 3.5, 4.0]
         for Log_SFR in Log_SFR_list:
             galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
-            STF_list = [0.1, 0.3, 0.6, 1.0]
+            STF_list = [0.1, 0.35, 0.6, 0.85]
             pool = mp.Pool(mp.cpu_count())
             pool.map(a_pipeline, [STF for STF in STF_list])
             pool.close()
