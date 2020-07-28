@@ -119,7 +119,7 @@ if __name__ == '__main__':
         Log_SFR_list = [-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0, 3.0, 3.5, 4.0]
         for Log_SFR in Log_SFR_list:
             galevo.generate_SFH(SFH_shape, Log_SFR, SFEN, sfr_tail, skewness, location)
-            STF_list = [0.1, 0.35, 0.6, 0.85]
+            STF_list = [0.1, 0.35, 0.6, 0.85, 1.1]
             pool = mp.Pool(mp.cpu_count())
             pool.map(a_pipeline, [STF for STF in STF_list])
             pool.close()
