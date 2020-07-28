@@ -691,14 +691,14 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
 
                     # integrate_igimf_mass_l = quad(igimf_mass_function, 0.08, 3, limit=40)[0]
                     # integrate_igimf_mass_h = quad(igimf_mass_function, 8, steller_mass_upper_bound, limit=50)[0]
-                    # integrate_igimf_mass_m = quad(igimf_mass_function, 2, 8, limit=40)[0]
+                    # integrate_igimf_mass_m = quad(igimf_mass_function, 3, 8, limit=40)[0]
                     # print("high mass star mass ratio:", integrate_igimf_mass_h/integrate_igimf_mass)
                     # print("middle mass star mass ratio:", integrate_igimf_mass_m/integrate_igimf_mass)
                     # print("Low mass star mass ratio:", integrate_igimf_mass_l/integrate_igimf_mass)
                     # integrate_igimf_number = quad(igimf_xi_function, 0.08, steller_mass_upper_bound, limit=50)[0]
                     # integrate_igimf_number_l = quad(igimf_xi_function, 0.08, 3, limit=40)[0]
                     # integrate_igimf_number_h = quad(igimf_xi_function, 8, steller_mass_upper_bound, limit=50)[0]
-                    # integrate_igimf_number_m = quad(igimf_xi_function, 2, 8, limit=40)[0]
+                    # integrate_igimf_number_m = quad(igimf_xi_function, 3, 8, limit=40)[0]
                     # print("high mass star number ratio:", integrate_igimf_number_h/integrate_igimf_number)
                     # print("middle mass star number ratio:", integrate_igimf_number_m/integrate_igimf_number)
                     # print("Low mass star number ratio:", integrate_igimf_number_l/integrate_igimf_number)
@@ -747,7 +747,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     mass_grid_table2 = mass2
 
                     last_time_age = age_of_this_epoch
-                    number_in_SNIa_boundary = mass_calibration_factor * quad(igimf_xi_function, 2, 8, limit=50)[
+                    number_in_SNIa_boundary = mass_calibration_factor * quad(igimf_xi_function, 3, 8, limit=50)[
                         0]  # see function_number_SNIa below
                     if imf == 'diet_Salpeter' or imf == 'Salpeter':
                         number_all = mass_calibration_factor * quad(igimf_xi_function, 0.1, 100, limit=50)[0]  # see function_number_SNIa below
@@ -1762,7 +1762,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
 
 
 # integrate_all_for_function_mass_SNIa = quad(function_mass_diet_Salpeter_IMF, 0.1, 100, limit=50)[0]
-# integrate_28_for_function_number_SNIa = quad(function_xi_diet_Salpeter_IMF, 2, 8, limit=50)[0]
+# integrate_28_for_function_number_SNIa = quad(function_xi_diet_Salpeter_IMF, 3, 8, limit=50)[0]
 # diet_Salpeter_mass_to_number_ratio = integrate_all_for_function_mass_SNIa / integrate_28_for_function_number_SNIa
 
 def function_xi_Kroupa_IMF(mass):  # there is no time dependence for Kroupa IMF
@@ -1782,7 +1782,7 @@ def function_mass_Kroupa_IMF(mass):
 
 integrate_all_for_function_mass_SNIa = quad(function_mass_Kroupa_IMF, 0.08, 150, limit=50)[0]
 integrate_total_number_SNIa = quad(function_xi_Kroupa_IMF, 0.08, 150, limit=50)[0]
-integrate_28_for_function_number_SNIa = quad(function_xi_Kroupa_IMF, 2, 8, limit=50)[0]
+integrate_28_for_function_number_SNIa = quad(function_xi_Kroupa_IMF, 3, 8, limit=50)[0]
 SNIa_number_prob_Kroupa = integrate_28_for_function_number_SNIa ** 2 / integrate_total_number_SNIa /integrate_all_for_function_mass_SNIa
 
 
