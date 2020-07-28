@@ -1800,9 +1800,9 @@ def function_number_SNIa_power_law(last_delay_time, this_delay_time, SNIa_number
     SNIa_normalization_parameter = funtion_SNIa_DTD_normalization_parameter(S_F_R_of_this_epoch)
     # SNIa_normalization_parameter considers the possible variation of binary encounter rate in different system density
     # integrate SNIa number from last_delay_time to this_delay_time using observationally determined DTD assuming diet-Salpeter IMF
-    diet_Salpeter_SNIa_number_per_solar_mass = quad(function_SNIa_DTD, last_delay_time, this_delay_time, limit=40)[0]
+    SNIa_number_per_solar_mass = quad(function_SNIa_DTD, last_delay_time, this_delay_time, limit=40)[0]
     # calculate actual SNIa event number
-    # SNIa_number = stellar_number_in_SNIa_boundary * SNIa_normalization_parameter * diet_Salpeter_SNIa_number_per_solar_mass * diet_Salpeter_mass_to_number_ratio
+    # SNIa_number = stellar_number_in_SNIa_boundary * SNIa_normalization_parameter * SNIa_number_per_solar_mass * diet_Salpeter_mass_to_number_ratio
     SNIa_number = S_F_R_of_this_epoch * 10**7 * SNIa_number_per_solar_mass / SNIa_number_prob_Kroupa * SNIa_number_prob__ * SNIa_normalization_parameter
     return SNIa_number
 
