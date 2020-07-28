@@ -53,9 +53,10 @@ def simulate(imf, Log_SFR, SFEN, STF):
     Mass_weighted_stellar_Fe_over_H = [float(x) for x in data[21].split()]
     # luminosit_weighted_stellar_Fe_over_H = [float(x) for x in data[??].split()]
 
-    file_name = 'Metal_mass_relation'
     if imf == 'igimf':
-        file_name = 'Metal_mass_relation_igimf'
+        file_name = 'Metal_mass_relation_IGIMFZ'
+    elif  imf == 'Kroupa':
+        file_name = 'Metal_mass_relation_KroupaIMF'
 
     file = open('simulation_results_from_galaxy_evol/{}.txt'.format(file_name), 'r')
     old_lines = file.read()
