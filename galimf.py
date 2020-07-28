@@ -963,7 +963,7 @@ def function_alpha_1_change(alpha_1, alpha1_model, M_over_H):
         alpha_1_change = alpha_1 + 0.12 * M_over_H
         return alpha_1_change
     elif (alpha1_model == 'Z'):
-        alpha_1_change = alpha_1 + 35 * (10**M_over_H - 1) * 0.02
+        alpha_1_change = alpha_1 + 63 * (10**M_over_H - 1) * 0.0142
         return alpha_1_change
     else:
         print("alpha1_model: %s, do not exist.\nCheck file 'alpha1.py'" % (alpha1_model))
@@ -977,7 +977,7 @@ def function_alpha_2_change(alpha_2, alpha2_model, M_over_H):
         alpha_2_change = alpha_2 + 0.5 * M_over_H
         return alpha_2_change
     elif (alpha2_model == 'Z'):
-        alpha_2_change = alpha_2 + 35 * (10**M_over_H - 1) * 0.02
+        alpha_2_change = alpha_2 + 63 * (10**M_over_H - 1) * 0.0142
         return alpha_2_change
     elif (alpha2_model == 'IGIMF2.5'):
         alpha_2_change = alpha_2 + 0.12 * M_over_H
