@@ -2940,6 +2940,8 @@ def fucntion_mass_boundary_SNIa_Greggio83(time, mass):
 
 
 def fucntion_mass_boundary(time, mass_grid_for_lifetime, lifetime):
+    # The adopted spline fit of portinari98 lifetime is not monotonic at the massive end. 
+    # But this function ensures that lifetime is monotonically smaller for more massive stars.
     mass = mass_grid_for_lifetime
     length_list_lifetime = len(lifetime)
     x = round(length_list_lifetime / 2)
