@@ -138,9 +138,9 @@ def function_draw_igimf(R14orNOT, SFR, alpha3_model, beta_model, delta_t, M_over
     return
 
 
-# function_ecmf computes IMF of star clusters (ECMF - embedded cluster mass function)
+# function_ecmf computes IMF of star clusters (i.e. ECMF - embedded cluster mass function)
 # The assumed shape of ECMF is single powerlaw with slope beta (function of SFR)
-# the empyrical lower limit for star cluster mass if 50 Msun
+# the empirical lower limit for star cluster mass is 5 Msun
 # the hypotetical upper mass limit is 10^9 Msun, but the M_ecl^max is computed, eq (12) in Yan et al. 2017
 def function_ecmf(R14orNOT, SFR, beta_model, delta_t, I_ecl, M_ecl_U, M_ecl_L, M_over_H):
     global List_M_ecl_for_xi_ecl, List_xi_ecl, x_ECMF, y_ECMF
@@ -896,6 +896,11 @@ def cross_M_turn2(k_before, k_after, M_cross, alpha_before, alpha_after, i):
 
 ################# draw IMF without sampling #################
 
+# k_str is a normalization factor.
+# The IMF is normalized to the total mass of the star cluster (M_ecl)
+# The normalization is done by first calculate the M_max (with function function_M_max),
+# then k_str (function_k321) as described by the Part I of supplementary-document-galimf.pdf
+
 def k_str(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
     global M_max, M_max_function, k3, k2, k1
     M_max = 0
@@ -1201,6 +1206,11 @@ def function_M_i_not_2(k, beta, i, length_n):  # equation 49
 
 ################### draw ECMF without sampling #####################
 
+# k_ecl is a normalization factor.
+# The ECMF is normalized to the total mass of the cluster population in a 10 Myr star formation epoch (M_tot)
+# That is M_tot = SFR [Msun/yr] * 10^7 [yr]
+# The normalization is done by first calculate the M_max_ecl then k_ecl as described by the Part II of supplementary-document-galimf.pdf
+
 def k_ecl(R14orNOT, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
     global M_max_ecl
     M_tot = SFR * delta_t * 10 ** 6  # units in Myr
@@ -1208,16 +1218,16 @@ def k_ecl(R14orNOT, M_ecl, SFR, delta_t, I_ecl, M_U, M_L, beta):
         M_max_ecl = 10 ** (4.83 + 0.75 * math.log(SFR, 10))
         if M_max_ecl < 5:
             M_max_ecl = 5
-        k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 41
+        k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 45
     else:
         if beta == 2:
             M_max_ecl = 0
-            function_M_max_ecl_2(M_tot, I_ecl, M_U, M_L, 10**8, 10**7, -1)  # equation 44
-            k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 41
+            function_M_max_ecl_2(M_tot, I_ecl, M_U, M_L, 10**8, 10**7, -1)  # equation 48
+            k = I_ecl / (1 / M_max_ecl - 1 / M_U)  # equation 45
         else:
             M_max_ecl = 0
-            function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, M_U/10, M_U/100, -1)  # equation 40
-            k = I_ecl * (1 - beta) / (M_U ** (1 - beta) - M_max_ecl ** (1 - beta))  # equation 37
+            function_M_max_ecl_not_2(M_tot, I_ecl, M_U, M_L, beta, M_U/10, M_U/100, -1)  # equation 44
+            k = I_ecl * (1 - beta) / (M_U ** (1 - beta) - M_max_ecl ** (1 - beta))  # equation 41
     return k
 
 
