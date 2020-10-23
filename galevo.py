@@ -2782,7 +2782,7 @@ def function_element_abundunce(solar_abu_table, element_1_name, element_2_name, 
     # but the simulation will take longer time.
     if metal_2_mass == 0:
         if metal_1_mass == 0:
-            metal_1_over_2 = None
+            metal_1_over_2 = 0
         elif metal_1_mass > 0:
             metal_1_over_2 = 6
         elif metal_1_mass < 0:
@@ -2799,7 +2799,7 @@ def function_element_abundunce(solar_abu_table, element_1_name, element_2_name, 
         elif metal_1_mass < 0:
             if instant_ejection == False:
                 print("Warning: current {} mass < 0. See galevo.py".format(element_1_name))
-            metal_1_over_2 = None
+            metal_1_over_2 = 0
     else:
         if metal_1_mass == 0:
             metal_1_over_2 = -6
