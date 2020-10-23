@@ -1,6 +1,6 @@
-# GalIMF version 1.1.7
+# GalIMF version 1.1.8
 
-last update: 20.04.2020
+last update: 23.10.2020
 
 ## Contents
  - [Overview](https://github.com/Azeret/galIMF#overview)
@@ -301,6 +301,7 @@ The major updates include:
 6. An uniform outflow (uniform in the sense that the element ratios are the same as the well-mixed gas phase) that is proportional to the stellar mass formed is added. It has a minor effect on the final total gas mass (roughly 0.3 dex) and the metal abundances (roughly 0.1 dex) and a negligible effect on the galaxy final metal abundance ratios (roughly 0.05 dex).
 7. The calculation of ejected gas mass has been corrected from "ejected_gas_mass_of_this_epoch = M_tot_of_this_epoch - stellar_mass_of_a_epoch_at_a_time_step - remnant_mass_of_this_epoch" to "ejected_gas_mass_of_this_epoch = H_mass_of_this_epoch + He_mass_of_this_epoch + metal_mass_of_this_epoch". The previous equation was wrong since the remnant_mass_of_this_epoch is a spline fitted value of the stellar yield table instead of the original value given by the yield table. (for version 1.1.6 on 17 Sep 2019)
 8. The 1.1.7 version mainly corrected for a bug related to function_M_max_1 in galimf.py, which leads to gwIMF computation errors when metallicity is MUCH higher than the Solar value (should results in extremely bottom-heavy gwIMF). This bug has no apparent effect on ordinary (most) situations of mildly super-solar galaxies, thus previously un-noticed.
+9. The 1.1.8 version corrects "function_element_abundunce" of galevo.py for the calculation of abundance ratios, [X/Y]. Now, when the mass of X =< 0 while the mass of Y > 0, [X/Y] is set to be -6. When the mass of Y =< 0 while the mass of X > 0, [X/Y] is set to be 6. When the mass of X and Y both =< 0, [X/Y] is set to be "None".
 
 
 ### Authors
