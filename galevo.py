@@ -2783,6 +2783,7 @@ def function_element_abundunce(solar_abu_table, element_1_name, element_2_name, 
     if metal_2_mass == 0:
         if metal_1_mass == 0:
             metal_1_over_2 = 0
+            print("Warning: [{}/{}] = 0 because both element mass = 0. See function_element_abundunce in galevo.py".format(element_1_name, element_2_name))
         elif metal_1_mass > 0:
             metal_1_over_2 = 6
         elif metal_1_mass < 0:
@@ -2800,6 +2801,7 @@ def function_element_abundunce(solar_abu_table, element_1_name, element_2_name, 
             if instant_ejection == False:
                 print("Warning: current {} mass < 0. See galevo.py".format(element_1_name))
             metal_1_over_2 = 0
+            print("Warning: [{}/{}] = 0 because both element mass < 0. See function_element_abundunce in galevo.py".format(element_1_name, element_2_name))
     else:
         if metal_1_mass == 0:
             metal_1_over_2 = -6
