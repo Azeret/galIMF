@@ -650,7 +650,7 @@ def function_k321(I_str, alpha_1, M_turn, alpha_2, M_turn2, alpha_3, M_U):
 def function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, m_1, step, pm):  # equation 16
     m_1 = round(m_1, 10)  # round
     M_x = m_1**(2-alpha_3)/(2-alpha_3) + M_ecl*m_1**(1-alpha_3)/I_str/(1-alpha_3)
-    while abs(M_x-M_constant) > abs(M_constant) * 10 ** (-7) and m_1 > 1 and step > 0.005:
+    while abs(M_x-M_constant) > abs(M_constant) * 10 ** (-50) and m_1 > 1 and step > 0.00000001:
         if m_1 - step <= M_L or m_1 + step >= M_U:
             step = step / 2
         elif M_x > M_constant and pm == -1:
