@@ -600,7 +600,7 @@ def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
     alpha_1 - alpha_2) * (M_turn ** (2 - alpha_1) - M_L ** (2 - alpha_1)) / (2 - alpha_1) - M_turn2 ** (
     alpha_2 - alpha_3) * (M_turn2 ** (2 - alpha_2) - M_turn ** (
         2 - alpha_2)) / (2 - alpha_2) + M_turn2 ** (2 - alpha_3) / (2 - alpha_3)  # equation 16
-    function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, 100, 10, -1)  # equation 16
+    function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, M_U/2, 10, -1)  # equation 16
     M_max_function = 1
     if M_max < M_turn2:
         M_constant2 = M_ecl * M_turn2 ** (1 - alpha_2) / I_str / (1 - alpha_2) + M_ecl * M_turn2 ** (
