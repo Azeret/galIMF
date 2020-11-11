@@ -1,6 +1,6 @@
-# GalIMF version 1.1.9
+# GalIMF version 1.1.10
 
-last update: 5.11.2020
+last update: 12.11.2020
 
 ## Contents
  - [Overview](https://github.com/Azeret/galIMF#overview)
@@ -303,6 +303,7 @@ The major updates include:
 8. The 1.1.7 version mainly corrected for a bug related to function_M_max_1 in galimf.py, which leads to gwIMF computation errors when metallicity is MUCH higher than the Solar value (should results in extremely bottom-heavy gwIMF). This bug has no apparent effect on ordinary (most) situations of mildly super-solar galaxies, thus previously un-noticed.
 9. The 1.1.8 version corrects "function_element_abundunce" of galevo.py for the calculation of abundance ratios, [X/Y]. Now, when the mass of X =< 0 while the mass of Y > 0, [X/Y] is set to be -6. When the mass of Y =< 0 while the mass of X > 0, [X/Y] is set to be 6. When the mass of X and Y both =< 0, [X/Y] is set to be 0.
 10. 1.1.9 version increase greatly the accuracy limit for calculating the stellar upper mass limit "M_max" in function "function_M_max_1" in galimf.py. This might leads to a longer running time of the code but greatly improve the mass accuracy of the stellar clusters around 3 * 10^8 Msun because they have an alpha3 close to 1.
+11. 1.1.10 fix the problem of not allowing a stellar mass limit lower than 100.
 
 ### Authors
 
