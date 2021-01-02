@@ -25,6 +25,7 @@ last update: 12.11.2020
  - [Additional information](https://github.com/Azeret/galIMF#additional-information)
    - [Versioning](https://github.com/Azeret/galIMF#versioning)
    - [Updates](https://github.com/Azeret/galIMF#updates)
+   - [Compare with other models](https://github.com/Azeret/galIMF#compare-with-other-models)
    - [Authors](https://github.com/Azeret/galIMF#authors)
    - [License and Citation](https://github.com/Azeret/galIMF#license-and-citation)
    - [Acknowledgment](https://github.com/Azeret/galIMF#acknowledgment)
@@ -315,7 +316,7 @@ GalIMF model the IMF variation effect with a high precision. Different from the 
 
 GalIMF discuss, for the first time, how the number of SNIa is affected by IMF variation.
 
-A summary of chemical evolution codes is provided [here](https://github.com/juzikong/galchemicodes/wiki).
+A summary of different chemical evolution codes is provided [here](https://github.com/juzikong/galchemicodes/wiki).
 
 
 
