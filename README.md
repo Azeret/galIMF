@@ -305,6 +305,20 @@ The major updates include:
 10. 1.1.9 version increase greatly the accuracy limit for calculating the stellar upper mass limit "M_max" in function "function_M_max_1" in galimf.py. This might leads to a longer running time of the code but greatly improve the mass accuracy of the stellar clusters around 3 * 10^8 Msun because they have an alpha3 close to 1.
 11. 1.1.10 fix the problem of not allowing a stellar mass limit lower than 100.
 
+
+
+### Compare with other models
+
+GalIMF is the first open-source code tailored specifically to study the effect of the variable IMF.
+
+GalIMF model the IMF variation effect with a high precision. Different from the models that assume an invariant IMF, GalIMF cannot apply a limited number of look-up table for the yield of previous stellar populations, the computational time of GalIMF, involving unlimited or at least a much larger number of possible situations due to the IMF variation, is proportional to the square of the number of the timestep.
+
+GalIMF discuss, for the first time, how the number of SNIa is affected by IMF variation.
+
+A summary of chemical evolution codes is provided [here](https://github.com/juzikong/galchemicodes/wiki).
+
+
+
 ### Authors
 
 The main author of the Python program is:
