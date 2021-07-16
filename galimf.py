@@ -983,6 +983,8 @@ def function_alpha_2_change(alpha_2, alpha2_model, M_over_H):
         return alpha_2_change
     elif (alpha2_model == 'Z'):
         alpha_2_change = alpha_2 + 63 * (10**M_over_H - 1) * 0.0142
+        if M_over_H>1:
+            print("Warning: Abnormally high gas metallicity leading to an unrealistic IMF shape according to the assumed variation law: alpha2_model == 'Z'. Please check your galaxy evolution settings or change to a different IMF variation assumption.")
         return alpha_2_change
     elif (alpha2_model == 'IGIMF2.5'):
         alpha_2_change = alpha_2 + 0.12 * M_over_H
