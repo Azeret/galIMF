@@ -45,9 +45,9 @@ print("\n    - Sampling the star cluster with {} solar mass and [M/H] = {} -".fo
 # setup alpha values:
 alpha_2 = 2.3
 alpha_1 = 1.3
-alpha3_model = 'R14'  # 2
-alpha2_model = 'R14'  # 1
-alpha1_model = 0  # 1
+alpha3_model = 2
+alpha2_model = 'Z'  # or 1 for our publications before 2020
+alpha1_model = 'Z'  # or 1 for our publications before 2020
 alpha3_change = galimf.function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
 alpha2_change = galimf.function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
 alpha1_change = galimf.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
