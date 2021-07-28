@@ -55,11 +55,11 @@ M_over_H = float(input("\n    Please input the metallicity, [M/H]"
 bindw = galimf.resolution_histogram_relative = 10 ** (max((0 - math.log(SFR, 10)), 0) ** 0.2 - 1.9)
 # will change the resolution of histogram for optimal sampling automatically adjusted with SFR value.
 
-alpha3_model = 1  # IMF high-mass-end power-index model, see file 'galimf.py'
+alpha3_model = 2  # IMF high-mass-end power-index model, see file 'galimf.py'
 alpha_2 = 2.3  # IMF middle-mass power-index
 alpha_1 = 1.3  # IMF low-mass-end power-index
-alpha2_model = 1  # see file 'galimf.py'
-alpha1_model = 1  # see file 'galimf.py'
+alpha2_model = 'Z'  # see file 'galimf.py'
+alpha1_model = 'Z'  # see file 'galimf.py'
 beta_model = 1
 M_str_L = 0.08  # star mass lower limit [solar mass]
 M_str_U = 150  # star mass upper limit [solar mass]
