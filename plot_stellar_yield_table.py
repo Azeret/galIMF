@@ -816,52 +816,52 @@ def funtion_plot_yields():
         else:
             Z_box = -6
         M_list[i].insert(0, math.log(150, 10))
-        Mg_over_Fe_list[i].insert(0, Mg_over_Fe_list[i][0])
-        axs[0].plot(M_list[i], Mg_over_Fe_list[i], lw=2**i*0.7, label=r'$Z={}$'.format(ZZZ), color='k', ls=['-', 'dashed', 'dotted'][i])
+        O_over_Fe_list[i].insert(0, O_over_Fe_list[i][0])
+        axs[0].plot(M_list[i], O_over_Fe_list[i], lw=2**(i**0.5), label=r'$Z={}$'.format(ZZZ), color='k', ls=['-', 'dashed', 'dotted', '-.'][i])
         (i) = (i - 1)
-    # axs[0].plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
+    # axs[0].plot([-0.3, 0.9], [O_over_Fe_SNIa, O_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
     # axs[0].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
     # axs[0].set_yticks(np.arange(-2, 2.1, 2))
     axs[0].set_xlim(0.7, 1.7)
-    axs[0].set_ylim(-0.1, 1.7)
-    axs[0].set_ylabel(r'[Mg/Fe]')
+    # axs[0].set_ylim(-0.5, 1.7)
+    axs[0].set_ylabel(r'[O/Fe]')
     axs[0].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [$M_\odot$])')
     axs[0].legend(prop={'size': 6}, loc='best')
 
     axs[1].axvspan(1.3073, 3, alpha=0.2, color='red')
     i = len(M_list) - 1
     while i > -1:
-        Si_over_Fe_list[i].insert(0, Si_over_Fe_list[i][0])
-        axs[1].plot(M_list[i], Si_over_Fe_list[i], lw=2**i*0.7, label=r'$Z={}$'.format(ZZZ),
-                    color='k', ls=['-', 'dashed', 'dotted'][i])
+        Mg_over_Fe_list[i].insert(0, Mg_over_Fe_list[i][0])
+        axs[1].plot(M_list[i], Mg_over_Fe_list[i], lw=2**(i**0.5), label=r'$Z={}$'.format(ZZZ),
+                    color='k', ls=['-', 'dashed', 'dotted', '-.'][i])
         (i) = (i - 1)
-    # axs[1].plot([-0.3, 0.9], [Si_over_Fe_SNIa, Si_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
+    # axs[1].plot([-0.3, 0.9], [Mg_over_Fe_SNIa, Mg_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
     # axs[1].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
     # axs[1].set_yticks(np.arange(-2, 2.1, 2))
-    axs[1].set_ylim(-0.1, 1.7)
-    axs[1].set_ylabel(r'[Si/Fe]')
+    # axs[1].set_ylim(-0.1, 1.7)
+    axs[1].set_ylabel(r'[Mg/Fe]')
     axs[1].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [$M_\odot$])')
     # axs[1].legend(prop={'size': 6}, loc='best')
 
     axs[2].axvspan(1.3073, 3, alpha=0.2, color='red')
     i = len(M_list) - 1
     while i > -1:
-        Ca_over_Fe_list[i].insert(0, Ca_over_Fe_list[i][0])
-        axs[2].plot(M_list[i], Ca_over_Fe_list[i], lw=2**i*0.7, label=r'$Z={}$'.format(ZZZ),
-                    color='k', ls=['-', 'dashed', 'dotted'][i])
+        Si_over_Fe_list[i].insert(0, Si_over_Fe_list[i][0])
+        axs[2].plot(M_list[i], Si_over_Fe_list[i], lw=2**(i**0.5), label=r'$Z={}$'.format(ZZZ),
+                    color='k', ls=['-', 'dashed', 'dotted', '-.'][i])
         (i) = (i - 1)
-    # axs[2].plot([-0.3, 0.9], [Ca_over_Fe_SNIa, Ca_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
+    # axs[2].plot([-0.3, 0.9], [Si_over_Fe_SNIa, Si_over_Fe_SNIa], ls="--", lw=1, label="SNIa", c='k')
     # axs[2].plot([-2, 3], [0, 0], lw=0.7, ls='dotted')
     # axs[2].set_yticks(np.arange(-2, 2.1, 2))
-    axs[2].set_ylim(-0.1, 1.7)
-    axs[2].set_ylabel(r'[Ca/Fe]')
+    # axs[2].set_ylim(-0.1, 1.7)
+    axs[2].set_ylabel(r'[Si/Fe]')
     axs[2].set_xlabel(r'log$_{10}(M_{\rm *, initial}$ [$M_\odot$])')
     # axs[2].legend(prop={'size': 6}, loc='best')
 
     plt.tight_layout()
     # Remove horizontal space between axes
     fig.subplots_adjust(hspace=0)
-    plt.savefig('stellar_yields.pdf', dpi=250)
+    # plt.savefig('stellar_yields.pdf', dpi=250)
 
 
 
