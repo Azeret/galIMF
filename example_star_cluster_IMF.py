@@ -38,7 +38,9 @@ StarClusterMass = float(input("\n    ================================\n"
                               "    This code generate the stellar masses of one star-cluster given the total "
                               "star-cluster mass applying optimal sampling.\n\n"
                               "    Please type in the cluster mass in solar mass unit then hit return:"))
-M_over_H = float(input("    Please type in the initial metallicity, [M/H], then hit return:"))
+M_over_H = float(input("\n    The code assumes an empirical relation between the IMF slopes for low-mass stars and metallicity.\n"
+                       "    Canonical IMF is recovered with solar metallicity, i.e., [M/H]=0.\n"
+                       "    Please type in the initial metallicity of the cluster, [M/H], then hit return to sample stellar masses:"))
 
 print("\n    - Sampling the star cluster with {} solar mass and [M/H] = {} -".format(StarClusterMass, M_over_H))
 
@@ -64,10 +66,25 @@ print("\n    - Sampling completed -\n")
 # followings are all sampled results:
 
 # most massive stellar mass in the cluster:
-print("    The most massive star in this star cluster has {} solar mass".format(round(galimf.list_M_str_i[0], 2)))
+print("    The most massive star in this star cluster has {} solar mass.".format(round(galimf.list_M_str_i[0], 2)))
 
 # All of the sampled stellar masses in solar mass unit are (from massive to less massive):
 list_stellar_masses = np.array(galimf.list_M_str_i)
+
+# The bolometric luminosity is estimated according to Yan et al. 2019, 2022:
+L_bol_tot = 0
+for mass in list_stellar_masses:
+    log_mass = math.log(mass, 10)
+    if  log_mass < -0.37571790416:  # < log0.421
+        log_L_bol = 2.3 * log_mass -0.63827216398
+    elif log_mass < 0.29225607135:
+        log_L_bol = 4 * log_mass
+    elif log_mass < 1.74358815016:
+        log_L_bol = 3.5 * log_mass + 0.14612803567
+    else:
+        log_L_bol = log_mass + 4.50514997832
+    L_bol_tot += 10**log_L_bol
+print("    The total bolometric luminosity of all the optimally-sampled stars is estiamted to be: {} L_sun.".format(round(L_bol_tot, 2)))
 
 # NOTE! Multiple stars can be represented by a same stellar mass if they have similar masses,
 # The number of stars represented by the stellar masses above are:
@@ -86,7 +103,7 @@ with open('Stellar_masses_for_a_star_cluster.txt', 'w') as file:
     writer.writerows(
         zip(list_stellar_masses, list_stellar_numbers))
 print("\n    Stellar masses of every star in the star cluster is saved in the file: "
-      "Stellar_masses_for_a_star_cluster.txt\n")
+      "Stellar_masses_for_a_star_cluster.txt")
 
 # formatting a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
 
