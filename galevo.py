@@ -2385,9 +2385,8 @@ def function_get_target_mass(initial_mass, mass_grid_table_number, Mtarget_table
             (i) = (i + 1)
     if mass_grid_table_n[x - 1] < initial_mass < mass_grid_table_n[x]:
         x = x - 1
-    target_mass = round(
-        (Mtarget_table[x] + (Mtarget_table[x + 1] - Mtarget_table[x]) * (initial_mass - mass_grid_table_n[x]) /
-         (mass_grid_table_n[x + 1] - mass_grid_table_n[x])), 5)
+    target_mass = (Mtarget_table[x] + (Mtarget_table[x + 1] - Mtarget_table[x]) * (initial_mass - mass_grid_table_n[x]) /
+         (mass_grid_table_n[x + 1] - mass_grid_table_n[x]))
     return target_mass
 
 
