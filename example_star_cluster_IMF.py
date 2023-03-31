@@ -42,7 +42,39 @@ M_over_H = float(input("\n    The code assumes an empirical relation between the
                        "    Canonical IMF is recovered with solar metallicity, i.e., [M/H]=0.\n"
                        "    Please type in the initial metallicity of the cluster, [M/H], then hit return to sample stellar masses:"))
 
-print("\n    - Sampling the star cluster with {} solar mass and [M/H] = {} -".format(StarClusterMass, M_over_H))
+age = float(input("\n    The code calculate the mass of the most massive star at a given age according to PARSEC v1.2 stellar evolution model.\n"
+                  "    Currently, the age resolution is 10 Myr.\n"
+                  "    Please type in the age of the star cluster in [yr], then hit return to sample stellar masses (input 0 if age is not a concern):"))
+
+
+# Calculate lifetime according to (mass, metallicity)
+Z_list_value = [0.0001, 0.004, 0.02, 0.04]
+Z_list_index = np.argmin(np.abs(np.array(Z_list_value) - 0.02*10**M_over_H))
+stellar_Z_extrapolated = Z_list_value[Z_list_index]
+if stellar_Z_extrapolated == 0.0001:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.0001.txt')
+elif stellar_Z_extrapolated == 0.004:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.004.txt')
+elif stellar_Z_extrapolated == 0.02:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.02.txt')
+elif stellar_Z_extrapolated == 0.04:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.04.txt')
+
+def function_mass_boundary(this_time, data_AGB):
+    logAge_mass_boundary = np.round(data_AGB[:, 0], 5)
+    logAge_value = np.log10(this_time)
+    logAge_list_value = np.round(sorted(set(logAge_mass_boundary)), 5)
+    logAge_list_index = np.argmin(np.abs(np.array(logAge_list_value) - np.round(logAge_value, 5)))
+    logAge_value_extrapolated = logAge_list_value[logAge_list_index]
+    index = np.where((logAge_mass_boundary == np.round(logAge_value_extrapolated, 5)))
+    index = index[0]
+    AGB_mass_boundary = 10**data_AGB[index, 2]
+    star_mass_boundary = 10**data_AGB[index, 3]
+    return AGB_mass_boundary, star_mass_boundary
+
+(AGB_mass_boundary, star_mass_boundary) = function_mass_boundary(age, data_AGB)
+print("    The most massive star alive at the given age has {} solar mass.".format(star_mass_boundary))
+
 
 # setup alpha values:
 alpha_2 = 2.3
@@ -53,6 +85,9 @@ alpha1_model = 'Z'  # or 1 for our publications before 2020
 alpha3_change = galimf.function_alpha_3_change(alpha3_model, StarClusterMass, M_over_H)
 alpha2_change = galimf.function_alpha_2_change(alpha_2, alpha2_model, M_over_H)
 alpha1_change = galimf.function_alpha_1_change(alpha_1, alpha1_model, M_over_H)
+
+
+print("\n    - Sampling the star cluster with {} solar mass and [M/H] = {} -".format(StarClusterMass, M_over_H))
 
 # apply galIMF to optimally sample stars from IMF:
 galimf.function_sample_from_imf(StarClusterMass, 1, 0.08, alpha1_change, 0.5, alpha2_change, 1, alpha3_change, 150)
@@ -66,25 +101,25 @@ print("\n    - Sampling completed -\n")
 # followings are all sampled results:
 
 # most massive stellar mass in the cluster:
-print("    The most massive star in this star cluster has {} solar mass.".format(round(galimf.list_M_str_i[0], 2)))
+print("    The most massive star formed in this star cluster has {} solar mass.".format(round(galimf.list_M_str_i[0], 2)))
 
 # All of the sampled stellar masses in solar mass unit are (from massive to less massive):
 list_stellar_masses = np.array(galimf.list_M_str_i)
 
-# The bolometric luminosity is estimated according to Yan et al. 2019, 2022:
-L_bol_tot = 0
-for mass in list_stellar_masses:
-    log_mass = math.log(mass, 10)
-    if  log_mass < -0.37571790416:  # < log0.421
-        log_L_bol = 2.3 * log_mass -0.63827216398
-    elif log_mass < 0.29225607135:
-        log_L_bol = 4 * log_mass
-    elif log_mass < 1.74358815016:
-        log_L_bol = 3.5 * log_mass + 0.14612803567
-    else:
-        log_L_bol = log_mass + 4.50514997832
-    L_bol_tot += 10**log_L_bol
-print("    The total bolometric luminosity of all the optimally-sampled stars is estiamted to be: {} L_sun.".format(round(L_bol_tot, 2)))
+# # The bolometric luminosity is estimated according to Yan et al. 2019, 2022:
+# L_bol_tot = 0
+# for mass in list_stellar_masses:
+#     log_mass = math.log(mass, 10)
+#     if  log_mass < -0.37571790416:  # < log0.421
+#         log_L_bol = 2.3 * log_mass -0.63827216398
+#     elif log_mass < 0.29225607135:
+#         log_L_bol = 4 * log_mass
+#     elif log_mass < 1.74358815016:
+#         log_L_bol = 3.5 * log_mass + 0.14612803567
+#     else:
+#         log_L_bol = log_mass + 4.50514997832
+#     L_bol_tot += 10**log_L_bol
+# print("    The total (ZAMS) bolometric luminosity of all the optimally-sampled stars is estiamted to be: {} L_sun.".format(round(L_bol_tot, 2)))
 
 # NOTE! Multiple stars can be represented by a same stellar mass if they have similar masses,
 # The number of stars represented by the stellar masses above are:
