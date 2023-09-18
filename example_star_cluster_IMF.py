@@ -35,9 +35,9 @@ ax0 = plt.subplot(gs1[0])
 StarClusterMass = float(input("\n    ================================\n"
                               "    === example_star_cluster_IMF ===\n"
                               "    ================================\n\n"
-                              "    This code generate the stellar masses of one star-cluster given the total "
+                              "    This code generates the stellar masses of one star-cluster given the total "
                               "star-cluster mass applying optimal sampling.\n\n"
-                              "    Please type in the cluster mass in solar mass unit then hit return:"))
+                              "    Please type in the cluster mass in the Solar mass unit then hit return:"))
 M_over_H = float(input("\n    The code assumes an empirical relation between the IMF slopes for low-mass stars and metallicity.\n"
                        "    Canonical IMF is recovered with solar metallicity, i.e., [M/H]=0.\n"
                        "    Please type in the initial metallicity of the cluster, [M/H], then hit return to sample stellar masses:"))
@@ -73,7 +73,7 @@ def function_mass_boundary(this_time, data_AGB):
     return AGB_mass_boundary, star_mass_boundary
 
 (AGB_mass_boundary, star_mass_boundary) = function_mass_boundary(age, data_AGB)
-print("    The most massive star alive at the given age has {} solar mass.".format(star_mass_boundary))
+print("    The most massive star with the given age and metallicity can have an initial mass of {} solar mass, according to PARSCE.".format(star_mass_boundary))
 
 
 # setup alpha values:
@@ -103,7 +103,18 @@ print("\n    - Sampling completed -\n")
 # most massive stellar mass in the cluster:
 print("    The most massive star formed in this star cluster has {} solar mass.".format(round(galimf.list_M_str_i[0], 2)))
 
-# All of the sampled stellar masses in solar mass unit are (from massive to less massive):
+# list_stellar_masses_present_day = galimf.list_M_str_i
+# list_stellar_numbers_present_day = galimf.list_n_str_i
+length_list = len(galimf.list_M_str_i)
+i__ = length_list
+while i__ > 0 and galimf.list_M_str_i[0] > star_mass_boundary:
+    del galimf.list_M_str_i[0]
+    del galimf.list_n_str_i[0]
+    (i__) = (i__-1)
+
+print("    The most massive star still alive at {} Myr has {} solar mass.".format(age/1e6, round(galimf.list_M_str_i[0], 2)))
+
+# All of the sampled stellar masses in solar mass units are (from massive to less massive):
 list_stellar_masses = np.array(galimf.list_M_str_i)
 
 # # The bolometric luminosity is estimated according to Yan et al. 2019, 2022:
@@ -119,9 +130,9 @@ list_stellar_masses = np.array(galimf.list_M_str_i)
 #     else:
 #         log_L_bol = log_mass + 4.50514997832
 #     L_bol_tot += 10**log_L_bol
-# print("    The total (ZAMS) bolometric luminosity of all the optimally-sampled stars is estiamted to be: {} L_sun.".format(round(L_bol_tot, 2)))
+# print("    The total (ZAMS) bolometric luminosity of all the optimally-sampled stars is estimated to be: {} L_sun.".format(round(L_bol_tot, 2)))
 
-# NOTE! Multiple stars can be represented by a same stellar mass if they have similar masses,
+# NOTE! Multiple stars can be represented by the same stellar mass if they have similar masses,
 # The number of stars represented by the stellar masses above are:
 list_stellar_numbers = galimf.list_n_str_i
 if list_stellar_numbers[-1] == 0:
@@ -137,8 +148,7 @@ with open('Stellar_masses_for_a_star_cluster.txt', 'w') as file:
         "Number of stars in this star cluster have mass close to this value\n\n")
     writer.writerows(
         zip(list_stellar_masses, list_stellar_numbers))
-print("\n    Stellar masses of every star in the star cluster is saved in the file: "
-      "Stellar_masses_for_a_star_cluster.txt")
+print("\n    Stellar masses of every star still alive at {} Myr in the star cluster are saved in the file: Stellar_masses_for_a_star_cluster.txt".format(age/1e6))
 
 # formatting a figure output to compare the optimally sampled result (label: OS) with canonical IMF (label: IMF):
 
@@ -159,7 +169,7 @@ for i, b in enumerate(bins):
 
 ax0.step(np.log10(bins), np.log10(vals0+1.e-3), color='blue', where='post', zorder=1, lw=1.5, label="Optimally sampled stellar masses")
 
-# constructing the canonical IMF:
+# Constructing the canonical IMF:
 N = 100
 can_imf = np.zeros(N)
 masses = np.logspace(np.log10(0.08), np.log10(150), N, base=10)
