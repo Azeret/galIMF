@@ -37,7 +37,7 @@ StarClusterMass = float(input("\n    ================================\n"
                               "    ================================\n\n"
                               "    This code generates the stellar masses of one star-cluster given the total "
                               "star-cluster mass applying optimal sampling.\n\n"
-                              "    Please type in the cluster mass in the Solar mass unit then hit return:"))
+                              "    Please type in the cluster mass in the solar mass unit then hit return:"))
 M_over_H = float(input("\n    The code assumes an empirical relation between the IMF slopes for low-mass stars and metallicity.\n"
                        "    Canonical IMF is recovered with solar metallicity, i.e., [M/H]=0.\n"
                        "    Please type in the initial metallicity of the cluster, [M/H], then hit return to sample stellar masses:"))
@@ -48,15 +48,29 @@ age = float(input("\n    The code calculate the mass of the most massive star at
 
 
 # Calculate lifetime according to (mass, metallicity)
-Z_list_value = [0.0001, 0.004, 0.02, 0.04]
+Z_list_value = [0.0001, 0.0002, 0.0005, 0.001, 0.002, 0.004, 0.008, 0.01, 0.02, 0.03, 0.04]
 Z_list_index = np.argmin(np.abs(np.array(Z_list_value) - 0.02*10**M_over_H))
 stellar_Z_extrapolated = Z_list_value[Z_list_index]
 if stellar_Z_extrapolated == 0.0001:
     data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.0001.txt')
+elif stellar_Z_extrapolated == 0.0002:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.0002.txt')
+elif stellar_Z_extrapolated == 0.0005:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.0005.txt')
+elif stellar_Z_extrapolated == 0.001:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.001.txt')
+elif stellar_Z_extrapolated == 0.002:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.002.txt')
 elif stellar_Z_extrapolated == 0.004:
     data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.004.txt')
+elif stellar_Z_extrapolated == 0.008:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.008.txt')
+elif stellar_Z_extrapolated == 0.01:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.01.txt')
 elif stellar_Z_extrapolated == 0.02:
     data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.02.txt')
+elif stellar_Z_extrapolated == 0.03:
+    data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.03.txt')
 elif stellar_Z_extrapolated == 0.04:
     data_AGB = np.loadtxt('Mass_lifetime_relation/PARSEC/Mass_lifetime_relation_Z_0.04.txt')
 
@@ -73,7 +87,8 @@ def function_mass_boundary(this_time, data_AGB):
     return AGB_mass_boundary, star_mass_boundary
 
 (AGB_mass_boundary, star_mass_boundary) = function_mass_boundary(age, data_AGB)
-print("    The most massive star with the given age and metallicity can have an initial mass of {} solar mass, according to PARSCE.".format(star_mass_boundary))
+print("    The most massive star with the given age (with a time resolution of 10 Myr) and metallicity "
+      "can have an initial mass of {} solar mass, according to PARSCE.".format(star_mass_boundary))
 
 
 # setup alpha values:
@@ -103,8 +118,6 @@ print("\n    - Sampling completed -\n")
 # most massive stellar mass in the cluster:
 print("    The most massive star formed in this star cluster has {} solar mass.".format(round(galimf.list_M_str_i[0], 2)))
 
-# list_stellar_masses_present_day = galimf.list_M_str_i
-# list_stellar_numbers_present_day = galimf.list_n_str_i
 length_list = len(galimf.list_M_str_i)
 i__ = length_list
 while i__ > 0 and galimf.list_M_str_i[0] > star_mass_boundary:
@@ -114,7 +127,7 @@ while i__ > 0 and galimf.list_M_str_i[0] > star_mass_boundary:
 
 print("    The most massive star still alive at {} Myr has {} solar mass.".format(age/1e6, round(galimf.list_M_str_i[0], 2)))
 
-# All of the sampled stellar masses in solar mass units are (from massive to less massive):
+# All of the sampled stellar masses in the solar mass unit are (from massive to less massive):
 list_stellar_masses = np.array(galimf.list_M_str_i)
 
 # # The bolometric luminosity is estimated according to Yan et al. 2019, 2022:
