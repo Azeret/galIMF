@@ -1189,7 +1189,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
         else:
             lockup_and_outflow_mass = M_tot_of_this_epoch
 
-        total_gas_mass_at_this_time = total_gas_mass_at_last_time - lockup_and_outflow_mass + ejected_gas_mass_at_this_time
+        total_gas_mass_at_this_time = max(total_gas_mass_at_last_time - lockup_and_outflow_mass, 0) + ejected_gas_mass_at_this_time
         if total_gas_mass_at_this_time < 0.0001:
             total_gas_mass_at_this_time = 0.0001
         total_metal_mass_at_this_time = total_metal_mass_in_gas_at_last_time - lockup_and_outflow_mass * \
