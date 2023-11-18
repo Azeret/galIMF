@@ -87,8 +87,8 @@ def function_mass_boundary(this_time, data_AGB):
     return AGB_mass_boundary, star_mass_boundary
 
 (AGB_mass_boundary, star_mass_boundary) = function_mass_boundary(age, data_AGB)
-print("    The most massive star with the given age (with a time resolution of 10 Myr) and metallicity "
-      "can have an initial mass of {} solar mass, according to PARSCE.".format(star_mass_boundary))
+# print("    The most massive star with the given age (with a time resolution of 10 Myr) and metallicity "
+#       "can have an initial mass of {} solar mass, according to PARSCE.".format(star_mass_boundary))
 
 
 # setup alpha values:
@@ -113,11 +113,15 @@ List_M_str_for_xi_str = galimf.x_IMF
 List_xi_str = galimf.y_IMF
 
 print("\n    - Sampling completed -\n")
-# followings are all sampled results:
 
-# most massive stellar mass in the cluster:
-print("    The most massive star formed in this star cluster has {} solar mass.".format(round(galimf.list_M_str_i[0], 2)))
+mass_limit_clustermass = min(round(star_mass_boundary[0], 4), StarClusterMass)
+mass_limit_optimalsampling = min(mass_limit_clustermass, galimf.list_M_str_i[0])
 
+### following are all sampled results:
+#
+# # most massive stellar mass in the cluster:
+# print("    The most massive star formed in this star cluster has {} solar mass.".format(round(galimf.list_M_str_i[0], 2)))
+#
 length_list = len(galimf.list_M_str_i)
 i__ = length_list
 while i__ > 0 and galimf.list_M_str_i[0] > star_mass_boundary:
@@ -125,10 +129,17 @@ while i__ > 0 and galimf.list_M_str_i[0] > star_mass_boundary:
     del galimf.list_n_str_i[0]
     (i__) = (i__-1)
 
-print("    The most massive star still alive at {} Myr has {} solar mass.".format(age/1e6, round(galimf.list_M_str_i[0], 2)))
+# print("    The most massive star still alive at {} Myr has {} solar mass.".format(age/1e6, round(galimf.list_M_str_i[0], 2)))
 
 # All of the sampled stellar masses in the solar mass unit are (from massive to less massive):
 list_stellar_masses = np.array(galimf.list_M_str_i)
+
+cluster_PD_mass = round(sum(list_stellar_masses), 4)
+print("*** Consider a cluster with initial total stellar mass of {} Msun, metallicity of [Z]={}, and age of {} Myr.".format(StarClusterMass, M_over_H, age/1e6))
+print("*** The present-day living stellar mass of the cluster is *{}* (assuming no dynamical lost of stars).".format(cluster_PD_mass))
+print("*** The most massive star still alive is lighter than *{}* solar mass given PARSEC stellar evolution model.".format(mass_limit_clustermass))
+print("*** The most massive star still alive is *{}* solar mass considering the empirical m_max--Mecl relation.".format(round(mass_limit_optimalsampling, 4)))
+
 
 # # The bolometric luminosity is estimated according to Yan et al. 2019, 2022:
 # L_bol_tot = 0
@@ -212,15 +223,15 @@ ax0.set_xlabel(r'$\log_{\rm 10}(m, [M_\odot])$')
 plt.legend()
 plt.tight_layout()
 
-# save the plot:
-plt.savefig('star_cluster_IMF_plot.pdf', dpi=300)
-
-# end of the example:
-print("    The plot is saved in the file: star_cluster_IMF_plot.pdf\n\n"
-      "    ============================\n")
-
-# show the plot
-plt.show()
+# # save the plot:
+# plt.savefig('star_cluster_IMF_plot.pdf', dpi=300)
+#
+# # end of the example:
+# print("    The plot is saved in the file: star_cluster_IMF_plot.pdf\n\n"
+#       "    ============================\n")
+#
+# # show the plot
+# plt.show()
 
 
 
