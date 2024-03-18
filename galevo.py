@@ -2390,7 +2390,7 @@ def function_get_target_mass(initial_mass, mass_grid_table_number, Mtarget_table
     return target_mass
 
 
-    # ### Define initial stellar mass boundary for WD, NS, and BH.
+    # ### Define the initial stellar mass boundary for WD, NS, and BH.
     # mass_boundary_WD_to_NS = 8  # [solar mass]
     # mass_boundary_NS_to_BH = 40  # [solar mass]
     #
@@ -2421,9 +2421,9 @@ def function_get_target_mass(initial_mass, mass_grid_table_number, Mtarget_table
     #
     # ### Calculate the observational estimated total mass of the galaxy ###
     # # Assuming the estimation done everything right, e.g., stellar evolution module, SFH, dust extinction, metallicity,
-    # # excepet assumed an universal Kroupa IMF that is not what really happend
-    # # (although this assumption contradict itself because it is impossible to get everything else right with a wrong IMF).
-    # # We using the stellar population with mass in 0.08 - 3 solar mass to estimate the total stellar mass with Kroupa IMF
+    # # Except assuming a universal Kroupa IMF that is not what really happened
+    # # (although this assumption contradicts itself because it is impossible to get everything else right with a wrong IMF).
+    # # We use the stellar population with mass in 0.08 - 3 solar mass to estimate the total stellar mass with Kroupa IMF
     # # and compare it with the real total mass
     #
     # imf_file_name = "{}_IMF".format(IMF_name)
@@ -2525,7 +2525,7 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         # print("Generating new IGIMF file '{}' for a galaxy with [Z/X]={}, SFR={}".format(file_path_and_name, Z_over_X, SFR))
 
         # # --------------------------------------------------------------------------------------------------------------------------------
-        # # add new headline into the list file -- all_igimf_list.txt:
+        # # Add new headline into the list file -- all_igimf_list.txt:
         # # --------------------------------------------------------------------------------------------------------------------------------
         #
         # check_file = open('Generated_IGIMFs/all_igimf_list.txt', 'r')
@@ -2538,25 +2538,25 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
         # check_file.close()
 
         # --------------------------------------------------------------------------------------------------------------------------------
-        # Define code parameters necesarry for the computations:
+        # Define code parameters necessary for the computations:
         # --------------------------------------------------------------------------------------------------------------------------------
 
-        # the most crutial ones, which you most likely might want to change
+        # The most crucial ones, which you most likely might want to change
 
         if SFR is None:
             SFR = float(
                 input(
-                    "Please input the galaxy-wide SFR in solar mass per year and ended the input with the return key. "
+                    "Please input the galaxy-wide SFR in solar mass per year and end the input with the return key. "
                     "(A typical input SFR is from 0.0001 to 10000. "
-                    "We recommed a value smallar than 0.01 for the first run as high SFR calculations take more time.)\n"
+                    "We recommed a value smaller than 0.01 for the first run as high SFR calculations take more time.)\n"
                     "You can input 1e-4 as 0.0001\n"
                     "\nSFR [Msolar/yr] = "))
-            # Star Formation Rate [solar mass / yr]
+            # Star Formation Rate [solar mass/yr]
         if SFR != 0:
             bindw = galimf.resolution_histogram_relative = 10 ** (max((0 - math.log(SFR, 10)), 0) ** (0.2) - 1.9)
-        # will change the resolution of histogram for optimall sampling automatically addjusted with SFR value.
+        # will change the resolution of the histogram for optimal sampling automatically adjusted with SFR value.
 
-        gwIMF_model = "IGIMF_Z"
+        gwIMF_model = "IGIMF_Z_MW"
 
         if gwIMF_model == "IGIMF3":
             alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
@@ -2564,6 +2564,14 @@ def function_generate_igimf_file(SFR=None, Z_over_X=None, printout=False, sf_epo
             alpha_1 = 1.3  # IMF low-mass-end power-index
             alpha2_model = 1  # 1  # see file 'galimf.py'
             alpha1_model = 1  # 0 # see file 'galimf.py'
+            beta_model = 1
+            R14orNOT = False
+        elif gwIMF_model == "IGIMF_Z_MW":
+            alpha3_model = 2  # 1  # IMF high-mass-end power-index model, see Function_alpha_3_change in file 'galimf.py'
+            alpha_2 = 2.3  # IMF middle-mass power-index
+            alpha_1 = 1.3  # IMF low-mass-end power-index
+            alpha2_model = 'Z_MW'  # 1  # see file 'galimf.py'
+            alpha1_model = 'Z_MW'  # 0 # see file 'galimf.py'
             beta_model = 1
             R14orNOT = False
         elif gwIMF_model == "IGIMF_Z":
