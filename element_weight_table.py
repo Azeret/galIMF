@@ -15,6 +15,8 @@ def function_element_weight(element_name):
         element_weight = 15.9994
     elif element_name == "Ne":
         element_weight = 20.1797
+    elif element_name == "Na":
+        element_weight = 22.989
     elif element_name == "Mg":
         element_weight = 24.305
     elif element_name == "Si":
