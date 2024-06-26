@@ -35,6 +35,10 @@ def function_element_mass_primary_fraction(solar_abu_reference_name, element_nam
         element_mass_fraction = primary_H_mass_fraction / H_weight\
                                         * 10**(element_abundances_solar.function_solar_element_abundances(solar_abu_reference_name, "Ne") - 12) \
                                         * element_weight_table.function_element_weight("Ne") * Z_0 / Z_solar
+    elif element_name == "Na":
+        element_mass_fraction = primary_H_mass_fraction / H_weight\
+                                        * 10**(element_abundances_solar.function_solar_element_abundances(solar_abu_reference_name, "Na") - 12) \
+                                        * element_weight_table.function_element_weight("Na") * Z_0 / Z_solar
     elif element_name == "Mg":
         element_mass_fraction = primary_H_mass_fraction / H_weight\
                                         * 10**(element_abundances_solar.function_solar_element_abundances(solar_abu_reference_name, "Mg") - 12) \
