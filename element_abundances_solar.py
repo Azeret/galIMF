@@ -46,6 +46,8 @@ def function_solar_element_abundances(reference_name, element_name):
             solar_element_abundances = 8.69
         elif element_name == "Ne":
             solar_element_abundances = 7.93
+        elif element_name == "Na":
+            solar_element_abundances = 6.33
         elif element_name == "Mg":
             solar_element_abundances = 7.60
         elif element_name == "Si":
