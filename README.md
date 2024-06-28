@@ -1,6 +1,6 @@
-# GalIMF version 1.1.11
+# GalIMF version 1.1.12
 
-Last update: 18.3.2024
+Last update: 27.6.2024
 
 ## Contents
  - [Overview](https://github.com/Azeret/galIMF#overview)
@@ -306,6 +306,7 @@ The major updates include:
 10. 1.1.9 version increase greatly the accuracy limit for calculating the stellar upper mass limit "M_max" in function "function_M_max_1" in galimf.py. This might lead to a longer running time of the code but greatly improve the mass accuracy of the stellar clusters around 3 * 10^8 Msun because they have an alpha3 close to 1.
 11. 1.1.10 fix the problem of not allowing a stellar mass limit lower than 100.
 12. Change the default IMF variation model from "IGIMF_Z" to "IGIMF_Z_MW", which considers that the mean stellar metallicity of the field stars near the Sun (which produce measurements for the canonical IMF) is sub-solar (\[Z\]~-0.1) instead of solar. (to version 1.1.11 March 2024)
+13. 1.1.12: added Na yield information (27.6.2024).
 
 
 
