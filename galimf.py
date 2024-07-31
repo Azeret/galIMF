@@ -602,6 +602,10 @@ def function_M_max(M_ecl, I_str, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
         2 - alpha_2)) / (2 - alpha_2) + M_turn2 ** (2 - alpha_3) / (2 - alpha_3)  # equation 16
     function_M_max_1(M_constant, M_ecl, I_str, alpha_3, M_U, M_L, M_U/2, 10, -1)  # equation 16
     M_max_function = 1
+    
+    # Now we assume that if the resulting M_max < M_turn(2) then M_max < M_turn(2).
+    # This assumption can be invalid for extreme IMF shape,
+    # for example, very bottom-heavy IMF and small star cluster mass.
     if M_max < M_turn2:
         M_constant2 = M_ecl * M_turn2 ** (1 - alpha_2) / I_str / (1 - alpha_2) + M_ecl * M_turn2 ** (
         alpha_3 - alpha_2) * (M_U ** (
@@ -757,7 +761,14 @@ def function_m_i_str(k1, k2, k3, M_L, alpha_1, M_turn, alpha_2, M_turn2, alpha_3
 def function_get_n_new_str(m_i, k, alpha, m_i_plus_n, n_i, resolution_star_relative, resolution_star_absolute):
     while m_i - m_i_plus_n < max(resolution_star_relative * m_i, resolution_star_absolute):
         n_new = round(n_i * mass_grid_index + 1)
-        m_i_plus_n_new = (m_i ** (1 - alpha) - n_new * (1 - alpha) / k) ** (1 / (1 - alpha))
+        if m_i ** (1 - alpha) > n_new * (1 - alpha) / k:
+            m_i_plus_n_new = (m_i ** (1 - alpha) - n_new * (1 - alpha) / k) ** (1 / (1 - alpha))
+        else:
+            n_new = round(n_i / 2)
+            if n_new == 0:
+                return 0.07, 1
+            else:
+                m_i_plus_n_new = m_i_plus_n
         (m_i_plus_n, n_i) = (m_i_plus_n_new, n_new)
     return m_i_plus_n, n_i
 
@@ -767,17 +778,23 @@ def loop_m_i_first_three(k, M_low, alpha, m_i, n_i, resolution_star_relative, re
         global list_m_str_i, list_n_str_i, n_turn
         list_m_str_i += [m_i]
         list_n_str_i += [n_i]
-        m_i_plus_n = (m_i ** (1 - alpha) - n_i * (1 - alpha) / k) ** (1 / (1 - alpha))
-        if count < 3:
-            m_i_plus_n = (m_i ** (1 - alpha) - (1 - alpha) / k) ** (1 / (1 - alpha))
-            n_turn = n_i
-            (m_i, n_i, count) = (m_i_plus_n, 1, (count+1))
-        elif m_i - m_i_plus_n > max(resolution_star_relative * m_i, resolution_star_absolute):
-            n_turn = n_i
-            (m_i, n_i) = (m_i_plus_n, n_i)
+        if m_i ** (1 - alpha) > n_i * (1 - alpha) / k:
+            m_i_plus_n = (m_i ** (1 - alpha) - n_i * (1 - alpha) / k) ** (1 / (1 - alpha))
+            if count < 3:
+                m_i_plus_n = (m_i ** (1 - alpha) - (1 - alpha) / k) ** (1 / (1 - alpha))
+                n_turn = n_i
+                (m_i, n_i, count) = (m_i_plus_n, 1, (count+1))
+            elif m_i - m_i_plus_n > max(resolution_star_relative * m_i, resolution_star_absolute):
+                n_turn = n_i
+                (m_i, n_i) = (m_i_plus_n, n_i)
+            else:
+                (m_i_plus_n_new, n_turn) = function_get_n_new_str(m_i, k, alpha, m_i_plus_n, n_i, resolution_star_relative, resolution_star_absolute)
+                (m_i, n_i) = (m_i_plus_n_new, n_turn)
         else:
-            (m_i_plus_n_new, n_turn) = function_get_n_new_str(m_i, k, alpha, m_i_plus_n, n_i, resolution_star_relative, resolution_star_absolute)
-            (m_i, n_i) = (m_i_plus_n_new, n_turn)
+            if round(n_i/2) == 0:
+                return
+            else:
+                (n_i) = (round(n_i/2))
 
 
 def loop_m_i(k, M_low, alpha, m_i, n_i, resolution_star_relative, resolution_star_absolute):
@@ -807,15 +824,19 @@ def cross_M_turn(k_before, k_after, M_cross, alpha_before, alpha_after, m_i, res
     if a > 0:
         m_after_cross = a ** (1/(1-alpha_after))
         n_after = int(0.9*(n_turn - n_before - 1))
-        m_after_cross_plus_n_after = (m_after_cross ** (1 - alpha_after) - n_after * (1 - alpha_after) / k_after) ** (1 / (1 - alpha_after))
-        if m_i - m_after_cross_plus_n_after > max(resolution_star_relative * m_i, resolution_star_absolute):
-            return (m_after_cross_plus_n_after, n_before + 1 + n_after)
+        if m_after_cross ** (1 - alpha_after) > n_after * (1 - alpha_after) / k_after:
+            m_after_cross_plus_n_after = (m_after_cross ** (1 - alpha_after) - n_after * (1 - alpha_after) / k_after) ** (1 / (1 - alpha_after))
+            if m_i - m_after_cross_plus_n_after > max(resolution_star_relative * m_i, resolution_star_absolute):
+                return m_after_cross_plus_n_after, n_before + 1 + n_after
+            else:
+                (m_after_cross_plus_n_new, n_after_new) = function_get_n_new_str_cross(
+                    m_i, m_after_cross, k_after, alpha_after, m_after_cross_plus_n_after, n_after, resolution_star_relative, resolution_star_absolute)
+                return m_after_cross_plus_n_new, n_before + 1 + n_after_new
         else:
-            (m_after_cross_plus_n_new, n_after_new) = function_get_n_new_str_cross(
-                m_i, m_after_cross, k_after, alpha_after, m_after_cross_plus_n_after, n_after, resolution_star_relative, resolution_star_absolute)
-            return (m_after_cross_plus_n_new, n_before + 1 + n_after_new)
+            n_turn = round(n_turn-n_before+1)
+            return cross_M_turn(k_before, k_after, M_cross, alpha_before, alpha_after, m_i, resolution_star_relative, resolution_star_absolute)
     else:
-        return (0, 0)
+        return 0, 0
 
 
 def function_get_n_new_str_cross(m_i, m_after_cross, k, alpha, m_after_cross_plus_n, n_i, resolution_star_relative, resolution_star_absolute):
