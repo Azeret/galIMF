@@ -1,6 +1,6 @@
-# GalIMF version 1.1.12
+# GalIMF version 1.1.13
 
-Last update: 27.6.2024
+Last update: 31.7.2024
 
 ## Contents
  - [Overview](https://github.com/Azeret/galIMF#overview)
@@ -307,6 +307,7 @@ The major updates include:
 11. 1.1.10 fix the problem of not allowing a stellar mass limit lower than 100.
 12. Change the default IMF variation model from "IGIMF_Z" to "IGIMF_Z_MW", which considers that the mean stellar metallicity of the field stars near the Sun (which produce measurements for the canonical IMF) is sub-solar (\[Z\]~-0.1) instead of solar. (to version 1.1.11 March 2024)
 13. 1.1.12: added Na yield information (27.6.2024).
+14. 1.1.13 modified function_get_n_new_str, loop_m_i_first_three, and cross_M_turn to improve the code robustness when encountering extreme IMF shapes (31.7.2024).
 
 
 
