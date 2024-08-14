@@ -3594,6 +3594,21 @@ def text_output(imf, STF, SFR, SFEN, original_gas_mass, log_Z_0):
         (i) = (i + 1)
     file.write("\n")
 
+    global all_sfr
+    SF_list = []
+    for i in range(len(all_sfr)):
+        SF_list.append(all_sfr[i][0]*1e7)
+
+    file.write("# formed stellar mass list:\n")
+    i = 0
+    while i < length_of_time_axis:
+        if i < len(all_sfr):
+            file.write("%s " % SF_list[i])
+        else:
+            file.write("0 ")
+        (i) = (i + 1)
+    file.write("\n")
+    
     file.close()
 
     return
