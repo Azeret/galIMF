@@ -971,7 +971,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                     Ne_mass_of_this_epoch = 0
                     Fe_mass_of_this_epoch = 0
                 # if consider SNIa
-                if SNIa_ON == True or 'power-law' or 'SD':
+                if SNIa_ON == True or SNIa_ON == 'power-law' or SNIa_ON == 'SD':
                     # read in SNIa yield table
                     # (here only account for the most abandant element yields)
                     # (but should account as long as the SNIa yield is comparable with SNII yield)
