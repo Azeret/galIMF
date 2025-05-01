@@ -1362,7 +1362,7 @@ def galaxy_evol(imf='igimf', STF=0.5, SFEN=1, Z_0=0.000000134, solar_mass_compon
                                                                      stellar_Fe_mass_at_this_time, False)
         mass_weighted_stellar_N_over_O = function_element_abundunce(solar_abu_table, "N", "O",
                                                                      stellar_N_mass_at_this_time,
-                                                                     stellar_Fe_mass_at_this_time, False)
+                                                                     stellar_O_mass_at_this_time, False)
         mass_weighted_stellar_O_over_Fe = function_element_abundunce(solar_abu_table, "O", "Fe",
                                                                      stellar_O_mass_at_this_time,
                                                                      stellar_Fe_mass_at_this_time, False)
