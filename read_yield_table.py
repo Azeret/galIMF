@@ -39,6 +39,22 @@ def function_read_file(yield_table_name):
             'yield_tables/agb_marigo01_totalyields.txt', 'r')
         data = file_yield.readlines()
         file_yield.close()
+    elif yield_table_name == "Limongi_R000" or yield_table_name == "Limongi" :
+        file_yield = open('yield_tables/agb_and_massive_stars_K10_LC18_R000.txt', 'r')
+        data = file_yield.readlines()
+        file_yield.close()
+    elif yield_table_name == "Limongi_R150":
+        file_yield = open('yield_tables/agb_and_massive_stars_K10_LC18_R150.txt', 'r')
+        data = file_yield.readlines()
+        file_yield.close()
+    elif yield_table_name == "Limongi_R300":
+        file_yield = open('yield_tables/agb_and_massive_stars_K10_LC18_R300.txt', 'r')
+        data = file_yield.readlines()
+        file_yield.close()
+    elif yield_table_name == "Nomoto":
+        file_yield = open('yield_tables/agb_and_massive_stars_C15_N13_0_0_HNe.txt', 'r')
+        data = file_yield.readlines()
+        file_yield.close()
 
 
     ###########################
@@ -728,7 +744,7 @@ if __name__ == '__main__':
     Z_over_H_list = []
     Mg_over_Fe_list = []
     O_over_Fe_list = []
-    yield_table_name = "Kobayashi06" # being "WW95" or "portinari98" or "marigo01" or "Kobayashi06"
+    yield_table_name = "Limongi_R000" # being "WW95" or "portinari98" or "marigo01" or "Kobayashi06" or "Limongi_R000" or "Nomoto"
     function_read_file(yield_table_name)
     # funtion_plot_yields()
     print(" - Run time: %s -" % round((time.time() - start_time), 2))
