@@ -40,24 +40,50 @@ def function_solar_element_abundances(reference_name, element_name):
             solar_element_abundances = 10.93
         elif element_name == "C":
             solar_element_abundances = 8.43
+        elif element_name == "C13":
+            solar_element_abundances = 8.43-1.95616634587  # Asplund 2009 Table 3: 1.1062%
         elif element_name == "N":
             solar_element_abundances = 7.83
         elif element_name == "O":
             solar_element_abundances = 8.69
+        elif element_name == "O17":
+            solar_element_abundances = 8.69-3.42136  # Asplund 2009 Table 3: 0.0379%
+        elif element_name == "O18":
+            solar_element_abundances = 8.69-2.69897  # Asplund 2009 Table 3: 0.2%
         elif element_name == "Ne":
             solar_element_abundances = 7.93
         elif element_name == "Na":
             solar_element_abundances = 6.33
         elif element_name == "Mg":
             solar_element_abundances = 7.60
+        elif element_name == "Al":
+            solar_element_abundances = 6.45
         elif element_name == "Si":
             solar_element_abundances = 7.51
         elif element_name == "S":
             solar_element_abundances = 7.12
+        elif element_name == "Ar":
+            solar_element_abundances = 6.4
         elif element_name == "Ca":
             solar_element_abundances = 6.34
+        elif element_name == "Ti":
+            solar_element_abundances = 4.95
+        elif element_name == "Cr":
+            solar_element_abundances = 5.64
+        elif element_name == "Mn":
+            solar_element_abundances = 5.43
         elif element_name == "Fe":
             solar_element_abundances = 7.50
+        elif element_name == "Ni":
+            solar_element_abundances = 6.22
+        elif element_name == "Y":
+            solar_element_abundances = 2.21
+        elif element_name == "Ba":
+            solar_element_abundances = 2.18
+        elif element_name == "Ce":
+            solar_element_abundances = 1.58
+        elif element_name == "Eu":
+            solar_element_abundances = 0.52
         else:
             print("Wrong/unknown element name for function_solar_element_abundances; Asplund2009")
             solar_element_abundances = None
