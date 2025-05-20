@@ -2033,7 +2033,9 @@ def lindexsplit(List, *lindex):
 
 def function_read_Mmetal(str_yield_table, Z_select_in_table_2, Z_select_in_table_3):
     global mm, zz
-    if str_yield_table == "Kobayashi06" or str_yield_table == "portinari98":
+    if str_yield_table == "Kobayashi06" or str_yield_table == "portinari98" or str_yield_table == "Karakas10" \
+        or str_yield_table == "Limongi_R150" or str_yield_table == "Limongi_R000" or str_yield_table == "Limongi_R300" \
+        or str_yield_table == "Nomoto" or str_yield_table == "Nomoto_HNe":
         if Z_select_in_table_2[0] == 'out':
             file_Metal_eject = open(
                 'yield_tables/rearranged___/setllar_Metal_eject_mass_from_{}/{}_Z={}.txt'.format(str_yield_table,
@@ -2122,7 +2124,9 @@ def function_read_Mmetal(str_yield_table, Z_select_in_table_2, Z_select_in_table
 
 
 def function_read_M_element(element, str_yield_table, Z_select_in_table_2, Z_select_in_table_3):
-    if str_yield_table == "portinari98" or str_yield_table == "Kobayashi06":
+    if str_yield_table == "portinari98" or str_yield_table == "Kobayashi06" or str_yield_table == "Karakas10" \
+        or str_yield_table == "Limongi_R150" or str_yield_table == "Limongi_R000" or str_yield_table == "Limongi_R300" \
+        or str_yield_table == "Nomoto" or str_yield_table == "Nomoto_HNe":
         if element == "H" or element == "He" or element == "C" or element == "N" or element == "O" or element == "Mg"\
                 or element == "Ne" or element == "Si" or element == "S" or element == "Ca" or element == "Fe":
             file_M_eject = open(
