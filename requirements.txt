@@ -1,0 +1,20 @@
+# # Run the following code to prepare a new environment for running the GalIMF code
+#
+# # The parallel computation requires python version 3.7 (<3.8)
+# # An environment can be created with Anaconda/Miniconda by:
+# conda create -n py37 python=3.7
+# conda activate py37
+#
+# # Then the required modules can be installed with:
+# pip install --upgrade pip
+# pip install -r requirements.txt
+#
+astropy
+arviz
+corner
+emcee
+matplotlib
+numpy
+pandas
+scipy
+tqdm
