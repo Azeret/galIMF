@@ -62,6 +62,8 @@ def function_mass_ejected(yield_reference_name, element_name):
         # Below adopt the mean value of all models (W, WDD, CDD) in their table 3
         if element_name == "C":
             mass_ejected = 0.0508  #
+        elif element_name == "N":
+            mass_ejected = 1.3107e-4  # (1.16e-2+3.31e-4+4.13e-3+2.84+2.69+1.82+0.906+0.903)/7 *1e-4
         elif element_name == "O":
             mass_ejected = 0.091  # (14.3+13.3+8.82+6.58+5.58+9.34+5.83)/7  # 0.133
         elif element_name == "Ne":  # Ne20
@@ -96,6 +98,8 @@ def function_mass_ejected(yield_reference_name, element_name):
         # Below adopt the main isotope of W70 model
         if element_name == "C":
             mass_ejected = 0.0508
+        elif element_name == "N":
+            mass_ejected = 4.461e-7  # 3.31e-8+4.13e-7
         elif element_name == "O":
             mass_ejected = 0.133
         elif element_name == "Ne":  # Ne20
@@ -130,6 +134,8 @@ def function_mass_ejected(yield_reference_name, element_name):
         # Below adopt the main isotope of W70 model
         if element_name == "C":
             mass_ejected = 0.0483
+        elif element_name == "N":
+            mass_ejected = 1.16e-6
         elif element_name == "O":
             mass_ejected = 0.143
         elif element_name == "Ne":  # Ne20
@@ -163,6 +169,8 @@ def function_mass_ejected(yield_reference_name, element_name):
         # Reference: https://ui.adsabs.harvard.edu/abs/1999ApJS..125..439I/abstract
         if element_name == "C":
             mass_ejected = 1.66e-2
+        elif element_name == "N":
+            mass_ejected = 1.82e-4
         elif element_name == "O":
             mass_ejected = 5.58e-2
         elif element_name == "Ne":  # Ne20
