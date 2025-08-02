@@ -1,4 +1,5 @@
-# made by Adriana Zacharova 8.2025
+# Data from Israelian et al. (2004) https://ui.adsabs.harvard.edu/abs/2004A%26A...421..649I/abstract
+# Data prepared by Adriana Zacharova 8.2025
 # Star|Teff|logg|ξt|Fe/H|N/H|O/H|N/O
 LHS_540|5993|3.88|1.00|-1.48|-1.58||
 BD+23°3130|5154|2.93|1.25|-2.66|-2.86|-1.78|-1.08
